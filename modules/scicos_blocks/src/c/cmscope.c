@@ -11,6 +11,8 @@
  */
 
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
@@ -216,6 +218,17 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
     int i, j;
     BOOL result;
 
+        FILE* filePointer;
+	int processId;
+	char fileName[25];
+	char line[100];
+
+	filePointer = NULL;
+	processId = 0;
+	processId = getpid(); // On Linux
+	sprintf(fileName, "scilab-log-%d.txt", processId); 
+	filePointer = fopen(fileName, "a");    
+
     switch (flag)
     {
 
@@ -233,6 +246,8 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+
             break;
 
         case StateUpdate:
@@ -252,6 +267,15 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 appendData(block, i, t, u);
                 for (j = 0; j < block->insz[i]; j++)
                 {
+                   	        int iFigureUID = getFigure(block);
+				int iAxeUID = getAxe(iFigureUID, block, i);
+				int iPolylineUID = getPolyline(iAxeUID, block, i,j, FALSE);
+                		double time = t;
+				double y = u[j];
+				double z = 0;
+				
+				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z);
+				
                     result = pushData(block, i, j);
                     if (result == FALSE)
                     {
@@ -272,12 +296,15 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 pushHistory(block, i, sco->internal.maxNumberOfPoints[i]);
             }
             deleteBufferPolylines(block);
+            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+
             freeScoData(block);
             break;
 
         default:
             break;
     }
+             fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

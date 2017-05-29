@@ -11,6 +11,8 @@
  */
 
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
@@ -205,6 +207,17 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
+	FILE* filePointer;
+	int processId;
+	char fileName[25];
+	char line[100];
+
+	filePointer = NULL;
+	processId = 0;
+	processId = getpid(); // On Linux
+	sprintf(fileName, "scilab-log-%d.txt", processId); 
+	filePointer = fopen(fileName, "a");
+
     switch (flag)
     {
 
@@ -222,6 +235,9 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+			
+			fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+
             break;
 
         case StateUpdate:
@@ -240,7 +256,16 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
 
             for (i = 0; i < block->insz[0]; i++)
             {
-                result = pushData(block, 0, i);
+				int iFigureUID = getFigure(block);
+				int iAxeUID = getAxe(iFigureUID, block, 0);
+				int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
+                                double time = t;
+				double y = u[i];
+				double z = 0;
+				
+				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z);
+				
+				result = pushData(block, 0, i);
                 if (result == FALSE)
                 {
                     Coserror("%s: unable to push some data.", "cscope");
@@ -256,12 +281,16 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
             sco->scope.historyUpdateCounter = 0;
             pushHistory(block, 0, sco->internal.maxNumberOfPoints);
             deleteBufferPolylines(block);
+			
+			fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+
             freeScoData(block);
             break;
 
         default:
             break;
     }
+	fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/
