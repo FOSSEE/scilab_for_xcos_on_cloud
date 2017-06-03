@@ -274,7 +274,7 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
 				double y = u[j];
 				double z = 0;
 				
-				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z);
+				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f %d\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,block->nin);
 				
                     result = pushData(block, i, j);
                     if (result == FALSE)
