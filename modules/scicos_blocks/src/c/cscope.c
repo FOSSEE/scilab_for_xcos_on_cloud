@@ -263,7 +263,7 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
 				double y = u[i];
 				double z = 0;
 				
-				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z);
+				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f %d\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1); // modified_shank : 1 to indicate 1 graph in output
 				
 				result = pushData(block, 0, i);
                 if (result == FALSE)
