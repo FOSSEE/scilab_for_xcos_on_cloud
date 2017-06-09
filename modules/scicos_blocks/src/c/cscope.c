@@ -203,9 +203,22 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     double t;
     double *u;
     sco_data *sco;
-
     int i;
     BOOL result;
+         //Writing to the block identification file modified@shivendra
+        int static flag1=0;
+        if(flag1==0)
+        {
+         flag1=1;
+        FILE *fp;
+       
+        char identify_block_name[25];
+        int pid=getpid();
+        sprintf(identify_block_name,"identify_block_%d.txt",pid);
+        fp=fopen(identify_block_name,"a");
+         fprintf(fp, "1\n");
+        fclose(fp);
+        }
 
 	FILE* filePointer;
 	int processId;
@@ -235,7 +248,8 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-			
+            int block_id=1;
+			fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
 			fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
 
             break;
