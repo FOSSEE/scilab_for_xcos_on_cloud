@@ -42,6 +42,9 @@
 #include "BuildObjects.h"
 #include "AxesModel.h"
 #define HISTORY_POINTS_THRESHOLD 4096
+
+//int graph_counter_CF=0;   //modified_shank : number of graphs
+
 /*****************************************************************************
  * Internal container structure
  ****************************************************************************/
@@ -163,19 +166,19 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
     sco_data *sco;
       
         //Writing to the block identification file modified@shivendra
-        int static flag1=0;
-        if(flag1==0)
-        {
-         flag1=1;
-        FILE *fp;
+        // int static flag1=0;
+        // if(flag1==0)
+        // {
+        //  flag1=1;
+        // FILE *fp;
        
-        char identify_block_name[25];
-        int pid=getpid();
-        sprintf(identify_block_name,"identify_block_%d.txt",pid);
-        fp=fopen(identify_block_name,"a");
-         fprintf(fp, "3\n");
-        fclose(fp);
-        }
+        // char identify_block_name[25];
+        // int pid=getpid();
+        // sprintf(identify_block_name,"identify_block_%d.txt",pid);
+        // fp=fopen(identify_block_name,"a");
+        //  fprintf(fp, "3\n");
+        // fclose(fp);
+        // }
 
 
     int i;
@@ -185,12 +188,14 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
 	int processId;
 	char fileName[25];
 	char line[100];
+        //static int graph_counter_CF=0;
 
 	filePointer = NULL;
 	processId = 0;
 	processId = getpid(); // On Linux
 	sprintf(fileName, "scilab-log-%d.txt", processId); 
 	filePointer = fopen(fileName, "a");
+    int block_id=3;
 
 
     switch (flag)
@@ -210,8 +215,9 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-                  int block_id=3;
-	          fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
+                  //graph_counter_CF=1; // modified_shank : 1 graph
+                  
+	          //fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
                   fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
             break;
 
@@ -255,8 +261,10 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
 				double y = u[i];
 				double z = 0;
 				
-				fprintf(filePointer, "%d || %d | %d | %d || %f %f %f %d\n", processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1);
 				
+				 fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1,block->rpar[1],block->rpar[2],block->rpar[3],"CFSCOPE"); // modified_shank : 1 to indicate 1 graph in output and others for ymin,ymax and refreshBuffer 
+
+
                 result = pushData(block, 0, i);
                 if (result == FALSE)
                 {
@@ -797,3 +805,4 @@ static BOOL setPolylinesBounds(scicos_block * block, int input, int periodCounte
     iAxeUID = getAxe(iFigureUID, block, input);
     return setGraphicObjectProperty(iAxeUID, __GO_DATA_BOUNDS__, dataBounds, jni_double_vector, 6);
 }
+

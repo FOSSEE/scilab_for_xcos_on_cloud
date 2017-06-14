@@ -11,7 +11,6 @@
  */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 #include <string.h>
 
@@ -139,31 +138,16 @@ static BOOL setDefaultValues(scicos_block * block, int iGrayplotUID);
 SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
 {
     int iFigureUID;
-    //parameters for priting in file
-     int iAxeUID;
-    int iGrayplotUID;
 
     double *u;
     sco_data *sco;
 
     BOOL result;
-    //Modifed@shivendra for writing in log file
-        FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-
-	filePointer = NULL;
-	processId = 0;
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
-	filePointer = fopen(fileName, "a");
 
     switch (flag)
     {
 
         case Initialization:
-            printf("check");
             sco = getScoData(block);
             if (sco == NULL)
             {
@@ -177,10 +161,6 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            //Modified@shivendra Identify block and initilization 
-             int block_id=4;
-	           fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
-	           fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
             break;
 
         case StateUpdate:
@@ -191,41 +171,10 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            //modified@shivendra
+
             u = GetRealInPortPtrs(block, 1);
-           result = pushData(block, u);
-           int i;
-           int m, n;
-           double alpha, beta;
-           double *scaledData;
 
-           iAxeUID = getAxe(iFigureUID, block);
-           iGrayplotUID = getGrayplot(iAxeUID, block);
-
-           m = GetInPortSize(block, 1, 1);
-           n = GetInPortSize(block, 1, 2);
-         /*
-          * Scale the data
-         */
-          alpha = block->rpar[0];
-          beta = block->rpar[1];
-           scaledData = (double *)MALLOC(m * n * sizeof(double));
-          if (scaledData == NULL)
-          {
-          return FALSE;
-          } 
-         for (i = 0; i < m * n; i++)
-         {
-         scaledData[i] = floor(alpha * u[i] + beta);
-         }
-      //To increment the counter as scaledData is 1d array bit we need a matrixs
-       fprintf(filePointer, "%d || %d | %d | %d | %d  ||  ", processId, iFigureUID, iAxeUID,m,n);
-       for(int i=0;i<m*n;i++)
-       {
-       fprintf(filePointer,"%f ",u[i]);
-       }
-       fprintf(filePointer,"\n");
-     
+            result = pushData(block, u);
             if (result == FALSE)
             {
                 Coserror("%s: unable to push some data.", "cmatview");
@@ -235,13 +184,11 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
 
         case Ending:
             freeScoData(block);
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
             break;
 
         default:
             break;
     }
-    fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -328,6 +275,7 @@ static BOOL pushData(scicos_block * block, double *data)
      */
     alpha = block->rpar[0];
     beta = block->rpar[1];
+
     scaledData = (double *)MALLOC(m * n * sizeof(double));
     if (scaledData == NULL)
     {
