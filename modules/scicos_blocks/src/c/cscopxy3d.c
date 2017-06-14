@@ -11,6 +11,8 @@
  */
 
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
@@ -150,6 +152,23 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
     int j;
     BOOL result;
 
+    // modified_shank
+
+    FILE* filePointer;
+    int processId;
+    char fileName[25];
+    char line[100];
+        //static int graph_counter=0;
+        
+
+    filePointer = NULL;
+    processId = 0;
+    processId = getpid(); // On Linux
+    sprintf(fileName, "scilab-log-%d.txt", processId); 
+    filePointer = fopen(fileName, "a");
+    int block_id=5;
+//
+
     switch (flag)
     {
 
@@ -165,6 +184,11 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
                 // allocation error
                 set_block_error(-5);
             }
+
+            
+            //fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
+            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+
             break;
 
         case StateUpdate:
@@ -176,9 +200,21 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
                 break;
             }
 
-            appendData(block, GetRealInPortPtrs(block, 1), GetRealInPortPtrs(block, 2), GetRealInPortPtrs(block, 3));
+            double *x =  GetRealInPortPtrs(block, 1);
+            double *y = GetRealInPortPtrs(block, 2);
+            double *z = GetRealInPortPtrs(block, 3);
+
+            appendData(block, x,y,z);
             for (j = 0; j < block->insz[0]; j++)
             {
+
+                // modified_shank
+            int iFigureUID = getFigure(block);
+            int iAxeUID = getAxe(iFigureUID, block);
+            int iPolylineUID = getPolyline(iAxeUID, block, j);
+
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s\n", block_id,processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z[j],1,block->rpar[0],block->rpar[1],block->rpar[2],block->rpar[3],block->rpar[4],block->rpar[5],"CSCOPXY3D"); // modified_shank 
+//
                 result = pushData(block, j);
                 if (result == FALSE)
                 {
@@ -189,12 +225,15 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
+            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+
             freeScoData(block);
             break;
 
         default:
             break;
     }
+        fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/
