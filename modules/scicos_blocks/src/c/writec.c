@@ -116,7 +116,7 @@ ipar[7:6+lfil] = character codes for file name
         int block_id=21;
 	fprintf(filePointer, "%d || Initialization %d\n", processId, -1);//-1 as no figure uid
         sprintf(str,"%s%d", str,processId);
-        fprintf(filePointer,"%d || -1 || %s\n",block_id,str);
+        fprintf(filePointer,"%d %d || -1 || %s\n",block_id,processId,str);
         fprintf(filePointer, "%d || Ending %d\n", processId, -1);
         
         wcfopen(fd, str, "wb");
