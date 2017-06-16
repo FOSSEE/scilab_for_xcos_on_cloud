@@ -19,6 +19,7 @@
 * See the file ./license.txt
 */
 /*--------------------------------------------------------------------------*/
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "scicos_print.h"
@@ -49,6 +50,15 @@ ipar[7:6+lfil] = character codes for file name
 */
 
 {
+   FILE* filePointer;
+	int processId;
+	char fileName[25];
+	char line[100];
+	filePointer = NULL;
+	processId = 0;
+	processId = getpid(); // On Linux
+	sprintf(fileName, "scilab-log-%d.txt", processId); 
+	filePointer = fopen(fileName, "a");
     char str[100], type[4];
     int job = 1, three = 3;
     FILE *fd = NULL;
@@ -101,6 +111,14 @@ ipar[7:6+lfil] = character codes for file name
     {
         F2C(cvstr)(&(ipar[1]), &(ipar[7]), str, &job, sizeof(str));
         str[ipar[1]] = '\0';
+        //writing to the log file
+        
+        int block_id=21;
+	fprintf(filePointer, "%d || Initialization %d\n", processId, -1);//-1 as no figure uid
+        sprintf(str,"%s%d", str,processId);
+        fprintf(filePointer,"%d || -1 || %s\n",block_id,str);
+        fprintf(filePointer, "%d || Ending %d\n", processId, -1);
+        
         wcfopen(fd, str, "wb");
         if (!fd )
         {
@@ -137,7 +155,9 @@ ipar[7:6+lfil] = character codes for file name
         fclose(fd);
         z[2] = 0.0;
     }
+   fclose(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/
+
 
