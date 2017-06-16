@@ -134,7 +134,7 @@ ipar[7:6+lfil] = character codes for file name
         int block_id=22;
 	fprintf(filePointer, "%d || Initialization %d\n", processId, -2);//-2 as no figure uid
         sprintf(str, "audio%d", processId);
-        fprintf(filePointer,"%d || -2 || %s\n",block_id,str);
+        fprintf(filePointer,"%d %d || -2 || %s\n",block_id,processId,str);
         fprintf(filePointer, "%d || Ending %d\n", processId, -2);
         wcfopen(fd, str, "wb");
         if (!fd )
