@@ -50,7 +50,6 @@
 
 
 #define HISTORY_POINTS_THRESHOLD 4096
-//int graph_counter_CM=0;   //modified_shank : number of graphs
 
 /*****************************************************************************
  * Internal container structure
@@ -216,21 +215,6 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
     double *u;
     sco_data *sco;
 
-// //Writing to the block identification file modified@shivendra
-//         int static flag1=0;
-//         if(flag1==0)
-//         {
-//          flag1=1;
-//         FILE *fp;
-       
-//         char identify_block_name[25];
-//         int pid=getpid();
-//         sprintf(identify_block_name,"identify_block_%d.txt",pid);
-//         fp=fopen(identify_block_name,"a");
-//          fprintf(fp, "2\n");
-//         fclose(fp);
-// }
-//
 
     int i, j;
     BOOL result;
@@ -239,7 +223,6 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
 	int processId;
 	char fileName[25];
 	char line[100];
-        //static int graph_counter_CM=0;
 
 	filePointer = NULL;
 	processId = 0;
@@ -267,9 +250,6 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
             }
  
             
-            //graph_counter_CM=block->nin; // modified_shank : block->nin graphs
-            
-            //fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id); 
             fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
 
             break;
@@ -308,7 +288,7 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                                  double ymax = block->rpar[block->nrpar - 2 * nin + 2 * input + 1];
 
 
-				 fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,nin,ymin,ymax,period,labl); // modified_shank : block->nin no. of graph in output and others for ymin,ymax and refreshBuffer 
+				 fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,nin,ymin,ymax,period,labl); 
                                 
 
                     result = pushData(block, i, j);
