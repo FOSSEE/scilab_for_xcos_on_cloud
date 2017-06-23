@@ -40,6 +40,18 @@ import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphView;
 
+// modified_shank
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.ThreadMXBean;
+import java.util.List;
+//
+
 /**
  * Implement the AFFICH_m block
  */
@@ -98,6 +110,63 @@ public final class AfficheBlock extends BasicBlock {
             if (cell != null) {
                 final XcosDiagram diag = Xcos.findParent(cell);
                 final String value = getText(data);
+                
+////// modified_shank
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+ String filename = null ; 
+final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
+    final int index = jvmName.indexOf('@');
+String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
+
+    if (index < 1) {
+        // part before '@' empty (index = 0) / '@' not found (index = -1)
+        
+    }
+
+    try {
+       filename = "scilab-log-"+pid+".txt";
+    } catch (NumberFormatException e) {
+        // ignore
+    }
+
+try {
+ fw = new FileWriter(filename, true);
+ bw = new BufferedWriter(fw);
+
+			String content = value.toString();
+                        content = content.replaceAll("\\s+", " ");
+                        content = pid+" || Block Identifier 20"+content+"\n"; 
+			bw.write(content);
+
+			// no need to close it.
+			//bw.close();
+
+			//System.out.println("Done");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}finally {
+
+			try {
+
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+//
+
 
                 diag.getModel().setValue(cell, value);
 
@@ -234,9 +303,12 @@ public final class AfficheBlock extends BasicBlock {
                     value.append(SPACE);
                 }
                 value.append(NEW_LINE);
+
             }
 
             src.setValue(value.toString());
+
+ 
         }
 
         /**
@@ -256,6 +328,8 @@ public final class AfficheBlock extends BasicBlock {
             if (data00.startsWith(OPENING_BRACKET)) {
                 AbstractElement.incrementIndexes(index, true);
             }
+
+
 
             /*
              * Apply style
@@ -320,6 +394,7 @@ public final class AfficheBlock extends BasicBlock {
         if (GraphicsEnvironment.isHeadless()) {
             return;
         }
+      
 
         synchronized (values) {
             values.put(uid, value);
