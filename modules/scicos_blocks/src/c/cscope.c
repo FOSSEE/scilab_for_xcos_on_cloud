@@ -43,7 +43,6 @@
 
 #define HISTORY_POINTS_THRESHOLD 4096
 
-//int graph_counter=0;   //modified_shank : number of graphs
 
 /*****************************************************************************
  * Internal container structure
@@ -109,7 +108,7 @@ static sco_data *reallocHistoryBuffer(scicos_block * block, int numberOfPoints);
  * \param value the value to set
  */
 static void setBuffersCoordinates(scicos_block * block, double* coordinates, const int numberOfPoints,
-                                  const int bufferPoints, const double t, const double value);
+  const int bufferPoints, const double t, const double value);
 
 /**
  * Append the data to the current data
@@ -209,32 +208,14 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
+    FILE* filePointer;
+    int processId;
+    char fileName[25];
+    char line[100];
 
- //Writing to the block identification file modified@shivendra
-//         int static flag1=0;
-//         if(flag1==0)
-//         {
-//          flag1=1;
-//         FILE *fp;
-       
-//         char identify_block_name[25];
-//         int pid=getpid();
-//         sprintf(identify_block_name,"identify_block_%d.txt",pid);
-//         fp=fopen(identify_block_name,"a");
-//          fprintf(fp, "1\n");
-//         fclose(fp);
-// }
-//
 
-	FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-        //static int graph_counter=0;
-        
-
-	filePointer = NULL;
-	processId = 0;
+    filePointer = NULL;
+    processId = 0;
 	processId = getpid(); // On Linux
 	sprintf(fileName, "scilab-log-%d.txt", processId); 
 	filePointer = fopen(fileName, "a");
@@ -244,82 +225,83 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     {
 
         case Initialization:
-            sco = getScoData(block);
-            if (sco == NULL)
-            {
-                set_block_error(-5);
-                break;
-            }
-            iFigureUID = getFigure(block);
-            if (iFigureUID == 0)
-            {
-                // allocation error
-                set_block_error(-5);
-                break;
-            }
-                        
-			//graph_counter=1; // modified_shank : 1 graph 
-             //           fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
-			fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
-
+        sco = getScoData(block);
+        if (sco == NULL)
+        {
+            set_block_error(-5);
             break;
+        }
+        iFigureUID = getFigure(block);
+        if (iFigureUID == 0)
+        {
+                // allocation error
+            set_block_error(-5);
+            break;
+        }
+
+
+        fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+
+        break;
 
         case StateUpdate:
-            iFigureUID = getFigure(block);
-            if (iFigureUID == 0)
-            {
+
+        iFigureUID = getFigure(block);
+        if (iFigureUID == 0)
+        {
                 // allocation error
-                set_block_error(-5);
+            set_block_error(-5);
+            break;
+        }
+
+        t = get_scicos_time();
+        u = GetRealInPortPtrs(block, 1);
+
+        appendData(block, 0, t, u);
+
+        for (i = 0; i < block->insz[0]; i++)
+        {
+            int iFigureUID = getFigure(block);
+            int iAxeUID = getAxe(iFigureUID, block, 0);
+            int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
+            double time = t;
+            double y = u[i];
+            double z = 0;
+            char *labl = GetLabelPtrs(block);
+            if (strlen(labl) == 0)
+               labl = "CSCOPE";
+
+            //  1 to indicate 1 graph in output 
+            fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1,block->rpar[1],block->rpar[2],block->rpar[3],labl);  
+
+
+            result = pushData(block, 0, i);
+            if (result == FALSE)
+            {
+                Coserror("%s: unable to push some data.", "cscope");
                 break;
             }
-
-            t = get_scicos_time();
-            u = GetRealInPortPtrs(block, 1);
-
-            appendData(block, 0, t, u);
-
-            for (i = 0; i < block->insz[0]; i++)
-            {
-				int iFigureUID = getFigure(block);
-				int iAxeUID = getAxe(iFigureUID, block, 0);
-				int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
-                                double time = t;
-				double y = u[i];
-				double z = 0;
-                                char *labl = GetLabelPtrs(block);
-                                if (strlen(labl) == 0)
-					labl = "CSCOPE";
-				
-                                
-				 fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1,block->rpar[1],block->rpar[2],block->rpar[3],labl); // modified_shank : 1 to indicate 1 graph in output and others for ymin,ymax and refreshBuffer 
-				
-				
-				result = pushData(block, 0, i);
-                if (result == FALSE)
-                {
-                    Coserror("%s: unable to push some data.", "cscope");
-                    break;
-                }
-            }
-            break;
+        }
+        break;
 
         case Ending:
-            sco = getScoData(block);
-            sco = reallocHistoryBuffer(block, sco->internal.maxNumberOfPoints + sco->internal.numberOfPoints);
-            sco->scope.disableBufferUpdate = FALSE;
-            sco->scope.historyUpdateCounter = 0;
-            pushHistory(block, 0, sco->internal.maxNumberOfPoints);
-            deleteBufferPolylines(block);
-			
-			fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
 
-            freeScoData(block);
-            break;
+        sco = getScoData(block);
+        sco = reallocHistoryBuffer(block, sco->internal.maxNumberOfPoints + sco->internal.numberOfPoints);
+        sco->scope.disableBufferUpdate = FALSE;
+        sco->scope.historyUpdateCounter = 0;
+        pushHistory(block, 0, sco->internal.maxNumberOfPoints);
+        deleteBufferPolylines(block);
+
+        fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+
+        freeScoData(block);
+        break;
 
         default:
-            break;
-    }
-	fclose(filePointer);
+        break;
+}
+fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -416,14 +398,14 @@ static sco_data *getScoData(scicos_block * block)
      * Error management (out of normal flow)
      */
 
-error_handler_historyCoordinates_i:
+    error_handler_historyCoordinates_i:
     for (j = 0; j < i; j++)
     {
         FREE(sco->internal.historyCoordinates[j]);
     }
     FREE(sco->internal.historyCoordinates);
-error_handler_historyCoordinates:
-error_handler_bufferCoordinates_ij:
+    error_handler_historyCoordinates:
+    error_handler_bufferCoordinates_ij:
     for (i = 0; i < block->nin - 1; i++)
     {
         for (j = 0; j < block->insz[i] - 1; j++)
@@ -436,15 +418,15 @@ error_handler_bufferCoordinates_ij:
         }
     }
     i = block->nin - 1;
-error_handler_bufferCoordinates_i:
+    error_handler_bufferCoordinates_i:
     for (j = 0; j < i; j++)
     {
         FREE(sco->internal.bufferCoordinates[j]);
     }
     FREE(sco->internal.bufferCoordinates);
-error_handler_bufferCoordinates:
+    error_handler_bufferCoordinates:
     FREE(sco);
-error_handler_sco:
+    error_handler_sco:
     // allocation error
     set_block_error(-5);
     return NULL;
@@ -548,7 +530,7 @@ static sco_data *reallocHistoryBuffer(scicos_block * block, int numberOfPoints)
     sco->internal.maxNumberOfPoints = allocatedNumberOfPoints;
     return sco;
 
-error_handler:
+    error_handler:
     freeScoData(block);
     // allocation error
     set_block_error(-5);
@@ -556,7 +538,7 @@ error_handler:
 }
 
 static void setBuffersCoordinates(scicos_block* block, double* coordinates, const int numberOfPoints,
-                                  const int bufferPoints, const double t, const double value)
+  const int bufferPoints, const double t, const double value)
 {
     int setLen;
     sco_data *sco = (sco_data *) * (block->work);

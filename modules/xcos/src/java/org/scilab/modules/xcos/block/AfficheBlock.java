@@ -40,7 +40,7 @@ import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphView;
 
-// modified_shank
+// import packages for file operations
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -50,7 +50,6 @@ import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
 import java.util.List;
-//
 
 /**
  * Implement the AFFICH_m block
@@ -111,73 +110,70 @@ public final class AfficheBlock extends BasicBlock {
                 final XcosDiagram diag = Xcos.findParent(cell);
                 final String value = getText(data);
                 
-////// modified_shank
-		BufferedWriter bw = null;
-		FileWriter fw = null;
- String filename = null ; 
-final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
-    final int index = jvmName.indexOf('@');
-String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
+                BufferedWriter bw = null;
+                FileWriter fw = null;
+                String filename = null ; 
+                final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
+                final int index = jvmName.indexOf('@');
+                // get the pid of process
+                String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
 
-    if (index < 1) {
-        // part before '@' empty (index = 0) / '@' not found (index = -1)
-        
-    }
-
-    try {
-       filename = "scilab-log-"+pid+".txt";
-    } catch (NumberFormatException e) {
-        // ignore
-    }
-
-try {
- fw = new FileWriter(filename, true);
- bw = new BufferedWriter(fw);
-
-			String content = value.toString();
-                        content = content.replaceAll("\\s+", " ");
-                        content = pid+" || Block Identifier 20"+content+"\n"; 
-			bw.write(content);
-
-			// no need to close it.
-			//bw.close();
-
-			//System.out.println("Done");
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}finally {
-
-			try {
-
-				if (bw != null)
-					bw.close();
-
-				if (fw != null)
-					fw.close();
-
-			} catch (IOException ex) {
-
-				ex.printStackTrace();
-
-			}
-
-		}
-//
-
-
-                diag.getModel().setValue(cell, value);
-
-                final mxCellState state = diag.getView().getState(cell);
-                if (state != null) {
-                    state.setLabel(value);
+                if (index < 1) {
+                // part before '@' empty (index = 0) / '@' not found (index = -1)
                 }
 
-                diag.getAsComponent().redraw(state);
-            }
-        }
+                try {
+                    // refer to the scilab-log file
+                    filename = "scilab-log-"+pid+".txt";
+                }catch (NumberFormatException e) {
+                 // ignore
+                }
+
+                try {
+                    fw = new FileWriter(filename, true);
+                    bw = new BufferedWriter(fw);
+
+                    // create content of each line in specified_format
+                    String content = value.toString();
+                    content = content.replaceAll("\\s+", " ");
+                    content = pid+" || Block Identifier 20"+content+"\n"; 
+                    bw.write(content);
+
+
+                }catch (IOException e) {
+
+                    e.printStackTrace();
+
+                }finally {
+
+                    try {
+
+                        if (bw != null)
+                             bw.close();
+
+                        if (fw != null)
+                        fw.close();
+
+                    }catch (IOException ex) {
+
+                        ex.printStackTrace();
+
+                    }
+
+                }
+
+
+
+    diag.getModel().setValue(cell, value);
+
+    final mxCellState state = diag.getView().getState(cell);
+    if (state != null) {
+        state.setLabel(value);
+    }
+
+    diag.getAsComponent().redraw(state);
+}
+}
 
         /**
          * Construct a String representation of the values.
@@ -308,7 +304,7 @@ try {
 
             src.setValue(value.toString());
 
- 
+
         }
 
         /**
@@ -394,7 +390,7 @@ try {
         if (GraphicsEnvironment.isHeadless()) {
             return;
         }
-      
+
 
         synchronized (values) {
             values.put(uid, value);
