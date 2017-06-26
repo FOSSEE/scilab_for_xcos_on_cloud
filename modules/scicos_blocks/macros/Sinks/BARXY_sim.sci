@@ -44,18 +44,20 @@ function block=BARXY_sim(block,flag)
 
         a = f.children;
 
-        // modified_shank
+        // Give block_id to BARXY
         block_id = 11;
+        // Find the process id of the running scilab instance
         pid = getpid();
+        // Specify the filename for the common log file
         scilab_filename = 'scilab-log-'+ string(pid) +'.txt';
+
         fd = mopen(scilab_filename,'a+');
         mfprintf(fd,'%d || Block Identifier %d', pid, block_id);
+        // Print the co-ordinates of line
         mfprintf(fd,' %s %s ', string(u1), string(u2));
+        // Print the name of block and line thickness
         mfprintf(fd, ' %s %s\n', 'BARXY ',string(block.ipar));
-        // content = string(pid) + ' || Block Identifier ' + string(block_id) + ' ' + string(u1) + ' ' + string(u2)+ '\n';
-        // mputstr(content, fd);
         mclose(fd);
-        //
 
         a.children(1).data = [u1, u2]
 
