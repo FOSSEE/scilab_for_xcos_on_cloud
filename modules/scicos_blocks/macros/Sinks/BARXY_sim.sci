@@ -43,6 +43,20 @@ function block=BARXY_sim(block,flag)
         f = findobj("Tag", block.uid);
 
         a = f.children;
+
+        // modified_shank
+        block_id = 11;
+        pid = getpid();
+        scilab_filename = 'scilab-log-'+ string(pid) +'.txt';
+        fd = mopen(scilab_filename,'a+');
+        mfprintf(fd,'%d || Block Identifier %d', pid, block_id);
+        mfprintf(fd,' %s %s ', string(u1), string(u2));
+        mfprintf(fd, ' %s %s\n', 'BARXY ',string(block.ipar));
+        // content = string(pid) + ' || Block Identifier ' + string(block_id) + ' ' + string(u1) + ' ' + string(u2)+ '\n';
+        // mputstr(content, fd);
+        mclose(fd);
+        //
+
         a.children(1).data = [u1, u2]
 
     end
