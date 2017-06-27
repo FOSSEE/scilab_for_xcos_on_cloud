@@ -220,9 +220,9 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            freeScoData(block);
 
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+	    fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            freeScoData(block);
 
             break;
 
