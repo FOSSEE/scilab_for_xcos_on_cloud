@@ -55,8 +55,9 @@ function block=BARXY_sim(block,flag)
         mfprintf(fd,'%d || Block Identifier %d', pid, block_id);
         // Print the co-ordinates of line
         mfprintf(fd,' %s %s ', string(u1), string(u2));
+        mfprintf(fd,'%s ', string(block.rpar));
         // Print the name of block and line thickness
-        mfprintf(fd, ' %s %s\n', 'BARXY ',string(block.ipar));
+        mfprintf(fd, '%s %s\n', 'BARXY ',string(block.ipar));
         mclose(fd);
 
         a.children(1).data = [u1, u2]
