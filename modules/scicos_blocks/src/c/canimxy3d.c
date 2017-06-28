@@ -208,7 +208,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
 
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s\n", block_id,processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z[j],1,block->rpar[0],block->rpar[1],block->rpar[2],block->rpar[3],block->rpar[4],block->rpar[5],"CANIMXY3D"); 
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s %f %f %d\n", block_id,processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z[j],1,block->rpar[0],block->rpar[1],block->rpar[2],block->rpar[3],block->rpar[4],block->rpar[5],"CANIMXY3D", block->rpar[6], block->rpar[7], block->ipar[2]); 
 
                 result = pushData(block, j);
                 if (result == FALSE)

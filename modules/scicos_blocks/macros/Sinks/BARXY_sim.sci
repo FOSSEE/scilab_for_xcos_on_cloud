@@ -12,13 +12,29 @@
 
 function block=BARXY_sim(block,flag)
     //disp("Calling BARXY_sim with flag = "+string(flag))
+
+    // Find the process id of the running scilab instance
+    pid = getpid();
+    // Specify the filename for the common log file
+    scilab_filename = 'scilab-log-'+ string(pid) +'.txt';
+
     if flag == 4 | flag == 6
         // Initialisation || Re-Init
         // if already exists (stopped) then reuse
         f = findobj("Tag", block.uid);
+
         if f == [] then
+
+            // Open file in append mode
+            fd = mopen(scilab_filename,'a+');
+
+            // Adding line for Initialization 
+            mfprintf(fd,'%d || Initialization %d\n', pid, 11);
+
             f = figure("Tag", block.uid, "Figure_name", "BARXY");
+            mclose(fd);
         else
+
             scf(f);
             clf();
         end
@@ -44,15 +60,11 @@ function block=BARXY_sim(block,flag)
 
         a = f.children;
 
-        // Give block_id to BARXY
-        block_id = 11;
-        // Find the process id of the running scilab instance
-        pid = getpid();
-        // Specify the filename for the common log file
-        scilab_filename = 'scilab-log-'+ string(pid) +'.txt';
 
+        // Open the file in append mode
         fd = mopen(scilab_filename,'a+');
-        mfprintf(fd,'%d || Block Identifier %d', pid, block_id);
+        // Block_id of BARXY - 11
+        mfprintf(fd,'%d || Block Identifier %d', pid, 11);
         // Print the co-ordinates of line
         mfprintf(fd,' %s %s ', string(u1), string(u2));
         mfprintf(fd,'%s ', string(block.rpar));
