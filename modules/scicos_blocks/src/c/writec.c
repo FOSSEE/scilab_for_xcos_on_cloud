@@ -31,6 +31,15 @@
 #include "MALLOC.h"
 #include "dynlib_scicos_blocks.h"
 /*--------------------------------------------------------------------------*/
+#include <sys/time.h>
+/**
+ * Returns the current time in microseconds.
+ */
+long getMicrotime(){
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}
 SCICOS_BLOCKS_IMPEXP void writec(int *flag, int *nevprt,
                                  double *t, double xd[],
                                  double x[], int *nx,
@@ -112,13 +121,11 @@ ipar[7:6+lfil] = character codes for file name
         F2C(cvstr)(&(ipar[1]), &(ipar[7]), str, &job, sizeof(str));
         str[ipar[1]] = '\0';
         //writing to the log file
-        
         int block_id=21;
-	fprintf(filePointer, "%d || Initialization %d\n", processId, -1);//-1 as no figure uid
-        sprintf(str,"%s%d", str,processId);
-        fprintf(filePointer,"%d %d || -1 || %s\n",block_id,processId,str);
-        fprintf(filePointer, "%d || Ending %d\n", processId, -1);
-        
+        long rand=getMicrotime();
+        sprintf(str,"%s%d%ld", str,processId,rand);
+        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());//-1 as no figure uid
+        fprintf(filePointer,"%d %d || %d || %s\n",block_id,processId, get_block_number(),str);
         wcfopen(fd, str, "wb");
         if (!fd )
         {
@@ -131,6 +138,7 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 5)
     {
+        
         if (z[2] == 0)
         {
             return;
@@ -153,6 +161,7 @@ ipar[7:6+lfil] = character codes for file name
             }
         }
         fclose(fd);
+        fprintf(filePointer, "%d || Ending %d\n", processId,  get_block_number());
         z[2] = 0.0;
     }
    fclose(filePointer);

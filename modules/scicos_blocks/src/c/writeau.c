@@ -29,6 +29,10 @@
 #include "MALLOC.h"
 #include "dynlib_scicos_blocks.h"
 /*--------------------------------------------------------------------------*/
+#include <sys/time.h>
+/**
+ * Returns the current time in microseconds.
+ */
 SCICOS_BLOCKS_IMPEXP void writeau(int *flag, int *nevprt,
                                   double *t, double xd[],
                                   double x[], int *nx,
@@ -132,10 +136,11 @@ ipar[7:6+lfil] = character codes for file name
     else if (*flag == 4)
     {
         int block_id=22;
-	fprintf(filePointer, "%d || Initialization %d\n", processId, -2);//-2 as no figure uid
-        sprintf(str, "audio%d", processId);
-        fprintf(filePointer,"%d %d || -2 || %s\n",block_id,processId,str);
-        fprintf(filePointer, "%d || Ending %d\n", processId, -2);
+        long rand=getMicrotime();
+	fprintf(filePointer, "%d || Initialization %d\n", processId,  get_block_number());
+        sprintf(str, "audio%d%ld", processId,rand);
+        fprintf(filePointer,"%d %d || %d || %s\n",block_id,processId,get_block_number(),str);
+        
         wcfopen(fd, str, "wb");
         if (!fd )
         {
@@ -162,6 +167,7 @@ ipar[7:6+lfil] = character codes for file name
                 return;
             }
         }
+        fprintf(filePointer, "%d || Ending %d\n", processId, get_block_number());
         fclose(fd);
         z[2] = 0.0;
     }

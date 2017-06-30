@@ -111,13 +111,6 @@ SCICOS_BLOCKS_IMPEXP void tows_c(scicos_block *block, int flag)
      filePointer = NULL;
      processId = 0;
      processId = getpid(); // On Linux
-     sprintf(fileName, "scilab-log-%d.txt", processId); 
-     filePointer = fopen(fileName, "w");
-     int block_id=19; 
-     fprintf(filePointer, "%d || Initialization %d\n", processId, -5);
-     fprintf(filePointer, "%d %d || %d\n", block_id, processId, -5);
-     fprintf(filePointer, "%d || Ending %d\n", processId, -5);
-     fclose(filePointer);
     /* generic pointer */
     SCSREAL_COP *u_d, *u_cd, *ptr_d, *sav_d;
     SCSINT8_COP *u_c, *ptr_c, *sav_c;
