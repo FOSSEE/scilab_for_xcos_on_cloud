@@ -805,4 +805,3 @@ static BOOL setPolylinesBounds(scicos_block * block, int input, int periodCounte
     iAxeUID = getAxe(iFigureUID, block, input);
     return setGraphicObjectProperty(iAxeUID, __GO_DATA_BOUNDS__, dataBounds, jni_double_vector, 6);
 }
-
