@@ -208,6 +208,7 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
+    // Define file pointer to write data to a log file which can used for output generation to the client 
     FILE* filePointer;
     int processId;
     char fileName[25];
@@ -216,92 +217,103 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
 
     filePointer = NULL;
     processId = 0;
+    // Get the process id to give a unique name to the requested simulation
 	processId = getpid(); // On Linux
 	sprintf(fileName, "scilab-log-%d.txt", processId); 
+	// Open file in append mode
 	filePointer = fopen(fileName, "a");
+	// Give block id to distinguish blocks
     int block_id=1;
     
     switch (flag)
     {
 
         case Initialization:
-        sco = getScoData(block);
-        if (sco == NULL)
-        {
-            set_block_error(-5);
-            break;
-        }
-        iFigureUID = getFigure(block);
-        if (iFigureUID == 0)
-        {
-                // allocation error
-            set_block_error(-5);
-            break;
-        }
+	        sco = getScoData(block);
+	        if (sco == NULL)
+	        {
+	            set_block_error(-5);
+	            break;
+	        }
+	        iFigureUID = getFigure(block);
+	        if (iFigureUID == 0)
+	        {
+	            // allocation error
+	            set_block_error(-5);
+	            break;
+	        }
 
+	        // Write data to define Initialization phase
+	        fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
 
-        fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
-
-        break;
+	        break;
 
         case StateUpdate:
 
-        iFigureUID = getFigure(block);
-        if (iFigureUID == 0)
-        {
-                // allocation error
-            set_block_error(-5);
-            break;
-        }
+	        iFigureUID = getFigure(block);
+	        if (iFigureUID == 0)
+	        {
+	            // allocation error
+	            set_block_error(-5);
+	            break;
+	        }
 
-        t = get_scicos_time();
-        u = GetRealInPortPtrs(block, 1);
+	        t = get_scicos_time();
+	        u = GetRealInPortPtrs(block, 1);
 
-        appendData(block, 0, t, u);
+	        appendData(block, 0, t, u);
 
-        for (i = 0; i < block->insz[0]; i++)
-        {
-            int iFigureUID = getFigure(block);
-            int iAxeUID = getAxe(iFigureUID, block, 0);
-            int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
-            double time = t;
-            double y = u[i];
-            double z = 0;
-            char *labl = GetLabelPtrs(block);
-            if (strlen(labl) == 0)
-               labl = "CSCOPE";
+	        for (i = 0; i < block->insz[0]; i++)
+	        {
+	        	// Store parameters required to generate output on the web
+	            int iFigureUID = getFigure(block);
+	            int iAxeUID = getAxe(iFigureUID, block, 0);
+	            int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
+	            double time = t;
+	            double y = u[i];
+	            double z = 0;
+	            char *labl = GetLabelPtrs(block);
+	            if (strlen(labl) == 0)
+	               labl = "CSCOPE";
 
-            //  1 to indicate 1 graph in output 
-            fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1,block->rpar[1],block->rpar[2],block->rpar[3],labl);  
+	            // Store scilab's plotted data in the log file 
+	            fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3], labl);  
+	            /*
+	            block_id - block_id of this block, process_id - process id of currently running scilab's instance, iFigureUID - figure id of graph generated,
+	            iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph, time - current time interval(x-axis),
+	            y - value of y-axis, z - value of z-axis, 1 - representing 1 output graph, block->rpar[1] - yMin value, block->rpar[2] - yMax value,
+	            block->rpar[3] - refresh period, labl - Label for graph(default - "CSCOPE")
+	            */
 
-
-            result = pushData(block, 0, i);
-            if (result == FALSE)
-            {
-                Coserror("%s: unable to push some data.", "cscope");
-                break;
-            }
-        }
-        break;
+	            result = pushData(block, 0, i);
+	            if (result == FALSE)
+	            {
+	                Coserror("%s: unable to push some data.", "cscope");
+	                break;
+	            }
+	        }
+	        break;
 
         case Ending:
 
-        sco = getScoData(block);
-        sco = reallocHistoryBuffer(block, sco->internal.maxNumberOfPoints + sco->internal.numberOfPoints);
-        sco->scope.disableBufferUpdate = FALSE;
-        sco->scope.historyUpdateCounter = 0;
-        pushHistory(block, 0, sco->internal.maxNumberOfPoints);
-        deleteBufferPolylines(block);
+	        sco = getScoData(block);
+	        sco = reallocHistoryBuffer(block, sco->internal.maxNumberOfPoints + sco->internal.numberOfPoints);
+	        sco->scope.disableBufferUpdate = FALSE;
+	        sco->scope.historyUpdateCounter = 0;
+	        pushHistory(block, 0, sco->internal.maxNumberOfPoints);
+	        deleteBufferPolylines(block);
 
-        fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+	        // Write data to define Ending phase
+	        fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
 
-        freeScoData(block);
-        break;
+	        freeScoData(block);
+	        break;
 
         default:
-        break;
-}
-fclose(filePointer);
+        	break;
+	}
+	// Close the file pointer
+	fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/
