@@ -400,9 +400,9 @@ public final class AfficheBlock extends BasicBlock {
             bw = new BufferedWriter(fw);
 
             // Create content for Initialization phase
-            String content= pid+" || Initialization 20\n"; 
+            //String content= pid+" || Initialization 20\n"; 
             // Write the content to file
-            bw.write(content);
+            //bw.write(content);
 
 
         }catch (IOException e) {
