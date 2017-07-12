@@ -110,12 +110,13 @@ public final class AfficheBlock extends BasicBlock {
                 final XcosDiagram diag = Xcos.findParent(cell);
                 final String value = getText(data);
                 
+                // Initialize BufferedWriter and FileWriter
                 BufferedWriter bw = null;
                 FileWriter fw = null;
                 String filename = null ; 
                 final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
                 final int index = jvmName.indexOf('@');
-                // get the pid of process
+                // Get the pid of process
                 String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
 
                 if (index < 1) {
@@ -123,20 +124,24 @@ public final class AfficheBlock extends BasicBlock {
                 }
 
                 try {
-                    // refer to the scilab-log file
+                    // Refer to the scilab-log file
                     filename = "scilab-log-"+pid+".txt";
                 }catch (NumberFormatException e) {
                  // ignore
                 }
 
                 try {
+                    // Open the file in append mode
                     fw = new FileWriter(filename, true);
                     bw = new BufferedWriter(fw);
 
-                    // create content of each line in specified_format
+                    // Create content of each line in specified_format
                     String content = value.toString();
+                    // Replace multiple spaces with a single space 
                     content = content.replaceAll("\\s+", " ");
+                    // Form content in proper format 
                     content = pid+" || Block Identifier 20"+content+"\n"; 
+                    // Write the content to file
                     bw.write(content);
 
 
@@ -149,10 +154,10 @@ public final class AfficheBlock extends BasicBlock {
                     try {
 
                         if (bw != null)
-                             bw.close();
+                            bw.close();
 
                         if (fw != null)
-                        fw.close();
+                            fw.close();
 
                     }catch (IOException ex) {
 
@@ -368,6 +373,59 @@ public final class AfficheBlock extends BasicBlock {
     @Override
     protected void setDefaultValues() {
         super.setDefaultValues();
+
+        // Initialize BufferedWriter and FileWriter
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        String filename = null ; 
+        final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
+        final int index = jvmName.indexOf('@');
+        // Get the pid of process
+        String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
+
+        if (index < 1) {
+        // part before '@' empty (index = 0) / '@' not found (index = -1)
+        }
+
+        try {
+            // Refer to the scilab-log file
+            filename = "scilab-log-"+pid+".txt";
+        }catch (NumberFormatException e) {
+         // ignore
+        }
+
+        try {
+            // Open the file in append mode
+            fw = new FileWriter(filename, true);
+            bw = new BufferedWriter(fw);
+
+            // Create content for Initialization phase
+            String content= pid+" || Initialization 20\n"; 
+            // Write the content to file
+            bw.write(content);
+
+
+        }catch (IOException e) {
+
+            e.printStackTrace();
+
+        }finally {
+
+            try {
+
+                if (bw != null)
+                    bw.close();
+
+                if (fw != null)
+                    fw.close();
+
+            }catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+
+        }
 
         setValue("0.0");
     }
