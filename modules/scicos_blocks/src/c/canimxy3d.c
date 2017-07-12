@@ -157,12 +157,15 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
     char fileName[25];
     char line[100];
         
-
+    // Define file pointer to write data to a log file which can used for output generation to the client
     filePointer = NULL;
     processId = 0;
+    // Get the process id to give a unique name to the requested simulation
     processId = getpid(); // On Linux
-    sprintf(fileName, "scilab-log-%d.txt", processId); 
+    sprintf(fileName, "scilab-log-%d.txt", processId);
+    // Open file in append mode  
     filePointer = fopen(fileName, "a");
+    // Give block id to distinguish blocks
     int block_id=10;
 
     switch (flag)
@@ -183,6 +186,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
                 break;
             }
 
+            // Write data to define Initialization phase
             fprintf(filePointer, "%d || Initialization %d\n", processId, FigureUID);
 
             break;
@@ -203,25 +207,33 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
             appendData(block, x,y,z);
             for (j = 0; j < block->insz[0]; j++)
             {
-
+                // Store parameters required to generate output on the web  
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
 
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s %f %f %d\n", block_id,processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z[j],1,block->rpar[0],block->rpar[1],block->rpar[2],block->rpar[3],block->rpar[4],block->rpar[5],"CANIMXY3D", block->rpar[6], block->rpar[7], block->ipar[2]); 
+                // Store scilab's plotted data in the log file
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s %f %f %d\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z[j], 1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3], block->rpar[4], block->rpar[5], "CANIMXY3D", block->rpar[6], block->rpar[7], block->ipar[2]); 
+                /*
+                block_id - block_id of this block, process_id - process id of currently running scilab's instance, iFigureUID - figure id of graph generated,
+                iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph, x[j]- value of x-axis for j,
+                y[j] - value of y-axis for j, z[j] - value of z-axis for j, 1 - representing 1 output graph, block->rpar[0] - xMin value, 
+                block->rpar[1] - xMax value, block->rpar[2] - yMin value, block->rpar[3] - yMax value, block->rpar[4] - zMin value, block->rpar[5] - zMax value,
+                block->rpar[6], block->rpar[7] - alpha and theta (angles of rotation of axes), block->ipar[2] - buffer size
+                */
 
                 result = pushData(block, j);
                 if (result == FALSE)
                 {
-                    Coserror("%s: unable to push some data.", "cscopxy3d");
+                    Coserror("%s: unable to push some data.", "canimxy3d");
                     break;
                 }
             }
             break;
 
         case Ending:
-
-	    fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            // Write data to define Ending phase
+    	    fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
             freeScoData(block);
 
             break;
@@ -229,6 +241,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy3d(scicos_block * block, scicos_flag flag)
         default:
             break;
     }
+    // Close the file pointer
     fclose(filePointer);
 }
 
