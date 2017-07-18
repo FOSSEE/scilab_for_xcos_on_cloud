@@ -55,7 +55,6 @@ function block=BARXY_sim(block,flag)
         // Output update
         u1=block.inptr(1);
         u2=block.inptr(2);
-
         f = findobj("Tag", block.uid);
 
         a = f.children;
@@ -63,13 +62,8 @@ function block=BARXY_sim(block,flag)
 
         // Open the file in append mode
         fd = mopen(scilab_filename,'a+');
-        // Block_id of BARXY - 11
-        mfprintf(fd,'%d || Block Identifier %d', pid, 11);
-        // Print the co-ordinates of line
-        mfprintf(fd,' %s %s ', string(u1), string(u2));
-        mfprintf(fd,'%s ', string(block.rpar));
-        // Print the name of block and line thickness
-        mfprintf(fd, '%s %s\n', 'BARXY ',string(block.ipar));
+        // Block_id of BARXY - 11, Print the co-ordinates of line, Print the name of block and line thickness
+        mfprintf(fd,'%d || Block Identifier %d %f %f %f %f %f %f %f %f %s%s\n', pid, 11, u1(1), u2(1), u1(2), u2(2), block.rpar(1), block.rpar(2), block.rpar(3), block.rpar(4), 'BARXY ', string(block.ipar));
         mclose(fd);
 
         a.children(1).data = [u1, u2]
