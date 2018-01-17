@@ -11,6 +11,8 @@
  */
 
 #include <string.h>
+#include <stdio.h> //added new lib for log file code
+#include <stdlib.h> //added new lib for log file code
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
@@ -167,6 +169,24 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
 
     BOOL result;
 
+    //ADDING NEW LINE OF CODE FOR LOG FILE
+    // Define file pointer to write data to a log file which can used for output generation to the client 
+    FILE* filePointer;
+    int processId;
+    char fileName[25];
+    char line[100];
+
+    filePointer = NULL;
+    processId = 0;
+    // Get the process id to give a unique name to the requested simulation
+	processId = getpid(); // On Linux
+	sprintf(fileName, "scilab-log-%d.txt", processId); 
+	// Open file in append mode
+	filePointer = fopen(fileName, "a");
+	// Give block id to distinguish blocks
+    int block_id=23;
+    //NEW CODE ENDS HERE
+
     switch (flag)
     {
 
@@ -184,6 +204,11 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
                 break;
             }
 
+            //ADDING NEW LINE OF CODE FOR LOG FILE
+ 	    // Write data to define Initialization phase
+	        fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            //NEW CODE ENDS HERE
+
             setSegsBuffers(block, DEFAULT_MAX_NUMBER_OF_POINTS);
             break;
 
@@ -200,11 +225,33 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
 
             // select only the masked indexes
             for (i = 0; i < nclk; i++)
-            {
+            {   
                 mask = 1 << i;
                 if ((block->nevprt & mask) == mask)
                 {
                     appendData(block, i, t);
+
+                   //ADDING NEW CODE FOR LOG FILE
+		   // Store parameters required to generate output on the web
+	            int iFigureUID = getFigure(block);
+	            int iAxeUID = getAxe(iFigureUID, block);
+		    int iSegsUID = getSegs(iAxeUID, block, i);
+		    double time = t;
+	            double y = 0.8;
+	            double z = 0;
+	            char *labl = GetLabelPtrs(block);
+	            if (strlen(labl) == 0)
+	               labl = "CEVSCPE";
+		    
+	            // Store scilab's plotted data in the log file 
+	            fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %s\n", block_id, processId, iFigureUID, iAxeUID, iSegsUID, time, y, z, 1, block->rpar[0], labl);
+	            /*
+	            block_id - block_id of this block, process_id - process id of currently running scilab's instance, iFigureUID - figure id of graph generated,
+	            iAxeUID - axes id of graph, time - current time interval(x-axis), 
+	            y - value of y-axis, z - value of z-axis, 1 - representing 1 output graph,
+	            block->rpar[0] - refresh period, labl - Label for graph(default - "CEVSCPE")
+	            */
+		//NEW CODE ENDS HERE
 
                     result = pushData(block, i);
                     if (result == FALSE)
@@ -217,12 +264,21 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
+            //ADDING NEW CODE FOR LOG FILE 
+            // Write data to define Ending phase
+	    fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            //NEW CODE ENDS HERE
+
             freeScoData(block);
             break;
 
         default:
             break;
     }
+      //ADDING NEW CODE HERE
+      //Close the file pointer
+      fclose(filePointer);
+      //NEW CODE ENDS HERE
 }
 
 /*-------------------------------------------------------------------------*/
