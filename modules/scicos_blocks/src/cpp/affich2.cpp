@@ -81,9 +81,9 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
 	    processId = getpid();
             block_id=20;
             time = get_scicos_time();
-	    sprintf(fileName, "aff-scilab-log-%d.txt", processId);
+	    sprintf(fileName, "scilab-log-%d.txt", processId);
 	    filePointer = fopen(fileName, "a");
-	    fprintf(filePointer, "%d %d || %s | 0 | 0 || %f %d %d",block_id,processId,block->uid,time,iRowsIn,iColsIn);
+	    fprintf(filePointer, "%d %d || %s | 0 | %s || %f %d %d",block_id,processId,block->uid,block->uid,time,iRowsIn,iColsIn);
             for (i = 0; i < iRowsIn; i++)
             {
                 for (j = 0; j < iColsIn; j++)
@@ -124,7 +124,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
             pstValue = (char ***)MALLOC(sizeof(char **) * iRowsIn);
 	    //To add initialization enter for affich :Modified by dipti
 	    processId = getpid();
-	    sprintf(fileName, "aff-scilab-log-%d.txt", processId);
+	    sprintf(fileName, "scilab-log-%d.txt", processId);
 	    filePointer = fopen(fileName, "a");
 	    fprintf(filePointer, "%d || Initialization %s\n",processId,block->uid);
 	    fclose(filePointer);
@@ -165,10 +165,9 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
             pstValue = (char ***)block->work[0];
 	    //Adding indication of Ending of affich data Modified by dipti
 	    processId = getpid();
-	    sprintf(fileName, "aff-scilab-log-%d.txt", processId);
+	    sprintf(fileName, "scilab-log-%d.txt", processId);
 	    filePointer = fopen(fileName, "a");
 	    fprintf(filePointer, "%d || Ending %s\n",processId,block->uid);
-	    printf("%d || Ending %s",processId,block->uid);
 	    fclose(filePointer);
 
             for (i = 0; i < iRowsIn; i++)
