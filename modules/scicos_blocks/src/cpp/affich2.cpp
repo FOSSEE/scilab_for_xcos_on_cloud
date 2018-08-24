@@ -68,9 +68,9 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
             pstValue = (char ***)block->work[0];
 
             time = get_scicos_time();
-            fprintf(filePointer, "%d %d || %s | 0 | 0 || %f %d %d",
+            fprintf(filePointer, "%d %d || %s | 0 | %s || %f %d %d",
                     block_id, processId,
-                    block->uid,
+                    block->uid, block->uid,
                     time, iRowsIn, iColsIn);
 
             for (i = 0; i < iRowsIn; i++)
