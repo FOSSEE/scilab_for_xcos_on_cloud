@@ -101,16 +101,6 @@ SCICOS_BLOCKS_IMPEXP void tows_c(scicos_block *block, int flag)
 * Author A.Layec - initial rev. 18/09/07
 */
 {
-    
-     //Writing to the log file for block identification  modified@shivendra
-     printf("hello\n");
-     FILE* filePointer;
-     int processId;
-     char fileName[25];
-     char line[100];
-     filePointer = NULL;
-     processId = 0;
-     processId = getpid(); // On Linux
     /* generic pointer */
     SCSREAL_COP *u_d, *u_cd, *ptr_d, *sav_d;
     SCSINT8_COP *u_c, *ptr_c, *sav_c;

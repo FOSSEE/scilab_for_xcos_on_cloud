@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
 
@@ -25,7 +24,6 @@
 #include "setGraphicObjectProperty.h"
 #include "graphicObjectProperties.h"
 #include "createGraphicObject.h"
-#include "deleteGraphicObject.h"
 
 #include "CurrentFigure.h"
 #include "CurrentObject.h"
@@ -41,8 +39,6 @@
 #include "FigureList.h"
 #include "BuildObjects.h"
 #include "AxesModel.h"
-#define HISTORY_POINTS_THRESHOLD 4096
-
 
 /*****************************************************************************
  * Internal container structure
@@ -163,26 +159,15 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
     int *links_indexes;
     double *u;
     sco_data *sco;
-      
-
-
 
     int i;
     BOOL result;
-  
-        FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-        //static int graph_counter_CF=0;
 
-	filePointer = NULL;
-	processId = 0;
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
-	filePointer = fopen(fileName, "a");
-    int block_id=3;
-
+    int processId = getpid();
+    char fileName[25];
+    sprintf(fileName, "scilab-log-%d.txt", processId);
+    FILE *filePointer = fopen(fileName, "a");
+    int block_id = 3;
 
     switch (flag)
     {
@@ -201,10 +186,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-                  
-                  
-	          //fprintf(filePointer, "%d || Block Identifier %d\n",processId, block_id);
-                  fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
             break;
 
         case StateUpdate:
@@ -236,20 +218,20 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
              * Append the data (copy) then free
              */
             appendData(block, 0, t, u);
-           
 
             for (i = 0; i < links_count; i++)
             {
-               int iFigureUID = getFigure(block);
-				int iAxeUID = getAxe(iFigureUID, block, 0);
-				int iPolylineUID = getPolyline(iAxeUID, block, i);
-                                double time = t;
-				double y = u[i];
-				double z = 0;
-				
-				
-				 fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z,1,block->rpar[1],block->rpar[2],block->rpar[3],"CFSCOPE"); 
-
+                int iFigureUID = getFigure(block);
+                int iAxeUID = getAxe(iFigureUID, block, 0);
+                int iPolylineUID = getPolyline(iAxeUID, block, i);
+                double time = t;
+                double y = u[i];
+                double z = 0;
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f\n",
+                        block_id, processId,
+                        iFigureUID, iAxeUID, iPolylineUID,
+                        time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3],
+                        "CFSCOPE");
 
                 result = pushData(block, 0, i);
                 if (result == FALSE)
@@ -258,8 +240,8 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                     break;
                 }
             }
-            break;
             FREE(u);
+            break;
 
         case Ending:
             fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
@@ -269,7 +251,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
         default:
             break;
     }
-   fclose(filePointer);
+    fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

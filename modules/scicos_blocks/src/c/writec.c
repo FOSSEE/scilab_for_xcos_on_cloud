@@ -59,15 +59,11 @@ ipar[7:6+lfil] = character codes for file name
 */
 
 {
-   FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-	filePointer = NULL;
-	processId = 0;
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
-	filePointer = fopen(fileName, "a");
+    int processId = getpid();
+    char fileName[25];
+    sprintf(fileName, "scilab-log-%d.txt", processId);
+    FILE *filePointer = fopen(fileName, "a");
+    int block_id = 21;
     char str[100], type[4];
     int job = 1, three = 3;
     FILE *fd = NULL;
@@ -121,7 +117,6 @@ ipar[7:6+lfil] = character codes for file name
         F2C(cvstr)(&(ipar[1]), &(ipar[7]), str, &job, sizeof(str));
         str[ipar[1]] = '\0';
         //writing to the log file
-        int block_id=21;
         long rand=getMicrotime();
         sprintf(str,"%s%d%ld", str,processId,rand);
         fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());//-1 as no figure uid
@@ -138,7 +133,6 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 5)
     {
-        
         if (z[2] == 0)
         {
             return;
@@ -164,9 +158,8 @@ ipar[7:6+lfil] = character codes for file name
         fprintf(filePointer, "%d || Ending %d\n", processId,  get_block_number());
         z[2] = 0.0;
     }
-   fclose(filePointer);
+    fclose(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/
-
 
