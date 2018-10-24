@@ -215,25 +215,17 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
     double *u;
     sco_data *sco;
 
-
     int i, j;
     BOOL result;
 
+    int processId = getpid();
     // Define file pointer to write data to a log file which can used for output generation to the client
-    FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-
-	filePointer = NULL;
-	processId = 0;
-    // Get the process id to give a unique name to the requested simulation
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
+    char fileName[25];
+    sprintf(fileName, "scilab-log-%d.txt", processId);
     // Open file in append mode
-	filePointer = fopen(fileName, "a");  
+    FILE *filePointer = fopen(fileName, "a");
     // Give block id to distinguish blocks
-    int block_id=2;  
+    int block_id = 2;
 
     switch (flag)
     {
@@ -252,10 +244,7 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
- 
-            // Write data to define Initialization phase
             fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
-
             break;
 
         case StateUpdate:
@@ -275,34 +264,33 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 appendData(block, i, t, u);
                 for (j = 0; j < block->insz[i]; j++)
                 {
-
-                    // Store parameters required to generate output on the web
-                   	int iFigureUID = getFigure(block);
-    				int iAxeUID = getAxe(iFigureUID, block, i);
-    				int iPolylineUID = getPolyline(iAxeUID, block, i,j, FALSE);
+                    // Store scilab's plotted data in the log file
+                    int iFigureUID = getFigure(block);
+                    int iAxeUID = getAxe(iFigureUID, block, i);
+                    int iPolylineUID = getPolyline(iAxeUID, block, i,j, FALSE);
                     double time = t;
-    				double y = u[j];
-    				double z = 0;
-                    char *labl = GetLabelPtrs(block);
+                    double y = u[j];
+                    double z = 0;
+                    const char *labl = GetLabelPtrs(block);
                     if (strlen(labl) == 0)
-					   labl = "CMSCOPE";
-				
-                    // Store number of output graphs
+                        labl = "CMSCOPE";
                     int nin = block->nin;
                     int input = i;
-                    // Calculate period, ymin, ymax of each graph 
                     double period = block->rpar[block->nrpar - 3 * nin + input];
                     double ymin = block->rpar[block->nrpar - 2 * nin + 2 * input];
                     double ymax = block->rpar[block->nrpar - 2 * nin + 2 * input + 1];
-
-                    // Store scilab's plotted data in the log file 
-				    fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, time, y, z, nin, ymin, ymax, period, labl); 
+                    fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
+                            block_id, processId,
+                            iFigureUID, iAxeUID, iPolylineUID,
+                            time, y, z, nin, ymin, ymax, period,
+                            labl);
                     /*
-                    block_id - block_id of this block, process_id - process id of currently running scilab's instance, iFigureUID - figure id of graph generated,
-                    iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph, time - current time interval(x-axis),
-                    y - value of y-axis, z - value of z-axis, nin - representing number of output graphs, ymin - yMin value, ymax - yMax value,
-                    period - refresh period, labl - Label for graph(default - "CMSCOPE")
-                    */          
+                     * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
+                     * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
+                     * time - current time interval (x-axis), y - value of y-axis, z - value of z-axis,
+                     * nin - representing number of output graphs, ymin - yMin value, ymax - yMax value, period - refresh period,
+                     * labl - Label for graph (default - "CMSCOPE")
+                     */
 
                     result = pushData(block, i, j);
                     if (result == FALSE)
@@ -324,16 +312,13 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 pushHistory(block, i, sco->internal.maxNumberOfPoints[i]);
             }
             deleteBufferPolylines(block);
-            // Write data to define Ending phase
             fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
-
             freeScoData(block);
             break;
 
         default:
             break;
     }
-    // Close the file pointer
     fclose(filePointer);
 }
 

@@ -22,19 +22,16 @@ function block=BARXY_sim(block,flag)
         // Initialisation || Re-Init
         // if already exists (stopped) then reuse
         f = findobj("Tag", block.uid);
-
         if f == [] then
 
             // Open file in append mode
             fd = mopen(scilab_filename,'a+');
-
             // Adding line for Initialization 
             mfprintf(fd,'%d || Initialization %d\n', pid, 11);
+            mclose(fd);
 
             f = figure("Tag", block.uid, "Figure_name", "BARXY");
-            mclose(fd);
         else
-
             scf(f);
             clf();
         end
@@ -55,10 +52,10 @@ function block=BARXY_sim(block,flag)
         // Output update
         u1=block.inptr(1);
         u2=block.inptr(2);
+
         f = findobj("Tag", block.uid);
 
         a = f.children;
-
 
         // Open the file in append mode
         fd = mopen(scilab_filename,'a+');

@@ -51,17 +51,13 @@ ipar[6]   = swap
 ipar[7:6+lfil] = character codes for file name
 */
 {
-     FILE* filePointer;
-	int processId;
-	char fileName[25];
-	char line[100];
-	filePointer = NULL;
-	processId = 0;
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
-	filePointer = fopen(fileName, "a");
-    
+    int processId = getpid();
+    char fileName[25];
+    sprintf(fileName, "scilab-log-%d.txt", processId);
+    FILE *filePointer = fopen(fileName, "a");
+    int block_id = 22;
     char str[100];
+
     FILE *fd = NULL;
     int n = 0, k = 0, i = 0, ierr = 0;
     double *buffer = NULL, *record = NULL;
@@ -135,12 +131,11 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 4)
     {
-        int block_id=22;
         long rand=getMicrotime();
 	fprintf(filePointer, "%d || Initialization %d\n", processId,  get_block_number());
         sprintf(str, "audio%d%ld", processId,rand);
         fprintf(filePointer,"%d %d || %d || %s\n",block_id,processId,get_block_number(),str);
-        
+
         wcfopen(fd, str, "wb");
         if (!fd )
         {
@@ -171,7 +166,7 @@ ipar[7:6+lfil] = character codes for file name
         fclose(fd);
         z[2] = 0.0;
     }
-     fclose(filePointer);
+    fclose(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/

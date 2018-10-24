@@ -149,18 +149,13 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
 
     int j;
     BOOL result;
-   
-    FILE* filePointer;
-    int processId;
+
+    int processId = getpid();
     char fileName[25];
-    char line[100];
-        
-    filePointer = NULL;
-    processId = 0;
-    processId = getpid(); // On Linux
-    sprintf(fileName, "scilab-log-%d.txt", processId); 
-    filePointer = fopen(fileName, "a");
-    int block_id=9;
+    sprintf(fileName, "scilab-log-%d.txt", processId);
+    FILE *filePointer = fopen(fileName, "a");
+    int block_id = 9;
+
     switch (flag)
     {
 
@@ -187,20 +182,28 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-             double *x =  GetRealInPortPtrs(block, 1);
-             double *y = GetRealInPortPtrs(block, 2);
-             double z=0;
-             appendData(block, x, y);
+
+            double *x = GetRealInPortPtrs(block, 1);
+            double *y = GetRealInPortPtrs(block, 2);
+            double z = 0;
+            appendData(block, x, y);
             for (j = 0; j < block->insz[0]; j++)
             {
+                // Store scilab's plotted data in the log file
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
-                int iPolylineUID = getPolyline(iAxeUID, block,j);
-               fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %s %d\n", block_id,processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z,1,block->rpar[0],block->rpar[1],block->rpar[2],block->rpar[3],"CANIMXY",block->ipar[2]); 
+                int iPolylineUID = getPolyline(iAxeUID, block, j);
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %s %d\n",
+                        block_id, processId,
+                        iFigureUID, iAxeUID, iPolylineUID,
+                        x[j], y[j], z,
+                        1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3],
+                        "CANIMXY", block->ipar[2]);
+
                 result = pushData(block, j);
                 if (result == FALSE)
                 {
-                    Coserror("%s: unable to push some data.", "cscopxy");
+                    Coserror("%s: unable to push some data.", "canimxy");
                     break;
                 }
             }
@@ -214,7 +217,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
         default:
             break;
     }
-  fclose(filePointer);
+    fclose(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

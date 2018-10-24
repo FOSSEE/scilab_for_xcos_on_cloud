@@ -149,21 +149,14 @@ SCICOS_BLOCKS_IMPEXP void cscopxy(scicos_block * block, scicos_flag flag)
     sco_data *sco;
     BOOL result;
 
+    int processId = getpid();
     // Define file pointer to write data to a log file which can used for output generation to the client
-    FILE* filePointer;
-    int processId;
     char fileName[25];
-    char line[100];
-
-    filePointer = NULL;
-    processId = 0;
-    // Get the process id to give a unique name to the requested simulation
-	processId = getpid(); // On Linux
-	sprintf(fileName, "scilab-log-%d.txt", processId); 
+    sprintf(fileName, "scilab-log-%d.txt", processId);
     // Open file in append mode
-	filePointer = fopen(fileName, "a");
+    FILE *filePointer = fopen(fileName, "a");
     // Give block id to distinguish blocks
-	int block_id=4;
+    int block_id = 4;
 
     switch (flag)
     {
@@ -180,10 +173,7 @@ SCICOS_BLOCKS_IMPEXP void cscopxy(scicos_block * block, scicos_flag flag)
                 // allocation error
                 set_block_error(-5);
             }
-
-    		// Write data to define Initialization phase
             fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
-
             break;
 
         case StateUpdate:
@@ -195,26 +185,29 @@ SCICOS_BLOCKS_IMPEXP void cscopxy(scicos_block * block, scicos_flag flag)
                 break;
             }
 
-            double *x =  GetRealInPortPtrs(block, 1);
+            double *x = GetRealInPortPtrs(block, 1);
             double *y = GetRealInPortPtrs(block, 2);
-            appendData(block,x, y);
+            appendData(block, x, y);
             for (j = 0; j < block->insz[0]; j++)
             {
-     	
-                // Store parameters required to generate output on the web
+                // Store scilab's plotted data in the log file
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
                 double z = 0;
-
-                // Store scilab's plotted data in the log file 
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %s\n", block_id, processId, iFigureUID, iAxeUID, iPolylineUID, x[j], y[j], z, 1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3], "CSCOPXY"); 
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %s\n",
+                        block_id, processId,
+                        iFigureUID, iAxeUID, iPolylineUID,
+                        x[j], y[j], z, 1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3],
+                        "CSCOPXY");
                 /*
-                block_id - block_id of this block, process_id - process id of currently running scilab's instance, iFigureUID - figure id of graph generated,
-                iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph, x[j]- value of x-axis for j,
-                y[j] - value of y-axis for j, z - value of z-axis(0 for 2d-graph), 1 - representing 1 output graph, block->rpar[0] - xMin value, 
-                block->rpar[1] - xMax value, block->rpar[2] - yMin value, block->rpar[3] - yMax value
-                */
+                 * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
+                 * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
+                 * x[j]- value of x-axis for j, y[j] - value of y-axis for j, z - value of z-axis (0 for 2d-graph),
+                 * 1 - representing 1 output graph,
+                 * block->rpar[0] - xMin value, block->rpar[1] - xMax value,
+                 * block->rpar[2] - yMin value, block->rpar[3] - yMax value
+                 */
 
                 result = pushData(block, j);
                 if (result == FALSE)
@@ -226,16 +219,13 @@ SCICOS_BLOCKS_IMPEXP void cscopxy(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            // Write data to define Ending phase
             fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
-
             freeScoData(block);
             break;
 
         default:
             break;
     }
-    // Close the file pointer
     fclose(filePointer);
 }
 
