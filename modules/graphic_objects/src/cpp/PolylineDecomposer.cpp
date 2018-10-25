@@ -162,7 +162,7 @@ void PolylineDecomposer::getAndWriteVertexToBuffer(float* buffer, int offset, do
         double* xshift, double* yshift, double* zshift, int coordinateMask, double* scale, double* translation, int logMask)
 {
     double coordinate = 0.;
-    
+
     if (coordinateMask & 0x01)
     {
         coordinate = coordinates[vertexIndices[0]];
@@ -218,7 +218,7 @@ void PolylineDecomposer::getAndWriteVertexToBuffer(float* buffer, int offset, do
     {
         buffer[offset + 3] = 1.0;
     }
-    
+
 }
 
 void PolylineDecomposer::fillStairDecompositionVertices(int id, float* buffer, int bufferLength, int elementsSize, int coordinateMask, double* scale, double* translation,

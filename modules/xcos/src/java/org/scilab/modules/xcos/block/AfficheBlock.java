@@ -167,18 +167,16 @@ public final class AfficheBlock extends BasicBlock {
 
                 }
 
+                diag.getModel().setValue(cell, value);
 
+                final mxCellState state = diag.getView().getState(cell);
+                if (state != null) {
+                    state.setLabel(value);
+                }
 
-    diag.getModel().setValue(cell, value);
-
-    final mxCellState state = diag.getView().getState(cell);
-    if (state != null) {
-        state.setLabel(value);
-    }
-
-    diag.getAsComponent().redraw(state);
-}
-}
+                diag.getAsComponent().redraw(state);
+            }
+        }
 
         /**
          * Construct a String representation of the values.
@@ -304,12 +302,9 @@ public final class AfficheBlock extends BasicBlock {
                     value.append(SPACE);
                 }
                 value.append(NEW_LINE);
-
             }
 
             src.setValue(value.toString());
-
-
         }
 
         /**
@@ -329,8 +324,6 @@ public final class AfficheBlock extends BasicBlock {
             if (data00.startsWith(OPENING_BRACKET)) {
                 AbstractElement.incrementIndexes(index, true);
             }
-
-
 
             /*
              * Apply style
@@ -448,7 +441,6 @@ public final class AfficheBlock extends BasicBlock {
         if (GraphicsEnvironment.isHeadless()) {
             return;
         }
-
 
         synchronized (values) {
             values.put(uid, value);

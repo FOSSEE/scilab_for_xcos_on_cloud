@@ -182,7 +182,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             result = pushData(block, u);
             if (result == FALSE)
             {
-                Coserror("%s: unable to push some data.", "cmatview");
+                Coserror("%s: unable to push some data.", "cmat3d");
                 break;
             }
             break;
