@@ -40,17 +40,6 @@ import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphView;
 
-// import packages for file operations
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.ThreadMXBean;
-import java.util.List;
-
 /**
  * Implement the AFFICH_m block
  */
@@ -109,63 +98,6 @@ public final class AfficheBlock extends BasicBlock {
             if (cell != null) {
                 final XcosDiagram diag = Xcos.findParent(cell);
                 final String value = getText(data);
-                
-                // Initialize BufferedWriter and FileWriter
-                BufferedWriter bw = null;
-                FileWriter fw = null;
-                String filename = null ; 
-                final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
-                final int index = jvmName.indexOf('@');
-                // Get the pid of process
-                String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
-
-                if (index < 1) {
-                // part before '@' empty (index = 0) / '@' not found (index = -1)
-                }
-
-                try {
-                    // Refer to the scilab-log file
-                    filename = "scilab-log-"+pid+".txt";
-                }catch (NumberFormatException e) {
-                 // ignore
-                }
-
-                try {
-                    // Open the file in append mode
-                    fw = new FileWriter(filename, true);
-                    bw = new BufferedWriter(fw);
-
-                    // Create content of each line in specified_format
-                    String content = value.toString();
-                    // Replace multiple spaces with a single space 
-                    content = content.replaceAll("\\s+", " ");
-                    // Form content in proper format 
-                    content = pid+" || Block Identifier 20"+content+"\n"; 
-                    // Write the content to file
-                    bw.write(content);
-
-
-                }catch (IOException e) {
-
-                    e.printStackTrace();
-
-                }finally {
-
-                    try {
-
-                        if (bw != null)
-                            bw.close();
-
-                        if (fw != null)
-                            fw.close();
-
-                    }catch (IOException ex) {
-
-                        ex.printStackTrace();
-
-                    }
-
-                }
 
                 diag.getModel().setValue(cell, value);
 
@@ -366,59 +298,6 @@ public final class AfficheBlock extends BasicBlock {
     @Override
     protected void setDefaultValues() {
         super.setDefaultValues();
-
-        // Initialize BufferedWriter and FileWriter
-        BufferedWriter bw = null;
-        FileWriter fw = null;
-        String filename = null ; 
-        final String jvmName = ManagementFactory.getRuntimeMXBean().getName();
-        final int index = jvmName.indexOf('@');
-        // Get the pid of process
-        String pid = (Long.toString(Long.parseLong(jvmName.substring(0, index))));
-
-        if (index < 1) {
-        // part before '@' empty (index = 0) / '@' not found (index = -1)
-        }
-
-        try {
-            // Refer to the scilab-log file
-            filename = "scilab-log-"+pid+".txt";
-        }catch (NumberFormatException e) {
-         // ignore
-        }
-
-        try {
-            // Open the file in append mode
-            fw = new FileWriter(filename, true);
-            bw = new BufferedWriter(fw);
-
-            // Create content for Initialization phase
-            //String content= pid+" || Initialization 20\n"; 
-            // Write the content to file
-            //bw.write(content);
-
-
-        }catch (IOException e) {
-
-            e.printStackTrace();
-
-        }finally {
-
-            try {
-
-                if (bw != null)
-                    bw.close();
-
-                if (fw != null)
-                    fw.close();
-
-            }catch (IOException ex) {
-
-                ex.printStackTrace();
-
-            }
-
-        }
 
         setValue("0.0");
     }
