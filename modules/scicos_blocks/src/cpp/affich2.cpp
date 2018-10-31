@@ -47,9 +47,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
     char pstConv[128];
 
     int processId = getpid();
-    char fileName[25];
-    sprintf(fileName, "scilab-log-%d.txt", processId);
-    FILE *filePointer = fopen(fileName, "a");
+    FILE *filePointer = getLogFilePointer();
     int block_id = 20;
     double time = 0;
 
@@ -152,7 +150,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
         default:
             break;
     }
-    fclose(filePointer);
+    fflush(filePointer);
 }
 
 //

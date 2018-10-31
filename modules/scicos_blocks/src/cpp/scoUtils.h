@@ -38,6 +38,13 @@ int findChildWithKindAt(int parent, int type, const int position);
 BOOL setLabel(int iAxeUID, int _iName, char* pstLabel);
 
 /**
+ * Get the file pointer
+ *
+ * \return the file pointer to the log file
+ */
+FILE *getLogFilePointer(void);
+
+/**
  * get the current time
  *
  * \return the current time in microseconds
