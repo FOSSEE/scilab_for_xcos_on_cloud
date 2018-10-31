@@ -95,6 +95,31 @@ BOOL setLabel(int iAxeUID, int _iName, char* pstLabel)
     return (BOOL) (result && iLabelUID != 0);
 }
 
+# define LOG_FILE_FD 123
+FILE *logFilePointer = NULL;
+
+FILE *getLogFilePointer(void)
+{
+    char filename[25];
+
+    if (logFilePointer == NULL)
+    {
+        logFilePointer = fdopen(LOG_FILE_FD, "a");
+        if (logFilePointer == NULL)
+        {
+            fprintf(stderr, "Could not fdopen %d: %m\n", LOG_FILE_FD);
+            sprintf(filename, "scilab-log-%d.txt", getpid());
+            logFilePointer = fopen(filename, "a");
+            if (logFilePointer == NULL)
+            {
+                fprintf(stderr, "Could not fopen %s: %m\n", filename);
+            }
+        }
+    }
+
+    return logFilePointer;
+}
+
 long getMicrotime(void) {
     struct timeval currentTime;
     gettimeofday(&currentTime, NULL);

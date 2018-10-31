@@ -11,26 +11,18 @@
 //
 
 function block=BARXY_sim(block,flag)
-    //disp("Calling BARXY_sim with flag = "+string(flag))
-
-    // Find the process id of the running scilab instance
     pid = getpid();
-    // Specify the filename for the common log file
-    scilab_filename = 'scilab-log-'+ string(pid) +'.txt';
+    fd = getLogFilePointer();
+    block_id = 11;
 
+    //disp("Calling BARXY_sim with flag = "+string(flag))
     if flag == 4 | flag == 6
         // Initialisation || Re-Init
         // if already exists (stopped) then reuse
         f = findobj("Tag", block.uid);
         if f == [] then
-
-            // Open file in append mode
-            fd = mopen(scilab_filename,'a+');
-            // Adding line for Initialization 
-            mfprintf(fd,'%d || Initialization %d\n', pid, 11);
-            mclose(fd);
-
             f = figure("Tag", block.uid, "Figure_name", "BARXY");
+            mfprintf(fd, '%d || Initialization %d\n', pid, block_id);
         else
             scf(f);
             clf();
@@ -56,15 +48,28 @@ function block=BARXY_sim(block,flag)
         f = findobj("Tag", block.uid);
 
         a = f.children;
-
-        // Open the file in append mode
-        fd = mopen(scilab_filename,'a+');
-        // Block_id of BARXY - 11, Print the co-ordinates of line, Print the name of block and line thickness
-        mfprintf(fd,'%d || Block Identifier %d %f %f %f %f %f %f %f %f %s%s\n', pid, 11, u1(1), u2(1), u1(2), u2(2), block.rpar(1), block.rpar(2), block.rpar(3), block.rpar(4), 'BARXY ', string(block.ipar));
-        mclose(fd);
-
         a.children(1).data = [u1, u2]
 
+        // Block_id of BARXY - 11, Print the co-ordinates of line, Print the name of block and line thickness
+        mfprintf(fd, '%d || Block Identifier %d %f %f %f %f %f %f %f %f %s %s\n', pid, block_id, u1(1), u2(1), u1(2), u2(2), block.rpar(1), block.rpar(2), block.rpar(3), block.rpar(4), 'BARXY', string(block.ipar));
     end
 
+endfunction
+
+function fd=getLogFilePointer()
+    global scilab_fd
+    if scilab_fd == []
+        scilab_filename = "/proc/self/fd/123";
+        [scilab_fd, err] = mopen(scilab_filename, "a");
+        if scilab_fd < 0 | err < 0
+            mprintf("Could not open %s: %d\n", scilab_filename, err);
+            scilab_filename = 'scilab-log-'+ string(getpid()) +'.txt';
+            [scilab_fd, err] = mopen(scilab_filename, "a");
+            if scilab_fd < 0 | err < 0
+                mprintf("Could not open %s: %d\n", scilab_filename, err);
+                scilab_fd = []
+            end
+        end
+    end
+    fd = scilab_fd
 endfunction
