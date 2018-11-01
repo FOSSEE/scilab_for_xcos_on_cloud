@@ -11,8 +11,6 @@
  */
 
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"

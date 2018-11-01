@@ -19,7 +19,6 @@
 * See the file ./license.txt
 */
 /*--------------------------------------------------------------------------*/
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "scicos_print.h"
@@ -30,16 +29,9 @@
 #include "localization.h"
 #include "MALLOC.h"
 #include "dynlib_scicos_blocks.h"
+#include "scicos.h"
+#include "scoUtils.h"
 /*--------------------------------------------------------------------------*/
-#include <sys/time.h>
-/**
- * Returns the current time in microseconds.
- */
-long getMicrotime(){
-	struct timeval currentTime;
-	gettimeofday(&currentTime, NULL);
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-}
 SCICOS_BLOCKS_IMPEXP void writec(int *flag, int *nevprt,
                                  double *t, double xd[],
                                  double x[], int *nx,
@@ -64,6 +56,7 @@ ipar[7:6+lfil] = character codes for file name
     sprintf(fileName, "scilab-log-%d.txt", processId);
     FILE *filePointer = fopen(fileName, "a");
     int block_id = 21;
+
     char str[100], type[4];
     int job = 1, three = 3;
     FILE *fd = NULL;
@@ -116,11 +109,12 @@ ipar[7:6+lfil] = character codes for file name
     {
         F2C(cvstr)(&(ipar[1]), &(ipar[7]), str, &job, sizeof(str));
         str[ipar[1]] = '\0';
-        //writing to the log file
-        long rand=getMicrotime();
-        sprintf(str,"%s%d%ld", str,processId,rand);
+
+        sprintf(str, "%s.%d.%ld.%s", "writec", processId, getMicrotime(), "datas");
         fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());//-1 as no figure uid
-        fprintf(filePointer,"%d %d || %d || %s\n",block_id,processId, get_block_number(),str);
+        fprintf(filePointer, "%d %d || %d || %s\n",
+                block_id, processId, get_block_number(), str);
+
         wcfopen(fd, str, "wb");
         if (!fd )
         {
