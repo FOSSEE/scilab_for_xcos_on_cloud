@@ -11,8 +11,6 @@
  */
 
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "dynlib_scicos_blocks.h"
 #include "scoUtils.h"
@@ -227,7 +225,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 double time = t;
                 double y = u[i];
                 double z = 0;
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f\n",
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
                         block_id, processId,
                         iFigureUID, iAxeUID, iPolylineUID,
                         time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3],
