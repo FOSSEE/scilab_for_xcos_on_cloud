@@ -28,11 +28,9 @@
 #include "localization.h"
 #include "MALLOC.h"
 #include "dynlib_scicos_blocks.h"
+#include "scicos.h"
+#include "scoUtils.h"
 /*--------------------------------------------------------------------------*/
-#include <sys/time.h>
-/**
- * Returns the current time in microseconds.
- */
 SCICOS_BLOCKS_IMPEXP void writeau(int *flag, int *nevprt,
                                   double *t, double xd[],
                                   double x[], int *nx,
@@ -131,15 +129,15 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 4)
     {
-        long rand=getMicrotime();
-	fprintf(filePointer, "%d || Initialization %d\n", processId,  get_block_number());
-        sprintf(str, "audio%d%ld", processId,rand);
-        fprintf(filePointer,"%d %d || %d || %s\n",block_id,processId,get_block_number(),str);
+        sprintf(str, "%s.%d.%ld.%s", "audio", processId, getMicrotime(), "au");
+        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());
+        fprintf(filePointer, "%d %d || %d || %s\n",
+                block_id, processId, get_block_number(), str);
 
         wcfopen(fd, str, "wb");
         if (!fd )
         {
-            scicos_print(_("Could not open file!\n"));
+            scicos_print(_("Could not open /dev/audio!\n"));
             *flag = -3;
             return;
         }
