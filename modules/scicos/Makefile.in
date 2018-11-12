@@ -438,7 +438,7 @@ libscisundials_la_OBJECTS = $(am_libscisundials_la_OBJECTS)
 @OCAML_TRUE@@XCOS_TRUE@	modelicat$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 am__XML2Modelica_SOURCES_DIST = $(srcdir)/src/xml2modelica/xMLTree.ml \
-	$(srcdir)/src/xml2modelica/linenum.mll \
+	$(srcdir)/src/modelica_compiler/linenum.mll \
 	$(srcdir)/src/xml2modelica/stringParser.ml \
 	$(srcdir)/src/xml2modelica/stringLexer.ml \
 	$(srcdir)/src/xml2modelica/xMLParser.ml \
@@ -1146,7 +1146,7 @@ HELP_CHAPTERLANG = en_US fr_FR pt_BR
 ### XML2Modelica
 @OCAML_TRUE@@XCOS_TRUE@XML2Modelica_SOURCES = \
 @OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/xml2modelica/xMLTree.ml \
-@OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/xml2modelica/linenum.mll \
+@OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/modelica_compiler/linenum.mll \
 @OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/xml2modelica/stringParser.ml \
 @OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/xml2modelica/stringLexer.ml \
 @OCAML_TRUE@@XCOS_TRUE@	$(srcdir)/src/xml2modelica/xMLParser.ml \
@@ -3396,10 +3396,10 @@ distclean-local:
 @OCAML_TRUE@@XCOS_TRUE@    ./src/xml2modelica/xMLTree.ml
 @OCAML_TRUE@@XCOS_TRUE@./src/xml2modelica/xMLTree.cmx ./src/xml2modelica/xMLTree.o \
 @OCAML_TRUE@@XCOS_TRUE@    ./src/xml2modelica/xMLTree.cmi : ./src/xml2modelica/xMLTree.ml
-@OCAML_TRUE@@XCOS_TRUE@./src/xml2modelica/linenum.cmo ./src/xml2modelica/linenum.cmi : \
-@OCAML_TRUE@@XCOS_TRUE@    ./src/xml2modelica/linenum.ml
-@OCAML_TRUE@@XCOS_TRUE@./src/xml2modelica/linenum.cmx ./src/xml2modelica/linenum.o \
-@OCAML_TRUE@@XCOS_TRUE@    ./src/xml2modelica/linenum.cmi : ./src/xml2modelica/linenum.ml
+@OCAML_TRUE@@XCOS_TRUE@./src/modelica_compiler/linenum.cmo ./src/modelica_compiler/linenum.cmi : \
+@OCAML_TRUE@@XCOS_TRUE@    ./src/modelica_compiler/linenum.ml
+@OCAML_TRUE@@XCOS_TRUE@./src/modelica_compiler/linenum.cmx ./src/modelica_compiler/linenum.o \
+@OCAML_TRUE@@XCOS_TRUE@    ./src/modelica_compiler/linenum.cmi : ./src/modelica_compiler/linenum.ml
 @OCAML_TRUE@@XCOS_TRUE@./src/xml2modelica/stringParser.cmo ./src/xml2modelica/stringParser.cmi : \
 @OCAML_TRUE@@XCOS_TRUE@    ./src/xml2modelica/stringParser.ml
 @OCAML_TRUE@@XCOS_TRUE@./src/xml2modelica/stringParser.cmx ./src/xml2modelica/stringParser.o \
