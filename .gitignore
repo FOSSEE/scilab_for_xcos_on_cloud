@@ -33,6 +33,7 @@ linenum.ml
 /locale/
 machine.h
 Makefile
+Makefile.orig
 modelicac
 modelicat
 models

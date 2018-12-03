@@ -168,11 +168,7 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
     BOOL result;
 
     int processId = getpid();
-    // Define file pointer to write data to a log file which can used for output generation to the client
-    char fileName[25];
-    sprintf(fileName, "scilab-log-%d.txt", processId);
-    // Open file in append mode
-    FILE *filePointer = fopen(fileName, "a");
+    FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 23;
 
@@ -256,7 +252,7 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
         default:
             break;
     }
-    fclose(filePointer);
+    fflush(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

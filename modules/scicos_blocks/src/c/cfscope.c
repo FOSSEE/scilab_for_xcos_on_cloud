@@ -162,9 +162,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
     BOOL result;
 
     int processId = getpid();
-    char fileName[25];
-    sprintf(fileName, "scilab-log-%d.txt", processId);
-    FILE *filePointer = fopen(fileName, "a");
+    FILE *filePointer = getLogFilePointer();
     int block_id = 3;
 
     switch (flag)
@@ -249,7 +247,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
         default:
             break;
     }
-    fclose(filePointer);
+    fflush(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

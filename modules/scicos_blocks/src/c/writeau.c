@@ -50,9 +50,7 @@ ipar[7:6+lfil] = character codes for file name
 */
 {
     int processId = getpid();
-    char fileName[25];
-    sprintf(fileName, "scilab-log-%d.txt", processId);
-    FILE *filePointer = fopen(fileName, "a");
+    FILE *filePointer = getLogFilePointer();
     int block_id = 22;
     char str[100];
 
@@ -164,7 +162,7 @@ ipar[7:6+lfil] = character codes for file name
         fclose(fd);
         z[2] = 0.0;
     }
-    fclose(filePointer);
+    fflush(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/
