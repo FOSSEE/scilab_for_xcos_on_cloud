@@ -16,7 +16,6 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.scilab.modules.gui.bridge.messagebox.SwingScilabMessageBox;
 import org.scilab.modules.gui.tab.SimpleTab;
 import org.scilab.modules.localization.Messages;
 
@@ -241,72 +240,9 @@ public final class ScilabModalDialog {
                                     String title, ScilabModalDialog.IconType iconType,
                                     ScilabModalDialog.ButtonType buttonType, String checkboxMessage, Action checkboxAction) {
 
-        SwingScilabMessageBox messageBox = new SwingScilabMessageBox();
-        messageBox.setTitle(title);
-        messageBox.setMessage(messages);
+        System.out.println(String.join("\n", messages));
 
-        if (checkboxMessage != null && checkboxAction != null) {
-            messageBox.setCheckbox(checkboxMessage, checkboxAction);
-        }
-
-        String[] labels = null;
-
-        switch (buttonType) {
-            case OK:
-                labels = new String[] { Messages.gettext("OK") };
-                break;
-            case OK_CANCEL:
-                labels = new String[] { Messages.gettext("OK"),
-                                        Messages.gettext("Cancel")
-                                  };
-                break;
-            case YES_NO:
-                labels = new String[] { Messages.gettext("Yes"),
-                                        Messages.gettext("No")
-                                  };
-                break;
-            case YES_NO_CANCEL:
-                labels = new String[] { Messages.gettext("Yes"),
-                                        Messages.gettext("No"), Messages.gettext("Cancel")
-                                  };
-                break;
-            case CANCEL_OR_SAVE_AND_EXECUTE:
-                labels = new String[] { Messages.gettext("Cancel"),
-                                        Messages.gettext("Save and execute")
-                                  };
-                break;
-        }
-
-        messageBox.setButtonsLabels(labels);
-
-        String iconName = null;
-        switch (iconType) {
-            case ERROR_ICON:
-                iconName = "error";
-                break;
-            case INFORMATION_ICON:
-                iconName = "info";
-                break;
-            case PASSWORD_ICON:
-                iconName = "passwd";
-                break;
-            case QUESTION_ICON:
-                iconName = "question";
-                break;
-            case WARNING_ICON:
-                iconName = "warning";
-                break;
-            default:
-                iconName = "scilab";
-                break;
-        }
-
-        messageBox.setIcon(iconName);
-
-        messageBox.setParentForLocation(parent);
-
-        messageBox.displayAndWait();
-        int choice = (messageBox.getSelectedButton() - 1); // zero indexed
+        int choice = 0; // zero indexed
 
         AnswerOption answer = AnswerOption.OK_OPTION;
 
