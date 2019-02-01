@@ -5,7 +5,7 @@
 *.la
 *.lo
 *.o
-*.pc
+scilab.pc
 /*.properties
 /etc/*.properties
 .atoms/
@@ -34,6 +34,10 @@ linenum.ml
 machine.h
 Makefile
 Makefile.orig
+!/modules/functions/scripts/buildmacros/Makefile
+!/modules/intersci/examples/Makefile
+!/modules/javasci/examples/v2/Makefile
+!/thirdparty/docbook/Makefile
 modelicac
 modelicat
 models
@@ -45,6 +49,7 @@ repositories.orig
 SciDocConf.xml
 scilab-log-*.txt
 stack.h
+!/usr/include/openssl/stack.h
 stamp-h1
 /tags
 version.h
