@@ -8,11 +8,14 @@
  * Copyright (C) 2010 - DIGITEO - Bruno JOFRET
  * Copyright (C) 2010-2011 - DIGITEO - Manuel Juliachs
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -27,9 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef _MSC_VER
-#include "strdup_Windows.h"
-#endif
+#include "os_string.h"
 
 #include "InitObjects.h"
 #include "SetProperty.h"
@@ -41,7 +42,7 @@
 #include "HandleManagement.h"
 #include "BasicAlgos.h"
 
-#include "MALLOC.h"             /* MALLOC */
+#include "sci_malloc.h"             /* MALLOC */
 #include "localization.h"
 
 #include "createGraphicObject.h"
@@ -168,6 +169,7 @@ void InitFigureModel(int iFiguremdlUID)
     }
     // ColorMap
     setGraphicObjectProperty(iFiguremdlUID, __GO_COLORMAP__, pdblColorMap, jni_double_vector, 3 * m);
+    FREE(pdblColorMap);
 
     // Parent
     {
@@ -463,10 +465,11 @@ int InitAxesModel()
     for (i = 0; i < defaultNumberTicks; i++)
     {
         sprintf(labelBuffer, "%.1f", tab[i]);
-        stringVector[i] = strdup(labelBuffer);
+        stringVector[i] = os_strdup(labelBuffer);
 
         if (stringVector[i] == NULL)
         {
+            destroyStringArray(stringVector, i);
             return -1;
         }
     }
@@ -488,10 +491,11 @@ int InitAxesModel()
         FREE(stringVector[i]);
 
         sprintf(labelBuffer, "%.1f", tabZTicksLocations[i]);
-        stringVector[i] = strdup(labelBuffer);
+        stringVector[i] = os_strdup(labelBuffer);
 
         if (stringVector[i] == NULL)
         {
+            destroyStringArray(stringVector, defaultNumberTicks);
             return -1;
         }
     }
@@ -699,7 +703,7 @@ default:
 /* allocate and set a new label to default values */
 int initLabel(int iParentObjUID)
 {
-    int iNewLabel = NULL;
+    int iNewLabel = 0;
     int iHidden = 1;
     int autoPosition = 1;
 

@@ -4,11 +4,14 @@
 // Copyright (C) 2012 - DIGITEO - Allan CORNET
 // Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution. The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function atomsGui()
     creation = %f;
@@ -44,9 +47,9 @@ function atomsGui()
         // Menu File:Update List of Packages
         uimenu( ...
         "parent", h, ...
-        "callback", "xinfo(_(''Updating the list of packages. Please wait... until Done.''));" + ...
+        "callback", "gcf().info_message=_(''Updating the list of packages. Please wait... until Done.'');" + ...
         "atomsSystemUpdate();" + ...
-        "xinfo(_(''Update done.''));" , ...
+        "gcf().info_message=_(''Update done.'');" , ...
         "tag", "updatePackages");
 
         // Menu File:Close
@@ -170,7 +173,7 @@ function atomsGui()
         "margins", [5 5 5 5], ...
         "tag", "msgFrame");
 
-        msgText = uicontrol(msgFrame, ....
+        msgText = uicontrol(msgFrame, ...
         "Style", "text", ...
         "HorizontalAlignment", "center", ...
         "VerticalAlignment", "middle", ...
@@ -183,6 +186,7 @@ function atomsGui()
     end //creation
 
     if ~isempty(get("atomsFigure")) then
+        set("atomsFigure", "visible", "on");
         return;
     end
 

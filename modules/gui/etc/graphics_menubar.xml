@@ -16,8 +16,8 @@
                        if ~isempty(%fileToLoad) then
                        xload(%fileToLoad,[SCILAB_FIGURE_ID]);
                        disp(msprintf(gettext("Figure loaded.\n")));
-                       end
-                       clear %fileToLoad'
+                       end;
+                       clear %fileToLoad;'
           type="0"/>
         </submenu>
         <submenu label="&amp;Save..." accelerator="OSSCKEY S" icon="document-save">
@@ -27,11 +27,11 @@
                        if ~isempty(%fileToSave) then
                        if isempty(fileparts(%fileToSave, "extension")) then
                        %fileToSave = %fileToSave + ".scg";
-                       end
+                       end;
                        xsave(%fileToSave, get_figure_handle([SCILAB_FIGURE_ID]));
                        disp(msprintf(gettext("Figure saved.\n")));
-                       end
-                       clear %fileToSave isempty'
+                       end;
+                       clear %fileToSave isempty;'
           type="0"/>
         </submenu>
         <separator/>
@@ -58,7 +58,7 @@
                 type="0"/>
         </submenu>
     </menu>
-    
+
     <menu label="&amp;Tools">
         <submenu label="Show/Hide &amp;Toolbar">
             <callback
@@ -77,12 +77,15 @@
         <submenu label="&amp;Original View" icon="zoom-original">
             <callback instruction='unzoom(get_figure_handle([SCILAB_FIGURE_ID]))' type="0"/>
         </submenu>
+        <submenu label="Reframe to contents" icon="zoom-fit-drawing">
+            <callback instruction='replot(get_figure_handle([SCILAB_FIGURE_ID]))' type="0"/>
+        </submenu>
         <separator/>
         <submenu label="2D/3D &amp;Rotation" icon="transform-rotate">
             <callback instruction="set(get_figure_handle([SCILAB_FIGURE_ID]), 'info_message', 'Right click and drag to rotate.')" type="-2"/>
         </submenu>
     </menu>
-    
+
     <menu label="&amp;Edit">
         <submenu label="&amp;Select as current figure">
             <callback instruction='scf([SCILAB_FIGURE_ID]);' type="0"/>
@@ -111,14 +114,14 @@
         <submenu label="Stop datatip manager">
             <callback instruction='org.scilab.modules.gui.datatip.DatatipManager.stop([SCILAB_FIGURE_ID])' type="3"/>
         </submenu>
-        
+
         <submenu label="Start curve data modification" icon="data_modify">
             <callback instruction='org.scilab.modules.gui.editor.EditorManager.start([SCILAB_FIGURE_ID])' type="3"/>
         </submenu>
         <submenu label="Stop curve data modification">
             <callback instruction='org.scilab.modules.gui.editor.EditorManager.stop([SCILAB_FIGURE_ID])' type="3"/>
         </submenu>
-        
+
         <!--
         <submenu label="Plot Browser">
             <callback instruction="plotbrowser([SCILAB_FIGURE_ID])" type="-2"/>
@@ -130,7 +133,7 @@
         </submenu>
         -->
     </menu>
-    
+
     <!--
   <menu label="&amp;MVC">
     <submenu label="&amp;Log View (Trace all View notifications)">
@@ -147,10 +150,10 @@
     <separator/>
   </menu>
   -->
-    
+
     <menu label="&amp;?">
         <submenu label="&amp;Scilab Help" accelerator="F1" icon="help-browser">
-            <callback instruction='help();' type="0"/>
+            <callback instruction="help('Graphics');" type="0"/>
         </submenu>
         <separator/>
         <submenu label="&amp;About Scilab..." accelerator="shift F1">

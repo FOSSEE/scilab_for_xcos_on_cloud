@@ -14,11 +14,11 @@
 function exeblackhole()
     //initial point
     g_r = 1.1;
-    g_t = 41;
+    g_t = 40;
 
     //initial speed
     g_V    = 1.65;
-    g_Vdir = 165;
+    g_Vdir = 160;
 
     // Figure parameters
     surface_frame_w = 600;     // surface frame width
@@ -161,12 +161,6 @@ endfunction
 // The gui controls builder
 // =============================================================================
 function blackhole_create_gui()
-    //initial values
-    g_t     = 0;
-    g_r     = 0;
-    g_speed = 0;
-    g_Vdir  = 0;
-
     my_figure_handle = get("main_figure");
 
     frame_x      = 25;
@@ -427,7 +421,7 @@ function change_speed(speed)
         speed=slider_speed.Value
         speed=speed*3/100
     end
-    value_speed.String=msprintf("%.0f", speed)
+    value_speed.String=msprintf("%.2f", speed)
     draw_initial_point(0.007+slider_r.Value*(2-0.08)/100, slider_theta.value*360/100, ..
     slider_speed.Value*3/100, slider_dir.value*360/100, %F);
 endfunction
@@ -458,6 +452,7 @@ function start_simu()
     my_figure_handle = get("main_figure");
     fin=my_figure_handle.user_data
     my_figure_handle.user_data=%f
+    set("clear_button", "userdata", %f);
     slider_r     = get("slider_r");
     slider_theta = get("slider_theta");
     slider_speed = get("slider_speed");
@@ -487,16 +482,18 @@ function start_simu()
         end
     end
 
+    if get("clear_button", "userdata") then
+        clear_simu()
+    end
+
     if is_handle_valid(my_figure_handle) then
         my_figure_handle.user_data = %t;
     end
 endfunction
 
 function stop_simu()
-    //stop button callback
-    my_figure_handle = get("main_figure");
-    fin = %T;
-    my_figure_handle.user_data = fin
+    set("main_figure", "userdata", %t);
+    set("clear_button", "userdata", %f);
 endfunction
 
 function clear_simu()
@@ -507,5 +504,8 @@ function clear_simu()
         curAxe = gca();
         traj_handle = curAxe.children(1).children(5);
         traj_handle.data = [0 0 0];
+        return
     end
+    set("main_figure", "userdata", %t);
+    set("clear_button", "userdata", %t);
 endfunction

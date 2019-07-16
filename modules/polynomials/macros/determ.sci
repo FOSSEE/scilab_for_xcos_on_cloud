@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ????-2008 - INRIA - Francois DELBECQUE
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function res=determ(W,k)
@@ -48,24 +51,24 @@ function res=determ(W,k)
     maj = n1*max(degree(W))+1;
 
     if argn(2)==1 then
-        k=1;
+        k = 1;
         while k < maj,
-            k=2*k;
+            k = 2*k;
         end
     end
 
     // Default Values
-    e=0*ones(k,1);
-    e(2)=1;
+    e= zeros(k,1);
+    e(2) = 1;
 
     // Paramètres de clean
     epsa=1.d-10;
     epsr=0;//no relative rounding
 
     if k==1 then
-        ksi=1;
+        ksi = 1;
     else
-        ksi=fft(e,-1);
+        ksi = fft(e,-1);
     end
 
     fi=[];

@@ -1,115 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scicos
- * 
+ *
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="CLKGotoTagVisibility">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+        xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+        xml:id="CLKGotoTagVisibility" xml:lang="en_US">
     <refnamediv>
         <refname>CLKGotoTagVisibility</refname>
         <refpurpose>Define Scope of CLKGOTO tag visibility</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/palettes/CLKGotoTagVisibility.png" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/palettes/CLKGotoTagVisibility.png" align="center"/>
+            </imageobject>
+        </inlinemediaobject>
     </refsection>
+
     <refsection id="Contents_CLKGotoTagVisibility">
         <title>Contents</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="CLKGotoTagVisibility">Define Scope of CLKGOTO tag visibility</link>
-                </para>
+                <xref linkend="Description_CLKGotoTagVisibility">Description</xref>
             </listitem>
             <listitem>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <xref linkend="Palette_CLKGotoTagVisibility">Palette</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Description_CLKGotoTagVisibility">Description</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Dialogbox_CLKGotoTagVisibility">Dialog box</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Defaultproperties_CLKGotoTagVisibility">Default properties</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Interfacingfunction_CLKGotoTagVisibility">Interfacing function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Seealso_CLKGotoTagVisibility">See also</xref>
-                        </para>
-                    </listitem>
-                </itemizedlist>
+                <xref linkend="Dialogbox_CLKGotoTagVisibility">Parameters</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Defaultproperties_CLKGotoTagVisibility">Default properties</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Interfacingfunction_CLKGotoTagVisibility">Interfacing function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Seealso_CLKGotoTagVisibility">See also</xref>
             </listitem>
         </itemizedlist>
     </refsection>
-    <refsection id="Palette_CLKGotoTagVisibility">
-        <title>Palette</title>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <link linkend="Events_pal">Event handling palette</link>
-                </para>
-            </listitem>
-        </itemizedlist>
-    </refsection>
+
     <refsection id="Description_CLKGotoTagVisibility">
         <title>Description</title>
         <para>
-            This block is used in the event case. For more information on how it works please refer to the documentation of the GotoTagVisibility block by clicking on the link in the "See also" field.  
-        </para>
-        <para>
+            This block is used in the event case. For more information on how it works please refer
+            to the documentation of the GotoTagVisibility block by clicking on the link in the
+            "See also" field.
         </para>
     </refsection>
+
     <refsection id="Dialogbox_CLKGotoTagVisibility">
-        <title>Dialog box</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/gui/CLKGotoTagVisibility_gui.gif" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para>
-            
-        </para>
+        <title>Parameters</title>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/gui/CLKGotoTagVisibility_gui.gif" align="center" style="float:right"/>
+                    <!-- align => Javahelp, style => Online -->
+            </imageobject>
+        </inlinemediaobject>
         <itemizedlist>
             <listitem>
                 <para>
@@ -175,7 +141,9 @@
                 </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
+
     <refsection id="Interfacingfunction_CLKGotoTagVisibility">
         <title>Interfacing function</title>
         <itemizedlist>
@@ -184,13 +152,11 @@
             </listitem>
         </itemizedlist>
     </refsection>
-    <refsection id="Seealso_CLKGotoTagVisibility">
+    <refsection id="Seealso_CLKGotoTagVisibility" role="see also">
         <title>See also</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="GotoTagVisibility">GotoTagVisibility - Define Scope of GOTO tag visibility</link>
-                </para>
+                <link linkend="GotoTagVisibility">GotoTagVisibility</link>
             </listitem>
         </itemizedlist>
     </refsection>

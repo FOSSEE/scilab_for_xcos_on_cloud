@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="cotd" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="cotd" xml:lang="pt">
     <refnamediv>
         <refname>cotd</refname>
         <refpurpose>cotangent elemento a elemento do argumento dado em
@@ -18,11 +21,11 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>y=cotd(x)</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>x</term>
@@ -33,7 +36,7 @@
             <varlistentry>
                 <term>y</term>
                 <listitem>
-                    <para>array de reais com as mesmas dimensões que
+                    <para>array de reais com as mesmas dimensÃµes que
                         <literal>x</literal>.
                     </para>
                 </listitem>
@@ -41,27 +44,27 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
-            As entradas <literal>y</literal> são as cotangentes das entradas
+            As entradas <literal>y</literal> sÃ£o as cotangentes das entradas
             correspondentes de <literal>x</literal> supostamente dadas em graus.
             <literal>t=cos(x)./sin(x)</literal>. Para entradas iguais a
             <literal>n*180</literal> com <literal>n</literal> inteiro, os resultados
-            são infinitos, enquanto que com <literal>cotg(n*%pi)</literal> o resultado
-            é grande, pois <literal>%pi</literal> não pode ser representado
+            sÃ£o infinitos, enquanto que com <literal>cotg(n*%pi)</literal> o resultado
+            Ã© grande, pois <literal>%pi</literal> nÃ£o pode ser representado
             exatamente. para entradas iguais a <literal>n*90</literal> com
-            <literal>n</literal> inteiro e ímpar, o resultado é exatamente 0.
+            <literal>n</literal> inteiro e Ã­mpar, o resultado Ã© exatamente 0.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 x=[30 45 60 90];
 cotd(x)
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="cotg">cotg</link>

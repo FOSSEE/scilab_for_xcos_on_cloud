@@ -4,11 +4,14 @@
  * Copyright (C) 2010 - DIGITEO - Vincent COUVERT
  * Copyright (C) 2011 - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 package org.scilab.modules.ui_data.variablebrowser;
@@ -75,7 +78,6 @@ import org.scilab.modules.ui_data.actions.SparseBoolFilteringAction;
 import org.scilab.modules.ui_data.actions.SparseFilteringAction;
 import org.scilab.modules.ui_data.actions.StringFilteringAction;
 import org.scilab.modules.ui_data.actions.TListFilteringAction;
-import org.scilab.modules.ui_data.actions.UncompiledFunctionFilteringAction;
 import org.scilab.modules.ui_data.datatable.SwingTableModel;
 import org.scilab.modules.ui_data.utils.UiDataMessages;
 import org.scilab.modules.ui_data.variableeditor.actions.ExportToCsvAction;
@@ -113,7 +115,6 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
     private CheckBoxMenuItem filterIntegerCheckBox;
     private CheckBoxMenuItem filterGraphicHandlesCheckBox;
     private CheckBoxMenuItem filterStringCheckBox;
-    private CheckBoxMenuItem filterUncompiledFuncCheckBox;
     private CheckBoxMenuItem filtercompiledFuncCheckBox;
     private CheckBoxMenuItem filterFunctionLibCheckBox;
     private CheckBoxMenuItem filterListCheckBox;
@@ -490,9 +491,6 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
         filterGraphicHandlesCheckBox.setChecked(true);
         filterMenu.add(filterGraphicHandlesCheckBox);
 
-        filterUncompiledFuncCheckBox = UncompiledFunctionFilteringAction.createCheckBoxMenu();
-        filterMenu.add(filterUncompiledFuncCheckBox);
-
         filtercompiledFuncCheckBox = CompiledFunctionFilteringAction.createCheckBoxMenu();
         filterMenu.add(filtercompiledFuncCheckBox);
 
@@ -581,10 +579,6 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
 
         if (!filterGraphicHandlesCheckBox.isChecked()) {
             filteredValues.add(ScilabTypeEnum.sci_handles);
-        }
-
-        if (!filterUncompiledFuncCheckBox.isChecked()) {
-            filteredValues.add(ScilabTypeEnum.sci_u_function);
         }
 
         if (!filtercompiledFuncCheckBox.isChecked()) {

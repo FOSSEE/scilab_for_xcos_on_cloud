@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2015-02-14 21:59+0000\n"
+"PO-Revision-Date: 2019-02-12 22:09+0000\n"
 "Last-Translator: Carml <mighty.carml@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: it\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected."
@@ -27,6 +27,10 @@ msgid "%s: Wrong type for input argument #%d: Matrix expected.\n"
 msgstr ""
 "%s: L'argomento in ingresso #%d è di tipo sbagliato: era attesa una "
 "matrice.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Polynomial expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Matrix of strings expected.\n"
@@ -58,9 +62,12 @@ msgstr ""
 "stesse dimensioni.\n"
 
 #, c-format
-msgid "%s: Assertion failed: expected = %s while computed = %s"
+msgid "%s: Arguments #%d and #%d: Same degrees expected.\n"
 msgstr ""
-"%s: Affermazione fallita: era attesa = %s mentre quella calcolata = %s"
+
+#, c-format
+msgid "%s: Assertion failed: expected = %s while computed = %s"
+msgstr "%s: Affermazione fallita: era attesa = %s mentre quella calcolata = %s"
 
 #, c-format
 msgid "%s: Wrong number of input argument: %d expected.\n"
@@ -147,10 +154,8 @@ msgstr ""
 "di booleani.\n"
 
 #, c-format
-msgid "%s: Assertion failed: found false entry in condition = %s"
+msgid "%s: Assertion failed: Entry %%T found in condition(%d).\n"
 msgstr ""
-"%s: Affermazione fallita: è stata trovata una voce falsa nella condizione = "
-"%s."
 
 #, c-format
 msgid ""
@@ -180,6 +185,10 @@ msgid "%s: Cannot close file %s.\n"
 msgstr "%s: Impossibile chiudere il file %s.\n"
 
 #, c-format
+msgid "%s: Assertion failed: Entry %%F found in condition(%d).\n"
+msgstr ""
+
+#, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
 msgstr ""
 "%s: Il numero degli argomenti in ingresso è sbagliato: era atteso da %d a "
@@ -194,8 +203,7 @@ msgstr ""
 "quelli in ingresso %d."
 
 #, c-format
-msgid ""
-"%s: Expected %d rows in input argument #%d, but found %d rows instead."
+msgid "%s: Expected %d rows in input argument #%d, but found %d rows instead."
 msgstr ""
 "%s: Erano attese %d righe nell'argomento in ingresso #%d, ma ve ne sono %d "
 "invece."
@@ -208,21 +216,28 @@ msgstr ""
 "invece."
 
 #, c-format
-msgid "%s is not an installed module"
-msgstr "%s non è un modulo installato"
-
-msgid "error : Input argument sizes are not valid"
-msgstr "errore: le dimensioni dell'argomento in ingresso non sono valide"
+msgid "%s: Wrong value for input argument #%d: Must be real.\n"
+msgstr ""
 
 #, c-format
-msgid "The test %s is not available from the %s module"
-msgstr "Il test %s non è disponibile dal modulo %s"
+msgid "%s: %s is not an installed module"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: test %s not found in the list of "
+"modules"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
 msgstr ""
 "%s: Il numero degli argomenti in ingresso è sbagliato: era atteso da %d a "
 "%d.\n"
+
+#, c-format
+msgid "%s: Cannot create file %s, created file %s instead.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -255,13 +270,13 @@ msgstr ""
 "vettore riga di stringhe o una matrice vuota.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
+msgid "%s: Wrong type for input argument #%d: string expected.\n"
 msgstr ""
 "%s: L'argomento in ingresso #%d è di tipo sbagliato: era attesa una "
 "stringa.\n"
 
 #, c-format
-msgid "%s: Wrong size for input argument #%d: A string expected.\n"
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
 msgstr ""
 "%s: L'argomento in ingresso #%d ha una dimensione sbagliata: era attesa una "
 "stringa.\n"
@@ -309,8 +324,16 @@ msgid "Test passed"
 msgstr "Il test è stato superato"
 
 #, c-format
+msgid "%s is not an installed module"
+msgstr "%s non è un modulo installato"
+
+#, c-format
 msgid "%s: Wrong size for input argument."
 msgstr "%s: La dimensione dell'argomento in ingresso è sbagliata."
+
+#, c-format
+msgid "The test %s is not available from the %s module"
+msgstr "Il test %s non è disponibile dal modulo %s"
 
 #, c-format
 msgid "%s: Wrong number of input arguments."
@@ -319,6 +342,10 @@ msgstr "%s: Il numero degli argomenti in ingresso è sbagliato."
 #, c-format
 msgid "%s is not an installed module or toolbox"
 msgstr "%s non è un modulo o un toolbox installato"
+
+msgid ""
+"option JVM NOT MANDATORY is deprecated, please use CLI SHELL MODE instead"
+msgstr ""
 
 #, c-format
 msgid "The ref file (%s) doesn't exist"

@@ -17,7 +17,7 @@
     </refsection>
     <refsection>
         <title>Exemples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 deff('y=test(a)',['y=sin(a)+1';
                   'y=t1(y)';
                   'y=y+1'])
@@ -33,9 +33,6 @@ test(1)
             </member>
             <member>
                 <link linkend="pause">pause</link>
-            </member>
-            <member>
-                <link linkend="errcatch">errcatch</link>
             </member>
         </simplelist>
     </refsection>

@@ -16,6 +16,7 @@
 /*------------------------------------------------------------*/
 int main(void)
 {
+    void* pvApiCtx = NULL;
 #ifdef _MSC_VER
     if ( StartScilab(NULL, NULL, 0) == FALSE )
 #else
@@ -132,7 +133,7 @@ int main(void)
         {
             for (i = 0 ; i < iRows ; i++)
             {
-                /* Display the formated matrix with same scilab indice */
+                /* Display the formatted matrix with same scilab indice */
                 printf("[%d,%d] = %s\n", j + 1, i + 1, pstData[j * iRows + i]);
             }
         }
@@ -194,7 +195,7 @@ int main(void)
         {
             for (i = 0 ; i < iRows ; i++)
             {
-                /* Display the formated matrix with same scilab indice */
+                /* Display the formatted matrix with same scilab indice */
                 printf("[%d,%d] = %s\n", j + 1, i + 1, pstData[j * iRows + i]);
             }
         }

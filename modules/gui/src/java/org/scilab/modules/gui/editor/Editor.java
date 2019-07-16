@@ -3,17 +3,23 @@
  * Copyright (C) 2012 - Pedro Arthur dos S. Souza
  * Copyright (C) 2012 - Caio Lucas dos S. Souza
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
 package org.scilab.modules.gui.editor;
 
 
+import org.scilab.modules.renderer.utils.CommonHandler;
+import org.scilab.modules.renderer.utils.EntityPicker;
+import org.scilab.modules.renderer.utils.AxesHandler;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -27,10 +33,10 @@ import javax.swing.JPopupMenu;
 import org.scilab.modules.gui.datatip.DatatipManager;
 import org.scilab.modules.gui.editor.ScilabClipboard;
 import org.scilab.modules.gui.editor.SystemClipboard;
-import org.scilab.modules.gui.editor.PolylineHandler;
+import org.scilab.modules.renderer.utils.PolylineHandler;
 import org.scilab.modules.gui.editor.GEDPicker;
 import org.scilab.modules.gui.editor.LabelHandler;
-import org.scilab.modules.gui.editor.LegendHandler;
+import org.scilab.modules.renderer.utils.LegendHandler;
 import org.scilab.modules.gui.editor.action.EditorHistory;
 import org.scilab.modules.gui.editor.action.ActionDelete;
 import org.scilab.modules.gui.editor.action.ActionLegend;
@@ -62,10 +68,11 @@ import org.scilab.modules.action_binding.highlevel.ScilabInterpreterManagement;
 public class Editor {
 
     JPopupMenu menu;
-    JMenuItem copy, copyStyle, cut, paste, pasteStyle, delete, clear, hide, unhide, clipboardCopy, labelX, labelY, labelZ, insert, remove, ged, editdata, undo, redo;
+    JMenuItem copy, copyStyle, cut, paste, pasteStyle, delete, clear, hide, unhide, clipboardCopy, labelX, labelY, labelZ, title, insert, remove, ged, editdata, undo, redo;
     JMenu labels, legends;
 
     EntityPicker.LegendInfo selectedLegend = null;
+    EntityPicker.SurfaceInfo selectedSurface = null;
     Integer selected = null;
     Integer figureUid = null;
     Integer[] lastClick = { 0, 0 };
@@ -90,10 +97,10 @@ public class Editor {
         entityPicker = new EntityPicker();
         dataEditor = new DataEditor();
         dataEditor.setLeaveAction(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    leaveDataEditor();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                leaveDataEditor();
+            }
+        });
     }
 
     /**
@@ -158,35 +165,35 @@ public class Editor {
 
         if (!dataEditEnabled) {
             switch (event.getClickCount()) {
-            case 1:
-                setSelected(tryPickAnyObject(lastClick));
-                break;
-            case 2:
-                /*there is a polyline selected? if yes start dataEditor*/
-                if (selected != null && selectedType == SelectionType.POLYLINE && dataModifyEnabled) {
-                    enterDataEditor();
-                }
-                /*on double click over a legend or label open dialog*/
-                else if (selectedLegend != null) {
-                    onClickInsert(selectedLegend.polyline);
-                } else {
-                    /*try pick a label and open the dialog*/
-                    onClickLabel(EntityPicker.pickLabel(figureUid, lastClick));
-                }
-                break;
-            default:
-                break;
+                case 1:
+                    setSelected(tryPickAnyObject(lastClick));
+                    break;
+                case 2:
+                    /*there is a polyline selected? if yes start dataEditor*/
+                    if (selected != null && selectedType == SelectionType.POLYLINE && dataModifyEnabled) {
+                        enterDataEditor();
+                    }
+                    /*on double click over a legend or label open dialog*/
+                    else if (selectedLegend != null) {
+                        onClickInsert(selectedLegend.polyline);
+                    } else {
+                        /*try pick a label and open the dialog*/
+                        onClickLabel(EntityPicker.pickLabel(figureUid, lastClick));
+                    }
+                    break;
+                default:
+                    break;
             }
         } else { /*data editor is enabled, pass event to it*/
             switch (event.getClickCount()) {
-            case 1:
-                dataEditor.onLeftMouseDown(event);
-                break;
-            case 2:
-                dataEditor.onLeftDoubleClick(event);
-                break;
-            default:
-                break;
+                case 1:
+                    dataEditor.onLeftMouseDown(event);
+                    break;
+                case 2:
+                    dataEditor.onLeftDoubleClick(event);
+                    break;
+                default:
+                    break;
             }
         }
         dragClick[0] = lastClick[0];
@@ -238,46 +245,46 @@ public class Editor {
 
         if (event.isControlDown()) {
             switch (event.getKeyCode()) {
-            case KeyEvent.VK_C:
-                if (getSelected() != null) {
-                    onClickCopy();
-                }
-                break;
-            case KeyEvent.VK_V:
-                if (ScilabClipboard.getInstance().canPaste()) {
-                    onClickPaste();
-                }
-                break;
-            case KeyEvent.VK_X:
-                onClickCut();
-                break;
-            case KeyEvent.VK_Z:
-                if (editorHistory.isUndoEnabled()) {
-                    onClickUndo();
-                }
-                break;
-            case KeyEvent.VK_N:
-                try {
-                    ScilabInterpreterManagement.asynchronousScilabExec(null, "scf();");
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-                break;
-            default:
-                break;
+                case KeyEvent.VK_C:
+                    if (getSelected() != null) {
+                        onClickCopy();
+                    }
+                    break;
+                case KeyEvent.VK_V:
+                    if (ScilabClipboard.getInstance().canPaste()) {
+                        onClickPaste();
+                    }
+                    break;
+                case KeyEvent.VK_X:
+                    onClickCut();
+                    break;
+                case KeyEvent.VK_Z:
+                    if (editorHistory.isUndoEnabled()) {
+                        onClickUndo();
+                    }
+                    break;
+                case KeyEvent.VK_N:
+                    try {
+                        ScilabInterpreterManagement.asynchronousScilabExec(null, "scf();");
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
+                    break;
+                default:
+                    break;
             }
         } else {
             switch (event.getKeyCode()) {
-            case KeyEvent.VK_DELETE:
-                if (!dataEditEnabled) {
-                    onClickDelete();
-                }
-                break;
-            case KeyEvent.VK_ESCAPE:
-                leaveDataEditor();
-                break;
-            default:
-                break;
+                case KeyEvent.VK_DELETE:
+                    if (!dataEditEnabled) {
+                        onClickDelete();
+                    }
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    leaveDataEditor();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -301,20 +308,22 @@ public class Editor {
         paste.setToolTipText(Messages.gettext("Paste copied object on this figure"));
         delete = new JMenuItem(Messages.gettext("Delete"));
         delete.setToolTipText(Messages.gettext("Delete selected object"));
-        clear = new JMenuItem(Messages.gettext("Clear"));
-        clear.setToolTipText(Messages.gettext("Clears the figure"));
+        clear = new JMenuItem(Messages.gettext("Clear axes"));
+        clear.setToolTipText(Messages.gettext("Delete axes contents and labels"));
         hide = new JMenuItem(Messages.gettext("Hide"));
         hide.setToolTipText(Messages.gettext("Hide selected object"));
         unhide = new JMenuItem(Messages.gettext("Unhide all"));
         unhide.setToolTipText(Messages.gettext("Unhide all objects"));
         clipboardCopy = new JMenuItem(Messages.gettext("Copy to Clipboard"));
         clipboardCopy.setToolTipText(Messages.gettext("Copy figure to system clipboard"));
+        title = new JMenuItem(Messages.gettext("Title"));
+        title.setToolTipText(Messages.gettext("Set the axes main title"));
         labelX = new JMenuItem(Messages.gettext("Label X"));
-        labelX.setToolTipText(Messages.gettext("Insert a label in X axis"));
+        labelX.setToolTipText(Messages.gettext("Set the X axis label"));
         labelY = new JMenuItem(Messages.gettext("Label Y"));
-        labelY.setToolTipText(Messages.gettext("Insert a label in Y axis"));
+        labelY.setToolTipText(Messages.gettext("Set the Y axis label"));
         labelZ = new JMenuItem(Messages.gettext("Label Z"));
-        labelZ.setToolTipText(Messages.gettext("Insert a label in Z axis"));
+        labelZ.setToolTipText(Messages.gettext("Set the Z axis label"));
         insert = new JMenuItem(Messages.gettext("Insert"));
         insert.setToolTipText(Messages.gettext("Insert a legend into the selected curve"));
         remove = new JMenuItem(Messages.gettext("Remove"));
@@ -333,123 +342,129 @@ public class Editor {
         pasteStyle.setToolTipText(Messages.gettext("Paste the copied style on these axes"));
 
         copy.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickCopy();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickCopy();
+            }
+        });
 
         cut.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickCut();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickCut();
+            }
+        });
 
         paste.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickPaste();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickPaste();
+            }
+        });
 
         delete.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickDelete();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickDelete();
+            }
+        });
 
         clear.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickClear();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickClear();
+            }
+        });
 
         hide.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickHide();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickHide();
+            }
+        });
 
         unhide.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickUnhide();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickUnhide();
+            }
+        });
 
         clipboardCopy.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickCCopy();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickCCopy();
+            }
+        });
 
         labelX.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickLabel(AxesHandler.axisTo.__X__);
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickLabel(AxesHandler.axisTo.__X__);
+            }
+        });
 
         labelY.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickLabel(AxesHandler.axisTo.__Y__);
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickLabel(AxesHandler.axisTo.__Y__);
+            }
+        });
 
         labelZ.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickLabel(AxesHandler.axisTo.__Z__);
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickLabel(AxesHandler.axisTo.__Z__);
+            }
+        });
+        title.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickLabel(AxesHandler.axisTo.__TITLE__);
+            }
+        });
 
         insert.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickInsert(getSelected());
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickInsert(getSelected());
+            }
+        });
 
         remove.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickRemove();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickRemove();
+            }
+        });
 
         ged.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickGED();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickGED();
+            }
+        });
 
         editdata.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    setDataModifyEnabled(true);
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                setDataModifyEnabled(true);
+            }
+        });
 
         undo.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickUndo();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickUndo();
+            }
+        });
 
         redo.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickRedo();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickRedo();
+            }
+        });
 
         copyStyle.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickCopyStyle();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickCopyStyle();
+            }
+        });
 
         pasteStyle.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    onClickPasteStyle();
-                }
-            });
+            public void actionPerformed(ActionEvent actionEvent) {
+                onClickPasteStyle();
+            }
+        });
 
 
         labels.add(labelX);
         labels.add(labelY);
         labels.add(labelZ);
+        labels.add(title);
         legends.add(insert);
         legends.add(remove);
         menu.add(copy);
@@ -570,8 +585,8 @@ public class Editor {
         Integer oldFigure = CommonHandler.getParentFigure(currentObject);
         if (!CommonHandler.cmpColorMap(figureUid, oldFigure)) {
             String msg =  "The colormap from source figure seems to be different from the destination figure." +
-                "\nThis may influence the final appearance from the object." +
-                "\nDo you want copy the color map too?";
+                          "\nThis may influence the final appearance from the object." +
+                          "\nDo you want copy the color map too?";
             int i = JOptionPane.showConfirmDialog(dialogComponent, Messages.gettext(msg), Messages.gettext("Warning"), JOptionPane.YES_NO_OPTION);
 
             if (i == JOptionPane.YES_OPTION) {
@@ -657,13 +672,13 @@ public class Editor {
         if (axes != null && axis != null) {
             String text = LabelHandler.getLabelText(axes, axis);
             String s = (String)JOptionPane.showInputDialog(
-                dialogComponent,
-                Messages.gettext("Enter the text"),
-                Messages.gettext("Set label text"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                text);
+                           dialogComponent,
+                           Messages.gettext("Enter the text"),
+                           Messages.gettext("Set label text"),
+                           JOptionPane.PLAIN_MESSAGE,
+                           null,
+                           null,
+                           text);
             if (s != null) {
                 String tmp[] = {s};
                 String[] oldText = {text};
@@ -682,13 +697,13 @@ public class Editor {
         if (axes != null) {
             String text = LegendHandler.getLegendText(axes, polyline);
             String s = (String)JOptionPane.showInputDialog(
-                dialogComponent,
-                Messages.gettext("Enter the text"),
-                Messages.gettext("Set legend text"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                text);
+                           dialogComponent,
+                           Messages.gettext("Enter the text"),
+                           Messages.gettext("Set legend text"),
+                           JOptionPane.PLAIN_MESSAGE,
+                           null,
+                           null,
+                           text);
             if (s != null && !s.equals(text)) {
                 Integer legend = LegendHandler.searchLegend(axes);
                 Integer[] links = LegendHandler.getLinks(legend);
@@ -776,8 +791,8 @@ public class Editor {
         Integer axes = AxesHandler.clickedAxes(figureUid, lastClick);
         if (!AxesHandler.isAxesEmpty(axes)) {
             String msg =  "The axes which the style was copied is not in CubeView" +
-                "\nIf you don't copy the data bounds the view angles can appear different" +
-                "\nDo you want copy the data bounds too?(it can shrink/stretch the current view)";
+                          "\nIf you don't copy the data bounds the view angles can appear different" +
+                          "\nDo you want copy the data bounds too?(it can shrink/stretch the current view)";
             int i = JOptionPane.showConfirmDialog(dialogComponent, Messages.gettext(msg), Messages.gettext("Warning"), JOptionPane.YES_NO_OPTION);
 
             if (i == JOptionPane.NO_OPTION) {
@@ -805,19 +820,19 @@ public class Editor {
         if (selectedLegend != null) {
             selectedType = SelectionType.LEGEND;
             return selectedLegend.legend;
-        } else {
-            /*try pick a polyline*/
-            Integer picked = entityPicker.pick(figureUid, pos[0], pos[1]);
-            if (picked != null) {
-                selectedType = SelectionType.POLYLINE;
-                return picked;
-            } else {
-                picked = entityPicker.pickSurface(figureUid, pos);
-                if (picked != null) {
-                    selectedType = SelectionType.SURFACE;
-                }
-                return picked;
-            }
         }
+        /*try pick a polyline*/
+        Integer picked = entityPicker.pick(figureUid, pos[0], pos[1]);
+        if (picked != null) {
+            selectedType = SelectionType.POLYLINE;
+            return picked;
+        }
+        /* try pick a surface */
+        selectedSurface = entityPicker.pickSurface(figureUid, pos);
+        if (selectedSurface != null && selectedSurface.surface != null) {
+            selectedType = SelectionType.SURFACE;
+            return selectedSurface.surface;
+        }
+        return null;
     }
 }

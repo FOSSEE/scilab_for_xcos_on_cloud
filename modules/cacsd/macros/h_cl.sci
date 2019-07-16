@@ -1,10 +1,13 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA - F. Delebecque
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function Aclosed=h_cl(P,r,K)
     //[Aclosed]=h_cl(P,r,K)
@@ -48,13 +51,10 @@ function Aclosed=h_cl(P,r,K)
     [Ac,Bc,Cc,Dc]=abcd(K);
     [n,pp]=size(B2);[ndc1,ndc2]=size(Dc);[nd1,nd2]=size(D22);
     [m,q]=size(Bc);
-    Bw=[B2,0*ones(n,ndc2);
-    0*ones(m,pp),Bc];
+    Bw=[B2, zeros(n,ndc2); zeros(m,pp), Bc];
     [n1,m2]=size(Cc);
     [n2,m1]=size(C2);
-    Cw=[0*ones(ndc1,m1),Cc;
-    C2,0*ones(n2,m2)];
-    Aclosed=[A, 0*ones(n,m);
-    0*ones(m,n),Ac]+...
-    Bw*inv([eye(ndc1,ndc1),-Dc;-D22,eye(nd1,nd1)])*Cw;
+    Cw=[zeros(ndc1,m1), Cc;  C2, zeros(n2,m2)];
+    Aclosed=[A, zeros(n,m); zeros(m,n), Ac] +...
+      Bw*inv([eye(ndc1,ndc1),-Dc;-D22,eye(nd1,nd1)])*Cw;
 endfunction

@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ???? - INRIA - Scilab
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function tree=%cc_cell2sci(tree)
 
@@ -37,13 +40,13 @@ function tree=%cc_cell2sci(tree)
         // Second operand is a rc or a +
         op=tree.operands(2)
         for kd2=1:dim2-1
-            for ki=lstsize(INFER):-1:1
+            for ki = size(INFER):-1:1
                 INFER(ki+1)=INFER(ki)
             end
             INFER(1)=op.operands(2).infer
             op=op.operands(1)
         end
-        for ki=lstsize(INFER):-1:1
+        for ki = size(INFER):-1:1
             INFER(ki+1)=INFER(ki)
         end
         INFER(1)=op.infer

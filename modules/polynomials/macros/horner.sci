@@ -1,11 +1,13 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ????-2008 - INRIA
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function [r] = horner(p,x)
@@ -29,12 +31,11 @@ function [r] = horner(p,x)
         error(msprintf(gettext("%s: Wrong number of input argument(s): %d expected.\n"),"horner",2))
     end
 
-    if (size(x, "*") == 0 | size(p, "*") == 0) then
+    tp = type(p)
+    if size(x, "*") == 0 | (tp~=129 & size(p, "*") == 0) then
         r = []
         return
     end
-
-    tp = type(p)
 
     if (tp <= 2) then
         // tp <= 2 <=> matrix of reals, complexes or polynomials
@@ -52,13 +53,13 @@ function [r] = horner(p,x)
             // special case: p = 1x1 polynomial, x = matrix
             cp = coeff(p)
             r = cp($) * ones(x)
-            for (k = degree(p) : -1 : 1)
+            for (k = max(0,degree(p)) : -1 : 1)
                 r = r .* x + cp(k)
             end
 
         elseif (n*mx == 1)
             // p = one column, x = one row
-            nd = max(degree(p));
+            nd = max(0,max(degree(p)));
             r = zeros(p) * x;
             for (k = nd : -1: 0)
                 c = coeff(p, k);
@@ -67,7 +68,7 @@ function [r] = horner(p,x)
 
         elseif (m*nx == 1)
             // p = one row, x = one column
-            nd = max(degree(p));
+            nd = max(0,max(degree(p)));
             r = x * zeros(p);
             for (k = nd : -1: 0)
                 c = coeff(p, k);
@@ -76,7 +77,7 @@ function [r] = horner(p,x)
 
         elseif (mx*nx == 1)
             // p = matrix, x = scalar
-            nd = max(degree(p));
+            nd = max(0,max(degree(p)));
             r = zeros(p);
             for (k = nd : -1: 0)
                 c = coeff(p, k);
@@ -90,7 +91,7 @@ function [r] = horner(p,x)
                 rk = []
                 for (k = 1 : n)
                     plk = p(l,k)
-                    d = degree(plk)
+                    d = max(0,degree(plk))
                     rlk = coeff(plk,d) * ones(x); // for the case horner(1,x)
                     for (kk = 1 : d)
                         rlk = rlk .* x + coeff(plk,d-kk)
@@ -110,7 +111,7 @@ function [r] = horner(p,x)
 
     elseif (tp == 129) then
         // implicit polynomial for indexing
-        r = horner(p(:),x)
+        r = horner([p(1) p(2) p(3)], x)
         r = r(1) : r(2) : r(3)
 
     else

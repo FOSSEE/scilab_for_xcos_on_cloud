@@ -2,17 +2,20 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010-2011 - DIGITEO - Allan CORNET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 #include <string.h>
 #include <stdio.h>
 #include "csvRead.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 #include "freeArrayOfString.h"
 #include "mopen.h"
 #include "mgetl.h"
@@ -20,15 +23,14 @@
 #include "expandPathVariable.h"
 #include "FileExist.h"
 #include "mclose.h"
-#include "warningmode.h"
+#include "configvariable_interface.h"
 #include "pcre_private.h"
 #include "sciprint.h"
 #include "splitLine.h"
-#include "strsubst.h"
-#if _MSC_VER
-#include "strdup_windows.h"
-#endif
+#include "os_string.h"
 #include "csvDefault.h"
+#include "strsubst.h"
+#include "Sciwarning.h"
 // =============================================================================
 #if _MSC_VER
 #define READ_ONLY_TEXT_MODE "rt"
@@ -51,16 +53,16 @@ static char **removeAllBlankLines(const char **lines, int *sizelines);
 // =============================================================================
 csvResult* csvRead(const char *filename, const char *separator, const char *decimal, const char **toreplace, int sizetoreplace, const char *regexpcomments, int header)
 {
-    char *expandedFilename = NULL;
+    wchar_t *expandedFilename = NULL;
+    wchar_t *wideFilename = NULL;
     csvResult *result = NULL;
     int fd = 0;
     int f_swap = 0;
     double res = 0.0;
     int errMOPEN = MOPEN_INVALID_STATUS;
-    int errMGETL = MGETL_ERROR;
-    double dErrClose = 0.;
-    char **lines = NULL;
-    int nblines = 0;
+    wchar_t **pwstLines = NULL;
+    char **pstLines = NULL;
+    int nbLines = 0;
     char **replacedInLines = NULL;
     char **pComments = NULL;
     int nbComments = 0;
@@ -70,8 +72,11 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
         return NULL;
     }
 
-    expandedFilename = expandPathVariable((char*)filename);
-    if (!FileExist(expandedFilename))
+    wideFilename = to_wide_string((char*)filename);
+    expandedFilename = expandPathVariableW(wideFilename);
+    FREE(wideFilename);
+
+    if (!FileExistW(expandedFilename))
     {
         result = (csvResult*)(MALLOC(sizeof(csvResult)));
         if (result)
@@ -88,8 +93,12 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
         return result;
     }
 
-    C2F(mopen)(&fd, expandedFilename, (char*)READ_ONLY_TEXT_MODE, &f_swap, &res, &errMOPEN);
-    FREE(expandedFilename);
+    errMOPEN = mopen(expandedFilename, L"rt", f_swap, &fd); // rt = read only
+    if (expandedFilename)
+    {
+        FREE(expandedFilename);
+        expandedFilename = NULL;
+    }
 
     if (errMOPEN != MOPEN_NO_ERROR)
     {
@@ -109,20 +118,27 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
 
     if (header != 0)
     {
-        mgetl(fd, header, &nblines, &errMGETL);
+        wchar_t **pwstHeaderLines = NULL;
+        mgetl(fd, header, &pwstHeaderLines);
+        FREE(pwstHeaderLines);
     }
-    lines = mgetl(fd, -1, &nblines, &errMGETL);
 
-    C2F(mclose)(&fd, &dErrClose);
+    nbLines = mgetl(fd, -1, &pwstLines);
+    mclose(fd);
 
-    if (errMGETL != MGETL_NO_ERROR)
+    if (nbLines >= 0)
     {
-        if (lines)
+        int i = 0;
+        pstLines = (char**)MALLOC(sizeof(char*) * nbLines);
+        for (i = 0 ; i < nbLines ; i++)
         {
-            freeArrayOfString(lines, nblines);
-            lines = NULL;
+            pstLines[i] = wide_string_to_UTF8(pwstLines[i]);
         }
-
+        freeArrayOfWideString(pwstLines, nbLines);
+        pwstLines = NULL;
+    }
+    else
+    {
         result = (csvResult*)(MALLOC(sizeof(csvResult)));
         if (result)
         {
@@ -140,7 +156,7 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
     {
         int iErr = 0;
 
-        pComments = extractComments((const char**)lines, nblines, (const char*)regexpcomments, &nbComments, &iErr);
+        pComments = extractComments((const char**)pstLines, nbLines, regexpcomments, &nbComments, &iErr);
 
         if ((iErr == CAN_NOT_COMPILE_PATTERN) || (iErr == DELIMITER_NOT_ALPHANUMERIC))
         {
@@ -158,6 +174,7 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
                 result->pstrComments = NULL;
                 result->nbComments = 0;
             }
+            freeArrayOfString(pstLines, nbLines);
             return result;
         }
 
@@ -167,12 +184,17 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
             int nbCleanedLines = 0;
             int i = 0;
 
-            pCleanedLines = removeComments((const char**)lines, nblines, (const char*)regexpcomments, &nbCleanedLines, &iErr);
+            pCleanedLines = removeComments((const char**)pstLines, nbLines, (const char*)regexpcomments, &nbCleanedLines, &iErr);
             if (pCleanedLines)
             {
-                FREE(lines);
-                lines = pCleanedLines;
-                nblines = nbCleanedLines;
+                if (pwstLines)
+                {
+                    freeArrayOfWideString(pwstLines, nbLines);
+                    pwstLines = NULL;
+                }
+                FREE(pstLines);
+                pstLines = pCleanedLines;
+                nbLines = nbCleanedLines;
             }
 
         }
@@ -180,16 +202,17 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
 
     if (toreplace && (sizetoreplace > 0))
     {
-        replacedInLines = replaceStrings((const char**)lines, nblines, toreplace, sizetoreplace);
+        replacedInLines = replaceStrings((const char**)pstLines, nbLines, toreplace, sizetoreplace);
         if (replacedInLines)
         {
-            freeArrayOfString(lines, nblines);
-            lines = replacedInLines;
+            freeArrayOfString(pstLines, nbLines);
+            pstLines = replacedInLines;
         }
     }
 
-    result = csvTextScan((const char**)lines, nblines, (const char*)separator, (const char*)decimal);
-    freeArrayOfString(lines, nblines);
+    result = csvTextScan((const char**)pstLines, nbLines, (const char*)separator, (const char*)decimal);
+    freeArrayOfString(pstLines, nbLines);
+    freeArrayOfWideString(pwstLines, nbLines);
 
     if (result)
     {
@@ -200,7 +223,6 @@ csvResult* csvRead(const char *filename, const char *separator, const char *deci
     {
         freeArrayOfString(pComments, nbComments);
     }
-
 
     return result;
 }
@@ -353,11 +375,7 @@ static int getNumbersOfColumnsInLines(const char **lines, int sizelines,
             {
                 if (previousNbColumns != NbColumns)
                 {
-                    if (getWarningMode())
-                    {
-                        sciprint(_("%s: Inconsistency found in the columns. At line %d, found %d columns while the previous had %d.\n"), _("Warning"), i + 1, NbColumns, previousNbColumns);
-                    }
-
+                    Sciwarning(_("%s: Inconsistency found in the columns. At line %d, found %d columns while the previous had %d.\n"), _("Warning"), i + 1, NbColumns, previousNbColumns);
                     return 0;
                 }
             }
@@ -424,7 +442,7 @@ static char **getStringsFromLines(const char **lines, int sizelines,
             if (lineStrings == NULL)
             {
                 lineStrings = (char**)MALLOC(sizeof(char*) * 1);
-                lineStrings[0] = strdup(lines[i]);
+                lineStrings[0] = os_strdup(lines[i]);
                 nbTokens = 1;
             }
 
@@ -440,7 +458,7 @@ static char **getStringsFromLines(const char **lines, int sizelines,
 
                 if (!decimal)
                 {
-                    results[i + n * j] = strdup(lineStrings[j]);
+                    results[i + n * j] = os_strdup(lineStrings[j]);
                 }
                 else
                 {
@@ -501,7 +519,7 @@ static char **removeEmptyLinesAtTheEnd(const char **lines, int *sizelines)
             {
                 for (i = 0; i < *sizelines; i++)
                 {
-                    returnedLines[i] = strdup(lines[i]);
+                    returnedLines[i] = os_strdup(lines[i]);
                 }
             }
         }
@@ -540,7 +558,7 @@ static char **removeAllBlankLines(const char **lines, int *sizelines)
 
                     if (returnedLines)
                     {
-                        returnedLines[nbLines - 1] = strdup(lines[i]);
+                        returnedLines[nbLines - 1] = os_strdup(lines[i]);
                     }
                     else
                     {
@@ -574,21 +592,21 @@ static char *stripCharacters(const char *line)
                 }
                 else
                 {
-                    returnedLine = strdup(line);
+                    returnedLine = os_strdup(line);
                 }
                 FREE(tmpLineWithoutLF);
                 tmpLineWithoutLF = NULL;
             }
             else
             {
-                returnedLine = strdup(line);
+                returnedLine = os_strdup(line);
             }
             FREE(tmpLineWithoutTab);
             tmpLineWithoutTab = NULL;
         }
         else
         {
-            returnedLine = strdup(line);
+            returnedLine = os_strdup(line);
         }
     }
 
@@ -613,7 +631,7 @@ static char **replaceStrings(const char **lines, int nbLines, const char **torep
             int j = 0;
             for (j = 0; j < nbLines; j++)
             {
-                replacedStrings[j] = strdup(lines[j]);
+                replacedStrings[j] = os_strdup(lines[j]);
             }
             // Make replacements within the target replacedStrings.
             for (i = 0; i < nr; i++)
@@ -671,7 +689,7 @@ static char **extractComments(const char **lines, int nbLines,
                 *iErr = 1;
                 return NULL;
             }
-            pComments[(*nbcomments) - 1] = strdup(lines[i]);
+            pComments[(*nbcomments) - 1] = os_strdup(lines[i]);
         }
     }
 

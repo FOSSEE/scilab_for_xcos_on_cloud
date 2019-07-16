@@ -1,40 +1,43 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Fabrice Leray
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="LineSpec" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="LineSpec" xml:lang="pt">
     <refnamediv>
         <refname>LineSpec</refname>
-        <refpurpose>Customização rápida de linhas que aparecem em um
-            esboço
+        <refpurpose>CustomizaÃ§Ã£o rÃ¡pida de linhas que aparecem em um
+            esboÃ§o
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
-        <synopsis>    Nenhuma. LineSpec é um argumento opcional que pode ser utilizado dentro de um comando plot para customizar os aspectos de cada linha nova. Deve ser fornecido um string concatenado contendo as informações sobre cor, estilo de linha e marcas. É muito útil para especificar de forma rápida estas propriedades de linha básicas. 
-            Para especificar uma linha vermelha de traço longo com marcas de rombo, o string pode ser 'r--diam'. Como você pode ver, não é necessário escrita completa de cada de cada valor de propriedade, mas o string, que é uma concatenação (em qualquer ordem destas três propriedades), não pode conter ambigüidade. Além disso, a especificação de strings não diferencia letras maiúsculas de minúsculas. 
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
+        <synopsis>    Nenhuma. LineSpec Ã© um argumento opcional que pode ser utilizado dentro de um comando plot para customizar os aspectos de cada linha nova. Deve ser fornecido um string concatenado contendo as informaÃ§Ãµes sobre cor, estilo de linha e marcas. Ã‰ muito Ãºtil para especificar de forma rÃ¡pida estas propriedades de linha bÃ¡sicas.
+            Para especificar uma linha vermelha de traÃ§o longo com marcas de rombo, o string pode ser 'r--diam'. Como vocÃª pode ver, nÃ£o Ã© necessÃ¡rio escrita completa de cada de cada valor de propriedade, mas o string, que Ã© uma concatenaÃ§Ã£o (em qualquer ordem destas trÃªs propriedades), nÃ£o pode conter ambigÃ¼idade. AlÃ©m disso, a especificaÃ§Ã£o de strings nÃ£o diferencia letras maiÃºsculas de minÃºsculas.
         </synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
-            Aqui está uma lista completa dos tipos <literal>LineSpec</literal>
-            que você pode especificar (utilizando <link linkend="plot">plot</link>).
+            Aqui estÃ¡ uma lista completa dos tipos <literal>LineSpec</literal>
+            que vocÃª pode especificar (utilizando <link linkend="plot">plot</link>).
         </para>
         <variablelist>
             <varlistentry>
                 <term>LineStyle:</term>
                 <listitem>
-                    <para>um string definindo o estilo de linha. Esta propriedade está
-                        ligada à propriedade <literal>line_style</literal> do objeto (ver
+                    <para>um string definindo o estilo de linha. Esta propriedade estÃ¡
+                        ligada Ã  propriedade <literal>line_style</literal> do objeto (ver
                         <link linkend="polyline_properties">polyline_properties</link>).
                     </para>
                     <para/>
@@ -51,7 +54,7 @@
                             <td>
                                 <literal>-</literal>
                             </td>
-                            <td>linha sólida (padrão)</td>
+                            <td>linha sÃ³lida (padrÃ£o)</td>
                         </tr>
                         <tr>
                             <td>
@@ -77,8 +80,8 @@
             <varlistentry>
                 <term>Color:</term>
                 <listitem>
-                    <para>um string definindo a cor da linha. Esta propriedade está
-                        ligada à propriedade <literal>foreground</literal> do objeto (ver
+                    <para>um string definindo a cor da linha. Esta propriedade estÃ¡
+                        ligada Ã  propriedade <literal>foreground</literal> do objeto (ver
                         <link linkend="polyline_properties">polyline_properties</link>).
                     </para>
                     <para/>
@@ -145,10 +148,10 @@
             <varlistentry>
                 <term/>
                 <listitem>
-                    <para>Uma tabela de cores padrão é utilizada para colorir curvas
-                        esboçadas se você não especificar as cores (nem com
+                    <para>Uma tabela de cores padrÃ£o Ã© utilizada para colorir curvas
+                        esboÃ§adas se vocÃª nÃ£o especificar as cores (nem com
                         <literal>LineSpec</literal> nem com <link linkend="GlobalProperty">GlobalProperty</link>). Quando linhas
-                        múltiplas são desenhadas, o comando plot automaticamente atribui em
+                        mÃºltiplas sÃ£o desenhadas, o comando plot automaticamente atribui em
                         ciclos as cores a seguir:
                     </para>
                     <para/>
@@ -210,9 +213,9 @@
             <varlistentry>
                 <term>Marker type:</term>
                 <listitem>
-                    <para>um string definindo o tipo do marcador. Note que se você
+                    <para>um string definindo o tipo do marcador. Note que se vocÃª
                         especificar um marcador (ou marca) sem um estilo de linha, apenas o
-                        marcador é desenhado. Esta propriedade está ligada à propriedade do
+                        marcador Ã© desenhado. Esta propriedade estÃ¡ ligada Ã  propriedade do
                         objeto <literal>mark_style</literal> e <literal>mark_mode</literal>
                         do objeto (ver <link linkend="polyline_properties">polyline_properties</link>).
                     </para>
@@ -236,13 +239,13 @@
                             <td>
                                 <literal>o</literal>
                             </td>
-                            <td>círculo</td>
+                            <td>cÃ­rculo</td>
                         </tr>
                         <tr>
                             <td>
                                 <literal>*</literal>
                             </td>
-                            <td>asterísco</td>
+                            <td>asterÃ­sco</td>
                         </tr>
                         <tr>
                             <td>
@@ -272,25 +275,25 @@
                             <td>
                                 <literal>^</literal>
                             </td>
-                            <td>triângulo para cima</td>
+                            <td>triÃ¢ngulo para cima</td>
                         </tr>
                         <tr>
                             <td>
                                 <literal>v</literal>
                             </td>
-                            <td>triângulo para baixo</td>
+                            <td>triÃ¢ngulo para baixo</td>
                         </tr>
                         <tr>
                             <td>
                                 <literal>&gt;</literal>
                             </td>
-                            <td>triângulo para a direita</td>
+                            <td>triÃ¢ngulo para a direita</td>
                         </tr>
                         <tr>
                             <td>
                                 <literal>&lt;</literal>
                             </td>
-                            <td>triângulo para a esquerda</td>
+                            <td>triÃ¢ngulo para a esquerda</td>
                         </tr>
                         <tr>
                             <td>
@@ -302,7 +305,7 @@
                             <td>
                                 <literal>'none'</literal>
                             </td>
-                            <td>nenhum marcador (padrão)</td>
+                            <td>nenhum marcador (padrÃ£o)</td>
                         </tr>
                     </informaltable>
                 </listitem>
@@ -311,26 +314,26 @@
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
-x=1:0.1:10; // inicialização
-plot(x,sin(x),'r.->') // esboçando um linha de traços e pontos com um truângulo apontando para a direita centrado em cada ponto.
+        <programlisting role="example"><![CDATA[
+x=1:0.1:10; // inicializaÃ§Ã£o
+plot(x,sin(x),'r.->') // esboÃ§ando um linha de traÃ§os e pontos com um truÃ¢ngulo apontando para a direita centrado em cada ponto.
 clf();
 
-// se você especificar um marcador sem um estilo de linha, apenas a marca é desenhada
-plot(x,sin(x),'d') // esboçando um linha de traços e pontos com um truângulo apontando para a direita centrado em cada ponto
+// se vocÃª especificar um marcador sem um estilo de linha, apenas a marca Ã© desenhada
+plot(x,sin(x),'d') // esboÃ§ando um linha de traÃ§os e pontos com um truÃ¢ngulo apontando para a direita centrado em cada ponto
 
 x=1:10; // Init.
-// a ordem das combinações não importa
-plot(x,x.*x,'*cya--') 
+// a ordem das combinaÃ§Ãµes nÃ£o importa
+plot(x,x.*x,'*cya--')
 
-//múltiplos esboçoes com diferentes LineSpecs
+//mÃºltiplos esboÃ§oes com diferentes LineSpecs
 clf();
 t=0:%pi/20:2*%pi;
 plot(t,sin(t),'ro-.',t,cos(t),'cya+',t,abs(sin(t)),'--mo')
  ]]></programlisting>
     </refsection>
     <refsection>
-        <title>Ver Também </title>
+        <title>Ver TambÃ©m </title>
         <simplelist type="inline">
             <member>
                 <link linkend="GlobalProperty">GlobalProperty</link>

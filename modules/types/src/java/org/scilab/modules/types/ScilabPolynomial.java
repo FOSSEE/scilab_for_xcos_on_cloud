@@ -2,11 +2,14 @@
  *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -30,7 +33,6 @@ import java.util.Arrays;
 public class ScilabPolynomial implements ScilabType {
 
     private static final long serialVersionUID = 870624048944109684L;
-    private static final ScilabTypeEnum type = ScilabTypeEnum.sci_poly;
 
     private static final int VERSION = 0;
 
@@ -66,6 +68,7 @@ public class ScilabPolynomial implements ScilabType {
      *
      * @param data
      *            the unique polynomial
+     * @param polyVarName the polynomial variable name
      */
     public ScilabPolynomial(double[] data, String polyVarName) {
         this(data);
@@ -94,6 +97,7 @@ public class ScilabPolynomial implements ScilabType {
      *            the real part
      * @param imagData
      *            the complex part
+     * @param polyVarName the polynomial variable name
      */
     public ScilabPolynomial(double[] realData, double[] imagData, String polyVarName) {
         this(realData, imagData);
@@ -116,6 +120,7 @@ public class ScilabPolynomial implements ScilabType {
      *
      * @param data
      *            the data
+     * @param polyVarName the polynomial variable name
      */
     public ScilabPolynomial(double[][][] data, String polyVarName) {
         this(data);
@@ -142,6 +147,7 @@ public class ScilabPolynomial implements ScilabType {
      *            the real part of the data
      * @param imagData
      *            the imaginary part of the data
+     * @param polyVarName the polynomial variable name
      */
     public ScilabPolynomial(double[][][] realData, double[][][] imagData, String polyVarName) {
         this(realData, imagData);
@@ -173,6 +179,7 @@ public class ScilabPolynomial implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isReference() {
         return false;
     }
@@ -185,7 +192,7 @@ public class ScilabPolynomial implements ScilabType {
      */
     @Override
     public ScilabTypeEnum getType() {
-        return type;
+        return ScilabTypeEnum.sci_poly;
     }
 
     /**
@@ -261,6 +268,7 @@ public class ScilabPolynomial implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getVarName() {
         return varName;
     }
@@ -268,6 +276,7 @@ public class ScilabPolynomial implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSwaped() {
         return swaped;
     }
@@ -307,6 +316,17 @@ public class ScilabPolynomial implements ScilabType {
         return realPart[0].length;
     }
 
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.deepHashCode(imaginaryPart);
+        result = prime * result + ((polyVarName == null) ? 0 : polyVarName.hashCode());
+        result = prime * result + Arrays.deepHashCode(realPart);
+        return result;
+    }
+
     /**
      * @see org.scilab.modules.types.ScilabType#equals(Object)
      */
@@ -333,6 +353,7 @@ public class ScilabPolynomial implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getSerializedObject() {
         if (isReal()) {
             return new Object[] { polyVarName, realPart };
@@ -368,7 +389,7 @@ public class ScilabPolynomial implements ScilabType {
     }
 
     /**
-     * Display the representation in the Scilab language of the type<br />
+     * Display the representation in the Scilab language of the type<BR>
      * Note that the representation can be copied/pasted straight into Scilab
      *
      * @return a Scilab-like String representation of the data.

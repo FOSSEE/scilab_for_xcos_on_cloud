@@ -1,30 +1,35 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) DIGITEO - 2012 - Allan CORNET
+// Copyright (C) 2018 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
-function [m, n, nx] = %r_size(x, flag)
-    // only to be called by size function for dynamical systems
-    //!
-    m = 0;
-    n = 0;
+function varargout = %r_size(x, flag)
+    // only to be called by size()
+
     [lhs,rhs] = argn(0)
-    x1 = x(1);
+    x = x.num;
     if lhs == 1 then
         if rhs == 1 then
-            execstr("m = size(x(''num''));","errcatch");
+            m = size(x)
         else
-            execstr("m = size(x(''num''), flag);","errcatch");
+            m = size(x, flag)
         end
-    elseif lhs == 2 then
-        if rhs <> 1 then
-            error(41)
+        varargout = list(m)
+    else
+        if rhs > 1 then
+            msg = _("%s: Wrong number of output arguments: %d expected.\n");
+            error(msprintf(msg, "%r_size", 1));
         end
-        execstr("[m, n] = size(x(''num''));","errcatch");
+        s = size(x);
+        execstr("varargout = list("+strcat(msprintf("%d\n",s'), ",")+")")
     end
 endfunction

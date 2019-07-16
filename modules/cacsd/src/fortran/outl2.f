@@ -1,11 +1,14 @@
 c Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 c Copyright (C) INRIA
 c 
-c This file must be used under the terms of the CeCILL.
-c This source file is licensed as described in the file COPYING, which
-c you should have received as part of this distribution.  The terms
-c are also available at    
-c http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+c Copyright (C) 2012 - 2016 - Scilab Enterprises
+c
+c This file is hereby licensed under the terms of the GNU GPL v2.0,
+c pursuant to article 5.3.4 of the CeCILL v.2.1.
+c This file was originally licensed under the terms of the CeCILL v2.1,
+c and continues to be available under such terms.
+c For more information, see the COPYING file which you should have received
+c along with this program.
 
       subroutine outl2(ifich,neq,neqbac,tq,v,t,tout)
 c%but
@@ -32,6 +35,9 @@ c%
       dimension tq(*),neq(*)
       dimension v(*)
       character*80 buf
+cDEC$ ATTRIBUTES DLLIMPORT:: /sortie/
+cDEC$ ATTRIBUTES DLLIMPORT:: /comall/
+cDEC$ ATTRIBUTES DLLIMPORT:: /no2f/
       common/no2f/ef2
       common/comall/nall/sortie/nwf,info,ll
 
@@ -123,7 +129,7 @@ c     messages du sous programme arl2
      $        '------------------------------------------------------')
       else if(ifich.eq.22) then
          call basout(ifl,nwf,
-     $        ' Unwanted loop beetween two orders..., Stop')
+     $        ' Unwanted loop between two orders..., Stop')
       else if(ifich.eq.23) then
          write(buf(1:2),'(i2)') neqbac
          call basout(ifl,nwf,'Il y a eu '//buf(1:2)//
@@ -318,7 +324,7 @@ c
       if(ifich.eq.80) then
         call basout(ifl,nwf,'Already reached minimum ')
       else if(ifich.eq.81) then
-        call basout(ifl,nwf,'Preserve minimun in  tback ')
+        call basout(ifl,nwf,'Preserve minimum in  tback ')
       endif
       return
       end

@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [tree]=sci_repmat(tree)
     // M2SCI function
@@ -21,7 +24,7 @@ function [tree]=sci_repmat(tree)
         if A.vtype==Unknown then
             tree.name="mtlb_repmat"
             if typeof(m)=="cste" then
-                for kd=1:lstsize(A.dims)
+                for kd = 1:size(A.dims)
                     tree.lhs(1).dims(kd)=A.dims(kd)*m.value
                     if tree.lhs(1).dims(kd)<0 then
                         tree.lhs(1).dims(kd)=Unknown
@@ -57,7 +60,7 @@ function [tree]=sci_repmat(tree)
             tmp=m
             if typeof(m)<>"variable" then
                 tmp=gettempvar()
-                insert(Equal(list(tmp),m))
+                m2sci_insert(Equal(list(tmp),m))
             end
             newrhs=list()
             for k=1:size(m.dims)

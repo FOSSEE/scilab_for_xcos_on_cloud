@@ -3,22 +3,27 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
  * Copyright (C) 2010 - DIGITEO - Michael Baudin
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="rcond">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="en" xml:id="rcond">
     <refnamediv>
         <refname>rcond</refname>
         <refpurpose>inverse condition number</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>rcond(X)</synopsis>
+        <title>Syntax</title>
+        <synopsis>r = rcond(X)</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
@@ -27,6 +32,12 @@
                 <term>X</term>
                 <listitem>
                     <para>real or complex square matrix</para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>r</term>
+                <listitem>
+                    <para>real positive number</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -42,31 +53,37 @@
             If not, <literal>rcond(X)</literal> is close to 0.
         </para>
         <para>
-            We compute the 1-norm of A with Lapack/DLANGE, compute its LU decomposition with Lapack/DGETRF 
-            and finally estimate the condition with Lapack/DGECON.
+          <note>
+            Estimating the 1-norm inverse condition number with <literal>rcond</literal> is
+            much faster than computing the 2-norm condition number with <literal>cond</literal>.
+            As a trade-off, <literal>rcond</literal> may be less reliable.
+          </note>
+        </para>
+        <para>
+            Algorithm: We compute the 1-norm of X with Lapack/DLANGE, compute its LU decomposition
+            with Lapack/DGETRF, and finally estimate the condition with Lapack/DGECON.
+        </para>
+        <para>
+          <literal>rcond([])</literal> yields <literal>%inf</literal>.
         </para>
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
-A=diag([1:10]);
+        <programlisting role="example"><![CDATA[
+A = diag([1:10]);
 rcond(A)
-A(1,1)=0.000001;
+A(1,1) = 0.000001;
 rcond(A)
- ]]></programlisting>
-        <para>
-            Estimating the 1-norm inverse condition number with <literal>rcond</literal> is 
-            much faster than computing the 2-norm condition number with <literal>cond</literal>.
-            As a trade-off, <literal>rcond</literal> may be less reliable.
-        </para>
-        <programlisting role="example"><![CDATA[ 
-    A=ones(1000,1000);
-    timer();cond(A);timer()
-    timer();1/rcond(A);timer()
+]]></programlisting>
+      <para>Comparative benchmark: </para>
+        <programlisting role="example"><![CDATA[
+    A = ones(1000, 1000);
+    timer(); cond(A);    timer()
+    timer(); 1/rcond(A); timer()
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="svd">svd</link>
@@ -78,5 +95,16 @@ rcond(A)
                 <link linkend="inv">inv</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>History</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.2</revnumber>
+                <revdescription>
+                    rcond([]) now yields %inf = 1/cond([]) instead of [].
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

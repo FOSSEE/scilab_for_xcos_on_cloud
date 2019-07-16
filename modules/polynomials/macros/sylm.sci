@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ????-2008 - INRIA
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function [s]=sylm(a,b)
@@ -21,8 +24,8 @@ function [s]=sylm(a,b)
     //compute Bezout factors x et y of minimal degree de degre minimal
     //such that a*x+b*y=1
     //!
-    na=degree(a);a=coeff(a)';
-    nb=degree(b);b=coeff(b)';
+    na=max(0,degree(a));a=coeff(a)';
+    nb=max(0,degree(b));b=coeff(b)';
     s(na+nb,na+nb)=0;
     for i=1:nb,s(i:na+i,i)=a,end
     for i=1:na,s(i:nb+i,nb+i)=b,end

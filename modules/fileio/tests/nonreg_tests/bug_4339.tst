@@ -66,7 +66,7 @@ hGrayplot = gce();
 clear m n M;
 
 //Matplot
-Matplot((1:xget("lastpattern")))
+Matplot(1:size(gcf().color_map, 1))
 hMatplot = gce();
 
 //Fec
@@ -97,9 +97,9 @@ hMenu = uimenu(hF,"label", "windows");
 //uicontrol
 hUiControl = uicontrol(hF,"style","listbox", "position", [10 10 150 160]);
 
-save(TMPDIR + "/bug_4339.bin", hUiControl, hMenu, hAxis, hText, hFec, hMatplot, hGrayplot, hSeg, hChamp, hArc, hRectangle, hFac3d, hPlot2d, hPlot3d, hF);
+save(TMPDIR + "/bug_4339.bin", "hUiControl", "hMenu", "hAxis", "hText", "hFec", "hMatplot", "hGrayplot", "hSeg", "hChamp", "hArc", "hRectangle", "hFac3d", "hPlot2d", "hPlot3d", "hF");
 
 [varList, varSize] = listvarinfile(TMPDIR + "/bug_4339.bin");
 varListRef = ["hUiControl"; "hMenu"; "hAxis"; "hText"; "hFec"; "hMatplot"; "hGrayplot"; "hSeg"; "hChamp"; "hArc"; "hRectangle"; "hFac3d"; "hPlot2d"; "hPlot3d"; "hF"];
-assert_checkequal(varList, varListRef);
+assert_checkequal(gsort(varList), gsort(varListRef));
 

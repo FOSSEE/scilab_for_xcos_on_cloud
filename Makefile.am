@@ -3,11 +3,14 @@
 # Copyright (C) INRIA - 2006-2008 - Sylvestre Ledru
 # Copyright (C) DIGITEO - 2009 - Sylvestre Ledru
 #
-# This file must be used under the terms of the CeCILL.
-# This source file is licensed as described in the file COPYING, which
-# you should have received as part of this distribution.  The terms
-# are also available at
-# http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+# Copyright (C) 2012 - 2016 - Scilab Enterprises
+#
+# This file is hereby licensed under the terms of the GNU GPL v2.0,
+# pursuant to article 5.3.4 of the CeCILL v.2.1.
+# This file was originally licensed under the terms of the CeCILL v2.1,
+# and continues to be available under such terms.
+# For more information, see the COPYING file which you should have received
+# along with this program.
 #
 
 ## Process this file with automake to produce Makefile.in (which will be changed by the ./configure)
@@ -27,8 +30,6 @@ AM_CXXFLAGS = $(SCI_CXXFLAGS)
 AM_FFLAGS   = $(SCI_FFLAGS)
 AM_LDFLAGS  = $(SCI_LDFLAGS)
 
-changelogs = CHANGES CHANGES_5.1.X CHANGES_5.2.X CHANGES_5.3.X CHANGES_5.4.X  CHANGES_5.5.X
-
 bin_PROGRAMS		= scilab-bin scilab-cli-bin
 
 bin_SCRIPTS			= bin/scilab bin/scilab-adv-cli bin/scilab-cli \
@@ -38,29 +39,63 @@ if IS_MACOSX
 bin_SCRIPTS 		+= bin/checkmacosx.applescript
 endif
 
-scilab_bin_LDFLAGS 	= $(AM_LDFLAGS)
-scilab_cli_bin_LDFLAGS  = $(AM_LDFLAGS)
+scilab_bin_LDFLAGS      = $(AM_LDFLAGS) $(OPENMPI_LIBS)
+scilab_cli_bin_LDFLAGS  = $(AM_LDFLAGS) $(OPENMPI_LIBS)
+
+#
+# using the static system libs might produce linkage issue (eg.
+# std::nothrow for instance) but it seems to be the only acceptable
+# solution for now.
+#
+if USE_STATIC_SYSTEM_LIB
+scilab_bin_LDFLAGS += -static-libstdc++ -static-libgcc -static-libgfortran
+scilab_cli_bin_LDFLAGS += -static-libstdc++ -static-libgcc -static-libgfortran
+else
+# Clang (for example) needs an explicit reference to the lib
+scilab_bin_LDFLAGS += -lstdc++ -lgfortran
+scilab_cli_bin_LDFLAGS += -lstdc++ -lgfortran
+endif
+
 
 if IS_MACOSX
 scilab_bin_LDFLAGS 		+= -framework Cocoa
 endif
 
-scilab_bin_CPPFLAGS = -I$(top_srcdir)/modules/io/includes/ \
-			        -I$(top_srcdir)/modules/console/includes/ \
-			        -I$(top_srcdir)/modules/localization/includes/ \
-			        $(AM_CPPFLAGS)
+scilab_bin_CPPFLAGS = \
+    -I$(top_srcdir)/modules/ast/includes/ast/ \
+    -I$(top_srcdir)/modules/ast/includes/exps/ \
+    -I$(top_srcdir)/modules/ast/includes/operations/ \
+    -I$(top_srcdir)/modules/ast/includes/parse/ \
+    -I$(top_srcdir)/modules/ast/includes/symbol/ \
+    -I$(top_srcdir)/modules/ast/includes/system_env/ \
+    -I$(top_srcdir)/modules/ast/includes/types/ \
+    -I$(top_srcdir)/modules/ast/includes/analysis/ \
+    -I$(top_srcdir)/modules/console/includes/ \
+    -I$(top_srcdir)/modules/output_stream/includes/ \
+    -I$(top_srcdir)/modules/functions_manager/includes/ \
+    -I$(top_srcdir)/modules/elementary_functions/includes/ \
+    -I$(top_srcdir)/modules/fileio/includes/ \
+    -I$(top_srcdir)/modules/string/includes/ \
+    -I$(top_srcdir)/modules/history_manager/includes/ \
+    -I$(top_srcdir)/modules/threads/includes/ \
+    -I$(top_srcdir)/modules/api_scilab/includes/ \
+    -I$(top_srcdir)/modules/localization/includes/ \
+    -I$(top_srcdir)/modules/core/src/c/ \
+    -I$(top_srcdir)/modules/dynamic_link/includes/ \
+    -I$(top_srcdir)/modules/startup/src/c/ \
+    $(AM_CPPFLAGS)
+
 # --no-undefined --relax
 
 # Localization dep already exists because of the `exportLocaleToSystem' symbol
 # (causing issues on some platform)
 COMMON_LIBS = $(LTLIBINTL)
 
-scilab_bin_SOURCES	= modules/startup/src/c/mainscic.cpp
+# Link against valgrind library as on some systems (eg. Fedora) it should be
+# link on the final binary
+COMMON_LIBS += $(VALGRIND_LIBS)
 
-# Match scilab -nwni (ie command line without graphics)
-scilab_cli_bin_SOURCES	= modules/startup/src/c/mainscic.cpp
-scilab_cli_bin_CPPFLAGS = -DWITHOUT_GUI $(scilab_bin_CPPFLAGS)
-
+scilab_bin_SOURCES = modules/startup/src/cpp/scilab.cpp
 
 # the scilab-bin object file itself uses symbols from at least libscilab-cli.la,
 # libsciconsole-minimal.la and libscijvm-disable.la, so we have to link with these
@@ -82,12 +117,20 @@ scilab_bin_LDADD += \
 			$(top_builddir)/modules/jvm/libscijvm-disable.la
 endif
 
-scilab_cli_bin_LDADD 	= \
-			$(top_builddir)/modules/libscilab-cli.la \
-			$(top_builddir)/modules/console/libsciconsole-minimal.la \
-			$(top_builddir)/modules/jvm/libscijvm-disable.la \
-			$(OPENMPI_LIBS) $(XML_LIBS) \
-			$(COMMON_LIBS) $(FLIBS)
+# BLAS_LIBS & LAPACK_LIBS are explicitly linked at the end. Unlike Scilab 5 in which the binary
+# is in C, Scilab 6 main is in C++. For some reasons (ie, I don't know why), libtool places blas and
+# lapack at the beginning of the order of the link. This caused some issues with the overload of the
+# xerbla function
+scilab_bin_LDADD += $(top_builddir)/modules/libscilab.la $(BLAS_LIBS) $(LAPACK_LIBS) $(FLIBS)
+
+# Match scilab -nwni (ie command line without graphics)
+
+scilab_cli_bin_SOURCES	= modules/startup/src/cpp/scilab.cpp
+
+scilab_cli_bin_CPPFLAGS = -DWITHOUT_GUI $(scilab_bin_CPPFLAGS)
+
+# See the comment about scilab_bin_LDADD (relative to BLAS_LIBS & LAPACK_LIBS)
+scilab_cli_bin_LDADD 	= $(COMMON_LIBS) $(top_builddir)/modules/libscilab-cli.la $(BLAS_LIBS) $(LAPACK_LIBS) $(FLIBS)
 
 if MPI
 CXX = $(OPENMPI_CXX)
@@ -102,19 +145,6 @@ if NEED_JAVA
 # Don't do it for scilab_cli_bin. We want to be able to call it without
 # the java libs
 	scilab_bin_LDADD += $(JAVA_JNI_LIBS)
-endif
-
-if USE_STATIC_SYSTEM_LIB
-scilab_bin_LDFLAGS += -static-libstdc++ -static-libgcc
-# -static-libgfortran
-scilab_cli_bin_LDFLAGS += -static-libstdc++ -static-libgcc
-#-static-libgfortran
-else
-# Clang (for example) needs an explicit reference to the lib
-scilab_bin_LDADD += -lstdc++
-# -static-libgfortran
-scilab_cli_bin_LDADD += -lstdc++
-#-static-libgfortran
 endif
 
 if IS_SOLARIS
@@ -136,7 +166,7 @@ TARGETS_ALL+=check-java
 endif
 
 # check is performed with scilab, so use the serial-tests on purpose
-TESTS_ENVIRONMENT = LANG=C $(top_builddir)/bin/scilab-cli -nb -noatomsautoload -f
+TESTS_ENVIRONMENT = LANG=C HOME=/tmp $(top_builddir)/bin/scilab-cli -nb -noatomsautoload -nouserstartup -f
 TESTS = $(top_builddir)/modules/development_tools/tests/unit_tests/test_run_level_1.tst
 
 all-local: $(TARGETS_ALL)
@@ -152,27 +182,11 @@ $(top_builddir)/etc/logging.properties \
 $(top_builddir)/etc/librarypath.xml
 
 infofilesdir=$(pkgdatadir)/
-infofiles_DATA = $(top_srcdir)/CHANGES_2.X \
-$(top_srcdir)/CHANGES_3.X \
-$(top_srcdir)/CHANGES_4.X \
-$(top_srcdir)/CHANGES_5.0.X \
-$(top_srcdir)/CHANGES_5.1.X \
-$(top_srcdir)/CHANGES_5.2.X \
-$(top_srcdir)/CHANGES_5.3.X \
-$(top_srcdir)/CHANGES_5.4.X \
-$(top_srcdir)/CHANGES_5.5.X \
+infofiles_DATA = $(top_srcdir)/CHANGES.md \
 $(top_srcdir)/ACKNOWLEDGEMENTS \
 $(top_srcdir)/COPYING \
 $(top_srcdir)/COPYING-BSD \
-$(top_srcdir)/COPYING-FR \
-$(top_srcdir)/README_Unix \
-$(top_srcdir)/RELEASE_NOTES_5.0.X \
-$(top_srcdir)/RELEASE_NOTES_5.1.X \
-$(top_srcdir)/RELEASE_NOTES_5.2.X \
-$(top_srcdir)/RELEASE_NOTES_5.3.X \
-$(top_srcdir)/Readme_Visual.txt \
-$(top_srcdir)/README_Windows.txt \
-$(top_builddir)/license.txt \
+$(top_srcdir)/README.md \
 $(top_builddir)/Version.incl
 
 valgrinddir=$(pkgdatadir)/tools/profiling
@@ -180,9 +194,18 @@ valgrind_DATA = $(top_srcdir)/tools/profiling/valgrind.supp
 
 macros: $(top_builddir)/scilab-cli-bin $(top_builddir)/bin/scilab-cli check-jvm-dep check-libstdcpp-dep
 	-@( cd $(top_builddir) ; \
-	echo "$(top_builddir)/bin/scilab-cli -ns -noatomsautoload -f modules/functions/scripts/buildmacros/buildmacros.sce" ; \
-	$(top_builddir)/bin/scilab-cli -ns -noatomsautoload -f modules/functions/scripts/buildmacros/buildmacros.sce) || exit 1
+	echo "$(top_builddir)/bin/scilab-cli -ns -noatomsautoload -nouserstartup -quit -f modules/functions/scripts/buildmacros/buildmacros.sce" ; \
+	HOME=/tmp $(top_builddir)/bin/scilab-cli -ns -noatomsautoload -nouserstartup -quit -f modules/functions/scripts/buildmacros/buildmacros.sce) || exit 1
 
+strip-debug:
+	find $(top_builddir) -name '*.so.?.?.?' | while read file ; \
+	do \
+	    if [ ! -f $$file.debug ]; then \
+	        objcopy --only-keep-debug $$file $$file.debug; \
+	        objcopy --strip-debug $$file; \
+	        objcopy --add-gnu-debuglink=$$file.debug $$file; \
+	    fi \
+	done;
 
 check-jvm-dep:
 # Check that scilab-cli does not have a dependency on libjvm
@@ -197,7 +220,7 @@ endif
 check-libstdcpp-dep:
 if USE_STATIC_SYSTEM_LIB
 # Check that scilab-cli does not have a dependency on libstdc++ (should be static)
-	@ldd .libs/scilab-bin .libs/scilab-cli-bin modules/.libs/libscilab*0 |grep libstdc++ > /dev/null; \
+	@readelf -d .libs/scilab-bin .libs/scilab-cli-bin modules/.libs/libscilab*so* |grep libstdc++ > /dev/null; \
 	if test $$? == 0; then \
 		echo "Found dependency from scilab-cli-bin to libstdc++ found"; exit 2;\
 	fi
@@ -255,8 +278,8 @@ if BUILD_HELP
 		for l in $(ALL_LINGUAS_DOC); do \
 			echo "-- Building documentation ($$l) --"; \
 			COMMAND="try xmltojar([],[],'$$l');catch disp(lasterror()); exit(-1);end;exit(0);"; \
-			echo "LANG=C LC_ALL=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e \"$$COMMAND\"";\
-			LANG=C LC_ALL=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e "$$COMMAND" || exit 1;\
+			echo "LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e \"$$COMMAND\"";\
+			LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e "$$COMMAND" || exit 1;\
 		done; \
 	else \
 		echo "Cannot find Scilab-adv-cli binary"; \
@@ -272,8 +295,8 @@ if BUILD_HELP
 		for l in $(ALL_LINGUAS_DOC); do \
 			echo "-- Building documentation ($$l) --"; \
 			COMMAND="try xmltoweb([],[],'$$l');catch exit(-1);end;exit(0);";\
-			echo "LANG=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 $(top_builddir)/bin/scilab-adv-cli -nb -l $$l -noatomsautoload -nouserstartup -e \"$$COMMAND\"";\
-			LANG=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 $(top_builddir)/bin/scilab-adv-cli -nb -l $$l -noatomsautoload -nouserstartup -e "$$COMMAND" || exit 1;\
+			echo "LANG=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -nb -l $$l -noatomsautoload -nouserstartup -e \"$$COMMAND\"";\
+			LANG=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -nb -l $$l -noatomsautoload -nouserstartup -e "$$COMMAND" || exit 1;\
 			JAVADOC_TARGET=$(top_builddir)/modules/helptools/web/$$l/javasci; \
 			if test ! -d $$JAVADOC_TARGET; then \
 				mkdir $$JAVADOC_TARGET; \
@@ -287,6 +310,12 @@ else
 	@echo "Cannot buid help. Add --enable-build-help to the ./configure if you want to build it."
 endif
 
+$(top_builddir)/modules/helptools/data/pages/CHANGES.html: $(top_builddir)/CHANGES.md
+	sed -n '1,/html rendered CHANGES.md/{p;}' $@ >$@~
+	cmark $< >>$@~
+	sed -n '/End of the html rendered CHANGES.md/,$${p;}' $@ >>$@~
+	mv $@~ $@
+
 doxygen: modules/development_tools/etc/doxyfile
 if DOXYGEN
 	mkdir $(top_builddir)/reports/
@@ -298,8 +327,8 @@ check-help:$(top_builddir)/scilab-cli-bin $(top_builddir)/bin/scilab-cli
 		for l in $(ALL_LINGUAS_DOC); do \
 			echo "-- Checking documentation ($$l) --"; \
 			COMMAND="try check_help();catch exit(-1);end;exit(0);";\
-			echo "$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -e \"$$COMMAND\"";\
-			$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -e "$$COMMAND" || exit 1;\
+			echo "$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -nouserstartup -e \"$$COMMAND\"";\
+			HOME=/tmp $(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -nouserstartup -e "$$COMMAND" || exit 1;\
 		done; \
 	else \
 		echo "Cannot find Scilab binary"; \
@@ -310,13 +339,11 @@ if CODE_COVERAGE
 	@if test ! -d $(top_builddir)/coverage/; then \
 		mkdir $(top_builddir)/coverage/; \
 	fi; \
-	touch $(top_srcdir)/modules/differential_equations/callinter.h.f $(top_srcdir)/modules/linear_algebra/callinter.h.f $(top_srcdir)/modules/scicos/callinter.h.f $(top_srcdir)/modules/scicos_blocks/callinter.h.f $(top_srcdir)/modules/optimization/callinter.h.f $(top_srcdir)/modules/signal_processing/callinter.h.f; \
 	$(LCOV) --directory $(top_builddir) --capture --ignore-errors source --output-file $(top_builddir)/coverage/scilab-code-coverage.info; \
 	if test ! -f ~/.lcovrc; then echo -e "genhtml_hi_limit = 85\ngenhtml_med_limit = 70" > ~/.lcovrc; fi; \
 	$(GENHTML) -o $(top_builddir)/coverage/results/ --show-details --highlight --legend $(top_builddir)/coverage/scilab-code-coverage.info; \
 	rm -f $(top_builddir)/coverage/lcovrc; \
-	echo "To open the result: firefox  $(top_builddir)/coverage/results/index.html"; \
-	rm -f $(top_srcdir)/modules/differential_equations/callinter.h.f $(top_srcdir)/modules/linear_algebra/callinter.h.f $(top_srcdir)/modules/scicos/callinter.h.f $(top_srcdir)/modules/scicos_blocks/callinter.h.f $(top_srcdir)/modules/optimization/callinter.h.f $(top_srcdir)/modules/signal_processing/callinter.h.f
+	echo "To open the result: firefox  $(top_builddir)/coverage/results/index.html";
 #--frames is disable because of : http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=607206
 else
 	@echo "Cannot start the code coverage. Add --enable-code-coverage to the ./configure and 'make clean all'."
@@ -330,8 +357,6 @@ clean-macros:
 # Find is necessary because of subdirs...
 	-@echo "-- Cleaning macros (*.bin) --"; \
 	find $(top_builddir) -name "*.bin" | xargs --no-run-if-empty rm 2> /dev/null; \
-	echo "-- Cleaning names files (names) --"; \
-	find $(top_builddir)/modules/*/macros -name "names" | xargs --no-run-if-empty rm 2> /dev/null; \
 	echo "-- Cleaning lib files (lib) --"; \
 	find $(top_builddir)/modules/*/macros -name "lib" | xargs --no-run-if-empty rm 2> /dev/null
 
@@ -342,8 +367,8 @@ clean-help:
 	-@if test -x $(top_builddir)/scilab-cli-bin; then \
 		COMMAND="try clean_help();catch exit(-1);end;exit(0)"; \
 		for l in $(ALL_LINGUAS_DOC); do \
-			echo "$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -e '$$COMMAND'"; \
-			$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -e "$$COMMAND" || exit 1; \
+			echo "$(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -nouserstartup -e '$$COMMAND'"; \
+			HOME=/tmp $(top_builddir)/bin/scilab-cli -nb -l $$l -noatomsautoload -nouserstartup -e "$$COMMAND" || exit 1; \
 		done; \
 	else \
 		echo "Cannot find Scilab binary"; \
@@ -363,7 +388,7 @@ clean-help:
 
 clean-tests:
 	@if test -x $(top_builddir)/scilab-cli-bin; then \
-		$(top_builddir)/bin/scilab-cli -nb -noatomsautoload -l fr -e 'try test_clean();catch exit(-1);end;exit(0);' || exit 1; \
+		HOME=/tmp $(top_builddir)/bin/scilab-cli -nb -noatomsautoload -nouserstartup -l fr -e 'try test_clean();catch exit(-1);end;exit(0);' || exit 1; \
 	else \
 		echo "Cannot find Scilab binary"; \
 	fi
@@ -530,7 +555,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 # Files to install in Pkgconfig directory
 pkgconfig_DATA = scilab.pc
 
-.PHONY: macros localization doc
+.PHONY: macros localization doc strip-debug
 
 .NOTPARALLEL: macros doc
 

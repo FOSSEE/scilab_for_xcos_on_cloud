@@ -5,7 +5,7 @@
         <refpurpose>(&lt;) less than comparison</refpurpose>
     </refnamediv>
     <refnamediv xml:id="greater">
-        <refname>great</refname>
+        <refname>greater</refname>
         <refpurpose>(&gt;) greater than comparison</refpurpose>
     </refnamediv>
     <refsection>
@@ -58,7 +58,7 @@
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="if">if</link>
@@ -70,5 +70,29 @@
                 <link linkend="equal">equal</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>History</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0</revnumber>
+                <revdescription>
+                  <listitem>
+                    <literal>~</literal> (not)'s priority is now higher than <literal>&lt;</literal>,
+                    <literal>&lt;=</literal>, <literal>></literal> and <literal>>=</literal> one.
+                    For instance, <literal>~3&lt;1</literal> is parsed as <literal>(~3)&lt;1</literal>
+                    instead of <literal>~(3&lt;1)</literal> and now yields an error instead of
+                    <literal>%T</literal>.
+                  </listitem>
+                  <listitem>
+                    <literal> A>[] </literal>, <literal> A>=[] </literal>,
+                    <literal> A&lt;[] </literal>, <literal> A&lt;=[] </literal>,
+                    <literal> []>A </literal>, <literal> []>=A </literal>,
+                    <literal> []&lt;A </literal>, and <literal> []&lt;=A </literal> now return
+                    <literal> [] </literal> instead of an error.
+                  </listitem>
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

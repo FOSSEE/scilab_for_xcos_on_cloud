@@ -4,11 +4,14 @@
  * Copyright (C) 2006 - INRIA - Jean-Baptiste Silvy
  * Copyright (C) 2011 - DIGITEO - Bruno JOFRET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -16,7 +19,7 @@
 /* file: sci_champ.c                                                      */
 /* desc : interface for champ (and champ1) routine                        */
 /*------------------------------------------------------------------------*/
-
+#include <string.h>
 #include "gw_graphics.h"
 #include "api_scilab.h"
 #include "GetCommandArg.h"
@@ -26,19 +29,19 @@
 #include "localization.h"
 #include "Scierror.h"
 /*--------------------------------------------------------------------------*/
-int sci_champ (char *fname, unsigned long fname_len)
+int sci_champ (char *fname, void *pvApiCtx)
 {
-    return sci_champ_G(fname, C2F(champ), fname_len);
+    return sci_champ_G(fname, C2F(champ), pvApiCtx);
 }
 /*--------------------------------------------------------------------------*/
-int sci_champ1 (char *fname, unsigned long fname_len)
+int sci_champ1 (char *fname, void *pvApiCtx)
 {
-    return sci_champ_G(fname, C2F(champ1), fname_len);
+    return sci_champ_G(fname, C2F(champ1), pvApiCtx);
 }
 /*--------------------------------------------------------------------------*/
 int sci_champ_G(char *fname,
                 int (*func) (double *, double *, double *, double *, int *, int *, char *, double *, double *, int),
-                unsigned long fname_len)
+                void *pvApiCtx)
 {
     SciErr sciErr;
     double arfact_def = 1.0;
@@ -53,6 +56,7 @@ int sci_champ_G(char *fname,
     };
 
     char   * strf = NULL;
+    BOOL freeStrf = FALSE;
     char strfl[4];
     double* rect = NULL;
 
@@ -71,7 +75,7 @@ int sci_champ_G(char *fname,
 
     if (nbInputArgument(pvApiCtx) <= 0)
     {
-        sci_demo(fname, fname_len);
+        sci_demo(fname, pvApiCtx);
         return 0;
     }
     else if (nbInputArgument(pvApiCtx) < 4)
@@ -85,7 +89,7 @@ int sci_champ_G(char *fname,
         return 0;
     }
 
-    if (FirstOpt() < 5)
+    if (FirstOpt(pvApiCtx) < 5)
     {
         Scierror(999, _("%s: Misplaced optional argument: #%d must be at position %d.\n"), fname, 1, 5);
         return -1;
@@ -187,9 +191,19 @@ int sci_champ_G(char *fname,
         return 0;
     }
 
-    GetOptionalDoubleArg(pvApiCtx, fname, 5, "arfact", &arfact, 1, opts);
-    GetRect(pvApiCtx, fname, 6, opts, &rect);
-    GetStrf(pvApiCtx, fname, 7, opts, &strf);
+    if (get_optional_double_arg(pvApiCtx, fname, 5, "arfact", &arfact, 1, opts) == 0)
+    {
+        return 0;
+    }
+    if (get_rect_arg(pvApiCtx, fname, 6, opts, &rect) == 0)
+    {
+        return 0;
+    }
+    if (get_strf_arg(pvApiCtx, fname, 7, opts, &strf) == 0)
+    {
+        return 0;
+    }
+    freeStrf = !isDefStrf(strf);
 
     getOrCreateDefaultSubwin();
 
@@ -204,6 +218,10 @@ int sci_champ_G(char *fname,
     }
 
     (*func)((l1), (l2), (l3), (l4), &m3, &n3, strf, rect, arfact, 4L);
+    if (freeStrf)
+    {
+        freeAllocatedSingleString(strf);
+    }
     AssignOutputVariable(pvApiCtx, 1) = 0;
     ReturnArguments(pvApiCtx);
     return 0;

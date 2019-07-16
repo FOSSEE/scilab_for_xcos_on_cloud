@@ -2,7 +2,7 @@
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="fr" xml:id="square">
     <refnamediv>
         <refname>square</refname>
-        <refpurpose>échelle isométrique 2D (change la taille de la fenêtre)  </refpurpose>
+        <refpurpose>échelle isométrique 2D (change la taille de la fenêtre)  <emphasis role="bold">(fonction obsolète)</emphasis> </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Séquence d'appel</title>
@@ -22,9 +22,19 @@
     </refsection>
     <refsection>
         <title>Description</title>
+        <warning>
+            Cette fonction est obsolète. Elle sera retirée de Scilab 6.1.
+        </warning>
+        <warning>
+            SVP remplacer <literal>square(a,b,c,d)</literal> par
+            <literal>gcf().axes_size = [n n]; replot([a b c d])</literal>
+            où <literal>n</literal> est la taille en pixels de la fenêtre graphique
+            carrée désirée. Cette méthode peut être utilisée pour toutes les
+            fenêtres graphiques existantes, pas uniquement la fenêtre active.
+        </warning>
         <para>
-            <literal>square</literal> est utilisée pour avoir une échelle identique sur les axes x et y. 
-            Les valeurs 
+            <literal>square</literal> est utilisée pour avoir une échelle identique sur les axes x et y.
+            Les valeurs
             <literal>xmin, xmax, ymin, ymax</literal> sont les bornes du dessin
             et <literal>square</literal> change les dimensions de la fenêtre graphique pour que les échelles soient identiques.
             <literal>square</literal> change l'échelle graphique courante et
@@ -33,7 +43,7 @@
     </refsection>
     <refsection>
         <title>Exemples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 t=[0:0.1:2*%pi]';
 plot2d(sin(t),cos(t))
 clf()
@@ -51,5 +61,16 @@ plot2d(sin(t),cos(t))
                 <link linkend="xsetech">xsetech</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>Historique</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0</revnumber>
+                <revdescription>
+                    square() est indiquée comme obsolète. Elle sera retirée de Scilab 6.1.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

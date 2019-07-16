@@ -5,98 +5,133 @@
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
  * Copyright (C) 2011 - Bernard DUJARDIN <bernard.dujardin@contrib.scilab.org>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="Integer_pal">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:scilab="http://www.scilab.org" xml:id="Integer_pal" xml:lang="en_US">
     <refnamediv>
         <refname>Integer_pal</refname>
         <refpurpose>Integer palette</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
+            <link linkend="BITCLEAR">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="BITCLEAR" fileref="../../../../images/palettes/BITCLEAR.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="BITCLEAR" fileref="../../../../images/palettes/BITCLEAR.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="BITSET">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="BITSET" fileref="../../../../images/palettes/BITSET.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="BITSET" fileref="../../../../images/palettes/BITSET.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CONVERT">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CONVERT" fileref="../../../../images/palettes/CONVERT.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CONVERT" fileref="../../../../images/palettes/CONVERT.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="DFLIPFLOP">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="DFLIPFLOP" fileref="../../../../images/palettes/DFLIPFLOP.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="DFLIPFLOP" fileref="../../../../images/palettes/DFLIPFLOP.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="DLATCH">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="DLATCH" fileref="../../../../images/palettes/DLATCH.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="DLATCH" fileref="../../../../images/palettes/DLATCH.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="EXTRACTBITS">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="EXTRACTBITS" fileref="../../../../images/palettes/EXTRACTBITS.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="EXTRACTBITS" fileref="../../../../images/palettes/EXTRACTBITS.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="INTMUL">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="INTMUL" fileref="../../../../images/palettes/INTMUL.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="INTMUL" fileref="../../../../images/palettes/INTMUL.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="JKFLIPFLOP">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="JKFLIPFLOP" fileref="../../../../images/palettes/JKFLIPFLOP.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="JKFLIPFLOP" fileref="../../../../images/palettes/JKFLIPFLOP.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="LOGIC">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="LOGIC" fileref="../../../../images/palettes/LOGIC.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="LOGIC" fileref="../../../../images/palettes/LOGIC.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="SHIFT">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="SHIFT" fileref="../../../../images/palettes/SHIFT.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="SHIFT" fileref="../../../../images/palettes/SHIFT.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="SRFLIPFLOP">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="SRFLIPFLOP" fileref="../../../../images/palettes/SRFLIPFLOP.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="SRFLIPFLOP" fileref="../../../../images/palettes/SRFLIPFLOP.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
-        </para>
+            </link>.
     </refsection>
-    <refsection id="Module_Integer_pal">
-        <title>Module</title>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <link linkend="xcos">xcos</link>
-                </para>
-            </listitem>
-        </itemizedlist>
-    </refsection>
+
     <refsection id="Description_Integer_pal">
         <title>Description</title>
         <para>
@@ -105,63 +140,41 @@
             as well as common gates encountered in digital circuits.
         </para>
     </refsection>
-    <refsection id="Blocks_Integer_pal">
+    <refsection id="Blocks_Integer_pal" role="see also">
         <title>Blocks</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="BITCLEAR">BITCLEAR - Clear a Bit</link>
-                </para>
+                <link linkend="BITCLEAR">BITCLEAR</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="BITSET">BITSET - Set a Bit</link>
-                </para>
+                <link linkend="BITSET">BITSET</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CONVERT">CONVERT - Data Type Conversion</link>
-                </para>
+                <link linkend="CONVERT">CONVERT</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="DFLIPFLOP">DFLIPFLOP - D Flip-Flop</link>
-                </para>
+                <link linkend="DFLIPFLOP">DFLIPFLOP</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="DLATCH">DLATCH - Transparent D Latch Flip-Flop</link>
-                </para>
+                <link linkend="DLATCH">DLATCH</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="EXTRACTBITS">EXTRACTBITS - Bits Extraction</link>
-                </para>
+                <link linkend="EXTRACTBITS">EXTRACTBITS</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="INTMUL">INTMUL - Integer Matrix Multiplication</link>
-                </para>
+                <link linkend="INTMUL">INTMUL</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="JKFLIPFLOP">JKFLIPFLOP - JK Flip-Flop</link>
-                </para>
+                <link linkend="JKFLIPFLOP">JKFLIPFLOP</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="LOGIC">LOGIC - Combinatorial Logic</link>
-                </para>
+                <link linkend="LOGIC">LOGIC</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="SHIFT">SHIFT - Shift/Rotates Bits</link>
-                </para>
+                <link linkend="SHIFT">SHIFT </link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="SRFLIPFLOP">SRFLIPFLOP - SR Flip-Flop</link>
-                </para>
+                <link linkend="SRFLIPFLOP">SRFLIPFLOP</link>
             </listitem>
         </itemizedlist>
     </refsection>

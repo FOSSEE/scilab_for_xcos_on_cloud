@@ -89,9 +89,10 @@ subdir = contrib
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/backtrace.m4 \
-	$(top_srcdir)/m4/compiler.m4 $(top_srcdir)/m4/curl.m4 \
-	$(top_srcdir)/m4/docbook.m4 $(top_srcdir)/m4/doxygen.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
+	$(top_srcdir)/m4/backtrace.m4 $(top_srcdir)/m4/compiler.m4 \
+	$(top_srcdir)/m4/curl.m4 $(top_srcdir)/m4/docbook.m4 \
+	$(top_srcdir)/m4/doxygen.m4 $(top_srcdir)/m4/eigen.m4 \
 	$(top_srcdir)/m4/fftw.m4 $(top_srcdir)/m4/fortran.m4 \
 	$(top_srcdir)/m4/giws.m4 $(top_srcdir)/m4/hdf5.m4 \
 	$(top_srcdir)/m4/intel_compiler.m4 \
@@ -149,6 +150,7 @@ AUTOMAKE = @AUTOMAKE@
 AVALON_FRAMEWORK = @AVALON_FRAMEWORK@
 AWK = @AWK@
 BATIK = @BATIK@
+BLAS_CFLAGS = @BLAS_CFLAGS@
 BLAS_LIBS = @BLAS_LIBS@
 CC = @CC@
 CCACHE = @CCACHE@
@@ -183,6 +185,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 ECJ = @ECJ@
 EGREP = @EGREP@
+EIGEN_CPPFLAGS = @EIGEN_CPPFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
@@ -206,6 +209,8 @@ GMSGFMT_015 = @GMSGFMT_015@
 GRAPHICS_ENABLE = @GRAPHICS_ENABLE@
 GREP = @GREP@
 GUI_ENABLE = @GUI_ENABLE@
+HAMCREST = @HAMCREST@
+HAVE_CXX11 = @HAVE_CXX11@
 HDF5_CFLAGS = @HDF5_CFLAGS@
 HDF5_LIBS = @HDF5_LIBS@
 HELP_ENABLE = @HELP_ENABLE@
@@ -242,6 +247,9 @@ LAPACK_LIBS = @LAPACK_LIBS@
 LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LEX = @LEX@
+LEXLIB = @LEXLIB@
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBM = @LIBM@
@@ -255,6 +263,9 @@ LOOKS = @LOOKS@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LUCENE = @LUCENE@
+LUCENE_ANALYZER = @LUCENE_ANALYZER@
+LUCENE_PARSER = @LUCENE_PARSER@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
@@ -336,6 +347,8 @@ UMFPACK_CFLAGS = @UMFPACK_CFLAGS@
 UMFPACK_ENABLE = @UMFPACK_ENABLE@
 UMFPACK_LIB = @UMFPACK_LIB@
 USE_NLS = @USE_NLS@
+VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
+VALGRIND_LIBS = @VALGRIND_LIBS@
 VERSION = @VERSION@
 WITH_OCAML = @WITH_OCAML@
 WITH_TKSCI = @WITH_TKSCI@
@@ -354,6 +367,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -409,20 +424,21 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+yacc_present = @yacc_present@
 SKELETON_FILES = loader.sce \
+toolbox_skeleton/.gitignore \
+toolbox_skeleton/DESCRIPTION \
 toolbox_skeleton/builder.sce \
 toolbox_skeleton/changelog.txt \
-toolbox_skeleton/demos/cpp_find.dem.sce \
 toolbox_skeleton/demos/c_sum.dem.sce \
+toolbox_skeleton/demos/cpp_find.dem.sce \
 toolbox_skeleton/demos/fortran_sum.dem.sce \
 toolbox_skeleton/demos/scilab_sum.dem.sce \
 toolbox_skeleton/demos/toolbox_skeleton.dem.gateway.sce \
-toolbox_skeleton/DESCRIPTION \
-toolbox_skeleton/DESCRIPTION-FUNCTIONS \
-toolbox_skeleton/etc/toolbox_skeleton_preferences.xml \
-toolbox_skeleton/etc/toolbox_skeleton_preferences.xsl \
 toolbox_skeleton/etc/toolbox_skeleton.quit \
 toolbox_skeleton/etc/toolbox_skeleton.start \
+toolbox_skeleton/etc/toolbox_skeleton_preferences.xml \
+toolbox_skeleton/etc/toolbox_skeleton_preferences.xsl \
 toolbox_skeleton/help/builder_help.sce \
 toolbox_skeleton/help/cleaner_help.sce \
 toolbox_skeleton/help/en_US/build_help.sce \
@@ -447,13 +463,23 @@ toolbox_skeleton/macros/scilab_sum.sci \
 toolbox_skeleton/readme.txt \
 toolbox_skeleton/sci_gateway/builder_gateway.sce \
 toolbox_skeleton/sci_gateway/c/builder_gateway_c.sce \
+toolbox_skeleton/sci_gateway/c/sci_cerror.c \
+toolbox_skeleton/sci_gateway/c/sci_cerror6.c \
+toolbox_skeleton/sci_gateway/c/sci_csub.c \
+toolbox_skeleton/sci_gateway/c/sci_csub6.c \
+toolbox_skeleton/sci_gateway/c/sci_csum.c \
+toolbox_skeleton/sci_gateway/c/sci_csum6.c \
+toolbox_skeleton/sci_gateway/c/sci_foo.c \
+toolbox_skeleton/sci_gateway/c/sci_foo6.c \
+toolbox_skeleton/sci_gateway/c/sci_multiplybypi.c \
+toolbox_skeleton/sci_gateway/c/sci_multiplybypi6.c \
 toolbox_skeleton/sci_gateway/cpp/builder_gateway_cpp.sce \
 toolbox_skeleton/sci_gateway/cpp/sci_cpp_find.cxx \
-toolbox_skeleton/sci_gateway/c/sci_cerror.c \
-toolbox_skeleton/sci_gateway/c/sci_csub.c \
-toolbox_skeleton/sci_gateway/c/sci_csum.c \
-toolbox_skeleton/sci_gateway/c/sci_foo.c \
-toolbox_skeleton/sci_gateway/c/sci_multiplybypi.c \
+toolbox_skeleton/sci_gateway/cpp/sci_cpperror.cpp \
+toolbox_skeleton/sci_gateway/cpp/sci_cppfoo.cpp \
+toolbox_skeleton/sci_gateway/cpp/sci_cppmultiplybypi.cpp \
+toolbox_skeleton/sci_gateway/cpp/sci_cppsub.cpp \
+toolbox_skeleton/sci_gateway/cpp/sci_cppsum.cpp \
 toolbox_skeleton/sci_gateway/fortran/builder_gateway_fortran.sce \
 toolbox_skeleton/sci_gateway/fortran/sci_fsum.c \
 toolbox_skeleton/src/builder_src.sce \
@@ -462,7 +488,6 @@ toolbox_skeleton/src/c/csub.c \
 toolbox_skeleton/src/c/csub.h \
 toolbox_skeleton/src/c/csum.c \
 toolbox_skeleton/src/c/csum.h \
-toolbox_skeleton/src/cleaner_src.sce \
 toolbox_skeleton/src/c/multiplybypi.c \
 toolbox_skeleton/src/c/multiplybypi.h \
 toolbox_skeleton/src/fortran/builder_fortran.sce \
@@ -478,21 +503,21 @@ toolbox_skeleton/tests/unit_tests/java_sum.tst \
 toolbox_skeleton/tests/unit_tests/scilab_sum.dia.ref \
 toolbox_skeleton/tests/unit_tests/scilab_sum.tst \
 toolbox_skeleton/toolbox_skeleton_redist.iss \
+xcos_toolbox_skeleton/.gitignore \
+xcos_toolbox_skeleton/DESCRIPTION \
 xcos_toolbox_skeleton/builder.sce \
 xcos_toolbox_skeleton/changelog.txt \
-xcos_toolbox_skeleton/demos/allSum.dem.sce \
 xcos_toolbox_skeleton/demos/Blocks.zcos \
+xcos_toolbox_skeleton/demos/allSum.dem.sce \
 xcos_toolbox_skeleton/demos/xcos_toolbox_skeleton.dem.gateway.sce \
-xcos_toolbox_skeleton/DESCRIPTION \
-xcos_toolbox_skeleton/DESCRIPTION-FUNCTIONS \
 xcos_toolbox_skeleton/etc/xcos_toolbox_skeleton.quit \
 xcos_toolbox_skeleton/etc/xcos_toolbox_skeleton.start \
 xcos_toolbox_skeleton/examples/AllSum.zcos \
 xcos_toolbox_skeleton/help/builder_help.sce \
 xcos_toolbox_skeleton/help/cleaner_help.sce \
+xcos_toolbox_skeleton/help/en_US/TBX_SUM_c.xml \
 xcos_toolbox_skeleton/help/en_US/available_blocks.xml \
 xcos_toolbox_skeleton/help/en_US/build_help.sce \
-xcos_toolbox_skeleton/help/en_US/TBX_SUM_c.xml \
 xcos_toolbox_skeleton/help/en_US/tbx_sum.xml \
 xcos_toolbox_skeleton/help/fr_FR/build_help.sce \
 xcos_toolbox_skeleton/images/gif/TBX_MUT_STYLE.gif \
@@ -506,8 +531,6 @@ xcos_toolbox_skeleton/images/svg/TBX_SUM_c.svg \
 xcos_toolbox_skeleton/images/svg/TBX_SUM_modelica.svg \
 xcos_toolbox_skeleton/images/svg/TBX_SUM_sci.svg \
 xcos_toolbox_skeleton/license.txt \
-xcos_toolbox_skeleton/macros/buildmacros.sce \
-xcos_toolbox_skeleton/macros/cleanmacros.sce \
 xcos_toolbox_skeleton/macros/TBX_MUT_STYLE.sci \
 xcos_toolbox_skeleton/macros/TBX_NOOP.sci \
 xcos_toolbox_skeleton/macros/TBX_NOOP_sci.sci \
@@ -517,6 +540,9 @@ xcos_toolbox_skeleton/macros/TBX_SUM_modelica.sci \
 xcos_toolbox_skeleton/macros/TBX_SUM_sci.sci \
 xcos_toolbox_skeleton/macros/TBX_SUM_sim.sci \
 xcos_toolbox_skeleton/macros/XcosToolboxSkeleton.mo \
+xcos_toolbox_skeleton/macros/buildmacros.sce \
+xcos_toolbox_skeleton/macros/cleanmacros.sce \
+xcos_toolbox_skeleton/readme.txt \
 xcos_toolbox_skeleton/sci_gateway/builder_gateway.sce \
 xcos_toolbox_skeleton/sci_gateway/c/builder_gateway_c.sce \
 xcos_toolbox_skeleton/sci_gateway/c/sci_tbx_sum.c \
@@ -526,14 +552,14 @@ xcos_toolbox_skeleton/src/c/block_sum.c \
 xcos_toolbox_skeleton/src/c/builder_c.sce \
 xcos_toolbox_skeleton/src/c/business.h \
 xcos_toolbox_skeleton/src/c/business_sum.c \
-xcos_toolbox_skeleton/src/cleaner_src.sce \
 xcos_toolbox_skeleton/src/c/tbx_block_noop.c \
+xcos_toolbox_skeleton/src/cleaner_src.sce \
+xcos_toolbox_skeleton/tests/benchmark/noop_matrices.zcos \
 xcos_toolbox_skeleton/tests/benchmark/noop_matrices_c.tst \
 xcos_toolbox_skeleton/tests/benchmark/noop_matrices_scilab.tst \
-xcos_toolbox_skeleton/tests/benchmark/noop_matrices.zcos \
+xcos_toolbox_skeleton/tests/benchmark/noop_scalar.zcos \
 xcos_toolbox_skeleton/tests/benchmark/noop_scalar_c.tst \
 xcos_toolbox_skeleton/tests/benchmark/noop_scalar_scilab.tst \
-xcos_toolbox_skeleton/tests/benchmark/noop_scalar.zcos \
 xcos_toolbox_skeleton/tests/unit_tests/tbx_sum.dia.ref \
 xcos_toolbox_skeleton/tests/unit_tests/tbx_sum.tst
 

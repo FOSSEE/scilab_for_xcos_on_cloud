@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function []=updatevarslist(instr_lhs)
     // (2 functions in this file: merge_vars() at the end)
@@ -134,7 +137,7 @@ function []=updatevarslist(instr_lhs)
         ierr=execstr("zz=instr_lhs(k).contents.index","errcatch")
         if ierr<>0 then pause;end
         // Remove multiple entries from contents
-        for kcont=lstsize(instr_lhs(k).contents.index):-1:1
+        for kcont = size(instr_lhs(k).contents.index):-1:1
             [infertlist,pos]=get_contents_infer(instr_lhs(k),instr_lhs(k).contents.index(kcont))
             if pos<>0 & pos<>kcont then
                 instr_lhs(k).contents.index(pos)=null()
@@ -216,7 +219,7 @@ function []=merge_vars(oldvarindex,newvar)
     end
 
     // Verify contents
-    for k=1:lstsize(newvar.contents.index)
+    for k = 1:size(newvar.contents.index)
         olddata=get_contents_infer(oldvar,newvar.contents.index(k))
         newdata=newvar.contents.data(k)
 

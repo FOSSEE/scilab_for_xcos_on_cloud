@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="ja" xml:id="uigetfont">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="ja" xml:id="uigetfont">
     <refnamediv>
         <refname>uigetfont</refname>
         <refpurpose>フォント選択用のダイアログを開く.</refpurpose>
@@ -7,9 +10,13 @@
     <refsynopsisdiv>
         <title>呼び出し手順</title>
         <synopsis>
-            uigetfont()
-            [fontname [,fontsize [,bold [,italic]]]] = uigetfont([defaultfontname [,defaultfontsize [,defaultbold [,defaultitalic]]]]);
-            [fontname ,fontsize ,bold ,italic] = uigetfont(defaultfontname ,defaultfontsize ,defaultbold ,defaultitalic);
+        <synopsis>
+            [fontname, fontsize, bold, italic] = uigetfont()
+            [fontname, fontsize, bold, italic] = uigetfont(defaultfontname)
+            [fontname, fontsize, bold, italic] = uigetfont(defaultfontname, defaultfontsize)
+            [fontname, fontsize, bold, italic] = uigetfont(defaultfontname, defaultfontsize , defaultbold)
+            [fontname, fontsize, bold, italic] = uigetfont(defaultfontname, defaultfontsize , defaultbold, defaultitalic);
+        </synopsis>
         </synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -27,7 +34,7 @@
             <varlistentry>
                 <term>defaultfontsize</term>
                 <listitem>
-                    <para>スカラー: 
+                    <para>スカラー:
                         ダイアログに表示する
                         選択用フォントの大きさのデフォルト値.
                     </para>
@@ -36,8 +43,8 @@
             <varlistentry>
                 <term>defaultbold</term>
                 <listitem>
-                    <para>論理値: 
-                        ダイアログのbold属性のデフォルト値 
+                    <para>論理値:
+                        ダイアログのbold属性のデフォルト値
                         (ボールドフォントの場合は %T,それ以外は %F).
                     </para>
                 </listitem>
@@ -45,7 +52,7 @@
             <varlistentry>
                 <term>defaultitalic</term>
                 <listitem>
-                    <para>論理値: 
+                    <para>論理値:
                         ダイアログのitalic属性のデフォルト値
                         (斜体フォントの場合は %T, それ以外は %F).
                     </para>
@@ -94,12 +101,20 @@
     </refsection>
     <refsection>
         <title>例</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 uigetfont()
 uigetfont("arial")
 uigetfont("arial", 24)
 uigetfont("arial", 24, %T)
 uigetfont("arial", 24, %T, %F)
  ]]></programlisting>
+    </refsection>
+    <refsection role="see also">
+        <title>参照</title>
+        <simplelist type="inline">
+            <member>
+                <link linkend="xlfont">xlfont</link>
+            </member>
+        </simplelist>
     </refsection>
 </refentry>

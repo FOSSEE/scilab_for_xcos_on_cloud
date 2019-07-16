@@ -2,31 +2,38 @@
 // Copyright (C) 2008 - INRIA
 // Copyright (C) 2009 - DIGITEO - Allan CORNET
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function txt = help_skeleton(funname, path, language)
 
     [lhs,rhs] = argn(0);
 
     if rhs > 3 | rhs < 1 then
-        error(39);
+        msg = _("%s: Wrong number of input arguments: %d to %d expected.\n")
+        error(msprintf(msg, "help_skeleton", 1, 3));
     end
 
     if type(funname) <> 10 then
-        error(999,msprintf(gettext("%s: Wrong type for input argument #%d: A string expected.\n"),"help_skeleton",1));
+        msg = gettext("%s: Wrong type for input argument #%d: string expected.\n")
+        error(msprintf(msg, "help_skeleton", 1));
     end
 
     if size(funname, "*") <> 1 then
-        error(999,msprintf(gettext("%s: Wrong size for input argument #%d: A string expected.\n"),"help_skeleton",1));
+        msg = gettext("%s: Wrong size for input argument #%d: string expected.\n")
+        error(msprintf(msg, "help_skeleton", 1));
     end
 
     if rhs > 1 then
         if type(path) <> 10 then
-            error(55,2);
+            msg = _("%s: Argument #%d: Text(s) expected.\n")
+            error(msprintf(msg, "help_skeleton", 2));
         end
     end
 
@@ -34,7 +41,8 @@ function txt = help_skeleton(funname, path, language)
 
     if rhs == 3 then
         if type(language) <> 10 then
-            error(55,3);
+            msg = _("%s: Argument #%d: Text(s) expected.\n")
+            error(msprintf(msg, "help_skeleton", 3));
         end
         setlanguage(language);
     else
@@ -88,7 +96,7 @@ function txt = help_skeleton(funname, path, language)
     "    <refpurpose>" + _("Add short description here.") + "</refpurpose>"
     "  </refnamediv>"
     "  <refsynopsisdiv>"
-    "    <title>" + _("Calling Sequence") + "</title>"
+    "    <title>" + _("Syntax") + "</title>"
     "    <synopsis>" + Call + "</synopsis>"
     "  </refsynopsisdiv>"];
 

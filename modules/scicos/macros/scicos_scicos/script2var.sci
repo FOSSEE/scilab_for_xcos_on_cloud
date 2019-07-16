@@ -2,7 +2,7 @@
 //
 //  Copyright (C) INRIA - METALAU Project <scicos@inria.fr>
 //  Copyright (C) 2011 - INRIA - Serge Steer
-
+//  Copyright (C) 2018 - Samuel GOUGEON
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,13 +31,18 @@ function [%ll,%ierr] = script2var(%txt, %ll)
     //local variable names are prefixed with a %  to limit conflicts with
     //variables  defined in %txt instructions
     %ierr = 0 ; //** init
-
+    [tmp,mc] = where()
+    errInMsgbox = (getscilabmode()=="STD" & mc($)=="script2var"); // call from Java SetContextDialog
     //next lines checks if variable defined in %ll struct can be evaluated
-    //why ???
+
     %mm = fieldnames(%ll)';
     for %mi=%mm
         if execstr(%mi+"=%ll(%mi)","errcatch")<>0 then
-            mprintf("%s\n",lasterror())
+            if errInMsgbox
+                messagebox(lasterror(), _("Set Xcos context"), "warning", "modal")
+            else
+                mprintf("%s\n",lasterror())
+            end
             %ierr=1
             return
         end
@@ -54,19 +59,35 @@ function [%ll,%ierr]=getvardef(%txt,%ll)
     //local variable names are prefixed with a %  to limit conflicts with
     //variables  defined in %txt instructions
 
-    %nww="";%ierr=0;  // to make sure %nww and %ierr does not enter the difference
+    %ierr = 0;  // to make sure %ierr does not enter the difference
     if isempty(%txt) then return,end
-    %nww=size(who("get"),"*")
 
-    %ierr=execstr(%txt,"errcatch")
-    if %ierr<>0 then mprintf("%s\n",lasterror()), return,end
+    %ierr = execstr(%txt,"errcatch");
+    if %ierr<>0 then
+        if errInMsgbox
+            messagebox(lasterror(), _("Set Xcos context"), "warning", "modal")
+        else
+            mprintf("%s\n",lasterror())
+        end
+        return
+    end
 
-    %mm=who("get")
-    %mm=%mm(1:size(%mm,"*")-%nww)
-    //%mm contains the list of the variables defined by execstr(%txt,'errcatch')
-    for %mi=%mm(:)'
+    // Use 'macrovar' to extract the variable names present in %txt: listvar(5) contains all the output variables of the context
+    clear("foo"); // Locally reserve the "foo" name to avoid redefinition warning
+    deff("foo()", %txt);
+    listvar = macrovar(foo);
+    %mm = listvar(5);
+    // In case clear() has been used in the context, remove its arguments
+    if %mm <> [] then
+        %mm(~isdef(%mm, "l")) = [];
+    end
+
+    msg = []
+    tmp = _("The variable name %s cannot be used as block parameter: ignored\n")
+    msg0 = msprintf(tmp, "scs_m")
+    for %mi=%mm'
         if %mi=="scs_m" then
-            mprintf(_("The variable name %s cannot be used as block parameter: ignored"),"scs_m");
+            msg = [msg ; msg0]
             continue
         elseif %mi=="ans" then
             continue
@@ -76,14 +97,20 @@ function [%ll,%ierr]=getvardef(%txt,%ll)
         %v=evstr(%mi);
 
         if typeof(%v)=="scs_m" then
-            mprintf(_("The variable name %s cannot be used as block parameter: ignored"),"scs_m")
+            msg = [msg ; msg0]
             continue
-        elseif or(type(%v)==[11 13 14]) then
+        elseif or(type(%v)==[13 14]) then
             continue
         end
 
         %ll(%mi)=%v;
         clear %v
     end
+    if msg ~=[] then
+        if errInMsgbox
+            messagebox(msg, _("Set Xcos context"), "warning", "modal")
+        else
+            mprintf("%s\n", msg)
+        end
+    end
 endfunction
-

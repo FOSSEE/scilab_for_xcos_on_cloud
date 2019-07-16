@@ -17,20 +17,16 @@
             <literal>(e_1,e_2,...,e_rhs)</literal>は入力変数です.
             このコマンドをScilabに挿入するには,ScilabのFortranサブルーチン
             <literal>user</literal>に数行を追加する必要があります.
-            詳細については,<link linkend="intersci">intersci</link>またはScilabのドキュメントを参照ください.
         </para>
     </refsection>
     <refsection role="see also">
         <title>参照</title>
         <simplelist type="inline">
             <member>
-                <link linkend="fort">fort</link>
+                <link linkend="call">call</link>
             </member>
             <member>
                 <link linkend="link">link</link>
-            </member>
-            <member>
-                <link linkend="intersci">intersci</link>
             </member>
         </simplelist>
     </refsection>

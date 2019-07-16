@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ???? - INRIA - Scilab
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function   funcallname=lst_funcall(fil,fnamvect)
     //  LST_FUNCALL function (used by "translatepaths" function) Creates a list of vectors. The first component of each vector is the name of a M-file (found in the Paths to translate), followed by the called functions by this file
@@ -66,10 +69,15 @@ function   funcallname=lst_funcall(fil,fnamvect)
         funcdecl=[funcdecl size(txt,"*")+1]
         tmpfiles=[]
         for k=1:size(funcdecl,"*")-1
+            tmp = strindex(txt(funcdecl(k)),["function[","function "])
             if k==1 then
                 functxt=txt(funcdecl(k):funcdecl(k+1)-1)
-                str=  strindex(txt(funcdecl(k)),"(")-1
-                funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:str(1)))
+                str =  strindex(txt(funcdecl(k)),"(")
+                if str==[] then
+                    funcname=stripblanks(part(txt(funcdecl(k)),tmp+8:length(txt(funcdecl(k)))))
+                else
+                    funcname=stripblanks(part(txt(funcdecl(k)),tmp+8:str(1)-1))
+                end
                 keq=strindex(funcname,"=")
                 if ~isempty(keq) then
                     funcname=stripblanks(part(funcname,keq+1:length(funcname)))
@@ -77,11 +85,11 @@ function   funcallname=lst_funcall(fil,fnamvect)
                 mputl(functxt,pathconvert(TMPDIR)+fnam+".m");
             else
                 functxt=txt(funcdecl(k):funcdecl(k+1)-1)
-                str=strindex(txt(funcdecl(k)),"(")-1
-                if str==-1 then
-                    funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:length(txt(funcdecl(k)))))
+                str=strindex(txt(funcdecl(k)),"(")
+                if str==[] then
+                    funcname=stripblanks(part(txt(funcdecl(k)),tmp+8:length(txt(funcdecl(k)))))
                 else
-                    funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:str(1)))
+                    funcname=stripblanks(part(txt(funcdecl(k)),tmp+8:str(1)-1))
                 end
                 keq=strindex(funcname,"=")
                 if ~isempty(keq) then
@@ -144,7 +152,7 @@ function   funcallname=lst_funcall(fil,fnamvect)
     [helppart,txt,batch]=m2sci_syntax(txt)
     // save txt vector, helpart and batch after the syntax modification
     if strindex(fil,TMPDIR)==[] then
-        save(pathconvert(TMPDIR)+fnam+".tree",txt,helppart,batch)
+        save(pathconvert(TMPDIR)+fnam+".tree", "txt", "helppart", "batch")
     end
 
     funcallname=[]
@@ -184,12 +192,10 @@ function   funcallname=lst_funcall(fil,fnamvect)
         strsubst(stripblanks(part(func_proto,keq+1:kpar-1))," ","_")+..
         part(func_proto,kpar:length(func_proto))
 
-        deff(func_proto,[firstline;txt(2:$)],"n")
-        w=who("get");
-        mname=w(1);
+        deff(func_proto,[firstline;txt(2:$)])
+        // w=who("get");
+        // mname=w(1);
 
-        // Compilation
-        execstr("comp("+mname+",1)")
 
         funcprot(fprot)
 

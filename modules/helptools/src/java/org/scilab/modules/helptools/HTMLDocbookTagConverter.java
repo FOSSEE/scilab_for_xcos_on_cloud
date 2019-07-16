@@ -1,12 +1,16 @@
 /*
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010 - Calixte DENIZET
+ * Copyright (C) 2016 - 2018 - Samuel GOUGEON
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -434,7 +438,7 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      */
     public String makePath(final String id) {
         buffer.setLength(0);
-        buffer.append("<span class=\"path\">");
+        buffer.append("<span class=\"path\" dir=\"ltr\">");
         HTMLDocbookLinkResolver.TreeId leaf = mapTreeId.get(id);
         if (leaf == null) {
             return "";
@@ -654,26 +658,60 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
         } else {
             div = "span";
         }
+        String alt = attrs.get("alt");
+        if (alt == null) {
+            alt = "";
+        }
+        else {
+            alt = " alt=\'" + alt + "\'";
+        }
 
         if (getGenerationType() == Backend.JAVAHELP && isLinkedImage()) {
             // Java HTML renderer is not good... so when  the image is linked, we remove the div
-            return "<img src=\'" + fileName + "\' style=\'position:relative;" + top  + "width:" + img.width + "px;height:" + img.height + "px\'/>>";
+            return "<img src=\'" + fileName + "\' style=\'position:relative;" + top  + "width:" + img.width + "px;height:" + img.height + "px\'" + alt + "/>>";
         } else {
-            return "<" + div + align + "><img src=\'" + fileName + "\' style=\'position:relative;" + top  + "width:" + img.width + "px;height:" + img.height + "px\'/></" + div + ">";
+            return "<" + div + align + "><img src=\'" + fileName + "\' style=\'position:relative;" + top  + "width:" + img.width + "px;height:" + img.height + "px\'" + alt + "/></" + div + ">";
         }
     }
 
     @Override
     public String generateImageCode(String fileName, Map<String, String> attrs) {
-        String alignAttr = attrs.get("align");
+        String idAttr    = attrs.get("id");
+        String alignAttr = attrs.get("align");   // mixes align and valign imagedata attributes
+        String widthAttr = attrs.get("width");
+        String heightAttr= attrs.get("height");  // officially named "depth" as imagedata attribute
+        String styleAttr = attrs.get("style");
+        String altAttr = attrs.get("alt");       // for example: LaTeX content as text
         boolean addDiv = getGenerationType() != Backend.JAVAHELP || !isLinkedImage();
         final StringBuilder buffer = new StringBuilder(128);
         if (addDiv && alignAttr != null) {
-            buffer.append("<div style=\'text-align:").append(alignAttr).append("\'>");
+            buffer.append("<div style=\'text-align:").append(alignAttr).append("\'>\n");
         }
-        buffer.append("<img src=\'").append(fileName).append("\'/>");
+        buffer.append("<img src=\'").append(fileName).append("\' ");
+        if (!addDiv && alignAttr != null) {
+            buffer.append("align=\'").append(alignAttr).append("\' ");
+        }
+        if (idAttr != null){
+            buffer.append("id=\'").append(idAttr).append("\' ");
+        }
+        if (widthAttr != null){   // To avoid misshaping: setting width priority > setting height
+            buffer.append("width=\'").append(widthAttr).append("\' ");
+        }
+        else {
+            if (heightAttr != null) {
+                buffer.append("height=\'").append(heightAttr).append("\' ");
+            }
+        }
+        if (styleAttr != null) {
+            buffer.append("style=\'").append(styleAttr).append("\' ");
+        }
+        if (altAttr != null) {
+            altAttr = altAttr.replaceAll("\'", "&apos;").replaceAll("\"", "&quot;");
+            buffer.append("alt=\'").append(altAttr).append("\'");
+        }
+        buffer.append("/>\n");
         if (addDiv && alignAttr != null) {
-            buffer.append("</div>");
+            buffer.append("</div>\n");
         }
 
         return buffer.toString();
@@ -818,6 +856,12 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
         } else if (parent.equals("refsection") && Pattern.matches("^[ \\t]*ex[ea]mpl[eo].*", contents.toLowerCase())) {
             hasExamples = true;
             return encloseContents("h3", clazz, contents);
+        } else if (parent.equals("refsect1")) {
+            return encloseContents("h3", clazz, contents);
+        } else if (parent.equals("refsect2")) {
+            return encloseContents("h4", clazz, contents);
+        } else if (parent.equals("refsect3")) {
+            return encloseContents("h5", clazz, contents);
         } else {
             return encloseContents("h3", clazz, contents);
         }
@@ -844,7 +888,24 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      * @throws SAXEception if an error is encountered
      */
     public String handleLiteral(final Map<String, String> attributes, final String contents) throws SAXException {
-        return encloseContents("code", "literal", contents);
+      return encloseContents("code", new String[] {"class", "literal", "dir", "ltr"}, contents);
+    }
+
+    /**
+     * Handle a literallayout
+     * @param attributes the tag attributes
+     * @param contents the tag contents
+     * @return the HTML code
+     * @throws SAXEception if an error is encountered
+     */
+    public String handleLiterallayout(final Map<String, String> attributes, final String contents) throws SAXException {
+
+        //replace \n by <br>
+        String s = contents.replace("\n", "<BR>");
+        //replace spaces by &nbsp;
+        s = s.replace(" ", "&nbsp;");
+
+        return encloseContents("code", new String[] {"class", "literallayout", "dir", "ltr"}, s);
     }
 
     /**
@@ -1019,6 +1080,70 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
     }
 
     /**
+     * Handle a refsect1
+     * @param attributes the tag attributes
+     * @param contents the tag contents
+     * @return the HTML code
+     * @throws SAXEception if an error is encountered
+     */
+    public String handleRefsect1(final Map<String, String> attributes, final String contents) throws SAXException {
+        String id = attributes.get("id");
+        if (id != null) {
+            return "<a name=\"" + id + "\"></a>" + encloseContents("div", "refsect1", contents);
+        } else {
+            return encloseContents("div", "refsect1", contents);
+        }
+    }
+
+    /**
+     * Handle a refsect2
+     * @param attributes the tag attributes
+     * @param contents the tag contents
+     * @return the HTML code
+     * @throws SAXEception if an error is encountered
+     */
+    public String handleRefsect2(final Map<String, String> attributes, final String contents) throws SAXException {
+        String id = attributes.get("id");
+        if (id != null) {
+            return "<a name=\"" + id + "\"></a>" + encloseContents("div", "refsect2", contents);
+        } else {
+            return encloseContents("div", "refsect2", contents);
+        }
+    }
+
+    /**
+     * Handle a refsect3
+     * @param attributes the tag attributes
+     * @param contents the tag contents
+     * @return the HTML code
+     * @throws SAXEception if an error is encountered
+     */
+    public String handleRefsect3(final Map<String, String> attributes, final String contents) throws SAXException {
+        String id = attributes.get("id");
+        if (id != null) {
+            return "<a name=\"" + id + "\"></a>" + encloseContents("div", "refsect3", contents);
+        } else {
+            return encloseContents("div", "refsect3", contents);
+        }
+    }
+
+    /**
+     * Handle an anchor
+     * @param attributes the tag attributes
+     * @param contents the tag contents
+     * @return the HTML code
+     * @throws SAXEception if an error is encountered
+     */
+    public String handleAnchor(final Map<String, String> attributes, final String contents) throws SAXException {
+        String id = attributes.get("id");
+        if (id != null) {
+            return "<a name=\"" + id + "\">" + contents + "</a>";
+        } else {
+            return contents;
+        }
+    }
+
+    /**
      * Handle a progamlisting
      * @param attributes the tag attributes
      * @param contents the tag contents
@@ -1087,7 +1212,7 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      */
     public String handleScreen(final Map<String, String> attributes, final String contents) throws SAXException {
         String id = attributes.get("id");
-        String str = encloseContents("div", "screen", encloseContents("pre", contents));
+        String str = encloseContents("div", "screen", encloseContents("pre", contents.replace("<", "&lt;")));
         if (id != null) {
             return "<a name=\"" + id + "\"></a>" + str;
         } else {
@@ -1419,8 +1544,10 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      */
     public String handleTr(final Map<String, String> attributes, final String contents) throws SAXException {
         String bgcolor = attributes.get("bgcolor");
+        String valign = attributes.get("valign");
+        String id = attributes.get("id");
 
-        return encloseContents("tr", new String[] {"bgcolor", bgcolor}, contents);
+        return encloseContents("tr", new String[] {"id", id, "bgcolor", bgcolor, "valign", valign}, contents);
     }
 
     /**
@@ -1431,12 +1558,14 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      * @throws SAXEception if an error is encountered
      */
     public String handleTd(final Map<String, String> attributes, final String contents) throws SAXException {
-        String align = attributes.get("align");
+        String align   = attributes.get("align");
+        String valign  = attributes.get("valign");
         String bgcolor = attributes.get("bgcolor");
         String colspan = attributes.get("colspan");
         String rowspan = attributes.get("rowspan");
+        String style   = attributes.get("style");   /*  for style="white-space:nowrap" */
 
-        return encloseContents("td", new String[] {"align", align, "bgcolor", bgcolor, "colspan", colspan, "rowspan", rowspan}, contents);
+        return encloseContents("td", new String[] {"align", align, "valign", valign, "bgcolor", bgcolor, "colspan", colspan, "rowspan", rowspan, "style", style}, contents);
     }
 
     /**
@@ -1783,7 +1912,11 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      * @throws SAXEception if an error is encountered
      */
     public String handleTh(final Map<String, String> attributes, final String contents) throws SAXException {
-        return encloseContents("th", contents);
+        String align = attributes.get("align");
+        String valign = attributes.get("valign");
+        String style   = attributes.get("style");   /*  for style="white-space:nowrap" */
+
+        return encloseContents("th", new String[] {"align", align, "valign", valign, "style", style}, contents);
     }
 
     /**
@@ -1811,7 +1944,7 @@ public class HTMLDocbookTagConverter extends DocbookTagConverter implements Temp
      * @throws SAXEception if an error is encountered
      */
     public String handleRevision(final Map<String, String> attributes, final String contents) throws SAXException {
-        return encloseContents("tr", contents);
+        return encloseContents("tr", new String[] {"valign", "top"}, contents);
     }
 
     /**

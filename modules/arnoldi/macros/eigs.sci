@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2012 - Scilab Enterprises - Adeline CARNIS
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [d, v] = eigs(varargin)
     lhs = argn(1);
@@ -49,21 +52,25 @@ function [d, v] = eigs(varargin)
     B = [];
     sigma = "LM";
     if(rhs == 1)
-        if(~issparse(varargin(1)))
+        if ~issparse(varargin(1))
             info = int32(0);
         end
     else
-        if(~issparse(varargin(1)) & ~issparse(varargin(2)))
+        if ~issparse(varargin(1)) & ~issparse(varargin(2))
             info = int32(0);
         end
     end
 
-    if(typeof(varargin(1)) <> "function")
+    if (typeof(varargin(1)) <> "function")
+        if isequal(A, A')   // A is real symmetric
+            nev = min(size(A, "r") - 1, 6);
+        else
+            nev = min(size(A, "r") - 2, 6);
+        end
+
         select rhs
         case 1
-            nev =  min(size(A, "r"), 6);
         case 2
-            nev = min(size(A, "r"), 6);
             B = varargin(2);
         case 3
             B = varargin(2);
@@ -94,13 +101,13 @@ function [d, v] = eigs(varargin)
             end
             if(isfield(opts, "resid"))
                 resid = opts.resid;
-                if(issparse(varargin(1)) | issparse(varargin(2)))
+                if issparse(varargin(1)) | issparse(varargin(2))
                     info = 1;
                 else
                     info = int32(1);
                 end
                 if(and(resid==0))
-                    if(issparse(varargin(1)) | issparse(varargin(2)))
+                    if issparse(varargin(1)) | issparse(varargin(2))
                         info = 0;
                     else
                         info = int32(0);
@@ -114,13 +121,13 @@ function [d, v] = eigs(varargin)
 
         select lhs
         case 1
-            if(issparse(A) | issparse(B))
+            if issparse(A) | issparse(B)
                 d = speigs(A, B, nev, sigma, maxiter, tol, ncv, cholB, resid, info);
             else
                 d = %_eigs(A, B, nev, sigma, maxiter, tol, ncv, cholB, resid, info);
             end
         case 2
-            if(issparse(A) | issparse(B))
+            if issparse(A) | issparse(B)
                 [d, v] = speigs(A, B, nev, sigma, maxiter, tol, ncv, cholB, resid, info);
             else
                 [d, v] = %_eigs(A, B, nev, sigma, maxiter, tol, ncv, cholB, resid, info);
@@ -271,7 +278,7 @@ function [res_d, res_v] = speigs(A, %_B, nev, which, maxiter, tol, ncv, cholB, r
     case 10 then
         [mWHICH, nWHICH] = size(which);
         if(mWHICH * nWHICH <> 1)
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: A string expected.\n"), "eigs", 4));
+            error(msprintf(gettext("%s: Wrong type for input argument #%d: string expected.\n"), "eigs", 4));
         end
         if(strcmp(which,"LM") ~= 0 & strcmp(which,"SM") ~= 0  & strcmp(which,"LR") ~= 0 & strcmp(which,"SR") ~= 0 & strcmp(which,"LI") ~= 0 & strcmp(which,"SI") ~= 0 & strcmp(which,"LA") ~= 0 & strcmp(which,"SA") ~= 0 & strcmp(which,"BE") ~= 0)
             if(Areal & Breal & Asym)
@@ -414,7 +421,7 @@ function [res_d, res_v] = speigs(A, %_B, nev, which, maxiter, tol, ncv, cholB, r
         if(or(triu(%_B) <> %_B))
             error(msprintf(gettext("%s: Wrong type for input argument #%d: if opts.cholB is true, B must be upper triangular.\n"), "eigs", 2));
         end
-        if(issparse(%_B)) //sparse cholesky decomposition is reversed...
+        if issparse(%_B) //sparse cholesky decomposition is reversed...
             Rprime = %_B;
             R = Rprime';
         else
@@ -424,10 +431,10 @@ function [res_d, res_v] = speigs(A, %_B, nev, which, maxiter, tol, ncv, cholB, r
     end
 
     if(~cholB & matB & iparam(7) == 1)
-        if(issparse(%_B) & ~Breal)
+        if issparse(%_B) & ~Breal
             error(msprintf(gettext("%s: Impossible to use the Cholesky factorization with complex sparse matrices.\n"), "eigs"));
         else
-            if(issparse(%_B))
+            if issparse(%_B)
                 [R, P] = spchol(%_B);
                 perm = spget(P);
                 perm = perm(:,2);
@@ -439,7 +446,7 @@ function [res_d, res_v] = speigs(A, %_B, nev, which, maxiter, tol, ncv, cholB, r
             end
         end
     end
-    if(matB & issparse(%_B) & iparam(7) ==1)
+    if matB & issparse(%_B) & iparam(7) ==1
         Rfact = umf_lufact(R);
         Rprimefact = umf_lufact(R');
     end
@@ -519,7 +526,7 @@ function [res_d, res_v] = speigs(A, %_B, nev, which, maxiter, tol, ncv, cholB, r
                     if(matB == 0)
                         workd(ipntr(2):ipntr(2)+nA-1) = A * workd(ipntr(1):ipntr(1)+nA-1);
                     else
-                        if(issparse(%_B))
+                        if issparse(%_B)
                             y = umf_lusolve(Rprimefact, workd(ipntr(1):ipntr(1)+nA-1));
                             if(~cholB)
                                 y = A * y(perm);
@@ -870,7 +877,7 @@ function [res_d, res_v] = feigs(A_fun, nA, %_B, nev, which, maxiter, tol, ncv, c
         if(or(triu(%_B) <> %_B))
             error(msprintf(gettext("%s: Wrong type for input argument #%d: if opts.cholB is true, B must be upper triangular.\n"), "eigs", 2));
         end
-        if(issparse(%_B)) //sparse cholesky decomposition is reversed...
+        if issparse(%_B) //sparse cholesky decomposition is reversed...
             Rprime = %_B;
             R = Rprime;
         else
@@ -879,10 +886,10 @@ function [res_d, res_v] = feigs(A_fun, nA, %_B, nev, which, maxiter, tol, ncv, c
         end
     end
     if(~cholB & matB & iparam(7) == 1)
-        if(issparse(%_B) & ~Breal)
+        if issparse(%_B) & ~Breal
             error(msprintf(gettext("%s: Impossible to use the Cholesky factorization with complex sparse matrices.\n"), "eigs"));
         else
-            if(issparse(%_B))
+            if issparse(%_B)
                 [R,P] = spchol(%_B);
                 perm = spget(P);
                 perm = perm(:,2);
@@ -894,7 +901,7 @@ function [res_d, res_v] = feigs(A_fun, nA, %_B, nev, which, maxiter, tol, ncv, c
             end
         end
     end
-    if(matB & issparse(%_B) & iparam(7) == 1)
+    if matB & issparse(%_B) & iparam(7)==1
         Rfact = umf_lufact(R);
         Rprimefact = umf_lufact(R');
     end
@@ -964,7 +971,7 @@ function [res_d, res_v] = feigs(A_fun, nA, %_B, nev, which, maxiter, tol, ncv, c
                             break;
                         end
                     else
-                        if(issparse(%_B))
+                        if issparse(%_B)
                             y = umf_lusolve(Rprimefact, workd(ipntr(1):ipntr(1)+nA-1));
                             if(~cholB)
                                 ierr = execstr("workd(ipntr(2):ipntr(2)+nA-1) = A_fun( y(perm) )", "errcatch");

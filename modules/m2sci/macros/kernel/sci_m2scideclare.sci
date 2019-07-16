@@ -2,11 +2,14 @@
 // Copyright (C) ???? - INRIA - Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function []=sci_m2scideclare(def)
     // This function translate calls to m2scideclare
@@ -158,13 +161,13 @@ function []=sci_m2scideclare(def)
                 contents.index($+1)=t.statements(2).expression.rhs(1);
             end
             clear m2scitmp
-            for k=1:lstsize(contents.index($))
+            for k = 1:size(contents.index($))
                 if typeof(contents.index($)(k))=="variable" & contents.index($)(k).name=="%genericm2sciindex" then
                     contents.index($)(k)=Cste("*")
                 elseif typeof(contents.index($)(k))=="cste" then
                     contents.index($)(k)=Cste(contents.index($)(k).value)
                 elseif typeof(contents.index($)(k))=="list" then
-                    for kk=1:lstsize(contents.index($)(k))
+                    for kk = 1:size(contents.index($)(k))
                         if typeof(contents.index($)(k)(kk))=="variable" & contents.index($)(k)(kk).name=="%genericm2sciindex" then
                             contents.index($)(k)(kk)=Cste("*")
                         elseif typeof(contents.index($)(k)(kk))=="cste" then
@@ -185,7 +188,7 @@ function []=sci_m2scideclare(def)
             infereddims=varslist(index).dims
 
             err=%F
-            for kd=1:min([lstsize(vardims) lstsize(infereddims)])
+            for kd=1:min([size(vardims) size(infereddims)])
                 if infereddims(kd)~=vardims(kd) & infereddims(kd)<>Unknown then
                     err=%T
                     break
@@ -226,13 +229,13 @@ function []=sci_m2scideclare(def)
                 contents.index($+1)=t.statements(2).expression.rhs(1);
             end
             clear m2scitmp
-            for k=1:lstsize(contents.index($))
+            for k=1:size(contents.index($))
                 if typeof(contents.index($)(k))=="variable" & contents.index($)(k).name=="%genericm2sciindex" then
                     contents.index($)(k)=Cste("*")
                 elseif typeof(contents.index($)(k))=="cste" then
                     contents.index($)(k)=Cste(contents.index($)(k).value)
                 elseif typeof(contents.index($)(k))=="list" then
-                    for kk=1:lstsize(contents.index($)(k))
+                    for kk=1:size(contents.index($)(k))
                         if typeof(contents.index($)(k)(kk))=="variable" & contents.index($)(k)(kk).name=="%genericm2sciindex" then
                             contents.index($)(k)(kk)=Cste("*")
                         elseif typeof(contents.index($)(k)(kk))=="cste" then
@@ -267,7 +270,7 @@ function []=sci_m2scideclare(def)
             infereddims=varslist(index).dims
 
             err=%F
-            for kd=1:min([lstsize(dims) lstsize(infereddims)])
+            for kd=1:min([size(dims) size(infereddims)])
                 if infereddims(kd)~=dims(kd) & infereddims(kd)<>Unknown then
                     err=%T
                     break
@@ -336,7 +339,7 @@ endfunction
 
 function str=dims2str(dims)
     str=""
-    for kd=1:lstsize(dims)
+    for kd=1:size(dims)
         str=str+string(dims(kd))+" "
     end
 endfunction

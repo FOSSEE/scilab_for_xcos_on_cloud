@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * 
+ *
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010 - 2011 - DIGITEO - Michael Baudin
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="assert_checkalmostequal" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="assert_checkalmostequal" xml:lang="en">
     <refnamediv>
         <refname>assert_checkalmostequal</refname>
         <refpurpose>Check that computed and expected are numerically close.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>
             flag = assert_checkalmostequal ( computed , expected )
             flag = assert_checkalmostequal ( computed , expected , reltol )
             flag = assert_checkalmostequal ( computed , expected , reltol , abstol )
             flag = assert_checkalmostequal ( computed , expected , reltol , abstol , comptype )
             [flag,errmsg] = assert_checkalmostequal ( ... )
-            
+
         </synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -33,43 +39,61 @@
             <varlistentry>
                 <term>computed:</term>
                 <listitem>
-                    <para> a matrix of doubles, a sparse matrix of doubles, or an hypermatrix of doubles, the computed result</para>
+                    <para>
+                      matrix or hypermatrix or sparse matrix of decimal real or complex numbers;
+                      or matrix or hypermatrix of polynomials with real or complex coefficients:
+                      the computed result.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>expected :</term>
                 <listitem>
-                    <para> a matrix of doubles, a sparse matrix of doubles, or an hypermatrix of doubles, the expected result</para>
+                    <para>
+                      matrix or hypermatrix or sparse matrix of decimal real or complex numbers;
+                      or matrix or hypermatrix of polynomials with real or complex coefficients:
+                      the expected result.
+                    </para>
+                  <para>
+                    If <literal>computed</literal> are polynomials, <literal>expected</literal>
+                    must be polynomials as well.
+                  </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>reltol :</term>
                 <listitem>
-                    <para> a 1-by-1 matrix of doubles, the relative tolerance (default reltol=sqrt(%eps)).</para>
+                    <para>real number: the relative tolerance (default reltol=sqrt(%eps)).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>abstol :</term>
                 <listitem>
-                    <para> a 1-by-1 matrix of doubles, the absolute tolerance (default abstol=0).</para>
+                    <para>real number: the absolute tolerance (default abstol=0).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>comptype :</term>
                 <listitem>
-                    <para> a 1-by-1 matrix of strings, "matrix" or "element" (default comptype="element"). The comparison type.</para>
+                  <para>keyword <literal>"matrix"</literal> or <literal>"element"</literal>
+                    (default <literal>"element"</literal>). The comparison type.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>flag :</term>
                 <listitem>
-                    <para> a 1-by-1 matrix of boolean, %t if computed is close to expected, %f if not</para>
+                  <para>
+                    <literal>%t</literal> if computed is close to expected; else <literal>%f</literal>.
+                  </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>errmsg :</term>
                 <listitem>
-                    <para> a 1-by-1 matrix of strings, the error message. If flag==%t, then errormsg=="". If flag==%f, then errmsg contains the error message.</para>
+                    <para>
+                      Unique string: the error message. If flag==%t, then errormsg=="".
+                      If flag==%f, then errmsg contains the error message.
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -77,9 +101,13 @@
     <refsection>
         <title>Description</title>
         <para>
-            Performs silently if the two matrices of doubles or complex doubles
-            computed and expected are close.
+            Performs silently if the two arrays of doubles or complex doubles, or the two arrays
+            of real or complex polynomials computed and expected are close.
             The variables computed and expected can be exchanged without changing the result.
+        </para>
+        <para>
+          In case of polynomials, the size of both arrays, the degrees, and finally the
+          matrices of their coefficients are compared within the given or default tolerances.
         </para>
         <para>
             Any optional input argument equal to the empty matrix is replaced by its default value.
@@ -101,11 +129,11 @@
             The default value comptype="matrix" option performs the comparison for the matrices as a whole,
             the norm of the difference of the matrices is used.
             The comptype="element" option performs the comparison elementwise, i.e.
-            all the elements of the matrices must be almost equal. 
-            Choosing between these two comparison types must be done with care. 
-            For example, if we are checking the elementwise output of an elementary function, 
-            we should choose the "element" comparison type, since we must compare the 
-            matrix elements one after the other. 
+            all the elements of the matrices must be almost equal.
+            Choosing between these two comparison types must be done with care.
+            For example, if we are checking the elementwise output of an elementary function,
+            we should choose the "element" comparison type, since we must compare the
+            matrix elements one after the other.
         </para>
         <para>
             If the IEEE values %inf, -%inf or %nan values are in the matrices,
@@ -264,7 +292,14 @@ assert_checkalmostequal ( 1+%i , 1+(1+1.e-4)*%i , 1.e-5 , [], "element" );
         <revhistory>
             <revision>
                 <revnumber>5.4.0</revnumber>
-                <revdescription>Function introduced
+                <revdescription>
+                    Function introduced.
+                </revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.0.1</revnumber>
+                <revdescription>
+                    Extension to polynomials.
                 </revdescription>
             </revision>
         </revhistory>

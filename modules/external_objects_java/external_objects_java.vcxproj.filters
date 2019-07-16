@@ -42,9 +42,6 @@
     <ClCompile Include="src\jni\ScilabJavaObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sci_gateway\c\gw_external_objects_java.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sci_gateway\cpp\sci_jallowClassReloading.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,9 +112,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sci_gateway\cpp\sci_jinvoke.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sci_gateway\cpp\sci_jconvMatrixMethod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sci_gateway\cpp\sci_jgetinfo.cpp">

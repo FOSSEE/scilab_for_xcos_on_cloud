@@ -1,18 +1,23 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) 2010 - DIGITEO - Manuel Juliachs
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2010, 2018 - Samuel GOUGEON
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function polarplot(theta,rho,style,strf,leg,rect)
     [lhs,rhs]=argn(0)
     if rhs<=0 then
         theta=0:.01:2*%pi;
         rho=sin(2*theta).*cos(2*theta)
-        clf();
+        s = gca().axes_bounds;
+        delete(gca()); xsetech(s) // clears & keeps the current axes area
         polarplot(theta,rho)
         return
     end
@@ -54,9 +59,9 @@ function polarplot(theta,rho,style,strf,leg,rect)
     end
 
     // Some default values:
-    Amin=0 // starting angle for the frame
-    dA=360 // span of the angular frame
-    nn=4    // number of quadrants to be drawn
+    Amin = 0       // starting angle for the frame
+    dA = 360       // span of the angular frame
+    nQuadrants = 4 // number of quadrants to be drawn
 
     xmin=min(x);
     xmax=max(x);
@@ -66,7 +71,8 @@ function polarplot(theta,rho,style,strf,leg,rect)
     H=(ymax-ymin)*1.07;
     // Angle at which Radial labels will be displayed
     A=round(atan((ymin+ymax)/2,(xmin+xmax)/2)/%pi*180/45)*45;
-    dx=-0.5, dy=-0.5  // H & V shifts in string-width and string-height units
+    dx = 0
+    dy = 0  // H & V shifts in string-width and string-height units
 
     // Case without rect=
     if ~isrect then
@@ -123,28 +129,46 @@ function polarplot(theta,rho,style,strf,leg,rect)
         end
 
         n=find(Q);   // id numbers of quadrants to be drawn
-        nn=length(n) // number of quadrants to be drawn
+        nQuadrants=length(n)
         Amin=(n(1)-1)*90
 
-        select nn
+        select nQuadrants
         case 1,
-            dA=90;
-            if n==1, A=90, dx=-1.1, dy=-0.5
-            elseif n==2, A=90, dx=0.2, dy=-0.5
-            elseif n==3, A=270, dx=0.2, dy=-0.5
-            else A=270, dx=-1.1, dy=-0.5
+            dA = 90;
+            if n==1
+                A = 90
+                dx = -0.8
+            elseif n==2
+                A = 90
+                dx = 0.8
+            elseif n==3
+                A = 270
+                dx = 0.8
+            else
+                A = 270
+                dx = -0.8
             end
         case 2
-            dA=180;
+            dA = 180;
             if n(1)==1
-                if n(2)==2, //A=90, dx=0.1, dy=-0.5
-                else Amin=-90, A=90, dx=-1.2, dy=-0.5, end
-            elseif n(1)==2, A=90, dx=0.2, dy=-0.5
-            else A=0, dx=-0.5, dy=0.2
+                if n(2)==2, //A=90, dx=0.0
+                else // [1 4]
+                    Amin = -90
+                    A = 90
+                    dx = -0.9
+                end
+            elseif n(1)==2  // [2 3]
+                A = 90
+                dx = 0.9
+            else            // [3 4]
+                A = 0
+                dy = 0.6
             end
         else
-            Amin=0, dA=360
-        end
+            A = 90
+            Amin = 0
+            dA = 360
+         end
         opts=[opts,"rect=rect"]
     end // if ~isrect
 
@@ -159,13 +183,25 @@ function polarplot(theta,rho,style,strf,leg,rect)
         frameflag=4
         opts=[opts,"frameflag=frameflag"],
     end
-    drawlater()
+
+    initDrawingMode = gcf().immediate_drawing;
+    gcf().immediate_drawing = "off";
     execstr("plot2d(x,y,"+strcat(opts,",")+")")
+    ax = gca();
+    ax.margins = [0.09 0.09 0.12 0.09]
 
-    fcolor=color("grey70");
-    xset("dashes",1)
+    // Frames color
+    fcolor = color("grey60");
+    txtColor = color("grey30");
 
-    // CIRCULAR FRAME:
+    // Default Datatip function for curves
+    a = gca();
+    curves = a.children(1).children;
+    curves.display_function = "polarplot_datatip_display";
+    curves.display_function_data = Amin;    // for theta on [0,360] | [-90,90]
+
+    // CIRCULAR FRAME AT SET OF RADII:
+    // ------------------------------
     // Radial values for the frame:
     fmt_in=format(), format("v",9)
     // Tunning for smart values:
@@ -182,14 +218,16 @@ function polarplot(theta,rho,style,strf,leg,rect)
     // Tuning for smart 10^ display using LaTeX instead of D+## exponential display
     if abs(p)<4,
         Rtxt=string(R)
-        [v,k]=max(length(Rtxt)), tmp=xstringl(0,0,Rtxt(k))
+        [v,k]=max(length(Rtxt))
+        tmp=xstringl(0,0,Rtxt(k))
     else
         if dm<1, dm=dm*10, p=p-1, end
-        tmp=string(R/10^p)+"108"
-        [v,k]=max(length(tmp)), tmp=xstringl(0,0,tmp(k))
-        Rtxt="$\scriptstyle "+string(R/10^p)+"\:.10^{"+string(p)+"}$";
+        tmp = string(R/10^p)+"108"
+        [v,k] = max(length(tmp))
+        tmp = xstringl(0,0,tmp(k))
+        Rtxt = "$"+string(R/10^p)+"\:.10^{"+string(p)+"}$";
     end
-    w=tmp(3); h=tmp(4);
+    w = tmp(3); h = tmp(4);
     format(fmt_in(2),fmt_in(1))  // Restoring entrance format
     R = [ R  rm ]
 
@@ -198,37 +236,47 @@ function polarplot(theta,rho,style,strf,leg,rect)
     for k=1:kM
         r=R(k)
         xarc(-r,r,2*r,2*r,Amin*64,dA*64)
-        e = gce();,e.line_style=3
-        e.foreground=fcolor;
+        e = gce();
+        e.line_style = 8
+        e.foreground = fcolor;
         if k==kM
             e.line_style=1;  // solid outer arc
         else
             xstring(r*cosd(A)+w*dx, r*sind(A)+h*dy, Rtxt(k))
             e = gce();
             e.clip_state = "off";
+            e.text_box_mode = "centered"
+            e.text_box = [0 0]
+            e.font_foreground = txtColor
         end
     end
 
-    // ANGULAR FRAME:
-    if nn<3, eA=10, else eA=30; end // adaptative angular sampling
+    // RADIAL FRAME @ SET OF ANGLES:
+    // ----------------------------
+    if nQuadrants<3, eA=10, else eA=30; end // adaptative angular sampling
     an=linspace(Amin,Amin+dA,round(dA/eA)+1);
     // avoiding 360 == 0
-    if nn>2, tmp=find(abs(an-360)<eA/10); an(tmp)=[]; end
+    if nQuadrants>2, tmp=find(abs(an-360)<eA/10); an(tmp)=[]; end
     // Adjusting H-shifts of angular labels
     tmp=xstringl(0,0,"360");
     w=tmp(3); h=tmp(4);
-    rL=rm*1.03;  // Radius of angular labels
-    for k=an  // draws and labels angular rays
+    d = sqrt(w*w + h*h);
+    rL = (rm + d*.4)  // Radius for angular labels
+    for k = an  // draws and labels angular rays
         xsegs([0;rm*cosd(k)],[0;rm*sind(k)])
-        e = gce(); e.segs_color=fcolor; e.line_style=3;
-        xstring((rL+w/2)*cosd(k)-w/2, (rL+h/2)*sind(k)-h/2, string(k))
         e = gce();
+        e.segs_color = fcolor;
+        e.line_style = 7;
+        xstring(rL*cosd(k), rL*sind(k), string(k))
+        e = gce();
+        e.text_box_mode = "centered"
+        e.text_box = [0 0]
         e.clip_state = "off";
+        e.font_foreground = txtColor
     end
 
-    a=gca();
-    a.data_bounds=[rect(1:2);rect(3:4)]
-    a.margins=[0.07 0.07 0.12 0.07]
+    ax.data_bounds=[rect(1:2);rect(3:4)]
+    ax.tight_limits(1:2) = ["on" "on"]
 
-    drawnow()
+    gcf().immediate_drawing = initDrawingMode;
 endfunction

@@ -2,11 +2,11 @@
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="librarieslist">
     <refnamediv>
         <refname>librarieslist</refname>
-        <refpurpose>get scilab libraries</refpurpose>
+        <refpurpose>gets the list of loaded Scilab libraries</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>s=librarieslist()</synopsis>
+        <title>Syntax</title>
+        <synopsis>s = librarieslist()</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
@@ -30,14 +30,14 @@
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 librarieslist()
 // to sort list
 l =  gsort(librarieslist(),'r','i')
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="libraryinfo">libraryinfo</link>

@@ -6,6 +6,7 @@
 // =============================================================================
 //
 // <-- TEST WITH GRAPHIC -->
+// <-- NO CHECK REF -->
 //
 // <-- Non-regression test for bug 7080 -->
 //
@@ -23,11 +24,11 @@ f13="Sgrayplot";
 f14="TitleLabel";
 
 //bar
-msgerr11=msprintf(_("%s: Wrong number of input argument(s): %d to %d expected.\n"),f1,1,5);
-assert_checkerror("bar(gca(),[1 2],[1 2],0.8,""blue"",""grouped"")", msgerr11);
-msgerr12=msprintf(gettext("%s: Wrong type for input arguments: Matrix expected for %s, %s and %s.\n"),"bar", "x", "y", "width");
+msgerr11=msprintf(_("%s: Wrong number of input argument(s): %d to %d expected.\n"),f1,1,6);
+assert_checkerror("bar(gca(),[1 2],[1 2],0.8,""blue"",""grouped"",[])", msgerr11);
+msgerr12=msprintf(gettext("%s: Argument #%d: Decimal number(s) expected.\n"), f1, 2);
 assert_checkerror("bar(gca(),[""s"" ""d""],[1 2 3])", msgerr12);
-msgerr13=msprintf(_("%s: Wrong size for input arguments #%d and #%d: The number of rows of argument #%d must be equal to the size of argument #%d.\n"),"bar",1, 2, 2, 1);
+msgerr13=msprintf(_("%s: Arguments #%d and #%d: Incompatible sizes.\n"), f1, 1, 2);
 assert_checkerror("bar([1 2],[1 2 3],0.8,""blue"")", msgerr13);
 
 //barh
@@ -37,7 +38,7 @@ msgerr22=msprintf(gettext("%s: Wrong type for input arguments: Matrix expected f
 assert_checkerror("barh(gca(),[""s"" ""d""],[1 2 3])", msgerr22);
 msgerr23=msprintf(_("%s: Wrong size for input arguments #%d and #%d: The number of rows of argument #%d must be equal to the size of argument #%d.\n"),"bar",1, 2, 2, 1);
 assert_checkerror("barh([1 2],[1 2 3],0.8,""blue"")", msgerr23);
-msgerr24=msprintf(gettext("%s: Wrong type for input argument #%d: A string expected.\n"),f2,5);
+msgerr24=msprintf(gettext("%s: Wrong type for input argument #%d: string expected.\n"),f2,5);
 assert_checkerror("barh(1,2,3,4,5)",msgerr24);
 
 //barhomogenize
@@ -47,7 +48,7 @@ msgerr32=msprintf(_("%s: Could not find any bar in the current graphic.\n"), "ba
 assert_checkerror("barhomogenize(gca(),""grouped"",3)", msgerr32);
 
 //getColorIndex
-msgerr41=msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"), f4, 1);
+msgerr41=msprintf(_("%s: Wrong type for input argument #%d: string expected.\n"), f4, 1);
 assert_checkerror("getColorIndex(1)", msgerr41);
 
 //Sgrayplot
@@ -57,5 +58,5 @@ msgerr132=msprintf(gettext("%s: Wrong type for input argument(s): Arguments #%d,
 assert_checkerror("Sgrayplot(%i,%i,[%i,%i])", msgerr132);
 
 //TitleLabel
-msgerr141=msprintf(gettext("%s: Wrong size or type for input argument #%d: A string expected.\n"),f14,1);
+msgerr141=msprintf(gettext("%s: Wrong size or type for input argument #%d: string expected.\n"),f14,1);
 assert_checkerror("TitleLabel(""Scale n°3"",1)",msgerr141);

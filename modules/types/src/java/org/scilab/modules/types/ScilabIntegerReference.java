@@ -4,11 +4,14 @@
  *  Copyright (C) 2011 - DIGITEO - Calixte DENIZET
  *  Copyright (C) 2013 - Scilab Enterprises - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -26,9 +29,9 @@ import java.nio.ShortBuffer;
  * This class is {@link java.io.Serializable} and any modification could impact
  * load and store of data (Xcos files, Javasci saved data, etc...).<br>
  * <br>
- * Example:<br />
+ * Example:<BR>
  * <code>
- * byte [][]a={{32,42,41}, {12,13,32}};<br />
+ * byte [][]a={{32,42,41}, {12,13,32}};<BR>
  * ScilabInteger aMatrix = new ScilabInteger(a, true); // true = unsigned
  * </code>
  *
@@ -127,6 +130,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public byte getByteElement(final int i, final int j) {
         return byteBuffer.get(i + nbRows * j);
     }
@@ -134,6 +138,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public short getShortElement(final int i, final int j) {
         return shortBuffer.get(i + nbRows * j);
     }
@@ -141,6 +146,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getIntElement(final int i, final int j) {
         return intBuffer.get(i + nbRows * j);
     }
@@ -148,6 +154,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getLongElement(final int i, final int j) {
         return longBuffer.get(i + nbRows * j);
     }
@@ -155,6 +162,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setByteElement(final int i, final int j, final byte x) {
         byteBuffer.put(i + nbRows * j, x);
     }
@@ -162,6 +170,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setShortElement(final int i, final int j, final short x) {
         shortBuffer.put(i + nbRows * j, x);
     }
@@ -169,6 +178,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setIntElement(final int i, final int j, final int x) {
         intBuffer.put(i + nbRows * j, x);
     }
@@ -176,6 +186,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLongElement(final int i, final int j, final long x) {
         longBuffer.put(i + nbRows * j, x);
     }
@@ -188,6 +199,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      * @param bUnsigned
      *            true, if these values are unsigned; false otherwise.
      */
+    @Override
     public void setData(byte[][] data, boolean bUnsigned) {
         ScilabTypeUtils.setPart(byteBuffer, data);
         if (bUnsigned) {
@@ -205,6 +217,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      * @param bUnsigned
      *            true, if these values are unsigned; false otherwise.
      */
+    @Override
     public void setData(short[][] data, boolean bUnsigned) {
         ScilabTypeUtils.setPart(shortBuffer, data);
         if (bUnsigned) {
@@ -222,6 +235,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      * @param bUnsigned
      *            true, if these values are unsigned; false otherwise.
      */
+    @Override
     public void setData(int[][] data, boolean bUnsigned) {
         ScilabTypeUtils.setPart(intBuffer, data);
         if (bUnsigned) {
@@ -239,6 +253,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      * @param bUnsigned
      *            true, if these values are unsigned; false otherwise.
      */
+    @Override
     public void setData(long[][] data, boolean bUnsigned) {
         ScilabTypeUtils.setPart(longBuffer, data);
         if (bUnsigned) {
@@ -253,6 +268,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      *
      * @return the values as short
      */
+    @Override
     public short[][] getDataAsShort() {
         short[][] d = new short[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, shortBuffer);
@@ -265,6 +281,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      *
      * @return the values as byte
      */
+    @Override
     public byte[][] getDataAsByte() {
         byte[][] d = new byte[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, byteBuffer);
@@ -277,6 +294,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      *
      * @return the values as int
      */
+    @Override
     public int[][] getDataAsInt() {
         int[][] d = new int[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, intBuffer);
@@ -289,6 +307,7 @@ public class ScilabIntegerReference extends ScilabInteger {
      *
      * @return the values as long
      */
+    @Override
     public long[][] getDataAsLong() {
         long[][] d = new long[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, longBuffer);
@@ -346,6 +365,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getRawData() {
         switch (this.getPrec()) {
             case sci_int8:
@@ -368,6 +388,7 @@ public class ScilabIntegerReference extends ScilabInteger {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getCorrectData() {
         switch (this.getPrec()) {
             case sci_int8:

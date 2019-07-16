@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -19,7 +22,9 @@ import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProp
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_UI_VALUE__;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -38,7 +43,6 @@ import org.scilab.modules.gui.SwingViewObject;
 import org.scilab.modules.gui.SwingViewWidget;
 import org.scilab.modules.gui.events.callback.CommonCallBack;
 import org.scilab.modules.gui.menubar.MenuBar;
-import org.scilab.modules.gui.slider.SimpleSlider;
 import org.scilab.modules.gui.textbox.TextBox;
 import org.scilab.modules.gui.toolbar.ToolBar;
 import org.scilab.modules.gui.utils.Position;
@@ -46,12 +50,13 @@ import org.scilab.modules.gui.utils.PositionConverter;
 import org.scilab.modules.gui.utils.ScilabRelief;
 import org.scilab.modules.gui.utils.ScilabSwingUtilities;
 import org.scilab.modules.gui.utils.Size;
+import org.scilab.modules.gui.widget.Widget;
 
 /**
  * Swing implementation for Scilab Slider in GUIs
  * @author Antoine ELIAS
  */
-public class SwingScilabSlider extends JSlider implements SwingViewObject, SimpleSlider {
+public class SwingScilabSlider extends JSlider implements SwingViewObject, Widget {
 
     private static final long serialVersionUID = -4262320156090829309L;
 
@@ -65,7 +70,7 @@ public class SwingScilabSlider extends JSlider implements SwingViewObject, Simpl
     private ChangeListener changeListener;
 
     private Border defaultBorder = null;
-    
+
     private int previousValueCallback = 0;
 
     static {
@@ -153,11 +158,11 @@ public class SwingScilabSlider extends JSlider implements SwingViewObject, Simpl
         getInputMap().put(KeyStroke.getKeyStroke("UP"), "RightAction");
         getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "RightAction");
         getActionMap().put("RightAction", new RightAction());
-        getInputMap().put(KeyStroke.getKeyStroke("control UP"), "CtrlRightAction");
-        getInputMap().put(KeyStroke.getKeyStroke("control RIGHT"), "CtrlRightAction");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "CtrlRightAction");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "CtrlRightAction");
         getActionMap().put("CtrlRightAction", new CtrlRightAction());
-        getInputMap().put(KeyStroke.getKeyStroke("control DOWN"), "CtrlLeftAction");
-        getInputMap().put(KeyStroke.getKeyStroke("control LEFT"), "CtrlLeftAction");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "CtrlLeftAction");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "CtrlLeftAction");
         getActionMap().put("CtrlLeftAction", new CtrlLeftAction());
 
 
@@ -165,23 +170,23 @@ public class SwingScilabSlider extends JSlider implements SwingViewObject, Simpl
             public void stateChanged(ChangeEvent changeEvent) {
                 JSlider source = (JSlider) changeEvent.getSource();
                 if (!source.getValueIsAdjusting()) {
-                	previousValueCallback = getValue();
+                    previousValueCallback = getValue();
                     updateModel();
                     if (callback != null) {
                         callback.actionPerformed(null);
                     }
                 } else {
-                	int offset = Math.abs(getValue()-previousValueCallback);
-                	previousValueCallback = getValue();
-                	// When the user has clicked on the slider itself (not the knob)
-                	// and the knob makes a step of getMajorTickSpacing() value
-                	// ==> We do not call the callback (Bug #13549)
-                	if (offset != getMajorTickSpacing() && offset != 0) {
+                    int offset = Math.abs(getValue() - previousValueCallback);
+                    previousValueCallback = getValue();
+                    // When the user has clicked on the slider itself (not the knob)
+                    // and the knob makes a step of getMajorTickSpacing() value
+                    // ==> We do not call the callback (Bug #13549)
+                    if (offset != getMajorTickSpacing() && offset != 0) {
                         updateModel();
                         if (callback != null) {
                             callback.actionPerformed(null);
                         }
-                	}
+                    }
                 }
             }
         };

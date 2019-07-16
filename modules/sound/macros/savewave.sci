@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2008 - DIGITEO
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 // =============================================================================
 // WAVE Audio File Format
@@ -156,18 +159,11 @@ function savewave(filename,x,rate,nbits)
                 oct2 = (floor((data-(oct3*2^16))/(2^8)));
                 oct1 = (floor(data-(oct3*2^16)-(oct2*2^8)));//lsb
                 data_line = zeros(3*total_samples,1);
-                select channels
-                case 1
-                    data_line(1:3:$) = oct1(1,:)';
-                    data_line(2:3:$) = oct2(1,:)';
-                    data_line(3:3:$) = oct3(1,:)';
-                case 2
-                    data_line(1:6:$) = oct1(1,:)';
-                    data_line(2:6:$) = oct2(1,:)';
-                    data_line(3:6:$) = oct3(1,:)';
-                    data_line(4:6:$) = oct1(2,:)';
-                    data_line(5:6:$) = oct2(2,:)';
-                    data_line(6:6:$) = oct3(2,:)';
+                bs=3*channels;
+                for ch=1:channels
+                    data_line(3*ch-2:bs:$) = oct1(ch,:)';
+                    data_line(3*ch-1:bs:$) = oct2(ch,:)';
+                    data_line(3*ch:bs:$)   = oct3(ch,:)';
                 end
                 data_line = data_line';
             else
@@ -232,7 +228,7 @@ function savewave(filename,x,rate,nbits)
     end;
 
     if ~(type(filename) == 10) then
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: A string expected.\n" ),"savewave",1));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: string expected.\n" ),"savewave",1));
     end
 
     if strindex(filename,".")==[] then

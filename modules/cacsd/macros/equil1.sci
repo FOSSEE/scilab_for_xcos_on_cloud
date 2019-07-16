@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function [t,siz]=equil1(p,q,tol)
@@ -30,7 +33,7 @@ function [t,siz]=equil1(p,q,tol)
         [u,sigma1,u,nq]=svd(q(1:np,1:np),tol)
     end;
     sigma1=sqrt(diag(sigma1(1:nq,1:nq)))
-    t2=[u',0*ones(np,n-np);0*ones(n-np,np) eye(n-np,n-np)];
+    t2=[u', zeros(np,n-np); zeros(n-np,np) eye(n-np,n-np)];
     //
     // t3
     q=t2*q*t2';t3=eye(n,n);
@@ -47,9 +50,9 @@ function [t,siz]=equil1(p,q,tol)
     else
         [u,q,u,n3]=svd(q(np+1:n,np+1:n),tol);
     end;
-    t4=[diag(sqrt(sigma1))  0*ones(nq,n-nq);
-    0*ones(np-nq,nq)   eye(np-nq,np-nq)       0*ones(np-nq,n-np);
-    0*ones(n-np,np)               u']
+    t4=[diag(sqrt(sigma1))   zeros(nq,n-nq);
+    zeros(np-nq,nq)   eye(np-nq,np-nq)        zeros(np-nq,n-np);
+    zeros(n-np,np)               u']
     t=t4*t3*t2*t1
     siz=[nq,np-nq,n3]
 endfunction

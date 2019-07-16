@@ -8,28 +8,18 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2012-08-30 21:04+0000\n"
+"PO-Revision-Date: 2019-02-12 15:53+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: pl\n"
-
-#, c-format
-msgid "Scilab '%s' module disabled in -nogui or -nwni mode.\n"
-msgstr "Moduł '%s' Scilab jest wyłączony w trybie -nogui lub -nwni.\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
 msgstr ""
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: Single string expected.\n"
-msgstr ""
-"%s: Nieprawidłowy typ argumentu wejściowego nr %d: oczekiwany jest "
-"pojedynczy łańcuch.\n"
 
 #, c-format
 msgid "%s: Could find or create the working directory %s.\n"
@@ -53,9 +43,6 @@ msgid "Scilab '%s' module not installed.\n"
 msgstr "Moduł %s Scilab nie jest zainstalowany.\n"
 
 msgid "Version"
-msgstr ""
-
-msgid "Description"
 msgstr ""
 
 #, c-format
@@ -105,9 +92,12 @@ msgid "-- Deleting help files --\n"
 msgstr "-- Usuwanie plików pomocy --\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
 msgstr ""
-"%s: Nieprawidłowy typ argumentu wejściowego nr %d: oczekiwano łańcuch.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: a string expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: The help browser is disabled in %s mode.\n"
@@ -154,10 +144,14 @@ msgid "%s: File skipped %s."
 msgstr "%s: Pliki pomijane %s."
 
 #, c-format
-msgid "%s: Wrong size for input argument #%d: A string expected.\n"
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
 msgstr ""
 "%s: Nieprawidłowy rozmiar parametru wejściowego nr %d: oczekiwano ciągu "
 "znaków.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Text(s) expected.\n"
+msgstr ""
 
 msgid " * Add some comments about XML file"
 msgstr ""
@@ -165,7 +159,7 @@ msgstr ""
 msgid "Add short description here."
 msgstr ""
 
-msgid "Calling Sequence"
+msgid "Syntax"
 msgstr ""
 
 msgid "Arguments"
@@ -277,6 +271,12 @@ msgid ""
 "Building the manual file [%s].\n"
 msgstr ""
 
+#
+# File: modules/helptools/macros/xmltoformat.sci, line: 754
+#, c-format
+msgid "Post-processing Right-to-Left pages in %s...\n"
+msgstr ""
+
 #, c-format
 msgid "%s: %s has not been generated."
 msgstr "%s: %s nie zostały wygenerowane."
@@ -294,12 +294,6 @@ msgid "%s: Wrong type for input argument #%d: An integer expected.\n"
 msgstr ""
 "%s: Nieprawidłowy typ argumentu wejściowego nr %d: oczekiwano wartości "
 "całkowitej.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: Single string expected.\n"
-msgstr ""
-"%s: Nieprawidłowy rozmiar dla argumentu wejściowego nr %d: oczekiwano "
-"pojedynczego łańcuchu znaków.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: An integer expected.\n"
@@ -323,19 +317,19 @@ msgstr ""
 "nazwa pliku.\n"
 
 #, c-format
-msgid "%s: The CHAPTER file is not well formated at line %d\n"
+msgid "%s: The CHAPTER file is not well formatted at line %d\n"
 msgstr "%s: Plik CHAPTER nie jest dobrze sformatowany w wierszu %d\n"
 
 #, c-format
 msgid ""
-"%s: Wrong value for input argument #%d: A string that end with "
-".last_successful_build expected.\n"
+"%s: Wrong value for input argument #%d: A string that end with ."
+"last_successful_build expected.\n"
 msgstr ""
 "%s: Nieprawidłowa wartość dla argumentu wejściowego nr %d: Oczekiwano "
 "łancuchu, zakończonego .last_successful_build.\n"
 
 #, c-format
-msgid "%s: The last_successful_build file is not well formated at line %d\n"
+msgid "%s: The last_successful_build file is not well formatted at line %d\n"
 msgstr ""
 "%s: Plik last_successful_build nie jest dobrze sformatowany w wierszu %d\n"
 

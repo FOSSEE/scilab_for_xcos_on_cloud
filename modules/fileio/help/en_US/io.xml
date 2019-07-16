@@ -2,24 +2,30 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2009 - DIGITEO - Allan CORNET
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="percentio" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="percentio" xml:lang="en">
     <refnamediv>
         <refname>%io</refname>
-        <refpurpose>a variable, which keeps standard input and standard output (file
-            descriptor)
+        <refpurpose>protected variable providing ids of the standard input and standard output
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>%io(1)
+        <title>Syntax</title>
+        <synopsis>
+            %io(1)
             %io(2)
         </synopsis>
     </refsynopsisdiv>
@@ -35,7 +41,7 @@
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 mfprintf(%io(2),'Scilab stdout (C)');
 mfprintf(0,'Scilab stderr (C)');
 write(%io(2),'Scilab stdout (Fortran)');
@@ -44,13 +50,19 @@ write(0,'Scilab stderr (Fortran)');
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
+            <member>
+                <link linkend="getio">getio</link>
+            </member>
+            <member>
+                <link linkend="consolebox">consolebox</link>
+            </member>
             <member>
                 <link linkend="write">write</link>
             </member>
             <member>
-                <link linkend="mfprintf">mfprintf</link>
+                <link linkend="mprintf">mprintf</link>
             </member>
             <member>
                 <link linkend="file">file</link>
@@ -59,5 +71,16 @@ write(0,'Scilab stderr (Fortran)');
                 <link linkend="dispfiles">dispfiles</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>History</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                   <literal>%io</literal> is now protected (read-only).
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

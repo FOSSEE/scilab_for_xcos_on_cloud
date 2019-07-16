@@ -1,12 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2016, 2017 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
-
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function t=sci2exp(a,nom,lmax)
     // sci2exp - convert a variable to an expression
@@ -48,7 +50,15 @@ function t=sci2exp(a,nom,lmax)
             [lmax,nom]=(nom,lmax)
         end
     end
+    // For an hypermatrix, we concatenate all components in a single row:
+    hyperMat = or(type(a)==[1 2 4 8 10]) && ndims(a) > 2;
+    if hyperMat then
+        s = size(a);
+        a = matrix(a,1,-1);
+    end
+
     dots="..";
+
     select type(a)
     case 1 then
         t=mat2exp(a,lmax)
@@ -69,32 +79,62 @@ function t=sci2exp(a,nom,lmax)
     case 10 then
         t=str2exp(a,lmax)
     case 13 then
+        tree=macr2tree(a);
+        strfun=tree2code(tree);
+        name="%fun";
         if named then
-            t=fun2string(a,nom)
-        else
-            t=fun2string(a,"%fun")
+            name=nom;
         end
-        t(1)=part(t(1),10:length(t(1)))
-        t($)=[]
-        t=sci2exp(t,lmax)
-        t(1)="createfun("+t(1)
-        t($)=t($)+")"
+        idx=strindex(strfun(1), "=");
+        idx2=strindex(part(strfun(1), idx:$), "(") + idx - 1;
+        str=part(strfun(1), 1:idx) + " "+ name + part(strfun(1), idx2:length(strfun(1)));
+        strfun(1)=str;
+        strfun($)=[];
+        t=strfun;
+        t(1) = part(t(1),10:length(t(1)))
+        t($) = [];
+        t = sci2exp(t, lmax);
+        t(1) = "createfun(" + t(1);
+        t($) = t($) + ")";
     case 15 then
-        t=list2exp(a,lmax)
+        t = list2exp(a, lmax);
     case 16 then
-        t=tlist2exp(a,lmax)
-    case 17 then
-        t=mlist2exp(a,lmax)
-    case 11 then
-        t=func2exp(a,lmax)
-        named=%f
+        t = tlist2exp(a, lmax);
+    case 17 then            // cells, struct, mlists
+        if typeof(a)=="st" & length(a)==1
+            t = scalarstruct2exp(a, lmax);
+        else
+            t = mlist2exp(a, lmax);
+        end
+    case 128 then
+        t = mlist2exp(user2mlist(a), lmax);
     case 129 then
-        t=imp2exp(a,lmax)
+        t = imp2exp(a, lmax);
     else
         //  execstr('t='+typeof(a)+'2exp(a,lmax)')
-        error(msprintf(gettext("%s: This feature has not been implemented: Variable translation of type %s.\n"),"sci2exp",string(type(a))));
-    end,
-    if named&and(type(a)<>[11 13]) then
+        msg = _("%s: This feature has not been implemented: Variable translation of type %s.\n");
+        error(msprintf(msg, "sci2exp", string(type(a))));
+    end
+    // Post-processing:
+    if hyperMat then
+        s = strcat(msprintf("%d\n",s(:)), ",");  // Literal list of sizes
+        if lmax>0
+            if length(t(1)) > (lmax-8)
+                t = ["matrix(.."; t];
+            else
+                t(1) = "matrix("+t(1);
+            end
+            if length(t($)) > (lmax-length(s)-5)
+                t($) = t($)+",..";
+                t = [t ; "["+s+"])"];
+            else
+                t($) = t($)+", ["+s+"])";
+            end
+        else
+            t = "matrix(" + t + ", ["+s+"])";
+        end
+    end
+    if named&and(type(a)<>13) then
         t(1)=nom+" = "+t(1)
     end
 endfunction
@@ -105,7 +145,7 @@ function t=str2exp(a,lmax)
 
     [m,n]=size(a),
     dots="."+"."
-    t=[];
+    t="";
     quote="''"
 
     a=strsubst(a,quote,quote+quote)
@@ -168,7 +208,7 @@ function t=mat2exp(a,lmax)
     end
     a=String(a);
     dots="."+"."
-    t=[];
+    t="";
     if n==1 then
         x=strcat(a,";")
         lx=length(x)
@@ -240,11 +280,17 @@ endfunction
 
 function t=pol2exp(a,lmax)
     $
-    if rhs<2 then lmax=0,end
-    [lhs,rhs]=argn(0)
+    if rhs<2 then lmax = 0, end
+    [lhs,rhs] = argn(0)
 
-    [m,n]=size(a),var=" ";lvar=1
-    var=varn(a),lvar=length(var);
+    [m,n] = size(a)
+    var = " ";
+    lvar = 1;
+    var = varn(a);
+    if or(var==["s" "z"]) then
+        var = "%"+var;
+    end
+    lvar=length(var);
     while part(var,lvar)==" " then lvar=lvar-1,end
     var=part(var,1:lvar);
     if m<0 then
@@ -256,7 +302,7 @@ function t=pol2exp(a,lmax)
     for i=1:m
         x=emptystr(1)
         for j=1:n,
-            v=a(i,j);d=degree(v);
+            v=a(i,j);d=max(0,degree(v));
             v=coeff(v);
             k0=1;while (k0<d+1)&(v(k0))==0 then k0=k0+1,end
             y=emptystr(1)
@@ -312,7 +358,7 @@ function t=pol2exp(a,lmax)
             end
         end
         if i<m then x($)=x($)+";",end
-        if lmax>0 then
+        if lmax>0 | t==[] then
             t=[t;x]
         else
             t=t+x
@@ -327,105 +373,111 @@ function t=pol2exp(a,lmax)
     end
 endfunction
 
-function t=list2exp(l,lmax)
-    if rhs<2 then lmax=0,end
-    [lhs,rhs]=argn(0)
-    dots="."+".";
-    t="list("
-    n=length(l)
-    for k=1:n
-        lk=l(k)
-        sep=",",if k==1 then sep=emptystr(),end
-        if type(lk)==9 then
-            t1=h2exp(lk,lmax)
-        elseif type(lk)==15 then
-            t1=list2exp(lk,lmax)
-        elseif type(lk)==16 then
-            t1=tlist2exp(lk,lmax)
-        elseif type(lk)==17 then
-            t1=mlist2exp(lk,lmax)
+function t = glist2exp(listType, l, lmax)
+    [lhs,rhs] = argn(0)
+    if rhs<3 then lmax = 0, end
+    dots = "."+".";
+    isCell = typeof(l)=="ce";
+    if isCell then
+        s = size(l);
+        s = strcat(msprintf("%d\n",s(:)),",");  // Literal list of sizes
+        t = "makecell(";
+        if lmax>0 & (length(t) > (lmax-length(s)-4))
+            t = [t + dots; "["+s+"],.. "];
         else
-            t1=sci2exp(lk,lmax)
+            t = t + "["+s+"], ";
+        end
+        // ND-transposition needed due to makecell() special indexing:
+        if ndims(l)<3
+            l = l'
+        else
+            i = 1:ndims(l);
+            i([1 2]) = [2 1];
+            l = permute(l, i);
+        end
+        //
+        l = l{:};
+        L = length(l);
+    else
+        t = listType + "("
+        if or(listType==["list", "mlist", "tlist"]) then
+            L = length(l)
+        else
+             L = size(getfield(1,l),"*");
+        end
+    end
+    for k = 1:L
+        sep = ",", if k==1 then sep = "", end
+        clear lk
+        if listType ~= "mlist"
+            lk = l(k)
+        else
+            lk = getfield(k,l)
+        end
+        if ~isdef("lk","local")
+            t1 = ""
+        else
+            t1 = sci2exp(lk, lmax)
         end
         if size(t1,"*")==1&(lmax==0|max(length(t1))+length(t($))<lmax) then
-            t($)=t($)+sep+t1
+            t($) = t($)+sep+t1
         else
-            t($)=t($)+sep+dots
-            t=[t;t1]
+            t($) = t($)+sep+dots
+            t = [t; t1]
         end
-        lk=null()
     end
-    t($)=t($)+")"
+    t($) = t($)+")"
 endfunction
 
-function t=tlist2exp(l,lmax)
-    $;
-    if rhs<2 then lmax=0,end
-    [lhs,rhs]=argn(0)
-    dots="."+".";
-    t="tlist("
-    n=length(l)
-    for k=1:n
-        lk=l(k)
-        sep=",",if k==1 then sep=emptystr(),end
-        if type(lk)==15 then
-            t1=list2exp(lk,lmax)
-        elseif type(lk)==16 then
-            t1=tlist2exp(lk,lmax)
-        elseif type(lk)==17 then
-            t1=mlist2exp(lk,lmax)
-        elseif type(lk)==9 then
-            t1=h2exp(lk,lmax,1)
-        else
-            t1=sci2exp(lk,lmax)
-        end
-        if size(t1,"*")==1&(lmax==0|max(length(t1))+length(t($))<lmax) then
-            t($)=t($)+sep+t1
-        else
-            t($)=t($)+sep+dots
-            t=[t;t1]
-        end
-    end
-    t($)=t($)+")"
-
+function t = list2exp(l, lmax)
+    t = glist2exp("list", l, lmax)
+endfunction
+function t = tlist2exp(l, lmax)
+    t = glist2exp("tlist", l, lmax)
+endfunction
+function t = mlist2exp(l, lmax)
+    t = glist2exp("mlist", l, lmax)
 endfunction
 
-function t=mlist2exp(l,lmax)
-    $;
-    if rhs<2 then lmax=0,end
-    [lhs,rhs]=argn(0)
-    dots="."+".";
-    t="mlist("
-    n=size(definedfields(l),"*")
-    for k=1:n
-        lk=getfield(k,l)
-        sep=",",if k==1 then sep=emptystr(),end
-        if type(lk)==15 then
-            t1=list2exp(lk,lmax)
-        elseif type(lk)==16 then
-            t1=tlist2exp(lk,lmax)
-        elseif type(lk)==17 then
-            t1=mlist2exp(lk,lmax)
-        elseif type(lk)==9 then
-            t1=h2exp(lk,lmax)
+function t = scalarstruct2exp(l, lmax)
+    if argn(2)<2 then lmax = 0, end
+    dots = "."+".";
+    t = "struct(";
+    fields = fieldnames(l);
+    n = size(fields,"*");
+    for i = 1:n
+        if ~lmax | lmax>(12+length(fields(i)))
+            t($) = t($) + """"+fields(i)+""",";
         else
-            t1=sci2exp(lk,lmax)
+            t($) = t($) + " " + dots;
+            t = [t; """"+fields(i)+""","];
+        end
+        clear lk
+        lk = l(fields(i));
+        if ~isdef("lk","local")
+            t1 = "";
+        else
+            t1 = sci2exp(lk, lmax)
+        end
+        if i<n then
+            tmp = ", ";
+        else
+            tmp = "";
         end
         if size(t1,"*")==1&(lmax==0|max(length(t1))+length(t($))<lmax) then
-            t($)=t($)+sep+t1
+            t($) = t($) + t1 + tmp;
         else
-            t($)=t($)+sep+dots
-            t=[t;t1]
+            t($) = t($) + " ..";
+            t = [t; t1 + tmp]
         end
     end
-    t($)=t($)+")"
-
+    t($) = t($)+")"
 endfunction
 
 function t=log2exp(a,lmax)
     $;
-    if rhs<2 then lmax=0,end
-    [lhs,rhs]=argn(0)
+    if rhs<2 then lmax = 0, end
+    [lhs,rhs] = argn(0)
     [m,n]=size(a),
     a1=matrix(a,m*n,1)
     F="%f"
@@ -539,7 +591,6 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
     end
     [lhs,rhs]=argn(0);
 
-
     f1="''parent'', ";
     f2="''children'', ";
     f3="''BackgroundColor'', ";
@@ -587,7 +638,7 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
     f46="''event_handler_enable'', ";
     f47="''resizefcn'', ";
     f48="''closerequestfcn'', ";
-    x=[];
+    x="";
 
 
     if a.type=="uicontrol"
@@ -639,7 +690,13 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
         x=x+f16+"''"+a.Relief+"''"+", ";
         f17_strg=String(a.sliderStep); f17_strg="["+f17_strg(1)+" "+f17_strg(2)+"]";
         if a.sliderStep <> [0.01 0.1] then x=x+f17+f17_strg+", "; end
-        if a.String <>"" then x=x+f18+"''"+a.String+"''"+" ,"; end
+        if a.String <>"" then
+            if isempty(a.String)
+                x = x + f18 + "'''' ,";
+            else
+                x=x+f18+"''"+a.String+"''"+" ,";
+            end
+        end
         if a.Style <> "pushbutton" then x=x+f19+"''"+a.Style+"''"+", "; end
         if a.TooltipString <> "" then x=x+f20+"''"+a.TooltipString+"''"+", "; end
         if a.Units <> "pixels" then x=x+f21+"''"+a.Units+"''"+", "; end
@@ -673,20 +730,12 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
                 f28_strg=h2exp(a.userdata,0)
             elseif type(a.userdata) == 10 then
                 f28_strg=str2exp(a.userdata,0)
-            elseif type(a.userdata) == 11 then
-                f28_strg=func2exp(a.userdata,0)
-                named=%f
             elseif type(a.userdata) == 13 then
                 if named then
-                    t=fun2string(a,nom)
+                    f28_strg=sci2exp(a.userdata,nom)
                 else
-                    t=fun2string(a,"%fun")
+                    f28_strg=sci2exp(a.userdata,"%fun")
                 end
-                t(1)=part(t(1),10:length(t(1)))
-                t($)=[]
-                t=sci2exp(t,lmax)
-                t(1)="createfun("+t(1)
-                t($)=t($)+")"
             elseif type(a.userdata) == 15 then
                 f28_strg=list2exp(a.userdata);
             elseif type(a.userdata) == 16 then
@@ -764,20 +813,12 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
                 f47_strg=h2exp(a.userdata,0)
             elseif type(a.userdata) == 10 then
                 f47_strg=str2exp(a.userdata,0)
-            elseif type(a.userdata) == 11 then
-                f47_strg=func2exp(a.userdata,0)
-                named=%f
             elseif type(a.userdata) == 13 then
                 if named then
-                    t=fun2string(a,nom)
+                    f47_strg=sci2exp(a.userdata,nom)
                 else
-                    t=fun2string(a,"%fun")
+                    f47_strg=sci2exp(a.userdata,"%fun")
                 end
-                t(1)=part(t(1),10:length(t(1)))
-                t($)=[]
-                t=sci2exp(t,lmax)
-                t(1)="createfun("+t(1)
-                t($)=t($)+")"
             elseif type(a.userdata) == 15 then
                 f47_strg=list2exp(a.userdata);
             elseif type(a.userdata) == 16 then
@@ -812,7 +853,17 @@ function t=h2exp(a,lmax) //Only for figure and uicontrol
             t(1:$-1)=t(1:$-1)+dots;
         end
     else
-        error(msprintf(gettext("%s: This feature has not been implemented: Variable translation of type %s.\n"),"sci2exp",string(a.type)));
+        msg = _("%s: This feature has not been implemented: Variable translation of type %s.\n")
+        error(msprintf(msg,"sci2exp",string(a.type)));
     end
 
+endfunction
+
+function ml = user2mlist(u)
+    fn = getfield(1, u);
+    ml = mlist(fn);
+
+    for k = 1:size(fn,"*")
+        ml(k) = u(fn(k));
+    end
 endfunction

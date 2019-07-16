@@ -1,3 +1,4 @@
+//<-- CLI SHELL MODE -->
 // =============================================================================
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) ????-2008 - INRIA
@@ -29,7 +30,5 @@
 //    Enrico Segre on Linux version  distribution RH9 with   as window manager
 //    Israel  July 27, 2003 at 10:7:54
 
-a=hypermat([1,3,3],1:9);
-assert_checktrue(execstr("int8(a)", "errcatch")==0)
-toto = (hypermat(a.dims,int8(a.entries)) == int8(a));
-assert_checkfalse(~(and(toto(:,:,1))));
+a=matrix(1:9, [1,3,3]);
+assert_checktrue(execstr("int8(a)", "errcatch")==0);

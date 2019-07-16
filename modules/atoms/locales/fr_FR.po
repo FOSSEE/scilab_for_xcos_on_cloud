@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2014-12-10 13:04+0000\n"
-"Last-Translator: Julie PAUL <Unknown>\n"
+"PO-Revision-Date: 2019-02-12 16:28+0000\n"
+"Last-Translator: Paul Bignier <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: fr\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d expected.\n"
@@ -40,7 +40,7 @@ msgstr ""
 "de caractères de taille mx1, mx2 ou mx3 attendue.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: Single string expected.\n"
+msgid "%s: Wrong type for input argument #%d: string expected.\n"
 msgstr ""
 "%s : Type erroné de l'argument d'entrée n°%d : Une chaîne de caractères "
 "attendue.\n"
@@ -105,7 +105,7 @@ msgid "%s: Wrong number of input argument: at most %d expected.\n"
 msgstr "%s : Nombre erroné d'argument d'entrée : au plus %d attendu.\n"
 
 #, c-format
-msgid "%s: Wrong size for input argument #%d: Single string expected.\n"
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
 msgstr ""
 "%s : Dimension erronée de l'argument d'entrée n°%d : Une chaîne de "
 "caractères attendue.\n"
@@ -205,7 +205,7 @@ msgid "%s: Wrong value for input argument #%d.\n"
 msgstr "%s : Valeur erronée de l'argument d'entrée n°%d.\n"
 
 #, c-format
-msgid "%s: The config file ('%s') is not well formated at line %d\n"
+msgid "%s: The config file ('%s') is not well formatted at line %d\n"
 msgstr ""
 "%s : Le fichier de configuration ('%s') n'est pas correctement formaté à la "
 "ligne %d\n"
@@ -277,6 +277,16 @@ msgstr ""
 "vérifier les derniers modules disponibles."
 
 #, c-format
+msgid "\t%s (%s) will be installed in the '%s' section"
+msgstr "\t%s (%s) sera installé en section '%s'"
+
+#
+# File: modules/atoms/macros/atomsInstall.sci, line: 259
+#, c-format
+msgid "\t%s (%s) is already installed in the '%s' section and up-to-date"
+msgstr ""
+
+#, c-format
 msgid ""
 "%s: The directory %s cannot been created, please check if you have write "
 "access on this directory.\n"
@@ -300,18 +310,6 @@ msgstr "%s : Un fichier existe déjà avec le même nom dans '%s'.\n"
 #, c-format
 msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
 msgstr "%s : Nombre erroné d'arguments d'entrée : %d ou %d attendus.\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
-msgstr ""
-"%s : Type erroné de l'argument d'entrée n°%d : Une chaîne de caractères "
-"attendue.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: A string expected.\n"
-msgstr ""
-"%s : Dimension erronée de l'argument d'entrée n°%d : Une chaîne de "
-"caractères attendue.\n"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: A valid category expected.\n"
@@ -402,13 +400,36 @@ msgstr ""
 "%s : Vous ne disposez pas des droits nécessaires pour supprimer une version "
 "du package %s.\n"
 
+#
+# File: modules/atoms/macros/atomsRemove.sci, line: 217
 #, c-format
 msgid ""
-"Removing %s (%s)(%s).\n"
-"\n"
+"\t%s (%s) will be removed from the '%s' section and its package fully deleted"
 msgstr ""
-"Suppression de  %s (%s)(%s).\n"
-"\n"
+
+#
+# File: modules/atoms/macros/atomsRemove.sci, line: 219
+#, c-format
+msgid "\t%s (%s) will be removed from the '%s' section"
+msgstr ""
+
+#
+# File: modules/atoms/macros/atomsRemove.sci, line: 222
+#, c-format
+msgid "\t%s (%s) cannot be removed from the '%s' section and will be broken"
+msgstr ""
+
+#
+# File: modules/atoms/macros/atomsRemove.sci, line: 247
+#, c-format
+msgid ""
+"\tthe package %s (%s) is currently loaded, It will be removed at next Scilab "
+"start\n"
+msgstr ""
+
+#, c-format
+msgid "\tRemoving %s (%s)(%s)... "
+msgstr "\tSuppression de %s (%s)(%s)..."
 
 #, c-format
 msgid ""
@@ -433,8 +454,8 @@ msgid ""
 "check if you have write access on this directory : %s.\n"
 msgstr ""
 "%s : Le répertoire racine de ce package (%s-%s) ne peut pas être supprimé, "
-"veuillez vérifier que vous disposez des droits d'écriture dans ce répertoire "
-": %s.\n"
+"veuillez vérifier que vous disposez des droits d'écriture dans ce "
+"répertoire : %s.\n"
 
 #, c-format
 msgid ""
@@ -604,8 +625,7 @@ msgstr "Installation en cours"
 msgid "Installation failed!"
 msgstr "L'installation a échoué !"
 
-msgid ""
-"Installation done! Please restart Scilab to take changes into account."
+msgid "Installation done! Please restart Scilab to take changes into account."
 msgstr ""
 "Installation complète ! Veuillez redémarrer Scilab pour que les "
 "modifications soient prises en compte."
@@ -692,8 +712,8 @@ msgid ""
 "%s: Wrong value for input argument #%d: 'filter:all','filter:main' or a "
 "valid main category expected.\n"
 msgstr ""
-"%s : Valeur erronée de l'argument d'entrée n°%d : 'filter:all', "
-"'filter:main' ou une catégorie principale valide attendu.\n"
+"%s : Valeur erronée de l'argument d'entrée n°%d : 'filter:all', 'filter:"
+"main' ou une catégorie principale valide attendu.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: String expected.\n"
@@ -787,7 +807,7 @@ msgstr "Mise à jour de la base de données ATOMS en cours..."
 
 #, c-format
 msgid ""
-"%s: The file %s is not well formated, the toolbox %s - %s does not contain "
+"%s: The file %s is not well formatted, the toolbox %s - %s does not contain "
 "the %s field\n"
 msgstr ""
 "%s : Le fichier %s n'est pas bien formaté. Le module %s - %s ne contient pas "
@@ -798,7 +818,7 @@ msgid "%s: name and version are not both defined\n"
 msgstr "%s : Le nom et la version ne sont pas définis.\n"
 
 #, c-format
-msgid "%s: The file '%s' is not well formated at line %d\n"
+msgid "%s: The file '%s' is not well formatted at line %d\n"
 msgstr ""
 "%s : Le fichier '%s' n'est pas pas correctement formaté à la ligne %d\n"
 
@@ -933,16 +953,15 @@ msgid "\t - MD5SUM watched  : '%s'\n"
 msgstr "\t - MD5SUM consultée : '%s'\n"
 
 #, c-format
-msgid ""
-"%s: Wrong value for input argument #%d:'error' or 'warning' expected.\n"
+msgid "%s: Wrong value for input argument #%d:'error' or 'warning' expected.\n"
 msgstr ""
 "%s : Valeur erronée de l'argument d'entrée n°%d :'error' ou 'warning' "
 "attendu.\n"
 
 #, c-format
 msgid ""
-"%s: Wrong value for input argument #%d: Single string that ends with "
-".tar.gz, .tgz or .zip expected.\n"
+"%s: Wrong value for input argument #%d: Single string that ends with .tar."
+"gz, .tgz or .zip expected.\n"
 msgstr ""
 "%s : Valeur erronée de l'argument d'entrée n°%d : Une chaîne de caractères "
 "terminant par .tar.gz, .tgz ou .zip attendue.\n"
@@ -1067,23 +1086,37 @@ msgid "%s: Wrong number of input arguments: at most %d expected.\n"
 msgstr "%s : Nombre erroné d'arguments d'entrée : au plus %d attendus.\n"
 
 #, c-format
+msgid ""
+"%s: The package %s is not registered.\n"
+"Please check on the ATOMS repository that it is available for Scilab %d.%d "
+"on %s.\n"
+"If it is, run atomsSystemUpdate() before trying atomsInstall(..) again.\n"
+"\n"
+msgstr ""
+"%s : La toolbox %s n'est pas enregistrée.\n"
+"Vérifiez qu'elle est disponible sur le dépôt ATOMS pour Scilab %d.%d sur "
+"%s.\n"
+"Si elle l'est, lancez atomsSystemUpdate() avant de retenter "
+"atomsInstall(...).\n"
+"\n"
+
+#, c-format
 msgid "%s: The dependency tree cannot be resolved.\n"
 msgstr "%s : L'arbre des dépendances ne peux pas être résolu.\n"
 
 #, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: Letters 'A' or 'I' expected.\n"
+msgid "%s: Wrong value for input argument #%d: Letters 'A' or 'I' expected.\n"
 msgstr ""
 "%s : Valeur erronée de l'argument d'entrée n°%d : Les lettres 'A' ou 'I' "
 "attendues.\n"
 
 #, c-format
 msgid ""
-"%s: Wrong value for input argument #%d: This is not a valid "
-"version/dependency.\n"
+"%s: Wrong value for input argument #%d: This is not a valid version/"
+"dependency.\n"
 msgstr ""
-"%s : Valeur erronée de l'argument d'entrée n°%d : Ce n'est pas une "
-"version/dépendance valide.\n"
+"%s : Valeur erronée de l'argument d'entrée n°%d : Ce n'est pas une version/"
+"dépendance valide.\n"
 
 msgid "Atoms:"
 msgstr "ATOMS :"
@@ -1116,7 +1149,7 @@ msgid "%s: Wrong type for input argument #%d: mlist expected.\n"
 msgstr "%s : Type erroné de l'argument d'entrée n°%d : mlist attendue.\n"
 
 #, c-format
-msgid "%s: The description is not well formated at line %d\n"
+msgid "%s: The description is not well formatted at line %d\n"
 msgstr "%s : La description n'est pas bien formatée à la ligne %d\n"
 
 #, c-format
@@ -1141,8 +1174,7 @@ msgid "%s: %s (%s) isn't installed.\n"
 msgstr "%s : %s (%s) n'est pas installé.\n"
 
 #, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: This is not a valid version.\n"
+msgid "%s: Wrong value for input argument #%d: This is not a valid version.\n"
 msgstr ""
 "%s : Valeur erronée de l'argument d'entrée n°%d : Ce n'est pas une version "
 "valide.\n"

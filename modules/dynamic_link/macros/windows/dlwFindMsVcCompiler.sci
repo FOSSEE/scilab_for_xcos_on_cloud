@@ -2,34 +2,42 @@
 // Copyright (C) DIGITEO - 2010 - Allan CORNET
 // Copyright (C) Scilab Enterprises - 2014 - Antoine ELIAS
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 //=============================================================================
 function MSCompiler = dlwFindMsVcCompiler()
     MSCompiler = "unknown"; // unknown
 
     // We use always last version of MS compiler
-
     val = getenv("SCILAB_PREFERED_MSVC", "");
     if val <> "" then
-        funcs = list(dlwIsVc12Express,dlwIsVc12Pro,dlwIsVc11Express,dlwIsVc11Pro,dlwIsVc10Express,dlwIsVc10Pro);
-        compilers = ["msvc120express";
-        "msvc120pro";
-        "msvc110express";
-        "msvc110pro";
-        "msvc100express";
-        "msvc100pro";];
-        idx = find(val == compilers);
-        if idx <> [] then
-            func = funcs(idx);
+        funcs = struct(...
+            "msvc140express", dlwIsVc14Express, ...
+            "msvc140pro", dlwIsVc14Pro, ...
+            "msvc120express", dlwIsVc12Express, ...
+            "msvc120pro", dlwIsVc12Pro, ...
+            "msvc110express", dlwIsVc11Express, ...
+            "msvc110pro", dlwIsVc11Pro, ...
+            "msvc100express", dlwIsVc10Express, ...
+            "msvc100pro", dlwIsVc10Pro);
+
+        try
+            func = funcs(val);
             if func() then
                 MSCompiler = val;
-                return;
             end
+        catch
+        end
+        
+        if MSCompiler <> "unknown" then
+            return;
         end
     end
 
@@ -40,6 +48,16 @@ function MSCompiler = dlwFindMsVcCompiler()
 
     if dlwIsVc12Pro() then
         MSCompiler = "msvc120pro";       // Microsoft Visual 2013 Professional (or more)
+        return;
+    end
+
+    if dlwIsVc14Express() then
+        MSCompiler = "msvc140express";     // Microsoft Visual 2015 Express
+        return;
+    end
+
+    if dlwIsVc14Pro() then
+        MSCompiler = "msvc140pro";       // Microsoft Visual 2015 Professional / Community (or more)
         return;
     end
 

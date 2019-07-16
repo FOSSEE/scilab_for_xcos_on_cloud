@@ -8,18 +8,38 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2012-07-16 15:54+0000\n"
-"Last-Translator: Scilab.team <Unknown>\n"
+"PO-Revision-Date: 2019-02-12 12:52+0000\n"
+"Last-Translator: Webish <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: \n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
-msgid "Scilab '%s' module disabled in -nogui or -nwni mode.\n"
-msgstr ""
+msgid "%s: Can not read input argument #%d.\n"
+msgstr "%s：不能读取第%d个输入参数。\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: string expected.\n"
+msgstr "%s：第%d个输入参数的类型错误：应该为字符串。\n"
+
+#, c-format
+msgid "%s: No more memory.\n"
+msgstr "%s：内存不足。\n"
+
+#, c-format
+msgid "%s: Invalid driver: %s.\n"
+msgstr "%s：无效驱动器：%s。\n"
+
+#, c-format
+msgid "%s: An error occurred: %s\n"
+msgstr "%s：发生错误：%s\n"
+
+#, c-format
+msgid "%s: Invalid path: %s.\n"
+msgstr "%s：无效路径%s。\n"
 
 #, c-format
 msgid ""
@@ -28,7 +48,7 @@ msgstr "%s：第%d个输入参数的类型错误：应该为整数或句柄。\n
 
 #, c-format
 msgid "%s: Wrong type for argument #%d: A real expected.\n"
-msgstr ""
+msgstr "%s：第%d个参数的类型错误：应该为实数。\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: A scalar expected.\n"
@@ -56,8 +76,8 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid "%s: Wrong type for argument #%d: String matrix expected.\n"
-msgstr ""
+msgid "%s: Wrong type for argument #%d: string expected.\n"
+msgstr "%s：第%d个参数的类型错误：应该为字符串。\n"
 
 #, c-format
 msgid ""
@@ -82,30 +102,6 @@ msgstr "%s：第%d个输入参数的类型错误：应该为介于0和1之间的
 msgid "%s: %s\n"
 msgstr "%s：%s\n"
 
-#, c-format
-msgid "%s: Can not read input argument #%d.\n"
-msgstr "%s：不能读取第%d个输入参数。\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
-msgstr "%s：第%d个输入参数的类型错误：应该为字符串。\n"
-
-#, c-format
-msgid "%s: No more memory.\n"
-msgstr "%s：内存不足。\n"
-
-#, c-format
-msgid "%s: Invalid driver: %s.\n"
-msgstr "%s：无效驱动器：%s。\n"
-
-#, c-format
-msgid "%s: An error occurred: %s\n"
-msgstr "%s：发生错误：%s\n"
-
-#, c-format
-msgid "%s: Invalid path: %s.\n"
-msgstr "%s：无效路径%s。\n"
-
 msgid "xinit must be called before xend."
 msgstr "xinit必须在xend之前被调用。"
 
@@ -118,18 +114,22 @@ msgstr "无法创建输出文件，无效文件。"
 msgid ""
 "Unable to create export file, not enough memory. Decreasing the number of "
 "elements or the size of the figure should fix this error."
-msgstr ""
+msgstr "无法导出文件，内存不够。减少元素个数或图形大小可修复此错误。"
 
 msgid ""
-"Unable to create export file, please fill a bug report at "
-"http://bugzilla.scilab.org."
-msgstr ""
+"Unable to create export file, please fill a bug report at http://bugzilla."
+"scilab.org."
+msgstr "无法导出文件，请提交缺陷报告到http://bugzilla.scilab.org。"
 
 msgid ""
-"Unable to create export file, the file cannot be created or is locked by an "
-"other process."
-msgstr ""
+"Unable to create export file, the file cannot be created or is locked by "
+"another process."
+msgstr "无法导出文件. 文件被其它进程 锁定。"
+
+#, c-format
+msgid "Scilab '%s' module disabled in -nogui or -nwni mode.\n"
+msgstr "Scilab的‘%s’模块在-nogui或-nwni模式下无效。\n"
 
 #, c-format
 msgid "Scilab '%s' module not installed.\n"
-msgstr ""
+msgstr "Scilab模块“%s”尚未安装。\n"

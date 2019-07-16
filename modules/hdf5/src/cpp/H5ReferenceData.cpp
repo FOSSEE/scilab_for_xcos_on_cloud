@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2012 - Scilab Enterprises - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -39,7 +42,11 @@ const char ** H5ReferenceData::getReferencesName() const
     for (int i = 0; i < totalSize; i++)
     {
         void * ref = &(((void **)cdata)[i]);
-        hid_t obj = H5Rdereference(file, datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
+        hid_t obj = H5Rdereference(file,
+    #if H5_VERSION_GE(1,10,0)
+                                   H5P_DATASET_ACCESS_DEFAULT,
+    #endif
+                                   datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
         H5O_info_t info;
         H5Oget_info(obj, &info);
         H5Oclose(obj);
@@ -74,14 +81,18 @@ H5Object & H5ReferenceData::getData(const unsigned int size, const unsigned int 
 
     if (pos >= totalSize)
     {
-        throw H5Exception(__LINE__, __FILE__, _("Invalid index."));
+        throw H5Exception(__LINE__, __FILE__, _("Invalid index.\n"));
     }
 
     cdata += pos * (stride ? stride : dataSize);
 
     file = getFile().getH5Id();
     ref = &(((void **)cdata)[0]);
-    obj = H5Rdereference(file, datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
+    obj = H5Rdereference(file,
+#if H5_VERSION_GE(1,10,0)
+                         H5P_DATASET_ACCESS_DEFAULT,
+#endif
+                         datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
     if (obj < 0)
     {
         throw H5Exception(__LINE__, __FILE__, _("Cannot open object at the given position."));
@@ -123,7 +134,11 @@ H5Object ** H5ReferenceData::getReferencesObject() const
     for (int i = 0; i < totalSize; i++)
     {
         void * ref = &(((void **)cdata)[i]);
-        hid_t obj = H5Rdereference(file, datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
+        hid_t obj = H5Rdereference(file,
+    #if H5_VERSION_GE(1,10,0)
+                                   H5P_DATASET_ACCESS_DEFAULT,
+    #endif
+                                   datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
         objs[i] = &H5Object::getObject(getParent(), obj);
     }
 
@@ -178,7 +193,11 @@ void H5ReferenceData::printData(std::ostream & os, const unsigned int pos, const
     char * cdata = static_cast<char *>(data) + offset + pos * (stride ? stride : dataSize);
     void ** ref = &(((void **)cdata)[0]);
     hid_t file = getFile().getH5Id();
-    hid_t obj = H5Rdereference(file, datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
+    hid_t obj = H5Rdereference(file,
+#if H5_VERSION_GE(1,10,0)
+                               H5P_DATASET_ACCESS_DEFAULT,
+#endif
+                               datasetReference ? H5R_DATASET_REGION : H5R_OBJECT, ref);
     if (obj < 0)
     {
         os << "NULL";

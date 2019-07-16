@@ -4,11 +4,14 @@
 // Copyright (C) 2013 - Charlotte HECQUET (new option)
 // Copyright (C) 2013 - A. Khorshidi (to define a new optional output argument)
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as par of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [r,num]=routh_t(h,k,normalized)
     //r=routh_t(h,k) computes routh table of denominator of the
@@ -16,7 +19,7 @@ function [r,num]=routh_t(h,k,normalized)
     //feedback by the gain k
     //If  k=poly(0,'k') we will have a polynomial matrix with dummy variable
     //k, formal expression of the Routh table.
-    //r=routh_t(d) computes Routh table of h :attention ! d=denom of system
+    //r=routh_t(d) computes Routh table of h :attention ! d=denominator of system
 
     //If a zero row appears, it means that there exist a pair of pure imaginary
     //roots (oscillating system) or symmetric real roots. In this case, the pure imaginary roots are the
@@ -50,7 +53,7 @@ function [r,num]=routh_t(h,k,normalized)
         if size(n,"*")<>1 then
             error(msprintf(gettext("%s: Wrong size for input argument #%d: Single input, single output system expected.\n"),"routh_t",1))
         end
-        nd=max([degree(d) degree(n)])+1;
+        nd=max([0 degree(d) degree(n)])+1;
         cod=coeff(d,0:nd-1);//coeff du denominateur
         con=coeff(n,0:nd-1);//coeff du numerateur
         cobf=cod+k*con //coeff de la boucle fermee
@@ -62,7 +65,7 @@ function [r,num]=routh_t(h,k,normalized)
             error(msprintf(gettext("%s: Wrong size for input argument #%d: A polynomial expected.\n"),"routh_t",1))
         end
 
-        nd=degree(h)+1;
+        nd=max(0,degree(h))+1;
         cobf=coeff(h,0:nd-1)
     end;
     //

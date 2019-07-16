@@ -4,11 +4,14 @@
  *  Copyright (C) 2010-2010 - DIGITEO - Clement DAVID
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -23,9 +26,9 @@ import java.nio.IntBuffer;
  * This class is {@link java.io.Serializable} and any modification could impact
  * load and store of data (Xcos files, Javasci saved data, etc...).<br>
  * <br>
- * Example:<br />
+ * Example:<BR>
  * <code>
- * boolean [][]a={{true,false,true}, {true,true,true}};<br />
+ * boolean [][]a={{true,false,true}, {true,true,true}};<BR>
  * ScilabBoolean aMatrix = new ScilabBoolean(a);
  * </code>
  *
@@ -33,15 +36,18 @@ import java.nio.IntBuffer;
  */
 public class ScilabBooleanReference extends ScilabBoolean {
 
-    private IntBuffer intBuffer;
+    private final IntBuffer intBuffer;
     private final int nbRows;
     private final int nbCols;
 
     /**
      * Create an object from an array of array of boolean
      *
+     * @param varName the variable name
      * @param data
      *            the array of boolean
+     * @param nbRows the number of rows
+     * @param nbCols the number of columns
      */
     public ScilabBooleanReference(String varName, IntBuffer data, int nbRows, int nbCols) {
         this.varName = varName;
@@ -65,6 +71,7 @@ public class ScilabBooleanReference extends ScilabBoolean {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean getElement(final int i, final int j) {
         return intBuffer.get(i + nbRows * j) != 0;
     }
@@ -72,6 +79,7 @@ public class ScilabBooleanReference extends ScilabBoolean {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setElement(final int i, final int j, final boolean x) {
         intBuffer.put(i + nbRows * j, x ? 1 : 0);
     }
@@ -82,6 +90,7 @@ public class ScilabBooleanReference extends ScilabBoolean {
      * @param data
      *            array of boolean
      */
+    @Override
     public void setData(boolean[][] data) {
         ScilabTypeUtils.setPart(intBuffer, data);
     }
@@ -91,6 +100,7 @@ public class ScilabBooleanReference extends ScilabBoolean {
      *
      * @return the array of array of boolean
      */
+    @Override
     public boolean[][] getData() {
         boolean[][] b = new boolean[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(b, intBuffer);
@@ -101,6 +111,7 @@ public class ScilabBooleanReference extends ScilabBoolean {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getRawData() {
         return intBuffer;
     }

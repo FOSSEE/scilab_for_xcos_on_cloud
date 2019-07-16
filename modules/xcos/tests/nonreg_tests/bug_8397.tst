@@ -40,16 +40,6 @@ fd = mopen(src_file, "wt");
 mputl(mo_content, fd);
 mclose(fd);
 
-// override messagebox method
-previous_ptr = funptr("messagebox");
-clearfun("messagebox");
-function messagebox(msg, Title, icon, isModal), endfunction
-
 // modelicac call
 ok = modelicac(src_file, function_file, xml_file, %t, c_file, %f);
 assert_checkequal(ok, %f);
-
-clear("messagebox");
-newfun("messagebox", previous_ptr);
-clear("previous_ptr");
-

@@ -3,11 +3,14 @@
  * Copyright (C) 2008 - INRIA - Vincent COUVERT
  * Copyright (C) 2010 - DIGITEO - Yann COLLETTE
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -16,7 +19,7 @@
 #include "matfile_manager.h"
 
 #include "sciprint.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 
 static mat_t **openedMatfiles = NULL;
 static int numberOfMatfiles = 0;
@@ -108,3 +111,67 @@ void matfile_manager(int action, int *fileIndex, mat_t **matfile)
         /* Return NULL */
     }
 }
+
+static void clearOpenedMatfiles()
+{
+    if(openedMatfiles)
+    {
+        int i = 0;
+        for(i = 0; i < numberOfMatfiles; ++i)
+        {
+            if(openedMatfiles[i])
+            {
+                Mat_Close(openedMatfiles[i]);
+            }
+        }
+        FREE(openedMatfiles);
+        numberOfMatfiles = 0;
+    }
+}
+
+/*** free memory at library unload ***/
+#ifdef _MSC_VER
+#include <windows.h>
+/*--------------------------------------------------------------------------*/
+//for Visual Leak Detector in debug compilation mode
+//#define DEBUG_VLD
+#if defined(DEBUG_VLD) && defined(_DEBUG)
+#include <vld.h>
+#endif
+/*--------------------------------------------------------------------------*/
+#pragma comment(lib,"../../bin/libintl.lib")
+#pragma comment(lib,"../../bin/libmatio.lib")
+/*--------------------------------------------------------------------------*/
+int WINAPI DllMain(HINSTANCE hinstDLL, DWORD flag, LPVOID reserved)
+{
+    switch (flag)
+    {
+        case DLL_PROCESS_ATTACH :
+            break;
+        case DLL_PROCESS_DETACH :
+            clearOpenedMatfiles();
+            break;
+        case DLL_THREAD_ATTACH :
+            break;
+        case DLL_THREAD_DETACH :
+            break;
+        default :
+            return 0;
+    }
+
+    return 1;
+}
+#else
+void __attribute__ ((constructor)) loadmatio(void);
+void __attribute__ ((destructor)) unloadmatio(void);
+
+void loadmatio(void)
+{
+
+}
+
+void unloadmatio(void)
+{
+   clearOpenedMatfiles();
+}
+#endif

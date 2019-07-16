@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="name2rgb" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="name2rgb" xml:lang="pt">
     <refnamediv>
         <refname>name2rgb</refname>
         <refpurpose>Retorna valores RGB correspondentes ao nome da
@@ -18,11 +21,11 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>rgb=name2rgb(name)</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>name</term>
@@ -39,31 +42,31 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
             <literal>name2rgb</literal> retorna os valores RGB (vermelho, verde,
-            azul) inteiros de uma cor dado o seu nome. O resultado é um vetor
+            azul) inteiros de uma cor dado o seu nome. O resultado Ã© um vetor
             <literal>[r,g,b]</literal> onde <literal>r</literal>, <literal>g</literal>
-            e <literal>b</literal> são inteiros entre 0 e 255 correspondentes aos
+            e <literal>b</literal> sÃ£o inteiros entre 0 e 255 correspondentes aos
             componentes de cor vermelho, verde e azul. Como de uso, 0 significa
-            nenhuma intensidade e 255 significa intensidade total da cor. 
+            nenhuma intensidade e 255 significa intensidade total da cor.
         </para>
-        <para>Se uma cor não for encontrada, é retornado
+        <para>Se uma cor nÃ£o for encontrada, Ã© retornado
             <literal>[]</literal>.
         </para>
         <para>
-            A lista de todas as cores conhecidas é dada por <link linkend="color_list">color_list</link>.
+            A lista de todas as cores conhecidas Ã© dada por <link linkend="color_list">color_list</link>.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 rgb=name2rgb("gold")
 rgb2name(rgb)
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="color">color</link>

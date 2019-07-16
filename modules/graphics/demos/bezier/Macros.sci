@@ -5,6 +5,9 @@
 // This file is distributed under the same license as the Scilab package.
 //
 
+prot = funcprot();
+funcprot(0);
+
 function [X,Y]=field(x,y)
     // x and y are two vectors defining a grid
     // X and Y are two matrices which gives the grid point coordinates
@@ -51,27 +54,28 @@ function [z] = bezier(p,t)
     T=dup(t./t1,n)';
     b=[((1-t').^n),(T.*dup((n-(1:n)+1)./(1:n),size(t,"c")))];
     b=cumprod(b,"c");
-    if (size(t1z,"c")>0); b(t1z,:)= dup([ 0*ones(1,n),1],size(t1z,"c")); end;
+    if (size(t1z,"c")>0); b(t1z,:)= dup([zeros(1,n), 1],size(t1z,"c")); end;
     z=p*b';
 endfunction
 
 
-function bezier3d (p)
+function bezier3d(p)
     // Shows a 3D Bezier curve and its polygon
     t=linspace(0,1,300);
     s=bezier(p,t);
-    dh=xget("dashes");
-    xset("dashes",3)
+    ax = gca();
+    dh = ax.line_style;
+    ax.line_style = 3;
     param3d(p(1,:),p(2,:),p(3,:),34,45)
-    xset("dashes",4);
+    ax.line_style = 4;
     param3d(s(1,:),s(2,:),s(3,:),34,45,"x@y@z",[0,0])
-    xset("dashes",dh);
+    ax.line_style = dh;
     xtitle("A 3d polygon and its Bezier curve");
-    current_axe = gca();current_axe.title.font_size = 3;
+    ax.title.font_size = 3;
 endfunction
 
 
-function [X,Y,Z]=beziersurface (x,y,z,n)
+function [X,Y,Z]=beziersurface(x,y,z,n)
     // Compute a Bezier surface. Return {bx,by,bz}.
     [lhs,rhs]=argn(0);
     if rhs <= 3 ; n=20;end
@@ -82,7 +86,7 @@ function [X,Y,Z]=beziersurface (x,y,z,n)
     b1=[((1-t').^n),(T.*dup((n-(1:n)+1)./(1:n),size(t,"c")))];
     b1=cumprod(b1,"c");
     if (size(t1z,"c")>0);
-        b1(t1z,:)= dup([ 0*ones(1,n),1],size(t1z,"c"));
+        b1(t1z,:)= dup([zeros(1,n), 1],size(t1z,"c"));
     end
     n=size(x,"c")-1; // i=nonzeros(t~=1);
     t1=(1-t); t1z= find(t1==0.0); t1(t1z)= ones(t1z);
@@ -90,7 +94,9 @@ function [X,Y,Z]=beziersurface (x,y,z,n)
     b2=[((1-t').^n),(T.*dup((n-(1:n)+1)./(1:n),size(t,"c")))];
     b2=cumprod(b2,"c");
     if (size(t1z,"c")>0);
-        b2(t1z,:)= dup([ 0*ones(1,n),1],size(t1z,"c"));
+        b2(t1z,:)= dup([zeros(1,n), 1],size(t1z,"c"));
     end
     X=b1*x*b2';Y=b1*y*b2';Z=b1*z*b2';
 endfunction
+
+funcprot(prot);

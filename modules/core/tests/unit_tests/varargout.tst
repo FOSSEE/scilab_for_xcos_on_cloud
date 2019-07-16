@@ -4,7 +4,9 @@
 //
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
-
+//
+// <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
 //
 // Return 3 values
 //
@@ -58,11 +60,18 @@ clear a;
 ierr = execstr("[a,b] = __test_function2__();", "errcatch");
 assert_checkfalse(ierr == 0);
 
-//
-// varargout is not set : should not work.
-//
+// empty list
 function varargout=__test_function3__()
+  varargout = list();
 endfunction
 
-ierr = execstr("__test_function3__();", "errcatch");
-assert_checkfalse(ierr == 0);
+msg = msprintf(_("%s: Wrong number of output argument(s): %d expected.\n"), "__test_function3__", 0);
+assert_checkerror("a = __test_function3__()", msg);
+
+// wrong varargout type
+function varargout=__test_function4__()
+  varargout = 42;
+endfunction
+
+msg = msprintf(_("%s: Wrong type for %s: A list expected.\n"), "__test_function4__", "Varargout");
+assert_checkerror("__test_function4__()", msg);

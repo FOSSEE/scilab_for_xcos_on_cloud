@@ -5,6 +5,8 @@
 
 // <-- ENGLISH IMPOSED -->
 // <-- XCOS TEST -->
+// <-- NO CHECK REF -->
+
 //
 // <-- Short Description -->
 // Check the API of the Xcos hooks, see SEP_066_Xcos_hooks.odt
@@ -13,20 +15,20 @@ global status;
 status = [];
 
 function continueSimulation = pre_xcos_simulate(scs_m, needcompile)
-  global status;
+    global status;
 
-  1 + "string"
-  status = [status 'pre_called'];
+    1 + "string"
+    status = [status "pre_called"];
 endfunction
 
 function post_xcos_simulate(%cpr, scs_m, needcompile)
-  global status;
+    global status;
 
-  1 + "string"
-  status = [status 'post_called'];
+    1 + "string"
+    status = [status "post_called"];
 endfunction
 
 assert_checktrue(importXcosDiagram(SCI + "/modules/xcos/demos/Simple_Demo.zcos"));
 xcos_simulate(scs_m, 4);
 
-assert_checkequal(status, [])
+assert_checkequal(status, []);

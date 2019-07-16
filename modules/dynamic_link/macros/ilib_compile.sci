@@ -4,11 +4,14 @@
 // Copyright (C) DIGITEO - 2009
 // Copyright (C) DIGITEO - 2010-2011 - Allan CORNET
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 //=============================================================================
 function libn = ilib_compile(lib_name, ..
@@ -40,13 +43,26 @@ function libn = ilib_compile(lib_name, ..
         files = [];
     else
         if ~isempty(files) & (or(fileext(files)==".o") | or(fileext(files)==".obj")) then
-            error(999, msprintf(_("%s: A managed file extension for input argument #%d expected."), "ilib_compile", 3));
+            error(msprintf(_("%s: A managed file extension for input argument #%d expected."), "ilib_compile", 3));
         end
     end
 
     if typeof(lib_name)<>"string" then
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: A string expected.\n"),"ilib_compile",1));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: string expected.\n"),"ilib_compile",1));
         return ;
+    end
+
+    if isempty(ldflags)
+        ldflags = ""
+    end
+    if isempty(cflags)
+        cflags = ""
+    end
+    if isempty(fflags)
+        fflags = ""
+    end
+    if isempty(cc)
+        cc = ""
     end
 
     oldpath = pwd();
@@ -77,12 +93,21 @@ function libn = ilib_compile(lib_name, ..
         // Source tree version
         // Headers are dispatched in the source tree
         if isdir(SCI+"/modules/core/includes/") then
-            defaultModulesCHeader=[ "core", "mexlib","api_scilab","output_stream","localization" ];
+            defaultModulesCHeader=[ "core", "mexlib","api_scilab","output_stream","localization",  "dynamic_link",  "threads",  "string",  "console"];
+            defaultKernelCHeader=[ "analysis" "ast" "exps" "operations" "parse" "symbol" "system_env" "types"];
             defaultModulesFHeader=[ "core" ];
             ScilabTreeFound=%t
 
-            for x = defaultModulesCHeader(:)';
-                cflags=" -I"+SCI+"/modules/"+x+"/includes/ "+cflags;
+            if isdef("MPI_Init") then
+                defaultModulesCHeader = [defaultModulesCHeader, "mpi"]
+            end
+
+            for x = defaultModulesCHeader;
+                cflags = cflags + " -I" + SCI + "/modules/" + x + "/includes/ ";
+            end
+
+            for x = defaultKernelCHeader;
+                cflags = cflags + " -I" + SCI + "/modules/ast/includes/" + x;
             end
 
             for x = defaultModulesFHeader(:)';
@@ -94,6 +119,9 @@ function libn = ilib_compile(lib_name, ..
         if isdir(SCI+"/../../include/scilab/") & ~ScilabTreeFound then
             cflags="-I"+SCI+"/../../include/scilab/ -I"+SCI+"/../../include/ " + cflags
             fflags="-I"+SCI+"/../../include/scilab/ " + fflags
+            if isdef("MPI_Init") then
+                cflags = "-I"+SCI+"/../../include/scilab/mpi/ " + cflags
+            end
             ScilabTreeFound=%t
         end
 
@@ -101,8 +129,17 @@ function libn = ilib_compile(lib_name, ..
         if isdir("/usr/include/scilab/") & ~ScilabTreeFound then
             cflags="-I/usr/include/scilab/ "+cflags
             fflags="-I/usr/include/scilab/ "+fflags
+            if isdef("MPI_Init") then
+                cflags="-I/usr/include/scilab/mpi/ "+cflags
+            end
             ScilabTreeFound=%t
         end
+
+        global cppCompilation;
+        if cppCompilation then
+            cflags = cflags + " -std=c++11";
+        end
+        clearglobal cppCompilation;
 
         if ( ilib_verbose() <> 0 & ScilabTreeFound <> %t) then
             mprintf(gettext("%s: Warning: Scilab has not been able to find where the Scilab sources are. Please submit a bug report on http://bugzilla.scilab.org/\n"),"ilib_compile");
@@ -118,11 +155,11 @@ function libn = ilib_compile(lib_name, ..
         // build, we want to use the same lib as the compiler installed.
         // CF bug #7887 for more information.
         // Note that, for the configure, the setup is done by compilerDetection.sh
-        cmdGCC="if test -x ""$(which gcc 2>/dev/null)""; then echo $(LC_ALL=C gcc -print-search-dirs|awk ''$1==""install:""{print $2}''); fi";
+        cmdGCC="if test -x ""$(which gcc 2>/dev/null)""; then echo $(LC_ALL=C gcc -print-search-dirs|awk -F= ''$1==""libraries: ""{print $2}''); fi";
         [GCClibpath, ierr, stderr] = unix_g(cmdGCC);
 
         if (GCClibpath <> "" & GCClibpath <> [] & ierr == 0 & grep(getenv("LD_LIBRARY_PATH"),GCClibpath) == []) then
-            setenv("LD_LIBRARY_PATH",GCClibpath+"/../../../:"+getenv("LD_LIBRARY_PATH"));
+            setenv("LD_LIBRARY_PATH",GCClibpath+":"+getenv("LD_LIBRARY_PATH"));
         end
 
         cmd = "make "

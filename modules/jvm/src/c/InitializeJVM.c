@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Allan CORNET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -20,18 +23,16 @@
 #include "InitializeJVM.h"
 #include "loadClasspath.h"
 #include "loadLibrarypath.h"
-#include "setgetSCIpath.h"
+#include "sci_path.h"
 #include "getScilabJNIEnv.h"
 #include "getScilabJavaVM.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 #include "JVM.h"
 #include "createMainScilabObject.h"
 #include "scilabDefaults.h"
 #include "localization.h"
 #include "fromjava.h"
-#ifdef _MSC_VER
-#include "strdup_windows.h"
-#endif
+#include "os_string.h"
 #include "catchIfJavaException.h"
 /*--------------------------------------------------------------------------*/
 static void DoLoadClasspathInEtc(char *sciPath);
@@ -42,7 +43,7 @@ BOOL InitializeJVM(void)
     BOOL bOK = FALSE;
     char *sciPath = NULL;
 
-    sciPath = getSCIpath();
+    sciPath = getSCI();
 
     if (!startJVM(sciPath))
     {
@@ -59,7 +60,7 @@ BOOL InitializeJVM(void)
 
         if (!createMainScilabObject())
         {
-            char *errorMsg = strdup(gettext("\nScilab cannot create Scilab Java Main-Class (we have not been able to find the main Scilab class. Check if the Scilab and thirdparty packages are available).\n"));
+            char *errorMsg = os_strdup(gettext("\nScilab cannot create Scilab Java Main-Class (we have not been able to find the main Scilab class. Check if the Scilab and thirdparty packages are available).\n"));
 
             if (IsFromJava())
             {
@@ -90,11 +91,8 @@ BOOL InitializeJVM(void)
         }
     }
 
-    if (sciPath)
-    {
-        FREE(sciPath);
-        sciPath = NULL;
-    }
+    FREE(sciPath);
+    sciPath = NULL;
 
     if (!bOK)
     {
@@ -109,11 +107,8 @@ static void DoLoadClasspathInEtc(char *sciPath)
     char *classpathfile = (char*)MALLOC(sizeof(char) * (strlen(sciPath) + strlen(XMLCLASSPATH) + 1));
     sprintf(classpathfile, XMLCLASSPATH, sciPath);
     LoadClasspath(classpathfile);
-    if (classpathfile)
-    {
-        FREE(classpathfile);
-        classpathfile = NULL;
-    }
+    FREE(classpathfile);
+    classpathfile = NULL;
 }
 /*--------------------------------------------------------------------------*/
 static void DoLoadLibrarypathInEtc(char *sciPath)
@@ -121,11 +116,8 @@ static void DoLoadLibrarypathInEtc(char *sciPath)
     char *librarypathfile = (char*)MALLOC(sizeof(char) * (strlen(sciPath) + strlen(XMLLIBRARYPATH) + 1));
     sprintf(librarypathfile, XMLLIBRARYPATH, sciPath);
     LoadLibrarypath(librarypathfile);
-    if (librarypathfile)
-    {
-        FREE(librarypathfile);
-        librarypathfile = NULL;
-    }
+    FREE(librarypathfile);
+    librarypathfile = NULL;
 }
 /*--------------------------------------------------------------------------*/
 BOOL ExecuteInitialHooks(void)

@@ -3,11 +3,14 @@
  * Copyright (C) 2011 - DIGITEO - Bruno JOFRET
  * Copyright (C) 2011 - DIGITEO - Vincent COUVERT
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 package org.scilab.modules.gui;
@@ -70,6 +73,7 @@ import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProp
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_VALID__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_VISIBLE__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_WAITBAR__;
+import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_UI_FOCUS__;
 import static org.scilab.modules.gui.utils.Debug.DEBUG;
 
 import java.awt.Component;
@@ -724,8 +728,14 @@ public final class SwingView implements GraphicView {
                     bar.close();
                     break;
                 case Frame:
-                    SwingScilabFrame frame = (SwingScilabFrame) requestedObject.getValue();
-                    frame.destroy();
+                    Boolean scrollable = (Boolean) GraphicController.getController().getProperty(id, __GO_UI_SCROLLABLE__);
+                    if (scrollable) {
+                        SwingScilabScrollableFrame frame = (SwingScilabScrollableFrame) requestedObject.getValue();
+                        frame.destroy();
+                    } else {
+                        SwingScilabFrame frame = (SwingScilabFrame) requestedObject.getValue();
+                        frame.destroy();
+                    }
                     break;
                 default:
                     // Nothing to do
@@ -784,6 +794,11 @@ public final class SwingView implements GraphicView {
             return;
         }
 
+        if(property == __GO_UI_FOCUS__) {
+            requestFocus(registeredObject);
+            return;
+        }
+
         /* Do not update axes on EDT to avoid dead locks between SwingView & DrawerVisitor */
         /* Test which freezes without this condition: bug_1257.tst in graphics */
         int type = (Integer) GraphicController.getController().getProperty(id, __GO_TYPE__);
@@ -833,33 +848,33 @@ public final class SwingView implements GraphicView {
             final Integer[] newChildren = (Integer[]) GraphicController.getController().getProperty(id, __GO_CHILDREN__);
 
             switch (type) {
-                /*
-                 * FIGURE CHILDREN UPDATE
-                 */
+                    /*
+                     * FIGURE CHILDREN UPDATE
+                     */
                 case __GO_FIGURE__:
                     updateFigureChildren(registeredObject, newChildren);
                     break;
-                /*
-                 * CONSOLE CHILDREN UPDATE
-                 */
+                    /*
+                     * CONSOLE CHILDREN UPDATE
+                     */
                 case __GO_CONSOLE__:
                     updateConsoleChildren(registeredObject, newChildren);
                     break;
-                /*
-                 * MENU CHILDREN UPDATE
-                 */
+                    /*
+                     * MENU CHILDREN UPDATE
+                     */
                 case __GO_UIMENU__:
                     updateMenuChildren(registeredObject, id, newChildren);
                     break;
-                /*
-                 * CONTEXTMENU CHILDREN UPDATE
-                 */
+                    /*
+                     * CONTEXTMENU CHILDREN UPDATE
+                     */
                 case __GO_UICONTEXTMENU__:
                     updateContextMenuChildren(registeredObject, newChildren);
                     break;
-                /*
-                 * UICONTROL "FRAME" CHILDREN UPDATE
-                 */
+                    /*
+                     * UICONTROL "FRAME" CHILDREN UPDATE
+                     */
                 case __GO_UICONTROL__:
 
                     int style = (Integer) GraphicController.getController().getProperty(id, __GO_STYLE__);
@@ -1083,7 +1098,7 @@ public final class SwingView implements GraphicView {
         boolean needRevalidate = false;
         boolean hasOpenGLAxes = false;
         int oldComponentCount = updatedComponent.getComponentCount();
-        
+
         // Add new children
         for (Integer childId : newChildren) {
             int childType = (Integer) GraphicController.getController().getProperty(childId, __GO_TYPE__);
@@ -1133,7 +1148,7 @@ public final class SwingView implements GraphicView {
         if (needRevalidate && updatedComponent != null) {
             updatedComponent.revalidate();
         }
-        
+
         // Force repaint if we removed components
         if (oldComponentCount > updatedComponent.getComponentCount()) {
             updatedComponent.repaint();
@@ -1184,7 +1199,7 @@ public final class SwingView implements GraphicView {
         if (needRevalidate && updatedComponent != null) {
             updatedComponent.getPanel().revalidate();
         }
-        
+
         // Force repaint if we removed components
         if (oldComponentCount > updatedComponent.getPanel().getComponentCount()) {
             updatedComponent.repaint();
@@ -1594,6 +1609,17 @@ public final class SwingView implements GraphicView {
         }
         if (needRevalidate && updatedComponent != null) {
             updatedComponent.validate();
+        }
+    }
+
+    private void requestFocus(TypedObject updatedObject) {
+        SwingViewObject uicontrol = updatedObject.getValue();
+        if (uicontrol instanceof SwingScilabScrollableFrame) {
+            ((SwingScilabScrollableFrame) uicontrol).requestFocus();
+        } else if (uicontrol instanceof SwingScilabFrame) {
+            ((SwingScilabFrame) uicontrol).requestFocus();
+        } else {
+            ((Widget) uicontrol).requestFocus();
         }
     }
 }

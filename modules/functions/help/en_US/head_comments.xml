@@ -3,11 +3,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) ????-2008 - INRIA - Serge STEER <serge.steer@inria.fr>
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="head_comments">
@@ -16,27 +19,18 @@
         <refpurpose>display Scilab function header comments</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>
-            head_comments(name)
-            head_comments(name,%paths)
+            head_comments(fname)
         </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
         <variablelist>
             <varlistentry>
-                <term>name</term>
+                <term>fname</term>
                 <listitem>
                     <para>a character string, the function name.</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>%paths</term>
-                <listitem>
-                    <para>
-                        a character string vector, paths where to look for the associated sci-file.
-                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -44,32 +38,50 @@
     <refsection>
         <title>Description</title>
         <para>
-            <code>head_comments(name)</code> displays the function header comments (like the
-            Matlab help). The comments are read from the associated sci-file. If <varname>name</varname>
-            is a function which is in a library the sci-file path is those given by the library
-            path (see <link linkend="lib">lib</link>). If <varname>name</varname> is a function which is
-            not in a library, a file with name <varname>name</varname><literal>.sci</literal> is searched in the
-            directories given by the variable <varname>%paths</varname>.
+            <code>head_comments(fname)</code> displays the function heading comments, that is to say,
+            the first block of comments immediately following the "function" line in the function
+            definition.
         </para>
         <warning>
-            Warning: most of the Scilab predefined functions have no header comments.
+            Warning: most of the Scilab predefined functions have no heading comments.
         </warning>
     </refsection>
     <refsection>
         <title>Examples</title>
         <programlisting role="example"><![CDATA[
-head_comments sinc
+head_comments logspace
+edit("logspace",1)
  ]]></programlisting>
+    <screen><![CDATA[
+--> head_comments logspace
+function [y] = logspace(d1,d2,n)
+ Geometrical series of numbers in [10^d1, 10^d2].
+ logspace(d1,d2) generates a row vector of 50 logarithmically
+ equally spaced values between 10^d1 and 10^d2.
+ If d2=%pi, then the points are between 10^d1 and pi.
+ logspace(d1, d2, n) generates n values.
+]]></screen>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="help">help</link>
             </member>
             <member>
-                <link linkend="lib">lib</link>
+                <link linkend="help_from_sci">help_from_sci</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>History</title>
+        <revhistory>
+            <revision>
+                <revnumber>5.0</revnumber>
+                <revdescription>
+                    Second input argument %path removed.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

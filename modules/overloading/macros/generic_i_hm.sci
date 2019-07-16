@@ -1,13 +1,16 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
-function M=generic_i_hm(default_value,varargin)
+function M = generic_i_hm(default_value,varargin)
 
 
     //insertion of a matrix in an hypermatrix
@@ -15,8 +18,9 @@ function M=generic_i_hm(default_value,varargin)
     rhs=rhs-1
     M=varargin(rhs);
     N=varargin(rhs-1);//inserted matrix
-    dims=matrix(double(M.dims),-1,1);
-    v=matrix(M.entries,-1,1);
+
+    dims=matrix(size(M),-1,1);
+    v=matrix(M,-1,1);
 
     nd=size(dims,"*")
     olddims=dims
@@ -46,9 +50,12 @@ function M=generic_i_hm(default_value,varargin)
             if or(size(dk)<>-1) then
                 dk=gsort(dk);
                 if or(dk<>(dims(k):-1:1)) then
-                    if dk(1)<1|dk($)>dims(k) then error(21),end
+                    if dk(1)<1|dk($)>dims(k) then
+                        error(msprintf(_("%s: Invalid index.\n"), "generic_i_hm"))
+                    end
                     if ok<>[] then
-                        error(msprintf(_("%s: A null assignment can have only one non-colon index.\n"),"generic_i_hm"));
+                        msg = _("%s: A null assignment can have only one non-colon index.\n")
+                        error(msprintf(msg, "generic_i_hm"));
                     end
                     ok=k
                     I1=1:dims(k);I1(dk)=[]
@@ -64,26 +71,18 @@ function M=generic_i_hm(default_value,varargin)
             [Ndims,I]=convertindex(dims,varargin(1:$-2));
             dims(ok)=size(I1,"*")
             while dims($)==1&size(dims,"*")>2, dims($)=[],end
-            M.entries=M.entries(I);
-            if size(dims,"*")==2 then
-                M=matrix(M.entries,dims)
-            else
-                M.dims=int32(dims')
-            end
-
-            //M=M(varargin(1:rhs-2))
+            M=M(I);
+            M=matrix(M, dims)
         end
 
         return
     end
 
-
     //convert N-dimensional indexes to 1-D and extend dims if necessary
     [Ndims,I]=convertindex(list(dims,size(N)),varargin(1:$-2));
     Ndims=matrix(Ndims,-1,1)
 
-
-    //if reduced_index&or(Ndims<>dims)  then error(21),end
+    //if reduced_index & or(Ndims<>dims), error(msprintf(_("%s: Invalid index.\n"), "generic_i_hm")), end
     if or(Ndims>dims) then
         //extend the destination matrix
         I1=0
@@ -122,7 +121,7 @@ function M=generic_i_hm(default_value,varargin)
         case 1 then
             k=find(olddims<>1&olddims<>0)
             if k==[]|Ndims>prod(olddims) then //shape changed
-                if mtlb_mode() then
+                if oldEmptyBehaviour("query")=="off" then
                     Ndims=[1,Ndims]
                 else
                     Ndims=[Ndims,1]

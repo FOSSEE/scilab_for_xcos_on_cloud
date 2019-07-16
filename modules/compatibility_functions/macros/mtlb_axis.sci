@@ -1,16 +1,19 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function varargout=mtlb_axis(varargin)
     // Emulation function for Matlab axis()
 
-    varargout(1)=list()
+    varargout=list()
     listvar=varargin
     if size(listvar)==0
         a=gca();
@@ -19,11 +22,11 @@ function varargout=mtlb_axis(varargin)
         return
     elseif type(listvar(1))<>9 then
         a=gca();
-        rhs=lstsize(listvar)
+        rhs = size(listvar)
     else
         a=listvar(1)
         listvar(1)=null()
-        rhs=lstsize(listvar)
+        rhs = size(listvar)
         listvar=listvar
     end
 
@@ -130,9 +133,9 @@ function varargout=mtlb_axis(varargin)
                 // axis(axes_handles,...)
             elseif type(listvar(krhs))==9 then
                 // krhs must be one
-                for khandle=1:lstsize(listvar(krhs))
+                for khandle=1:size(listvar(krhs))
                     arglist=list()
-                    for kvararg=1:lstsize(listvar)-1
+                    for kvararg=1:size(listvar)-1
                         arglist($+1)=listvar(kvararg+1)
                     end
                     arglist($+1)=listvar(krhs)(khandle)

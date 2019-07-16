@@ -1,18 +1,24 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function r=%h_e(i,h)
     h=h
+    if type(i)==4
+        i = find(i);
+    end
     if type(i)==10 then
         r=get(h,i)
     elseif type(i)==15 then
-        n=lstsize(i)
+        n = size(i)
 
         for k=1:n
             p=i(k)
@@ -31,7 +37,7 @@ function r=%h_e(i,h)
             end
         end
         r=h
-    elseif type(i)==1 then
+    elseif or(type(i)==[1,2]) then
         r=h(i)
     else
         error("Invalid path")

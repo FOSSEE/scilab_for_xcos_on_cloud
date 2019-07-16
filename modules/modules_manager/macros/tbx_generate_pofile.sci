@@ -1,36 +1,61 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2013 - Scilab Enterprises - Antoine ELIAS
+// Copyright (C) 2016, 2018 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
-function ret=tbx_generate_pofile(tbx_name, tbx_path)
+function ret = tbx_generate_pofile(tbx_name, tbx_path)
+    // tbx_generate_pofile(tbx_name, tbx_path)   // deprecated (6.0)
+    // tbx_generate_pofile(tbx_name)             // deprecated (6.0)
+    // tbx_generate_pofile(tbx_path)             // 6.0
+    // tbx_generate_pofile()                     // 6.0  path = pwd()
 
-    rhs = argn(2);
+    fname = "tbx_generate_pofile"
+    rhs = argn(2)
 
-    if ~or(rhs == [1,2]) then
-        error(msprintf(gettext("%s: Wrong number of input arguments: %d or %d expected.\n"),"tbx_generate_pofile", 1, 2));
+    // CHECKING INPUT PARAMETERS
+    // -------------------------
+    if and(rhs <> [0 1 2]) then
+        msg = _("%s: Wrong number of input arguments: %d to %d expected.\n")
+        error(msprintf(msg, fname, 0, 1))
     end
 
-    if rhs == 1 then
-        tbx_path = pwd();
+    if rhs==2
+        msg = "%s: %s(name, path) is obsolete. Please use %s(path) instead.\n"
+        warning(msprintf(msg, fname, fname, fname))  // no translation
+
+    elseif rhs==0
+        tbx_path = pwd()
+    else
+        tbx_path = tbx_name
+        if type(tbx_path) <> 10 then
+            msg = _("%s: Argument #%d: Text(s) expected.\n")
+            error(msprintf(msg, fname, rhs))
+        end
+        tbx_path = tbx_path(1)
+        // May be
+        //  * either the former tbx_generate_pofile(tbx_name) (until 5.5.2)
+        //  * or the new        tbx_generate_pofile(tbx_path) (from 6.0.0)
+        if grep(tbx_path,["/" "\"])==[] && ~isdir(tbx_path) then // only name was provided
+            tbx_path = pwd()
+        end
+        if ~isdir(tbx_path) then
+            msg = _("%s: The directory ''%s'' doesn''t exist or is not read accessible.\n")
+            error(msprintf(msg, fname, tbx_path))
+        end
     end
 
-    if type(tbx_name) <> 10 then
-        error(msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"), "tbx_generate_pofile", 1));
-    end
-
-    if type(tbx_path) <> 10 then
-        error(msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"), "tbx_generate_pofile", 1));
-    end
-
-    if ~isdir(tbx_path) then
-        error(msprintf(gettext("%s: The directory ''%s'' doesn''t exist or is not read accessible.\n"), "tbx_generate_pofile", tbx_path));
-    end
-
+    // Retrieving the toolbox name
+    // ---------------------------
+    tbx_name = tbx_get_name_from_path(tbx_path)
+    //
     old = pwd();
     cd(tbx_path);
     if getos() == "Windows" then
@@ -38,7 +63,9 @@ function ret=tbx_generate_pofile(tbx_name, tbx_path)
     else
         XGETTEXT="xgettext";
     end
-    XGETTEXT_OPTIONS=" --omit-header -k --keyword=dgettext:2 --keyword=xmlgettext:2 --keyword=_d:2 --language=python ";
+    XGETTEXT_OPTIONS=" --omit-header  --language=python --no-wrap " + ..
+                 "-k --keyword=gettext:2 --keyword=_:2 " + ..
+                 "--keyword=dgettext:2 --keyword=_d:2 --keyword=xmlgettext:2";
 
     EXTENSIONS=["c" "h" "cpp" "cxx" "hxx" "hpp" "java"];
     EXTENSIONS_MACROS=["sci" "sce" "start" "quit"];
@@ -55,23 +82,26 @@ function ret=tbx_generate_pofile(tbx_name, tbx_path)
     xmlFiles = getFilesList("etc", EXTENSIONS_XML);
 
     if size(xmlFiles, "*") > 0 then
-        xmlTmpFile = TMPDIR + "/tmpLoc.xml";
+        xmlTmpFile = fullpath(TMPDIR + "/tmpLoc.xml");
         srcFiles = [srcFiles; xmlTmpFile];
         xmlFake = mopen(xmlTmpFile, "w");
+        search = "\(\s*(.*)\s*,\s*(.*)\s*\)\""/";
+        replace = "xmlgettext(""\1"", ""\2"")";
         for i = 1:size(xmlFiles, "*")
             content = mgetl(xmlFiles(i));
-            newLine = sedLoc(content, "/\""_d\(\s*(.*)\s*,\s*(.*)\s*\)\""/", "xmlgettext(""\1"", ""\2"")");// "_d(xxx,xxx)"
-            newLine = sedLoc(newLine, "/\""dgettext\(\s*(.*)\s*,\s*(.*)\s*\)\""/", "xmlgettext(""\1"", ""\2"")");
+            newLine = sedLoc(content, "/\""_d"+search, replace);// "_d(xxx,xxx)"
+            newLine = sedLoc(newLine, "/\""dgettext"+search, replace);
+            newLine = sedLoc(newLine, "/\""gettext"+search, replace);
+            newLine = sedLoc(newLine, "/\""_"+search, replace);
             mputl(newLine, xmlFake);
         end
         mclose(xmlFake);
     end
 
     //parse all files
-    srcFiles = strcat(srcFiles, " ");
+    srcFiles = strcat(""""+srcFiles+"""", " ");
     cmd = XGETTEXT + XGETTEXT_OPTIONS + " -d " + tbx_name + " " + srcFiles + " -p " + TARGETDIR + " -o " + "en_US.po.tmp";
     host(cmd);
-
     if exists("xmlTmpFile") then
         deletefile(xmlTmpFile);
     end
@@ -94,6 +124,17 @@ function ret=tbx_generate_pofile(tbx_name, tbx_path)
 
     poFile = mgetl(TARGETDIR + "/en_US.po.tmp");
     poFile = [header ; poFile];
+
+    // Translating '' coming from Scilab into '
+    poFile = strsubst(poFile, "''''", "''");
+
+    // Making location paths relative to the toolbox root
+    poFile = strsubst(poFile, "#: "+fullpath(tbx_path), "#: ~");
+    if isdef("xmlTmpFile", "l") then
+        poFile = strsubst(poFile, "#: "+xmlTmpFile, "#: a XML file");
+    end
+
+    // Building the final file
     mputl(poFile, TARGETDIR + "/en_US.po");
     deletefile(TARGETDIR + "/en_US.po.tmp");
 
@@ -109,7 +150,7 @@ function result = sedLoc(str, findExp, replaceExp)
         [startPos, endPos, match, captured] = regexp(result(idx), findExp);
 
         if captured <> [] then
-            //multiple matches on the same line, YOUHOU !
+            //multiple matches on the same line
             for i=1:size(captured, "r")
                 replace = replaceExp;
                 for j = 1:size(captured, "c")
@@ -165,4 +206,3 @@ function ret = getFilesList(folder, mask)
 
     cd(old);
 endfunction
-

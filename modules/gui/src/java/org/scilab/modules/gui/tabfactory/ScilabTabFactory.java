@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2011 - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -40,7 +43,7 @@ public class ScilabTabFactory extends DockableFactory.Stub {
     private static final String ERROR = Messages.gettext("The tab with uuid %s cannot be restored.\nPlease report a bug with the previous message and in attaching the file %s.");
 
     /*
-      Certains components could depend an other Tab and this last one could be created before
+      Certains components could depend on other Tab and this last one could be created before
       to be requested by the Tab restorator. So we cache it to be sure to have the same instance.
     */
     private Map<String, SwingScilabDockablePanel> cache = new HashMap<String, SwingScilabDockablePanel>();

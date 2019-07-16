@@ -3,11 +3,14 @@
  *  Copyright (C) 2009-2009 - DIGITEO - Antoine ELIAS
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -16,6 +19,7 @@ package org.scilab.modules.types;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.Arrays;
 
 /**
  * This class provides a representation on the Scilab Integer datatype<br>
@@ -23,9 +27,9 @@ import java.io.ObjectOutput;
  * This class is {@link java.io.Serializable} and any modification could impact
  * load and store of data (Xcos files, Javasci saved data, etc...).<br>
  * <br>
- * Example:<br />
+ * Example:<BR>
  * <code>
- * byte [][]a={{32,42,41}, {12,13,32}};<br />
+ * byte [][]a={{32,42,41}, {12,13,32}};<BR>
  * ScilabInteger aMatrix = new ScilabInteger(a, true); // true = unsigned
  * </code>
  *
@@ -34,7 +38,6 @@ import java.io.ObjectOutput;
 public class ScilabInteger implements ScilabType {
 
     private static final long serialVersionUID = 1759633801332932450L;
-    private static final ScilabTypeEnum type = ScilabTypeEnum.sci_ints;
 
     private static final int VERSION = 0;
 
@@ -103,10 +106,12 @@ public class ScilabInteger implements ScilabType {
     /**
      * Constructor with values
      *
+     * @param varName the variable name
      * @param data
      *            the values
      * @param bUnsigned
      *            true, if the values are unsigned; false if they are signed.
+     * @param swaped true if the matrices are stored row by row
      */
     public ScilabInteger(String varName, byte[][] data, boolean bUnsigned, boolean swaped) {
         this.setData(data, bUnsigned);
@@ -117,10 +122,12 @@ public class ScilabInteger implements ScilabType {
     /**
      * Constructor with values
      *
+     * @param varName the variable name
      * @param data
      *            the values
      * @param bUnsigned
      *            true, if the values are unsigned; false if they are signed.
+     * @param swaped true if the matrices are stored row by row
      */
     public ScilabInteger(String varName, short[][] data, boolean bUnsigned, boolean swaped) {
         this.setData(data, bUnsigned);
@@ -131,10 +138,12 @@ public class ScilabInteger implements ScilabType {
     /**
      * Constructor with values
      *
+     * @param varName the variable name
      * @param data
      *            the values
      * @param bUnsigned
      *            true, if the values are unsigned; false if they are signed.
+     * @param swaped true if the matrices are stored row by row
      */
     public ScilabInteger(String varName, int[][] data, boolean bUnsigned, boolean swaped) {
         this.setData(data, bUnsigned);
@@ -145,10 +154,12 @@ public class ScilabInteger implements ScilabType {
     /**
      * Constructor with values
      *
+     * @param varName the variable name
      * @param data
      *            the values
      * @param bUnsigned
      *            true, if the values are unsigned; false if they are signed.
+     * @param swaped true if the matrices are stored row by row
      */
     public ScilabInteger(String varName, long[][] data, boolean bUnsigned, boolean swaped) {
         this.setData(data, bUnsigned);
@@ -209,6 +220,8 @@ public class ScilabInteger implements ScilabType {
      *
      * @param value
      *            the unique value
+     * @param bUnsigned
+     *            true, if these values are unsigned; false otherwise.
      */
     public ScilabInteger(byte value, boolean bUnsigned) {
         this(value);
@@ -220,6 +233,8 @@ public class ScilabInteger implements ScilabType {
      *
      * @param value
      *            the unique value
+     * @param bUnsigned
+     *            true, if these values are unsigned; false otherwise.
      */
     public ScilabInteger(short value, boolean bUnsigned) {
         this(value);
@@ -231,6 +246,8 @@ public class ScilabInteger implements ScilabType {
      *
      * @param value
      *            the unique value
+     * @param bUnsigned
+     *            true, if these values are unsigned; false otherwise.
      */
     public ScilabInteger(int value, boolean bUnsigned) {
         this(value);
@@ -242,6 +259,8 @@ public class ScilabInteger implements ScilabType {
      *
      * @param value
      *            the unique value
+     * @param bUnsigned
+     *            true, if these values are unsigned; false otherwise.
      */
     public ScilabInteger(long value, boolean bUnsigned) {
         this(value);
@@ -324,7 +343,7 @@ public class ScilabInteger implements ScilabType {
      */
     @Override
     public ScilabTypeEnum getType() {
-        return type;
+        return ScilabTypeEnum.sci_ints;
     }
 
     /**
@@ -435,35 +454,35 @@ public class ScilabInteger implements ScilabType {
      * Manage the old representation of IntegerType
      *
      * @param typeName
-     *            the typeName (TYPE8, TYPE16, TYPE32, TYPE64)
+     *            the typeName (type8, type16, type32, type64)
      * @param unsigned
      *            unsigned or not
      * @return the converted type to ScilabIntegerTypeEnum. null is cannot
-     *         convert
+         convert
      */
     public static ScilabIntegerTypeEnum convertOldType(String typeName, boolean unsigned) {
-        if (typeName.equals("TYPE8")) {
+        if (typeName.equals("type8")) {
             if (unsigned) {
                 return ScilabIntegerTypeEnum.sci_uint8;
             } else {
                 return ScilabIntegerTypeEnum.sci_int8;
             }
         }
-        if (typeName.equals("TYPE16")) {
+        if (typeName.equals("type16")) {
             if (unsigned) {
                 return ScilabIntegerTypeEnum.sci_uint16;
             } else {
                 return ScilabIntegerTypeEnum.sci_int16;
             }
         }
-        if (typeName.equals("TYPE32")) {
+        if (typeName.equals("type32")) {
             if (unsigned) {
                 return ScilabIntegerTypeEnum.sci_uint32;
             } else {
                 return ScilabIntegerTypeEnum.sci_int32;
             }
         }
-        if (typeName.equals("TYPE64")) {
+        if (typeName.equals("type64")) {
             if (unsigned) {
                 return ScilabIntegerTypeEnum.sci_uint64;
             } else {
@@ -554,6 +573,7 @@ public class ScilabInteger implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isReference() {
         return byref;
     }
@@ -587,6 +607,7 @@ public class ScilabInteger implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getVarName() {
         return varName;
     }
@@ -594,6 +615,7 @@ public class ScilabInteger implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSwaped() {
         return swaped;
     }
@@ -731,6 +753,18 @@ public class ScilabInteger implements ScilabType {
         }
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.deepHashCode(byteData);
+        result = prime * result + Arrays.deepHashCode(intData);
+        result = prime * result + Arrays.deepHashCode(longData);
+        result = prime * result + ((precision == null) ? 0 : precision.hashCode());
+        result = prime * result + Arrays.deepHashCode(shortData);
+        return result;
+    }
+
     /**
      * @see org.scilab.modules.types.ScilabType#equals(Object)
      */
@@ -785,6 +819,7 @@ public class ScilabInteger implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getSerializedObject() {
         return new Object[] { new int[] { this.getPrec().swigValue() }, getCorrectData() };
     }
@@ -832,7 +867,7 @@ public class ScilabInteger implements ScilabType {
     }
 
     /**
-     * Display the representation in the Scilab language of the type<br />
+     * Display the representation in the Scilab language of the type<BR>
      * Note that the representation can be copied/pasted straight into Scilab
      *
      * @return the pretty-printed values

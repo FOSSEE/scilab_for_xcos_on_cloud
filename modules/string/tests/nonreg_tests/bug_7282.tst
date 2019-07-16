@@ -6,6 +6,7 @@
 // =============================================================================
 
 // <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
 // <-- Non-regression test for bug 7282 -->
 //
 // <-- Bugzilla URL -->
@@ -13,13 +14,12 @@
 //
 // <-- Short Description -->
 // eval failed on some functions without output arguments.
-
+errmsg = msprintf(gettext("%s: Wrong number of output argument(s): %d expected.\n"), "realtimeinit", 0);
 str = "realtimeinit(60)";
-r = eval(str);
-if r <> [] then pause, end
+assert_checkerror("eval(str)", errmsg);
 
 function o = blabla()
- o = 3;
+    o = 3;
 endfunction
 
 r = eval("blabla()");

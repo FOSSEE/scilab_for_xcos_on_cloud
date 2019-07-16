@@ -3,11 +3,14 @@
 // Copyright (C) 1987-2008 - INRIA - Serge STEER <serge.steer@inria.fr>
 // Copyright (C) 1987-2008 - INRIA - François DELEBECQUE
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function[m,den]=nlev(a,z,rmax)
     //[num,den]=nlev(a,z [,rmax])  calcule (z*eye-a)**(-1) par une version
@@ -20,7 +23,8 @@ function[m,den]=nlev(a,z,rmax)
 
     rhs=argn(2);
     if rhs < 2 then
-        error(msprintf(gettext("%s: Wrong number of input arguments: %d or %d expected.\n"),"nlev",2,3));
+        msg = gettext("%s: Wrong number of input arguments: %d or %d expected.\n")
+        error(msprintf(msg, "nlev", 2, 3));
     end
 
     z=poly(0,z);
@@ -33,7 +37,8 @@ function[m,den]=nlev(a,z,rmax)
 
     [m1 n1]=size(a)
     if m1<>n1 then
-        error(20,1);
+        msg = _("%s: Argument #%d: Square matrix expected.\n")
+        error(msprintf(msg, "nlev", 1))
     end
     k=1;
     m=[];

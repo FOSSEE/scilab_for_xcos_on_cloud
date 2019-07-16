@@ -3,11 +3,14 @@
  * Copyright (C) 2006 - INRIA - Fabrice Leray
  * Copyright (C) 2006 - INRIA - Jean-Baptiste Silvy
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -48,19 +51,19 @@ GRAPHICS_IMPEXP BOOL containsOneFiniteElement(const double vector[], int nbEleme
 
 /*--------------------------------------------------------------------------*/
 /**
- * copy an array into an other
+ * copy an array into another
  */
 GRAPHICS_IMPEXP void doubleArrayCopy(double dest[], const double src[], int nbElement);
 
 /**
- * copy an int array into an other
+ * copy an int array into another
  */
 GRAPHICS_IMPEXP void intArrayCopy(int dest[], const int src[], int nbElement);
 
 /**
- * copy a char * array into an other
+ * copy a char * array into another
  */
-GRAPHICS_IMPEXP void stringArrayCopy(char * dest[], char * src[], int nbElement);
+GRAPHICS_IMPEXP BOOL stringArrayCopy(char * dest[], char * src[], int nbElement);
 
 /**
  * set each element of an array to a certain value

@@ -2,11 +2,14 @@
  *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -32,7 +35,6 @@ import java.util.List;
 public class ScilabBooleanSparse implements ScilabType {
 
     private static final long serialVersionUID = 879625048944109684L;
-    private static final ScilabTypeEnum type = ScilabTypeEnum.sci_boolean_sparse;
 
     private static final int VERSION = 0;
 
@@ -79,6 +81,7 @@ public class ScilabBooleanSparse implements ScilabType {
      *            the column position of each true
      * @param check
      *            if true the parameters validity is checked
+     * @throws ScilabSparseException if the sparse representation is invalid
      */
     public ScilabBooleanSparse(int rows, int cols, int nbItem, int[] nbItemRow, int[] colPos, boolean check) throws ScilabSparseException {
         this(rows, cols, nbItem, nbItemRow, colPos);
@@ -164,6 +167,7 @@ public class ScilabBooleanSparse implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isReference() {
         return false;
     }
@@ -176,7 +180,7 @@ public class ScilabBooleanSparse implements ScilabType {
      */
     @Override
     public ScilabTypeEnum getType() {
-        return type;
+        return ScilabTypeEnum.sci_boolean_sparse;
     }
 
     /**
@@ -262,6 +266,7 @@ public class ScilabBooleanSparse implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getVarName() {
         return varName;
     }
@@ -269,6 +274,7 @@ public class ScilabBooleanSparse implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSwaped() {
         return false;
     }
@@ -320,6 +326,21 @@ public class ScilabBooleanSparse implements ScilabType {
         return cols;
     }
 
+
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(colPos);
+        result = prime * result + cols;
+        result = prime * result + nbItem;
+        result = prime * result + Arrays.hashCode(nbItemRow);
+        result = prime * result + rows;
+        return result;
+    }
+
     /**
      * @see org.scilab.modules.types.ScilabType#equals(Object)
      */
@@ -337,6 +358,7 @@ public class ScilabBooleanSparse implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getSerializedObject() {
         return new Object[] { new int[] { rows, cols }, nbItemRow, getScilabColPos() };
     }
@@ -370,7 +392,7 @@ public class ScilabBooleanSparse implements ScilabType {
     }
 
     /**
-     * Display the representation in the Scilab language of the type<br />
+     * Display the representation in the Scilab language of the type<BR>
      * Note that the representation can be copied/pasted straight into Scilab
      *
      * @return a Scilab-like String representation of the data.

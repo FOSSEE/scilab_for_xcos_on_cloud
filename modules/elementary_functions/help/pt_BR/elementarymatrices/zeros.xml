@@ -1,29 +1,35 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="zeros" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="zeros" xml:lang="pt">
     <refnamediv>
         <refname>zeros</refname>
         <refpurpose>matriz feita de zeros</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>y=zeros()
             y=zeros(x)
             y=zeros(m1,m2,..)
         </synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>x,y</term>
@@ -40,8 +46,8 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
-        <para>Cria uma matriz de zeros (é o mesmo que
+        <title>DescriÃ§Ã£o</title>
+        <para>Cria uma matriz de zeros (Ã© o mesmo que
             <literal>0*ones</literal>).
         </para>
         <variablelist>
@@ -74,7 +80,7 @@
                 <term>zeros(3)</term>
                 <listitem>
                     <para>
-                        é <literal>zeros(a)</literal> com <literal>a=3</literal> é uma
+                        Ã© <literal>zeros(a)</literal> com <literal>a=3</literal> Ã© uma
                         matriz 3x3!
                     </para>
                 </listitem>
@@ -82,27 +88,33 @@
             <varlistentry>
                 <term>zeros()</term>
                 <listitem>
-                    <para>retorna um único zero</para>
+                    <para>retorna um Ãºnico zero</para>
                 </listitem>
             </varlistentry>
         </variablelist>
+        <note>
+           <literal>repmat(0, sizes)</literal> can be used to generate an array of zeros with
+           <literal>sizes=[m1 m2 ..]</literal> given as a vector.
+        </note>
         <para>
-            Se <literal>x</literal> é uma lista <literal>syslin</literal>
-            (sistema linear em forma de espaço de estados ou transferência),
-            <literal>zeros(x)</literal> também é válido e retorna uma matriz
+            Se <literal>x</literal> Ã© uma lista <literal>syslin</literal>
+            (sistema linear em forma de espaÃ§o de estados ou transferÃªncia),
+            <literal>zeros(x)</literal> tambÃ©m Ã© vÃ¡lido e retorna uma matriz
             nula.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 zeros(3)
 zeros(3,3)
 zeros(2,3,2)
+
+repmat(0, [2 4 2])
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="eye">eye</link>

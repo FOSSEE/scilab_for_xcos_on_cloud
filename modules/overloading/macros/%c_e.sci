@@ -1,12 +1,16 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
-function f=%c_e(varargin)
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
+
+function f = %c_e(varargin)
     //A(i,j,k,..)
 
     rhs=size(varargin)
@@ -18,7 +22,10 @@ function f=%c_e(varargin)
         ind=varargin(k)
         if type(ind)==2|type(ind)==129 then ind=horner(ind,1),end
         if type(ind)==4 then ind=find(ind),end
-        if or(ind<>1) then error(21),end
+        if or(ind<>1) then
+            msg = _("%s: Invalid index.\n")
+            error(msprintf(msg, "%c_e"))
+        end
         n=size(ind,"*")
         dims=[dims,n]
     end
@@ -29,6 +36,6 @@ function f=%c_e(varargin)
         N=prod(dims)
         szf=size(f)
         f=f(:)
-        f=mlist(["hm","dims","entries"],int32([szf dims]),matrix(f(:,ones(1,N)),-1,1))
+        f=matrix(f(:,ones(1,N)), [szf dims])
     end
 endfunction

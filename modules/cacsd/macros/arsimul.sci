@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function z=arsimul(x1,x2,x3,x4,x5,x6,x7,x8)
@@ -64,7 +67,7 @@ function z=arsimul(x1,x2,x3,x4,x5,x6,x7,x8)
     // past conditions for up
     //--------------------------
     if rhs <=2,
-        up=0*ones(bl1,1);
+        up= zeros(bl1,1);
     else
         up=x3;
         if bl1==0 then
@@ -83,7 +86,7 @@ function z=arsimul(x1,x2,x3,x4,x5,x6,x7,x8)
     // past conditions for yp
     //--------------------------
     if rhs <=3,
-        yp=0*ones(al1,1)
+        yp= zeros(al1,1)
     else
         yp=x4;
         if al1==0 then
@@ -102,7 +105,7 @@ function z=arsimul(x1,x2,x3,x4,x5,x6,x7,x8)
     // past conditions for ep
     //--------------------------
     if rhs <=4,
-        ep=0*ones(dl1,1);
+        ep= zeros(dl1,1);
     else
         ep=x5
         if dl1==0 then
@@ -123,7 +126,7 @@ function z=arsimul(x1,x2,x3,x4,x5,x6,x7,x8)
     // but xi must be set to a scalar value to provide proper
     // result dimensions.
     //
-    xi=[0*ones(al,1);xi];
+    xi=[ zeros(al,1);xi];
     z=ode("discrete",xi,0,1:Nu,fff);
     // Now z contains y_{1},.....y_{Nu};
     z=z(1:al,:)

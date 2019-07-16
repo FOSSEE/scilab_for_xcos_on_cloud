@@ -74,10 +74,12 @@ endfunction
 
 function display_car_trajectory(state)
     bigL=1
-    set figure_style new;clf();show_window()
+    set figure_style new;
+    clf();
+    show_window()
     a=gca()
     drawlater()
-    a.isoview="on"
+    isoview()
     a.data_bounds=[min(state(:,1))-0.5*bigL, min(state(:,2))-1.5*bigL
     max(state(:,1))+1.5*bigL, max(state(:,2))+1.5*bigL]
     rect=matrix(a.data_bounds',-1,1)
@@ -135,7 +137,6 @@ endfunction
 
 function draw_car(C,pos)
     if is_handle_valid(C) then
-        drawlater()
         [x,y,theta,phi]=(pos(1),pos(2),pos(3),pos(4))
         bigL=1
         Rc=[cos(theta) sin(theta);-sin(theta) cos(theta)]
@@ -154,7 +155,6 @@ function draw_car(C,pos)
         xy=[(1-cos(phi)/8) (-1/6-sin(phi)/8)
         (1+cos(phi)/8) (-1/6+sin(phi)/8)]
         C(5).data=ones(xy)*diag([x;y])+bigL*xy*Rc
-        drawnow()
     end
 endfunction
 

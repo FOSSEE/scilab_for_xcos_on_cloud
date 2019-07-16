@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - 2008 - Jean-Baptiste Silvy
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="get_figure_handle" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="get_figure_handle" xml:lang="pt">
     <refnamediv>
         <refname>get_figure_handle</refname>
         <refpurpose>Retorna o manipulador de uma figura a partir de seu
@@ -18,11 +21,11 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>f = get_figure_handle(figure_id)</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>figure_id</term>
@@ -39,17 +42,17 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
             <literal>get_figure_handle</literal> permite recuperar o manipulador
-            de uma figura gráfica desde que se conheça o seu identificador. Se uma
-            figura com o id especificado existir, ela é retornada. Em caso contrário,
-            uma matriz vazia é retornada.
+            de uma figura grÃ¡fica desde que se conheÃ§a o seu identificador. Se uma
+            figura com o id especificado existir, ela Ã© retornada. Em caso contrÃ¡rio,
+            uma matriz vazia Ã© retornada.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 // criando algumas figuras
 scf(0);
 scf(5);
@@ -57,14 +60,14 @@ scf(12);
 
 // obtendo o manipulador da figura com id 5
 f5 = get_figure_handle(5);
-// a figura corrente ainda é aquela com id 12
+// a figura corrente ainda Ã© aquela com id 12
 gcf()
 // obtendo uma figura inexistente
 f42 = get_figure_handle(42);
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="set">set</link>

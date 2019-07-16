@@ -2,90 +2,56 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2018 - Samuel GOUGEON
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="MATEXPM" xml:lang="fr_FR">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="MATEXPM" xml:lang="fr_FR">
     <refnamediv>
         <refname>MATEXPM</refname>
         <refpurpose>Exponentielle matricielle</refpurpose>
     </refnamediv>
     <refsection>
         <title>Aperçu</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata align="center" fileref="../../../../images/palettes/MATEXPM.png" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="../../../../images/palettes/MATEXPM.png"/>
+            </imageobject>
+        </inlinemediaobject>
     </refsection>
     <refsection id="Contents_MATEXPM">
         <title>Contenu</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="MATEXPM">Exponentielle matricielle</link>
-                </para>
+                <xref linkend="Description_MATEXPM">Description</xref>
             </listitem>
             <listitem>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <xref linkend="Palette_MATEXPM">Palette</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Description_MATEXPM">Description</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Dialogbox_MATEXPM">Boîte de dialogue</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <link linkend="MATEXPM">Exemple</link>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Defaultproperties_MATEXPM">Propriétés par défaut</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Interfacingfunction_MATEXPM">Fonction d'interfaçage</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Computationalfunction_MATEXPM">Fonction de calcul</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Seealso_MATEXPM">Voir aussi</xref>
-                        </para>
-                    </listitem>
-                </itemizedlist>
+                <xref linkend="Dialogbox_MATEXPM">Paramètres</xref>
             </listitem>
-        </itemizedlist>
-    </refsection>
-    <refsection id="Palette_MATEXPM">
-        <title>Palette</title>
-        <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="Matrix_pal">Palette Opérations matricielles</link>
-                </para>
+                <link linkend="MATEXPM">Exemple</link>
+            </listitem>
+            <listitem>
+                <xref linkend="Defaultproperties_MATEXPM">Propriétés par défaut</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Interfacingfunction_MATEXPM">Fonction d'interfaçage</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Computationalfunction_MATEXPM">Fonction de calcul</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Seealso_MATEXPM">Voir aussi</xref>
             </listitem>
         </itemizedlist>
     </refsection>
@@ -93,7 +59,7 @@
         <title>Description</title>
         <para>
             Le bloc MATEXPM sort l'exponentielle matricielle d'une matrice d'entrée carrée calculée par l'approximation
-            de Padé's. La sortie est une matrice carrée de mêmes dimensions que la matrice d'entrée.
+            de Padé. La sortie est une matrice carrée de mêmes dimensions que la matrice d'entrée.
         </para>
         <para>
             L'équivalent du bloc MATEXPM dans Scilab est <link linkend="expm">expm</link>.
@@ -101,15 +67,14 @@
         <para/>
     </refsection>
     <refsection id="Dialogbox_MATEXPM">
-        <title>Boîte de dialogue</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata align="center" fileref="../../../../images/gui/MATEXPM_gui.gif" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para/>
+        <title>Paramètres</title>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/gui/MATEXPM_gui.gif"
+                            align="center" style="float:right"/>
+                <!-- align => Javahelp, style => Online -->
+            </imageobject>
+        </inlinemediaobject>
         <itemizedlist>
             <listitem>
                 <para>
@@ -126,8 +91,8 @@
     <refsection id="Example_MATEXPM">
         <title>Exemple</title>
         <programlisting role="example">
-            u=[1 2 3;2 3 1;4 2 1]
-            y=[182.612 196.518 141.735;172.973 190.770 133.577;204.677 220.063 159.067]
+            u = [1 2 3 ; 2 3 1 ; 4 2 1]
+            y = [182.612 196.518 141.735 ; 172.973 190.770 133.577 ; 204.677 220.063 159.067]
         </programlisting>
     </refsection>
     <refsection id="Defaultproperties_MATEXPM">
@@ -201,6 +166,7 @@
                 </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Interfacingfunction_MATEXPM">
         <title>Fonction d'interfaçage</title>
@@ -214,25 +180,31 @@
         <title>Fonctions de calcul</title>
         <itemizedlist>
             <listitem>
-                <para>SCI/modules/scicos_blocks/src/c/mat_expm.c</para>
+                SCI/modules/scicos_blocks/src/c/mat_expm.c
             </listitem>
             <listitem>
-                <para>SCI/modules/scicos_blocks/src/c/matz_expm.c</para>
+                SCI/modules/scicos_blocks/src/c/matz_expm.c
             </listitem>
         </itemizedlist>
     </refsection>
-    <refsection id="Seealso_MATEXPM">
+    <refsection id="Example_MATEXPM2">
+        <title>Exemple d'Exponentielle matricielle : expm([0 sin(t) ; sqrt(t) 0])</title>
+        <link type="scilab" linkend="scilab.xcos/xcos/examples/matrix_pal/MATEXPM_Example.zcos">
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="../../../../examples/matrix_pal/MATEXPM_Example.zcos" valign="middle"/>
+                </imageobject>
+            </inlinemediaobject>
+        </link>
+    </refsection>
+    <refsection id="Seealso_MATEXPM" role="see also">
         <title>Voir aussi</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="MATMUL">MATMUL - Multiplication matricielle (Bloc Xcos)</link>
-                </para>
+                <link linkend="MATMUL">MATMUL</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="expm">expm (Fonction Scilab)</link>
-                </para>
+                <link linkend="expm">expm (Fonction Scilab)</link>
             </listitem>
         </itemizedlist>
     </refsection>

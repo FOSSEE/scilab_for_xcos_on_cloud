@@ -2,27 +2,32 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
 /*------------------------------------------------------------------------*/
-/* file: set_figure_name_property.c                                       */
-/* desc : function to modify in Scilab the figure_name field of           */
+/* file:  set_layout_options_property.c                                   */
+/* desc : function to modify in Scilab the layout_options field of        */
 /*        a handle                                                        */
 /*------------------------------------------------------------------------*/
+
+#include <string.h>
+
 #include "api_scilab.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 #include "freeArrayOfString.h"
 #include "Scierror.h"
 #include "localization.h"
 #include "SetPropertyStatus.h"
 #include "sci_types.h"
-#include "stricmp.h"
 
 #include "setGraphicObjectProperty.h"
 #include "getGraphicObjectProperty.h"
@@ -69,6 +74,7 @@ int set_layout_options_property(void* _pvCtx, int iObjUID, void* _pvData, int va
         //depend of kind of tlist
         if (strcmp(pstType, "OptNoLayout") == 0)
         {
+            freeAllocatedMatrixOfString(iRows, iCols, pstField);
             return clearLayoutOptions(iObjUID);
         }
         else if (strcmp(pstType, "OptBorder") == 0)
@@ -83,12 +89,14 @@ int set_layout_options_property(void* _pvCtx, int iObjUID, void* _pvData, int va
             sciErr = getListItemAddress(_pvCtx, piAddrList, 2, &piAddr2);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
             sciErr = getMatrixOfDouble(_pvCtx, piAddr2, &iRows2, &iCols2, &pdblPadding);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
@@ -116,24 +124,28 @@ int set_layout_options_property(void* _pvCtx, int iObjUID, void* _pvData, int va
             sciErr = getListItemAddress(_pvCtx, piAddrList, 2, &piAddr2);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
             sciErr = getMatrixOfDouble(_pvCtx, piAddr2, &iRows2, &iCols2, &pdblGrid);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
             sciErr = getListItemAddress(_pvCtx, piAddrList, 3, &piAddr3);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
             sciErr = getMatrixOfDouble(_pvCtx, piAddr3, &iRows3, &iCols3, &pdblPadding);
             if (sciErr.iErr)
             {
+                freeAllocatedMatrixOfString(iRows, iCols, pstField);
                 return SET_PROPERTY_ERROR;
             }
 
@@ -147,6 +159,7 @@ int set_layout_options_property(void* _pvCtx, int iObjUID, void* _pvData, int va
         }
         else if (strcmp(pstType, "OptGridBag") == 0)
         {
+            freeAllocatedMatrixOfString(iRows, iCols, pstField);
             return clearLayoutOptions(iObjUID);
         }
         else
@@ -154,7 +167,6 @@ int set_layout_options_property(void* _pvCtx, int iObjUID, void* _pvData, int va
             freeAllocatedMatrixOfString(iRows, iCols, pstField);
             return SET_PROPERTY_ERROR;
         }
-
         freeAllocatedMatrixOfString(iRows, iCols, pstField);
     }
 

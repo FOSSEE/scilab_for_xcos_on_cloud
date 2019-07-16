@@ -5,6 +5,7 @@
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
 // <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
 // <-- Non-regression test for bug 4810 -->
 //
 // <-- Bugzilla URL -->
@@ -19,6 +20,6 @@ A = gsort(sp);
 if and(ref == A) <> %t then pause,end
 
 sp = sparse([1,2;4,5;3,10]);
-ierr = execstr('A = gsort(sp);','errcatch');
-if ierr <> 999 then pause,end
+ierr = execstr("A = gsort(sp);","errcatch");
+if ierr <> 10000 then pause,end
 

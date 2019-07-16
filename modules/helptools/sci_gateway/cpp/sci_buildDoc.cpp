@@ -3,11 +3,14 @@
  *  Copyright (C) 2008 - INRIA - Sylvestre LEDRU
  *  Copyright (C) 2011 - Scilab Enterprises - Sylvestre LEDRU
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 /*--------------------------------------------------------------------------*/
@@ -22,14 +25,12 @@ extern "C"
 #include "api_scilab.h"
 #include "gw_helptools.h"
 #include "Scierror.h"
-#include "setgetSCIpath.h"
+#include "sci_path.h"
 #include "localization.h"
 #include "setgetlanguage.h"
 #include "getScilabJavaVM.h"
-#include "MALLOC.h"
-#ifdef _MSC_VER
-#include "ConvertSlash.h"
-#endif
+#include "sci_malloc.h"
+#include "setenvvar.h"
     /*--------------------------------------------------------------------------*/
 #define PATHTOCSS "/modules/helptools/css/javahelp.css"
 #define PATHTOBUILDDOC "/modules/helptools/build/doc/scilab_%s_help/"
@@ -48,17 +49,18 @@ extern "C"
     }
 #endif
     /*--------------------------------------------------------------------------*/
-    int sci_buildDoc(char *fname, unsigned long l)
+    int sci_buildDoc(char *fname, void* pvApiCtx)
     {
         std::string exportFormat;
-        std::string SciPath = getSCIpath(); /* Scilab path */
-        std::string masterXML;  /* Which file contains all the doc stuff */
+        std::string SciPath; /* Scilab path */
+        std::string masterXML; /* Which file contains all the doc stuff */
         std::string masterXMLTMP;
         std::string outputDirectory;    /* Working directory */
         std::string outputDirectoryTMP;
         std::string language;
         std::string styleSheet; /* the CSS */
         char * fileToExec = NULL;
+        char * temp;
         SciErr sciErr;
         int *piAddr = NULL;
         int iRet = 0;
@@ -66,6 +68,9 @@ extern "C"
         CheckRhs(0, 4);
         CheckLhs(1, 1);
 
+        temp = getSCI();
+        SciPath = std::string(temp);
+        free(temp);
         styleSheet = SciPath + PATHTOCSS;
 
         if (Rhs < 1)
@@ -74,9 +79,9 @@ extern "C"
         }
         else
         {
-            char *pstData = NULL;
-
+            char* pstData = NULL;
             sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
+
             if (sciErr.iErr)
             {
                 printError(&sciErr, 0);
@@ -86,7 +91,7 @@ extern "C"
 
             if (!isStringType(pvApiCtx, piAddr))
             {
-                Scierror(999, _("%s: Wrong type for input argument #%d: Single string expected.\n"), fname, 1);
+                Scierror(999, _("%s: Wrong type for input argument #%d: string expected.\n"), fname, 1);
                 return 0;
                 // Wrong type string
             }
@@ -100,17 +105,22 @@ extern "C"
             exportFormat = std::string(pstData);
             freeAllocatedSingleString(pstData);
 
+
         }
 
         if (Rhs < 3)            /* Language not provided */
         {
-            language = getlanguage();
+            wchar_t* l = getlanguage();
+            temp = wide_string_to_UTF8(l);
+            language = std::string(temp);
+            FREE(temp);
+            free(l);
         }
         else
         {
-            char *pstData = NULL;
-
+            char* pstData = NULL;
             sciErr = getVarAddressFromPosition(pvApiCtx, 3, &piAddr);
+
             if (sciErr.iErr)
             {
                 printError(&sciErr, 0);
@@ -120,14 +130,18 @@ extern "C"
 
             if (!isStringType(pvApiCtx, piAddr))
             {
-                Scierror(999, _("%s: Wrong type for input argument #%d: Single string expected.\n"), fname, 3);
+                Scierror(999, _("%s: Wrong type for input argument #%d: string expected.\n"), fname, 3);
                 return 0;
                 // Wrong type string
             }
 
             if (!isScalar(pvApiCtx, piAddr))
             {
-                language = getlanguage();
+                wchar_t* pwstLang = getlanguage();
+                temp = wide_string_to_UTF8(pwstLang);
+                language = std::string(temp);
+                FREE(temp);
+                free(pwstLang);
             }
             else
             {
@@ -139,6 +153,7 @@ extern "C"
                 }
                 language = std::string(pstData);
                 freeAllocatedSingleString(pstData);
+
             }
 
         }
@@ -151,9 +166,9 @@ extern "C"
         }
         else
         {
-            char *pstData = NULL;
-
+            char* pstData = NULL;
             sciErr = getVarAddressFromPosition(pvApiCtx, 2, &piAddr);
+
             if (sciErr.iErr)
             {
                 printError(&sciErr, 0);
@@ -162,10 +177,11 @@ extern "C"
             }
             if (!isStringType(pvApiCtx, piAddr))
             {
-                Scierror(999, _("%s: Wrong type for input argument #%d: Single string expected.\n"), fname, 2);
+                Scierror(999, _("%s: Wrong type for input argument #%d: string expected.\n"), fname, 2);
                 return 0;
                 // Wrong type string
             }
+
 
             iRet = getAllocatedSingleString(pvApiCtx, piAddr, &pstData);
             if (iRet)
@@ -179,9 +195,9 @@ extern "C"
 
         if (Rhs == 4)
         {
-            char *pstData = NULL;
-
+            char* pstData = NULL;
             sciErr = getVarAddressFromPosition(pvApiCtx, 4, &piAddr);
+
             if (sciErr.iErr)
             {
                 printError(&sciErr, 0);
@@ -190,7 +206,7 @@ extern "C"
             }
             if (!isStringType(pvApiCtx, piAddr))
             {
-                Scierror(999, _("%s: Wrong type for input argument #%d: Single string expected.\n"), fname, 4);
+                Scierror(999, _("%s: Wrong type for input argument #%d: string expected.\n"), fname, 4);
                 return 0;
                 // Wrong type string
             }

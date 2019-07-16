@@ -1,22 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="prod" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="prod" xml:lang="pt">
     <refnamediv>
         <refname>prod</refname>
         <refpurpose>produto</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>y=prod(x)
             y=prod(x,'r') ou y=prod(x,1)
             y=prod(x,'c') ou y=prod(x,2)
@@ -24,7 +27,7 @@
         </synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>x</term>
@@ -41,38 +44,38 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição </title>
+        <title>DescriÃ§Ã£o </title>
         <para>
             Para um vetor ou uma matriz <literal>x</literal>,
             <literal>y=prod(x)</literal> retorna no escalar <literal>y</literal> o
-            produtório de todas as entradas de <literal>x</literal>, , ex.
-            <literal>prod(1:n)</literal> é n!
+            produtÃ³rio de todas as entradas de <literal>x</literal>, , ex.
+            <literal>prod(1:n)</literal> Ã© n!
         </para>
         <para>
             <literal>y=prod(x,'r')</literal> (ou, equivalentemente,
-            <literal>y=prod(x,1)</literal>) computa os produtórios dos elementos das
-            linhas de <literal>x</literal>. <literal>y</literal> é o vetor linha:
+            <literal>y=prod(x,1)</literal>) computa os produtÃ³rios dos elementos das
+            linhas de <literal>x</literal>. <literal>y</literal> Ã© o vetor linha:
             <literal>y(1,j)=prod(x(:,j))</literal>.
         </para>
         <para>
             <literal>y=prod(x,'c')</literal> (ou, equivalentemente,
-            <literal>y=prod(x,2)</literal>) computa os produtórios dos elementos das
-            colunas de <literal>x</literal>. <literal>y</literal> é o vetor coluna:
+            <literal>y=prod(x,2)</literal>) computa os produtÃ³rios dos elementos das
+            colunas de <literal>x</literal>. <literal>y</literal> Ã© o vetor coluna:
             <literal>y(i,1)=prod(x(i,:))</literal>.
         </para>
         <para>
-            <literal>y=prod(x,'m')</literal> é o produtório ao longo da primeira
-            dimensão "não-singleton" de <literal>x</literal> (para compatibilidade com
+            <literal>y=prod(x,'m')</literal> Ã© o produtÃ³rio ao longo da primeira
+            dimensÃ£o "nÃ£o-singleton" de <literal>x</literal> (para compatibilidade com
             o Matlab).
         </para>
         <para>
-            <literal>prod</literal> não é implementado para matrizes
+            <literal>prod</literal> nÃ£o Ã© implementado para matrizes
             esparsas.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 A=[1,2;0,100];
 prod(A)
 prod(A,'c')
@@ -80,7 +83,7 @@ prod(A,'r')
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="sum">sum</link>

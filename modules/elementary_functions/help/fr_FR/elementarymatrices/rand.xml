@@ -3,15 +3,21 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
  * Copyright (C) 2011 - DIGITEO - Michael Baudin
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="rand" xml:lang="fr">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="rand" xml:lang="fr">
     <refnamediv>
         <refname>rand</refname>
         <refpurpose>Générateur de nombres pseudo-aléatoires</refpurpose>
@@ -24,10 +30,10 @@
             r = rand(m1,m2,...,key)
             r = rand(x)
             r = rand(x,key)
-            
+
             s = rand("seed")
             rand("seed",s)
-            
+
             rand(key)
             key = rand("info")
         </synopsis>
@@ -54,8 +60,9 @@
                 <term>x</term>
                 <listitem>
                     <para>
-                        une matrice, dont uniquement le contenu réel ou complexe et
-                        les dimensions sont prises en compte.
+                        tableau (vecteur, matrice, hypermatrice) de booléens, nombres, ou polynomes,
+                        dont uniquement les dimensions et le caractère réel ou complexes sont pris
+                        en compte.
                     </para>
                 </listitem>
             </varlistentry>
@@ -63,7 +70,8 @@
                 <term>r</term>
                 <listitem>
                     <para>
-                        une matrice de doubles de taille m1-par-m2-par-... avec des valeurs aléatoires.
+                        tableau de nombres décimaux ou complexes, de taille m1-par-m2-par-...
+                        avec des valeurs aléatoires.
                     </para>
                 </listitem>
             </varlistentry>
@@ -80,9 +88,8 @@
     <refsection>
         <title>Description</title>
         <para>
-            Le but de cette fonction est de retourner un tableau  
-            de doubles dont les valeurs sont des nombres aléatoires
-            réels ou complexes.
+            Le but de cette fonction est de retourner un tableau de nombres dont les valeurs sont
+            des nombres aléatoires réels ou complexes.
             En fonction des arguments d'entrée, la fonction peut renvoyer une
             matrice de doubles aléatoires or peut configurer ou récupérer la distribution des nombres
             aléatoires ou peut configurer ou récupérer la graine du générateur
@@ -192,10 +199,10 @@
     <refsection>
         <title>Exemples</title>
         <para>
-            Dans l'exemple suivant, nous générons des doubles associés à 
+            Dans l'exemple suivant, nous générons des doubles associés à
             différentes distributions.
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
 // Récupère un double aléatoire (sur la distribution courante)
 r=rand()
 // Récupère une matrice de doubles de taille 4-par-6 (sur la distribution courante)
@@ -210,9 +217,9 @@ r=rand(2,2,2)
  ]]></programlisting>
         <para>
             Dans l'exemple suivant, nous changeons la distribution des nombres générés par <literal>rand</literal>.
-            Nous produisons d'abord des nombres normaux centrés réduits, puis des nombres uniformes dans [0,1).
+            Nous produisons d'abord des nombres normaux centrés réduits, puis des nombres uniformes dans [0,1[.
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
     // Configure le générateur sur la loi normale
     rand("normal")
     r=rand(4,6)
@@ -224,31 +231,31 @@ r=rand(2,2,2)
     key=rand("info")
     ]]></programlisting>
         <para>
-            Dans l'exemple suivant, nous générons une matrice complexe de doubles de taille 2-par-3, 
+            Dans l'exemple suivant, nous générons une matrice complexe de doubles de taille 2-par-3,
             avec une distribution normale centrée réduite.
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
     // Génère une matrice complex de doubles aléatoires de taille 2-par-3
     x=rand(2,3)+%i*rand(2,3)
-    // Génère une matrice complexe de doubles normaux centrés réduits 
+    // Génère une matrice complexe de doubles normaux centrés réduits
     // de la même taille que x
     r=rand(x,"normal")
     ]]></programlisting>
         <para>
-            Dans l'exemple suivant, nous dessinons la distribution de 1000 nombres 
+            Dans l'exemple suivant, nous dessinons la distribution de 1000 nombres
             uniformes produits par <literal>rand</literal>.
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
     r=rand(1000,1,"uniform");
     scf();
     histplot(10,r);
     xtitle("Nombres uniformes par rand","X","Fréquence")
     ]]></programlisting>
         <para>
-            Dans l'exemple suivant, nous dessinons la distribution de nombres normaux 
+            Dans l'exemple suivant, nous dessinons la distribution de nombres normaux
             centrés réduits produits par <literal>rand</literal>.
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
     r=rand(1000,1,"normal");
     scf();
     histplot(10,r);
@@ -260,7 +267,7 @@ r=rand(2,2,2)
         <para>
             Le générateur pseudo-aléatoire "uniform" est une séquence déterministe
             dont le but est de reproduire une séquence de nombres aléatoire, indépendents
-            et identiquement distribués dans l'intervalle (0,1).
+            et identiquement distribués dans l'intervalle [0,1[.
         </para>
         <para>
             Dans le but de pouvoir obtenir des simulations reproductibles,
@@ -275,7 +282,7 @@ r=rand(2,2,2)
             Dans cette situation, nous pouvons initialiser la graine avec la sortie de la
             fonction <literal>getdate</literal>, comme dans l'exemple suivant:
         </para>
-        <programlisting role="example"><![CDATA[  
+        <programlisting role="example"><![CDATA[
 n=getdate("s");
 rand("seed",n);
  ]]></programlisting>
@@ -293,31 +300,23 @@ rand("seed",n);
             C'est un générateur linéaire à congruence de la forme :
         </para>
         <para>
-            <latex>
-                $$
-                x = (a x + c) \textrm{mod} M
-                $$
-            </latex>
+             x = (a x + c) mod M
         </para>
         <para>
             pour lequel les constantes sont :
+          <table border="0" cellpadding="0">
+             <tr><td>a = 843314861</td></tr>
+             <tr><td>c = 453816693</td></tr>
+             <tr><td>M = 2<superscript>31</superscript></td></tr>
+          </table>
         </para>
         <para>
-            <latex><![CDATA[  
-	  \begin{eqnarray}
-      a &=& 843314861\\
-      c &=& 453816693\\
-      M &=& 2^{31}
-	  \end{eqnarray}
- ]]></latex>
-        </para>
-        <para>
-            D'après les auteurs, ce générateur est de longueur complète, c'est à dire 
-            que sa période est <latex>M=2^{31}=2147483648</latex>.
+            D'après les auteurs, ce générateur est de longueur complète, c'est à dire
+            que sa période est M = 2<superscript>31</superscript> = 2147483648.
         </para>
         <para>
             Le générateur de nombres aléatoires <literal>"normal"</literal>
-            est fondés sur la méthode de Box-Muller, pour lequel la 
+            est fondés sur la méthode de Box-Muller, pour lequel la
             source de nombres uniformes est Urand.
         </para>
     </refsection>

@@ -3,22 +3,35 @@
  * Copyright (C) 2009 - DIGITEO - Allan CORNET
  * Copyright (C) 2010 - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 /*--------------------------------------------------------------------------*/
+#include <string.h>
+
 #include "getvariablesname.h"
 #include "commandwords.h"
-#include "getfunctionslist.h"
-#include "getmacroslist.h"
+#include "getfunctionsname.h"
+#include "getmacrosname.h"
 #include "BOOL.h"
 #include "ScilabKeywords.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
+#include "os_string.h"
 /*--------------------------------------------------------------------------*/
+
+/*
+** INFO : char** results will be given back to Java
+** they should be NULL terminated in order Java can
+**
+*/
+
 char **GetVariablesName(void)
 {
     int returnedArraySize = 0;
@@ -34,6 +47,12 @@ char **GetVariablesName(void)
 /*--------------------------------------------------------------------------*/
 char **GetCommandsName(void)
 {
+    /*
+    ** This function is now useless
+    ** will be removed by master-merge
+    ** See http://codereview.scilab.org/#change,1456
+    **
+    */
     int returnedArraySize = 0;
     char **CommandKeywords = getcommandkeywords(&returnedArraySize);
     if (CommandKeywords)
@@ -47,7 +66,7 @@ char **GetCommandsName(void)
 char **GetFunctionsName(void)
 {
     int returnedArraySize = 0;
-    char **FunctionsName = GetFunctionsList(&returnedArraySize);
+    char **FunctionsName = getFunctionsName(&returnedArraySize);
     if (FunctionsName)
     {
         FunctionsName = (char**)REALLOC(FunctionsName, sizeof(char*) * (returnedArraySize + 1));
@@ -59,7 +78,7 @@ char **GetFunctionsName(void)
 char **GetMacrosName(void)
 {
     int returnedArraySize = 0;
-    char **MacrosName = getmacroslist(&returnedArraySize);
+    char **MacrosName = getMacrosName(&returnedArraySize);
     if (MacrosName)
     {
         MacrosName = (char**)REALLOC(MacrosName, sizeof(char*) * (returnedArraySize + 1));

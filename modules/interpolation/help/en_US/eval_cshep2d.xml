@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="eval_cshep2d" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="eval_cshep2d" xml:lang="en">
     <refnamediv>
         <refname>eval_cshep2d</refname>
         <refpurpose>bidimensional cubic shepard interpolation
@@ -7,8 +10,12 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>[zp [,dzpdx, dzpdy [,d2zpdxx,d2zpdxy,d2zpdyy]]] = eval_cshep2d(xp, yp, tl_coef)</synopsis>
+        <title>Syntax</title>
+        <synopsis>
+        zp                                            = eval_cshep2d(xp, yp, tl_coef)
+        [zp, dzpdx, dzpdy]                            = eval_cshep2d(xp, yp, tl_coef)
+        [zp, dzpdx, dzpdy, d2zpdxx, d2zpdyy, d2zpdxy] = eval_cshep2d(xp, yp, tl_coef)
+        </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
@@ -86,7 +93,7 @@
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 // see example section of cshep2d
 
 // this example shows the behavior far from the interpolation points ...
@@ -137,7 +144,7 @@ show_window()
 ]]></scilab:image>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="cshep2d">cshep2d</link>

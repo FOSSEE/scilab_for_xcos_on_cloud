@@ -16,8 +16,8 @@ function [z] = RndDiscT(n)
         p1 = cumsum(p1);
         y = rand(m, n, "uniform");
         N = prod(size(x));
-        res = 0*ones(m*n);
-        for i=1:N,z=0*ones(m*n,1),id=find( p1(i) <= y & y < p1(i+1) ),
+        res =  zeros(m*n);
+        for i=1:N,z= zeros(m*n,1),id=find( p1(i) <= y & y < p1(i+1) ),
             z(id) = x(i)*ones(prod(size(id))),res=res+z;
         end
         y = matrix(res, m, n);
@@ -39,7 +39,7 @@ function [z] = RndDiscT(n)
     demo_viewCode("discrete.dem.sce");
 
     plot2d3("onn",i',z'/n,[1,3],,,[0,0,14,0.5]);
-    plot2d1("onn",x',pr',[-2,6]);
+    plot2d(x, pr', [-2,6])
     xtitle(_("Simulation of a discrete random variable"));
     current_axe = gca();
     current_axe.title.font_size = 3;

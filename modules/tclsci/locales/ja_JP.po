@@ -8,80 +8,67 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2013-06-15 04:58+0000\n"
+"PO-Revision-Date: 2019-02-12 12:55+0000\n"
 "Last-Translator: Rui Hirokawa <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Generator: Launchpad (build 18857)\n"
 "X-Poedit-Country: Japan\n"
-"Language: ja\n"
 "X-Poedit-Language: Japanese\n"
 
-#
-# File: sci_gateway/c/gw_tclsci.c, line: 54
 msgid "Warning: Problem(s) with TCL/TK interface. Interface not enabled.\n"
-msgstr "警告: TCL/Tkインターフェースで問題、インターフェースは無効です。\n"
+msgstr ""
+"警告: TCL/TKインターフェイスで問題発生. インターフェイスは利用できません.\n"
 
-#
-# File: sci_gateway/c/gw_tclsci.c, line: 59
 msgid "Tcl/TK interface disabled in -nogui mode.\n"
-msgstr "-nogui モードでTcl/TKインターフェースは無効です。\n"
+msgstr "Tcl/TK インターフェイスは -noguiモードでは無効です.\n"
 
-#
-# File: sci_gateway/c/sci_TCL_DeleteInterp.c, line: 32
-# File: sci_gateway/c/sci_TCL_EvalFile.c, line: 44
-# File: sci_gateway/c/sci_TCL_EvalStr.c, line: 49
-# File: sci_gateway/c/sci_TCL_ExistArray.c, line: 42
-# File: sci_gateway/c/sci_TCL_ExistInterp.c, line: 35
-# File: sci_gateway/c/sci_TCL_ExistVar.c, line: 39
-# File: sci_gateway/c/sci_TCL_GetVar.c, line: 49
-# File: sci_gateway/c/sci_TCL_SetVar.c, line: 35
-# File: sci_gateway/c/sci_TCL_UnsetVar.c, line: 41
-# File: sci_gateway/c/sci_TCL_UpVar.c, line: 42
 #, c-format
 msgid "%s: Error main TCL interpreter not initialized.\n"
-msgstr "%s: メインのTCLインタープリタで初期化できません。\n"
+msgstr "%s: エラーによりメインTCLインタプリタが初期化されませんでした.\n"
 
-#
-# File: macros/TCL_SetVar.sci, line: 43
-# File: sci_gateway/c/sci_TCL_DeleteInterp.c, line: 46
-# File: sci_gateway/c/sci_TCL_EvalFile.c, line: 65
-# File: sci_gateway/c/sci_TCL_EvalStr.c, line: 62
-# File: sci_gateway/c/sci_TCL_ExistArray.c, line: 55
-# File: sci_gateway/c/sci_TCL_ExistVar.c, line: 53
-# File: sci_gateway/c/sci_TCL_GetVar.c, line: 62
-# File: sci_gateway/c/sci_TCL_SetVar.c, line: 50
-# File: sci_gateway/c/sci_TCL_UnsetVar.c, line: 55
-# File: sci_gateway/c/sci_TCL_UpVar.c, line: 55
+#, c-format
+msgid "%s: Wrong type for argument #%d: A string expected.\n"
+msgstr "%s: 引数 #%d の型が間違っています: 文字列を指定してください.\n"
+
 #, c-format
 msgid "%s: No such slave interpreter.\n"
-msgstr "%s: 従属インタープリタはありません。\n"
+msgstr "%s: 指定したスレーブインタプリタが存在しません.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: String expected.\n"
 msgstr "%s: 入力引数 #%d の型が間違っています: 文字列を指定してください.\n"
 
-#
-# File: sci_gateway/c/sci_TCL_EvalFile.c, line: 51
 #, c-format
 msgid "%s: File %s not found.\n"
-msgstr "%s: ファイル %s が見つかりません。\n"
+msgstr "%s: ファイル %s が見つかりません.\n"
 
 #, c-format
 msgid ""
 "%s, at line %i of file %s\n"
 "\t%s.\n"
 msgstr ""
-"%1$s,  ファイル %3$s の %2$i 行目\n"
-"%4$s.\n"
+"%s, %i 行目 (ファイル%s)\n"
+"\t%s.\n"
+
+#, c-format
+msgid "%s: Wrong type for argument #%d: String matrix expected.\n"
+msgstr "%s: 引数 #%d の型が間違っています: 文字列の行列を指定してください.\n"
+
+#, c-format
+msgid "%s: Memory allocation error.\n"
+msgstr "%s: メモリ割当エラー.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d: String or vector of strings "
 "expected.\n"
-msgstr "%s: 入力引数 #%d の型が間違っています: 文字列または文字列のベクトルを指定してください.\n"
+msgstr ""
+"%s: 入力引数 #%d の型が間違っています: 文字列または文字列ベクトルを指定してく"
+"ださい.\n"
 
 #, c-format
 msgid "%s: No more memory.\n"
@@ -89,35 +76,33 @@ msgstr "%s: メモリ不足です.\n"
 
 #, c-format
 msgid "%s: Could not read Tcl Variable.\n"
-msgstr "%s: Tcl変数を読めません.\n"
+msgstr "%s: Tcl変数を読み込めません.\n"
 
-#
-# File: sci_gateway/c/sci_TCL_GetVersion.c, line: 43
 msgid "Alpha Release"
 msgstr "アルファリリース"
 
-#
-# File: sci_gateway/c/sci_TCL_GetVersion.c, line: 46
 msgid "Beta Release"
 msgstr "ベータリリース"
 
-#
-# File: sci_gateway/c/sci_TCL_GetVersion.c, line: 49
 msgid "Final Release"
 msgstr "最終リリース"
 
 msgid "Unknown Release"
-msgstr "リリースが不明です."
+msgstr "計画外リリース"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: '%s' expected.\n"
 msgstr "%s: 入力引数 #%d の値が間違っています: ’%s’ を指定してください.\n"
 
 msgid "This function doesn't work with Complex.\n"
-msgstr "この関数では複素数は指定できません.\n"
+msgstr "この関数はComplexでは動作しません.\n"
+
+#, c-format
+msgid "%s: Wrong type for argument %d: A real expected.\n"
+msgstr "%s: 入力引数 #%d の型が間違っています: 実数を指定してください.\n"
 
 msgid "[] doesn't work with Tcl/Tk.\n"
-msgstr "[] は Tcl/Tk では使用できません.\n"
+msgstr "[] は Tcl/Tkでは動作しません.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Matrix expected.\n"
@@ -125,7 +110,8 @@ msgstr "%s: 入力引数 #%d の型が間違っています: 行列を指定し�
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d or #%d: String expected.\n"
-msgstr "%s: 入力引数 #%d または #%d の型が間違っています: 文字列を指定してください.\n"
+msgstr ""
+"%s: 入力引数 #%d または #%d の型が間違っています: 文字列を指定してください.\n"
 
 #, c-format
 msgid "%s: An error occurred: %s\n"
@@ -188,64 +174,17 @@ msgstr "TCLエラー: TK初期化(Tk_Init)でエラーです : %s\n"
 msgid ""
 "Tcl Error: Error during the Scilab/Tcl init process. Could not set SciPath: "
 "%s\n"
-msgstr "Tclエラー: Scilab/TKの初期化時にエラーが発生しました. SciPathを設定できませんでした: %s\n"
+msgstr ""
+"Tclエラー: Scilab/TKの初期化時にエラーが発生しました. SciPathを設定できません"
+"でした: %s\n"
 
 #, c-format
 msgid ""
 "Tcl Error: Error during the Scilab/TK init process. Error while loading %s: "
 "%s\n"
-msgstr "Tclエラー: Scilab/TKの初期化時にエラーが発生しました. %s のロードでエラー: %s\n"
-
-#
-# File: src/c/ScilabEval.c, line: 50
-#, c-format
-msgid "TCL_EvalScilabCmd %s"
-msgstr "TCL_EvalScilabCmd %s"
-
-#
-# File: src/c/ScilabEval.c, line: 81
-#, c-format
-msgid "Execution starts for %s"
-msgstr "%s の実行開始"
-
-#
-# File: src/c/ScilabEval.c, line: 88
-#, c-format
-msgid "Execution ends for %s"
-msgstr "%s の実行終了"
-
-msgid " Flushing starts for queued commands.\n"
-msgstr " 待ち行列に入れられたコマンドをフラッシュします.\n"
-
-msgid "Warning: Too many callbacks in queue!\n"
-msgstr "警告: 待ち行列内のコールバックの数が多すぎます!\n"
-
-#
-# File: src/c/ScilabEval.c, line: 120
-#, c-format
-msgid "Flushed execution starts for %s - No option"
-msgstr "%s のフラッシュ開始 - オプション無し"
-
-#
-# File: src/c/ScilabEval.c, line: 126
-#, c-format
-msgid "Flushed execution starts for %s - seq"
-msgstr "%s のフラッシュ開始 - seq"
-
-#
-# File: src/c/ScilabEval.c, line: 135
-#, c-format
-msgid "Flushed execution ends for %s"
-msgstr "%s のフラッシュ終了"
-
-#
-# File: src/c/ScilabEval.c, line: 144
-msgid "Flushing ends\n"
-msgstr "フラッシュ終了\n"
-
-#, c-format
-msgid "%s: Wrong number of input argument(s): at least one expected.\n"
-msgstr "%s: 入力引数の数が間違っています:　少なくとも1個の引数を指定してください.\n"
+msgstr ""
+"Tclエラー: Scilab/TKの初期化時にエラーが発生しました. %s のロードでエラー: "
+"%s\n"
 
 #
 # File: src/c/TCL_ArrayDim.c, line: 63
@@ -273,13 +212,14 @@ msgstr "変数名が長すぎます.\n"
 msgid "%s: Error TCL interpreter not initialized.\n"
 msgstr "%s: TCL インタープリタの初期化エラーです。\n"
 
+#, c-format
+msgid "%s: Wrong number of input argument(s): at least one expected.\n"
+msgstr "%s: 入力引数の数が間違っています: 一つ以上指定してください.\n"
+
 #
 # File: src/notclsci/notclsci.c, line: 52
 msgid "Scilab TCL/TK module not installed.\n"
 msgstr "Scilab TCL/TK モジュールはインストールされていません。\n"
-
-msgid "Tcl/Tk"
-msgstr "Tcl/Tk"
 
 msgid "Color"
 msgstr "色"
@@ -288,14 +228,27 @@ msgid "Puzzle"
 msgstr "パズル"
 
 msgid "Scroll"
-msgstr "スクロールする"
+msgstr "スクロール"
 
 msgid "Scale"
-msgstr "拡大・縮小"
+msgstr "拡大縮小"
+
+#, c-format
+msgid "%s: Argument #%d: Text(s) expected.\n"
+msgstr "%s: 引数 #%d: テキストを指定してください.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Variable undefined.\n"
+msgstr "%s: 引数 #%d: 変数が未定義です.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Name of a variable of type 1, 4 or 10 expected.\n"
+msgstr "%s: 引数 #%d: タイプ1,4または10の変数名を指定してください.\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
-msgstr "%s: 入力引数の数が間違っています: %d から %d 個の引数を指定してください.\n"
+msgstr ""
+"%s: 入力引数の数が間違っています: %d から %d 個の引数を指定してください.\n"
 
 #, c-format
 msgid "%s: Wrong number of output argument(s): %d expected.\n"

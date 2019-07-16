@@ -2,11 +2,14 @@
  *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2010 - DIGITEO - Manuel Juliachs
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -40,6 +43,7 @@ NgonPolylineData::NgonPolylineData(void)
     display_function_data = NULL;
     display_function_data_size = 0;
 
+    colors = NULL;
 }
 
 NgonPolylineData::~NgonPolylineData(void)
@@ -62,6 +66,11 @@ NgonPolylineData::~NgonPolylineData(void)
     if (display_function_data)
     {
         delete[] display_function_data;
+    }
+
+    if (colors)
+    {
+        delete [] colors;
     }
 }
 
@@ -91,6 +100,10 @@ int NgonPolylineData::getPropertyFromName(int propertyName)
             return DISPLAY_FUNCTION_DATA;
         case __GO_DATA_MODEL_DISPLAY_FUNCTION_SIZE__ :
             return DISPLAY_FUNCTION_DATA_SIZE;
+        case __GO_DATA_MODEL_COLORS__ :
+            return COLORS;
+        case __GO_DATA_MODEL_NUM_COLORS__ :
+            return NUM_COLORS;
         default :
             return NgonGeneralData::getPropertyFromName(propertyName);
     }
@@ -112,24 +125,29 @@ int NgonPolylineData::setDataProperty(int property, void const* value, int numEl
             return setZCoordinatesShift((double const*) value, numElements);
         case X_COORDINATES_SHIFT_SET :
             setXCoordinatesShiftSet(*((int const*) value));
+            return 1;
             break;
         case Y_COORDINATES_SHIFT_SET :
             setYCoordinatesShiftSet(*((int const*) value));
+            return 1;
             break;
         case Z_COORDINATES_SHIFT_SET :
             setZCoordinatesShiftSet(*((int const*) value));
+            return 1;
             break;
         case Z_COORDINATES_SET :
             setZCoordinatesSet(*((int const*) value));
+            return 1;
             break;
         case DISPLAY_FUNCTION_DATA :
-            setDisplayFunctionData((int const*) value, numElements);
+            return setDisplayFunctionData((int const*) value, numElements);
+            break;
+        case COLORS :
+            return setColors((int const*) value, numElements);
             break;
         default :
             return NgonGeneralData::setDataProperty(property, value, numElements);
     }
-
-    return 1;
 }
 
 void NgonPolylineData::getDataProperty(int property, void **_pvData)
@@ -165,6 +183,12 @@ void NgonPolylineData::getDataProperty(int property, void **_pvData)
             break;
         case DISPLAY_FUNCTION_DATA_SIZE :
             ((int *) *_pvData)[0] = getDisplayFunctionDataSize();
+            break;
+        case COLORS :
+            *_pvData = getColors();
+            break;
+        case NUM_COLORS :
+            ((int *) *_pvData)[0] = getNumColors();
             break;
         default :
             NgonGeneralData::getDataProperty(property, _pvData);
@@ -478,6 +502,54 @@ int NgonPolylineData::setNumElementsArray(int const* numElementsArray)
     }
 
     return result;
+}
+
+int NgonPolylineData::getNumColors(void)
+{
+    return numColors;
+}
+
+int* NgonPolylineData::getColors(void)
+{
+    return colors;
+}
+
+int NgonPolylineData::setColors(int const* newColors, int numElements)
+{
+    int * _newColors = 0;
+
+    if (numElements == 0)
+    {
+        if (colors)
+        {
+            delete[] colors;
+        }
+        colors = NULL;
+        numColors = 0;
+
+        return 1;
+    }
+
+    try
+    {
+        _newColors = new int[numElements];
+    }
+    catch (const std::exception& e)
+    {
+        e.what();
+        return 0;
+    }
+
+    memcpy(_newColors, newColors, numElements * sizeof(int));
+    if (colors)
+    {
+        delete[] colors;
+    }
+
+    colors = _newColors;
+    numColors = numElements;
+
+    return 1;
 }
 
 void NgonPolylineData::copyShiftCoordinatesArray(double * newShift, double const* oldShift, int numElementsNew)

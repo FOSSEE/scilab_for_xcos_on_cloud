@@ -5,7 +5,7 @@
         <refpurpose>Function to validate Xcos Block interface function.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>[status, message] = xcosValidateBlockSet(interfFunctionName)</synopsis>
     </refsynopsisdiv>
     <refsection id="Parameters_xcosValidateBlockSet">
@@ -17,21 +17,11 @@
             </varlistentry>
         </variablelist>
     </refsection>
-    <refsection id="Module_xcosValidateBlockSet">
-        <title>Module</title>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <link linkend="xcos">xcos</link>
-                </para>
-            </listitem>
-        </itemizedlist>
-    </refsection>
     <refsection id="Description_xcosValidateBlockSet">
         <title>Description</title>
         This function is used to test if a Block interface function will not
         fail while called by xcos simulation process.
-        
+
         <para>
             Function will try to perform a <literal>define</literal> then a <literal>set</literal> job
             on the given interface function name like the xcos simulation do.
@@ -57,8 +47,8 @@
       ]]></programlisting>
         </para>
     </refsection>
-    <refsection id="SeeAlso_xcosValidateBlockSet">
-        <title>See Also</title>
+    <refsection id="SeeAlso_xcosValidateBlockSet" role="see also">
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="scicos_diagram">scs_m structure</link>

@@ -181,7 +181,7 @@ if n<>1|a<>'poo' then pause,end
 
 //------------- test ignoring arguments 
 [n,a,b]=msscanf('123 4 pipo poo','%*s%s%*s%s');
-//if n<>2|a<>'4'|b<>'poo' then pause,end
+if n<>2|a<>'4'|b<>'poo' then pause,end
 //------------- test composed directives 
 [n,a]=msscanf('123 4','123%le');
 if n<>1|a<>4 then pause,end
@@ -194,7 +194,7 @@ if n<>2|a<>123|b<>456 then pause,end
 [n,a]=msscanf('123 poo','123%le');
 if n<>0 then pause,end
 
-//------------- test end-of-file
+//------------- test end-of-line
 [n,a]=msscanf('123','123%le');
 if n<>-1 then pause,end
 
@@ -206,32 +206,32 @@ A1=strcat(string(A),' ','c');
 F='%d';F=strcat(F(ones(1,n)),' ');
 // all lines read as int we scan a 5x5 matrix 
 A2=msscanf(-1,A1,F);
-if norm(A2-A) > %eps then pause;end 
-// read just 2 lines 
+if norm(A2-A) > %eps then pause;end
+// read just 2 lines
 A2=msscanf(2,A1,F);
-if norm(A2-A(1:2,:)) > %eps then pause;end 
-// explicit columns we scan five columns 
+if norm(A2-A(1:2,:)) > %eps then pause;end
+// explicit columns we scan five columns
 [n,a,b,c,d,e]=msscanf(-1,A1,F);
-if n<>5 then pause;end 
-if norm([a,b,c,d,e]-A) > %eps then pause;end 
-// all lines read as int but we scan only 2 columns 
+if n<>5 then pause;end
+if norm([a,b,c,d,e]-A) > %eps then pause;end
+// all lines read as int but we scan only 2 columns
 A2=msscanf(-1,A1,'%d%d');
-if norm(A2-A(:,1:2)) > %eps then pause;end 
+if norm(A2-A(:,1:2)) > %eps then pause;end
 
 // all lines read as string 
 F='%s';F=strcat(F(ones(1,n)),' ');
 A2=msscanf(-1,A1,F);
-if A2<>string(A) then pause;end 
-// read just 2 lines 
+if A2<>string(A) then pause;end
+// read just 2 lines
 A2=msscanf(2,A1,F);
-if A2<>string(A(1:2,:))  then pause;end 
+if A2<>string(A(1:2,:))  then pause;end
 
 // mixed types read column 1 and 2 as string and others as int
 Fs='%s';Fs=strcat(Fs(ones(1,2)),' ');
 Fd='%d';Fd=strcat(Fd(ones(1,n-2)),' ');
 [n,a,b,c,d,e]=msscanf(-1,A1,Fs+' '+Fd);
 if n<>5 then pause;end 
-if norm([eval(a),eval(b),c,d,e]-A) > %eps then pause;end 
+if norm([evstr(a),evstr(b),c,d,e]-A) > %eps then pause;end 
 
 // same example but returned values are compacted in L
 L=msscanf(-1,A1,Fs+' '+Fd);

@@ -3,11 +3,14 @@
  * Copyright (C) 2009 - DIGITEO - Bruno JOFRET
  * Copyright (C) 2010 - 2011 - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -54,6 +57,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.EditorKit;
 import javax.swing.text.View;
@@ -64,6 +68,7 @@ import org.w3c.dom.Document;
 import org.flexdock.docking.event.DockingEvent;
 import org.scilab.modules.commons.CommonFileUtils;
 import org.scilab.modules.commons.gui.ScilabKeyStroke;
+import org.scilab.modules.commons.gui.ScilabGUIUtilities;
 import org.scilab.modules.commons.xml.ScilabXMLUtilities;
 import org.scilab.modules.commons.xml.XConfiguration;
 import static org.scilab.modules.commons.xml.XConfiguration.XConfAttribute;
@@ -705,6 +710,9 @@ public class SciNotes extends SwingScilabDockablePanel {
 
         addRestoreTab();
         WindowsConfigurationManager.restorationFinished(SciNotes.this);
+        if  (System.getProperty("os.name").toLowerCase().contains("mac")) {
+          RestoreOpenedFilesAction.restoreEnabledComponents(this);
+        }
     }
 
     /**
@@ -741,11 +749,22 @@ public class SciNotes extends SwingScilabDockablePanel {
                 SciNotesGUI.init(editor.getParentWindow(), editor, SCINOTES);
                 WindowsConfigurationManager.unregisterEndedRestoration(editor);
             }
+        } else {
+            /* restore if it is iconified */
+            if(editor.getParentWindow() != null) {
+                int state = editor.getParentWindow().getExtendedState();
+                if((state & JFrame.ICONIFIED) == JFrame.ICONIFIED) {
+                    editor.getParentWindow().setExtendedState(state - JFrame.ICONIFIED);
+                }
+            }
         }
 
         if (!editor.restored) {
             editor.restorePreviousSession();
         }
+
+        ScilabGUIUtilities.toFront(editor,SciNotesMessages.SCILAB_EDITOR);
+
     }
 
     /**
@@ -1256,11 +1275,21 @@ public class SciNotes extends SwingScilabDockablePanel {
         fileChooser.addChoosableFileFilter(allFilter);
         fileChooser.addChoosableFileFilter(allScilabFilter);
 
-        // select default file type
-        fileChooser.setFileFilter(sceFilter);
+        String name = initialDirectoryPath;
+        File tempFile = new File(name);
+
+        // Select default file type
+        SciFileFilter fileFilter = sceFilter;
+        // Look for a supported extension
+        for (FileFilter filter : fileChooser.getChoosableFileFilters()) {
+            if (((SciFileFilter) filter).accept(tempFile)) {
+                fileFilter = (SciFileFilter) filter;
+                break;
+            }
+        }
+        fileChooser.setFileFilter(fileFilter);
         fileChooser.setTitle(title);
 
-        String name = getTextPane().getName();
         if (name == null) {
             name = ((ScilabDocument) getTextPane().getDocument()).getFirstFunctionName();
             if (name != null) {
@@ -2108,12 +2137,12 @@ public class SciNotes extends SwingScilabDockablePanel {
             int n = ed.getTabPane().getTabCount();
             for (int i = 0; i < n; i++) {
                 ScilabEditorPane sep = ed.getTextPane(i);
-                ((ScilabEditorKit) sep.getEditorKit()).getStylePreferences().changeBaseFontSize(inc);
+                ((ScilabEditorKit) sep.getEditorKit()).getStylePreferences().changeBaseFontSize(-inc);
                 if (baseFont == null) {
                     baseFont = ((ScilabEditorKit) sep.getEditorKit()).getStylePreferences().getBaseFont();
                 }
                 if (sep.getOtherPaneInSplit() != null) {
-                    ((ScilabEditorKit) sep.getOtherPaneInSplit().getEditorKit()).getStylePreferences().changeBaseFontSize(n);
+                    ((ScilabEditorKit) sep.getOtherPaneInSplit().getEditorKit()).getStylePreferences().changeBaseFontSize(-inc);
                     sep.getOtherPaneInSplit().resetFont();
                 }
                 sep.resetFont();

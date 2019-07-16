@@ -1,58 +1,96 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA Fabrice Leray
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2018 - Samuel GOUGEON
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="surf" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:scilab="http://www.scilab.org" xml:id="surf" xml:lang="pt">
     <refnamediv>
         <refname>surf</refname>
-        <refpurpose>Esboço de superfície 3d</refpurpose>
+        <refpurpose>EsboÃ§o de superfÃ­cie 3d</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
-        <synopsis>surf(Z,&lt;GlobalProperty&gt;)
-            surf(Z,color,&lt;GlobalProperty&gt;)
-            surf(X,Y,Z,&lt;color&gt;,&lt;GlobalProperty&gt;)
-            surf(&lt;axes_handle&gt;,...)
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
+        <synopsis>
+            surf()  // sample
+            surf(Z)
+            surf(X, Y, Z)
+            surf(X, Y, fun)
+            surf(X, Y, list(fun, params))
+            surf(.., colors)
+            surf(.., &lt;GlobalProperty&gt;)
+            surf(.., colors, &lt;GlobalProperty&gt;)
+            surf(axes_handle,...)
         </synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
-            <varlistentry>
-                <term>Z</term>
-                <listitem>
-                    <para>uma matriz real definindo as alturas da superfície. Não pode
-                        ser omitida. O dado Z é uma matriz<literal>
-                            m
-                        </literal>
-                        x<literal>n</literal>.
-                    </para>
-                </listitem>
-            </varlistentry>
             <varlistentry>
                 <term>X,Y</term>
                 <listitem>
-                    <para>dois vetores ou matrizes reais: sempre ajustados juntos, estes
-                        dados definem um novo grid padrão. Estes novos componentes
-                        <literal>X</literal> e <literal>Y</literal> do grid devem coincidir
-                        com as dimensões de <literal>Z</literal> (ver a descrição
-                        abaixo).
+                    <para>
+                        two vectors of real numbers, of lengths <literal>nx</literal> and
+                        <literal>ny</literal>; or two real matrices of sizes <literal>ny</literal>
+                        x <literal>nx</literal>:
+                        They define the data grid (horizontal coordinates of the grid nodes).
+                        All grid cells are quadrangular but not necessarily rectangular.
+                    </para>
+                    <para>
+                        By default, <literal>X = 1:size(Z,2)</literal> and
+                        <literal>Y = 1:size(Z,1)</literal> are used.
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term>color</term>
+                <term>Z</term>
+                <listitem>
+                    <para>uma matriz real definindo as alturas da superfÃ­cie. NÃ£o pode
+                        ser omitida. O dado Z Ã© uma matriz <literal>ny</literal> x
+                        <literal>nx</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>fun</term>
+                <listitem>
+                    <para>
+                        handle of a function, as in <literal>surf(x,y, myFun)</literal> where the
+                        expected syntax of <literal>myFun</literal> is <literal>Z=myFun(X,Y)</literal>.
+                    </para>
+                    <para>
+                        If the 2D function <varname>fun</varname> to plot needs some parameters
+                        as input arguments, the function and its parameters can be specified
+                        through a list, as in <literal>surf(x,y, list(delip, -0.4))</literal> or
+                        <literal>surf(x,y, list(myfun, a,b))</literal> with
+                        <literal>Z = myFun(X,Y, a,b)</literal>
+                    </para>
+                    <para>
+                        If <varname>X</varname> or/and <varname>Y</varname> are grid-generating
+                        vectors while <varname>fun(â€¦)</varname> expects only input matrices,
+                        <literal>surf(â€¦)</literal> automatically generates matrices from
+                        <varname>X</varname> or/and <varname>Y</varname> and properly calls
+                        <literal>fun(â€¦)</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>colors</term>
                 <listitem>
                     <para>um matriz de reais opcional definindo valores de cores para
-                        cada ponto <literal>(X(j),Y(i))</literal> do grid (ver descrição
+                        cada ponto <literal>(X(j),Y(i))</literal> do grid (ver descriÃ§Ã£o
                         abaixo).
                     </para>
                 </listitem>
@@ -60,19 +98,19 @@
             <varlistentry>
                 <term>&lt;GlobalProperty&gt;</term>
                 <listitem>
-                    <para>esta propriedade rerpresenta uma seqüência de pares de
-                        sentenças <literal>{PropertyName,PropertyValue}</literal> que
+                    <para>esta propriedade rerpresenta uma seqÃ¼Ãªncia de pares de
+                        sentenÃ§as <literal>{PropertyName,PropertyValue}</literal> que
                         definem propriedades globais de objetos aplicadas a todas as curvas
-                        criadas neste esboço. Para uma completa visualização das
-                        propriedades disponíveis veja <link linkend="GlobalProperty">GlobalProperty</link>.
+                        criadas neste esboÃ§o. Para uma completa visualizaÃ§Ã£o das
+                        propriedades disponÃ­veis veja <link linkend="GlobalProperty">GlobalProperty</link>.
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>&lt;axes_handle&gt;</term>
                 <listitem>
-                    <para>este argumento opcional força os eixos a aparecerem dentro dos
-                        eixos selecionados dados por <literal>axes_handle</literal> ao invés
+                    <para>este argumento opcional forÃ§a os eixos a aparecerem dentro dos
+                        eixos selecionados dados por <literal>axes_handle</literal> ao invÃ©s
                         dos eixos correntes (ver <link linkend="gca">gca</link>).
                     </para>
                 </listitem>
@@ -80,45 +118,35 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
-            <literal>surf</literal> desenha uma superfície parametrizada
+            <literal>surf</literal> desenha uma superfÃ­cie parametrizada
             colorida utilizando um grid retangular definido pelas coordenadas
-            <literal>X</literal> e <literal>Y</literal> (se <literal>{X,Y}</literal>
-            não forem especificados, este grid é determinado utilizando-se as
-            dimensões da matriz <literal>Z</literal>) ; em cada ponto deste grid, uma
-            coordenada Z é dada utilizando-se uma matriz <literal>Z</literal> (apenas
-            dados obrigatórios). <literal>surf</literal> foi criada para lidar melhor
-            com a sintaxe do Matlab. Para melhorar a compatibilidade gráfica, usuários
-            do Matlab devem utilizar <literal>surf</literal> (ao invés de <link linkend="plot3d">plot3d</link>).
+            <literal>X</literal> e <literal>Y</literal>
         </para>
-        <para>Especificação de entrada de dados:</para>
-        <para>Neste parágrafo, e para sermos mais claros, não mencionaremos os
-            argumentos opcionais de <literal>GlobalProperty</literal> ojá que eles não
+        <para>
+            <literal>surf</literal> foi criada para lidar melhor
+            com a sintaxe do Matlab. Para melhorar a compatibilidade grÃ¡fica, usuÃ¡rios
+            do Matlab devem utilizar <literal>surf</literal> (ao invÃ©s de <link linkend="plot3d">plot3d</link>).
+        </para>
+        <para>EspecificaÃ§Ã£o de entrada de dados:</para>
+        <para>Neste parÃ¡grafo, e para sermos mais claros, nÃ£o mencionaremos os
+            argumentos opcionais de <literal>GlobalProperty</literal> ojÃ¡ que eles nÃ£o
             interferem na entrada de dados (exceto pelas propriedades
             <literal>"Xdata"</literal>, <literal>"Ydata"</literal> e
-            <literal>"Zdata"</literal>, ver <link linkend="GlobalProperty">GlobalProperty</link>). É assumido que todos
-            estes argumentos opcionais podem estar presentes também.
+            <literal>"Zdata"</literal>, ver <link linkend="GlobalProperty">GlobalProperty</link>). Ã‰ assumido que todos
+            estes argumentos opcionais podem estar presentes tambÃ©m.
         </para>
         <para>
-            Se <literal>Z</literal> é a única matriz especificada, surf(Z)
-            esboça a matriz <literal>Z</literal> versus o grid definido por
-            <literal>1:size(Z,2)</literal> ao longo do eixo x e
-            <literal>1:size(Z,1)</literal> ao longo do eixo.
-        </para>
-        <para>
-            Se uma tripla <literal>{X,Y,Z}</literal> for fornecida,
-            <literal>Z</literal> deve ser uma matriz de size(<literal>Z</literal>)=
-            [<literal>m</literal>x<literal>n</literal>], <literal>X</literal> or
-            <literal>Y</literal> can be :
+            <literal>X</literal> or <literal>Y</literal> can be :
         </para>
         <itemizedlist>
             <listitem>
                 <para>
                     a) um vetor: se <literal>X</literal> for um vetor,
-                    length(<literal>X</literal>)=<literal>n</literal>. Respectivamente, se
+                    length(<literal>X</literal>)=<literal>nx</literal>. Respectivamente, se
                     <literal>Y</literal> for um vetor,
-                    length(<literal>Y</literal>)=<literal>m</literal>.
+                    length(<literal>Y</literal>)=<literal>ny</literal>.
                 </para>
                 <para>
                     b) uma matriz: neste caso, size(<literal>X</literal>) (ou
@@ -127,138 +155,196 @@
                 </para>
             </listitem>
         </itemizedlist>
-        <para>Especificação de entrada de cores:</para>
-        <para>Como citado acima, a superfície é criada sobre um gride retangular
-            de apoio. Consideremos duas variáveis independentes <literal>i</literal> e
+        <para>EspecificaÃ§Ã£o de entrada de cores:</para>
+        <para>Como citado acima, a superfÃ­cie Ã© criada sobre um gride retangular
+            de apoio. Consideremos duas variÃ¡veis independentes <literal>i</literal> e
             <literal>j</literal> tais que:
         </para>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../images/surf_01.gif"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para>Este grid retangular imaginário é utilizado para se contruir o
-            suporte da superfície real sobre o plano <literal>XY</literal> . De fato,
+        <screen><![CDATA[
+a) 1 <= i <= ny  and 1 <= j <= nx
+b) i-1,j-1 ---- i-1,j ---- i-1,j+1 ---â€¦ |
+      |            |          |         | i direction
+     i,j-1 -----  i,j -----  i,j+1 ---â€¦ |
+      |            |          |         |
+      :            :          :
+                             ............> j direction
+]]></screen>
+        <para>Este grid retangular imaginÃ¡rio Ã© utilizado para se contruir o
+            suporte da superfÃ­cie real sobre o plano <literal>XY</literal> . De fato,
             os dados <literal>X</literal>,<literal>Y</literal> e <literal>Z</literal>
             possuem o mesmo tamanho (mesmo se <literal>X</literal> ou
             <literal>Y</literal> for um vetor, ver abaixo) e podem ser considerados
-            como três funções <literal>x(i,j)</literal>, <literal>y(i,j)</literal> e
+            como trÃªs funÃ§Ãµes <literal>x(i,j)</literal>, <literal>y(i,j)</literal> e
             <literal>z(i,j)</literal> especificando a superficie desejada. Se
-            <literal>X</literal> ou <literal>Y</literal> forem vetores, eles são
-            internamente tratados para produzir boas matrizes de dimensões
-            correspondentes às dimensões da matriz <literal>Z</literal> (e o grid é
-            forçosamente uma região retangular).
+            <literal>X</literal> ou <literal>Y</literal> forem vetores, eles sÃ£o
+            internamente tratados para produzir boas matrizes de dimensÃµes
+            correspondentes Ã s dimensÃµes da matriz <literal>Z</literal> (e o grid Ã©
+            forÃ§osamente uma regiÃ£o retangular).
         </para>
         <para>
-            Considerando as três funções <literal>x(i,j)</literal>,
-            <literal>y(i,j)</literal> e <literal>z(i,j)</literal>, a porção da
-            superfície definida entre dois <literal>i</literal> e <literal>j</literal>
-            consecutivos é chamada remendo.
+            Considerando as trÃªs funÃ§Ãµes <literal>x(i,j)</literal>,
+            <literal>y(i,j)</literal> e <literal>z(i,j)</literal>, a porÃ§Ã£o da
+            superfÃ­cie definida entre dois <literal>i</literal> e <literal>j</literal>
+            consecutivos Ã© chamada remendo.
         </para>
-        <para>Por padrão, quando nenhuma matriz de cores é adicionada a uma
-            chamada a surf, o parâmetro de cor é ligado o dado <literal>Z</literal> .
-            Quando uma matriz de cores <literal>color</literal> é dada, pode ser
-            aplicada aos remendos de duas formas diferentes: nos vértices, ou no
+        <para>Por padrÃ£o, quando nenhuma matriz de cores Ã© adicionada a uma
+            chamada a surf, o parÃ¢metro de cor Ã© ligado o dado <literal>Z</literal> .
+            Quando uma matriz de cores <literal>colors</literal> Ã© dada, pode ser
+            aplicada aos remendos de duas formas diferentes: nos vÃ©rtices, ou no
             centro de cada remendo.
         </para>
         <para>
-            É por isto que, se <literal>Z</literal> é uma matriz
-            [<literal>m</literal>x<literal>n</literal>] , a dimensão da matriz
-            <literal>color C</literal> pode ser
-            [<literal>m</literal>x<literal>n</literal>] (uma cor definida por vértice)
-            ou [<literal>m-1</literal>x<literal>n-1</literal>] (uma cor definida por
+            Ã‰ por isto que, se <literal>Z</literal> Ã© uma matriz
+            [<literal>ny</literal>x<literal>nx</literal>] , a dimensÃ£o da matriz
+            <literal>colors C</literal> pode ser
+            [<literal>ny</literal>x<literal>nx</literal>] (uma cor definida por vÃ©rtice)
+            ou [<literal>ny-1</literal>x<literal>nx-1</literal>] (uma cor definida por
             remendo).
         </para>
-        <para>A representação de cores também varia quando se especifica algumas
+        <para>A representaÃ§Ã£o de cores tambÃ©m varia quando se especifica algumas
             GlobalProperties (propriedades globais):
         </para>
         <para>
-            A propriedade <literal>FaceColor</literal> ajusta o padrão de
-            gradação: pode ser <literal> 'interp'</literal> ou
-            <literal>'flat'</literal> (modo padrão). Quando
-            <literal>'interp'</literal> é selecionado, é realizado uma interpolação
-            bilinear de cores no remendo. Se size(<literal>C</literal>) é igual a
+            A propriedade <literal>FaceColor</literal> ajusta o padrÃ£o de
+            gradaÃ§Ã£o: pode ser <literal> 'interp'</literal> ou
+            <literal>'flat'</literal> (modo padrÃ£o). Quando
+            <literal>'interp'</literal> Ã© selecionado, Ã© realizado uma interpolaÃ§Ã£o
+            bilinear de cores no remendo. Se size(<literal>C</literal>) Ã© igual a
             size(<literal>Z</literal>)-1 (i.e. for fornecida apenas uma cor ao
-            remendo) então a cor dos vértices definindo o remendo é ajustada para a
+            remendo) entÃ£o a cor dos vÃ©rtices definindo o remendo Ã© ajustada para a
             dada cor do remendo.
         </para>
         <para>
-            Quando <literal>'flat'</literal> (modo padrão) é habilitado, é
-            utilizada uma representação de cores de facetadas (uma cor por remendo).
-            Se size(<literal>C</literal>) é igual a size(<literal>Z</literal>) (i.e.
-            foi fornecida apenas uma cor por os vértices), as últimas linha e coluna
-            de <literal>C</literal> são ignoradas.
+            Quando <literal>'flat'</literal> (modo padrÃ£o) Ã© habilitado, Ã©
+            utilizada uma representaÃ§Ã£o de cores de facetadas (uma cor por remendo).
+            Se size(<literal>C</literal>) Ã© igual a size(<literal>Z</literal>) (i.e.
+            foi fornecida apenas uma cor por os vÃ©rtices), as Ãºltimas linha e coluna
+            de <literal>C</literal> sÃ£o ignoradas.
         </para>
         <para/>
         <para>
             Os argumentos <literal>GlobalProperty</literal> devem ser usados
-            para customizar a superfície. Aqui está uma breve descrição de como
+            para customizar a superfÃ­cie. Aqui estÃ¡ uma breve descriÃ§Ã£o de como
             funcionam:
         </para>
         <variablelist>
             <varlistentry>
                 <term>GlobalProperty</term>
                 <listitem>
-                    <para>esta opção pode ser utilizada para especificar como todas as
-                        superfícies serão desenhadas. Deve sempre ser um par de sentenças
+                    <para>esta opÃ§Ã£o pode ser utilizada para especificar como todas as
+                        superfÃ­cies serÃ£o desenhadas. Deve sempre ser um par de sentenÃ§as
                         constituidos de um string definindo <literal>PropertyName</literal>,
                         (nome da propriedade) e seu valor associado
                         <literal>PropertyValue</literal> (que pode ser um inteiro ou outra
                         coisa... dependendo do tipo de <literal>PropertyName</literal>).
-                        Note que você pode ajustar múltiplas propriedades : a cor da face e
+                        Note que vocÃª pode ajustar mÃºltiplas propriedades : a cor da face e
                         da borda, dados de cores, mapeamento de dados de cores, cor do
                         marcador (plano de fundo e primeiro plano), visibilidade, recorte,
-                        espessura das bordas da superfície... (ver <link linkend="GlobalProperty">GlobalProperty</link> )
+                        espessura das bordas da superfÃ­cie... (ver <link linkend="GlobalProperty">GlobalProperty</link> )
                     </para>
                     <para>Note que todas essas propriedades podem ser (re-)ajustadas
-                        através das propriedades da entidade superfície (ver <link linkend="surface_properties">surface_properties</link>).
+                        atravÃ©s das propriedades da entidade superfÃ­cie (ver <link linkend="surface_properties">surface_properties</link>).
                     </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-    </refsection>
-    <refsection>
-        <title>Observações</title>
-        <para>Por padrão, esboços sucessivos de superfície são superpostos. Para
-            limpar o esboço anteirior, use <literal>clf()</literal>. Para habilitar o
-            modo <literal>auto_clear</literal> (limpeza automática) como modo padrão,
-            edite seus eixos padrões fazendo:
-        </para>
-        <para>da=gda();</para>
-        <para>da.auto_clear = 'on'</para>
         <para>
-            Entre com o comando <literal>surf</literal> para visualizar uma
-            demonstração.
+            <note>
+                Por padrÃ£o, esboÃ§os sucessivos de superfÃ­cie sÃ£o superpostos. Para
+                limpar o esboÃ§o anteirior, use <literal>clf()</literal>. Para habilitar o
+                modo <literal>auto_clear</literal> (limpeza automÃ¡tica) como modo padrÃ£o,
+                edite seus eixos padrÃµes fazendo: <literal>gda().auto_clear = 'on'</literal>
+                <para/>
+                Entre com o comando <literal>surf()</literal> para visualizar uma demonstraÃ§Ã£o.
+            </note>
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
-// inicialização de Z
+        <para>
+            <emphasis role="bold">With a function:</emphasis>
+        </para>
+        <programlisting role="example"><![CDATA[
+function z = mySurf(x,y,a,b)
+    if ~isdef("a","l"), a = 1, end
+    if ~isdef("b","l"), b = 1, end
+    z = a*x.*sin(y) + b*y.*cos(x);
+endfunction
+clf
+subplot(121), surf(-5:0.2:5, -3:0.2:3, mySurf)              // without parameters
+subplot(122), surf(-5:0.2:5, -3:0.2:3, list(mySurf, 2,-1))  // with parameters
 
-Z= [   0.0001    0.0013    0.0053   -0.0299   -0.1809   -0.2465   -0.1100   -0.0168   -0.0008   -0.0000
+gcf().color_map = jetcolormap(100);
+set(gcf(), "axes_size", [800 350], "rotation_style","multiple");
+gca().rotation_angles = [40 -60];
+ ]]></programlisting>
+        <scilab:image>
+            function z = mySurf(x,y,a,b)
+                if ~isdef("a","l"), a = 1, end
+                if ~isdef("b","l"), b = 1, end
+                z = a*x.*sin(y) + b*y.*cos(x);
+            endfunction
+            clf
+            subplot(121), surf(-5:0.2:5, -3:0.2:3, mySurf)
+            subplot(122), surf(-5:0.2:5, -3:0.2:3, list(mySurf,2,-1))
+
+            gcf().color_map = jetcolormap(100);
+            set(gcf(), "axes_size", [800 350], "rotation_style","multiple");
+            gca().rotation_angles = [40 -60];
+        </scilab:image>
+        <para/>
+        <para>
+            <emphasis role="bold">surf(Z)</emphasis>:
+        </para>
+         <programlisting role="example"><![CDATA[
+// inicializaÃ§Ã£o de Z
+
+Z =[0.0001    0.0013    0.0053   -0.0299   -0.1809   -0.2465   -0.1100   -0.0168   -0.0008   -0.0000
     0.0005    0.0089    0.0259   -0.3673   -1.8670   -2.4736   -1.0866   -0.1602   -0.0067    0.0000
     0.0004    0.0214    0.1739   -0.3147   -4.0919   -6.4101   -2.7589   -0.2779    0.0131    0.0020
    -0.0088   -0.0871    0.0364    1.8559    1.4995   -2.2171   -0.2729    0.8368    0.2016    0.0130
    -0.0308   -0.4313   -1.7334   -0.1148    3.0731    0.4444    2.6145    2.4410    0.4877    0.0301
    -0.0336   -0.4990   -2.3552   -2.1722    0.8856   -0.0531    2.6416    2.4064    0.4771    0.0294
    -0.0137   -0.1967   -0.8083    0.2289    3.3983    3.1955    2.4338    1.2129    0.2108    0.0125
-   -0.0014   -0.0017    0.3189    2.7414    7.1622    7.1361    3.1242    0.6633    0.0674    0.0030
-    0.0002    0.0104    0.1733    1.0852    2.6741    2.6725    1.1119    0.1973    0.0152    0.0005
-    0.0000    0.0012    0.0183    0.1099    0.2684    0.2683    0.1107    0.0190    0.0014    0.0000];
+   -0.0014   -0.0017    0.3189    2.7414    7.1622    7.1361    3.1242    0.6633    0.0674    0.0030];
 
-//superfície simples
-surf(Z); // note que X e Y são determinados pelas dimensões de Z
+clf
+// superfÃ­cie simples
+subplot(121)
+surf(Z);  // note que X e Y sÃ£o determinados pelas dimensÃµes de Z
 
-//a mesma superfície com faces vermelhas e bordas azuis
-scf(2); // nova figura de número 2
-surf(Z,'facecol','red','edgecol','blu")
+// a mesma superfÃ­cie com faces vermelhas e bordas azuis
+subplot(122)
+surf(Z,'facecol','red','edgecol','blu');
 
-// inicialização de X e Y
+gcf().axes_size = [850 400];
+ ]]></programlisting>
+        <scilab:image>
+Z= [0.0001    0.0013    0.0053   -0.0299   -0.1809   -0.2465   -0.1100   -0.0168   -0.0008   -0.0000
+    0.0005    0.0089    0.0259   -0.3673   -1.8670   -2.4736   -1.0866   -0.1602   -0.0067    0.0000
+    0.0004    0.0214    0.1739   -0.3147   -4.0919   -6.4101   -2.7589   -0.2779    0.0131    0.0020
+   -0.0088   -0.0871    0.0364    1.8559    1.4995   -2.2171   -0.2729    0.8368    0.2016    0.0130
+   -0.0308   -0.4313   -1.7334   -0.1148    3.0731    0.4444    2.6145    2.4410    0.4877    0.0301
+   -0.0336   -0.4990   -2.3552   -2.1722    0.8856   -0.0531    2.6416    2.4064    0.4771    0.0294
+   -0.0137   -0.1967   -0.8083    0.2289    3.3983    3.1955    2.4338    1.2129    0.2108    0.0125
+   -0.0014   -0.0017    0.3189    2.7414    7.1622    7.1361    3.1242    0.6633    0.0674    0.0030];
+            //simple surface
+            subplot(1,2,1)
+            surf(Z);  // Note that X and Y are determined by Z dimensions
+            // same surface with red face color and blue edges
+            subplot(1,2,2)
+            surf(Z,'facecol','red','edgecol','blu');
+            gcf().axes_size = [850 400];
+        </scilab:image>
+        <para/>
+        <para>
+            <emphasis role="bold">surf(X, Y, Z)</emphasis>:
+        </para>
+        <para/>
+       <programlisting role="example"><![CDATA[
+// inicializaÃ§Ã£o de X e Y
 // NB: aqui, X tem as mesmas linhas e Y tem as mesmas colunas
-X = [ -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+X=[-3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
    -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
    -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
    -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
@@ -269,7 +355,7 @@ X = [ -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6
    -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
    -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000];
 
-Y= [   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000
+Y=[-3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000
    -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333
    -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667
    -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000
@@ -280,24 +366,101 @@ Y= [   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.
     2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333
     3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000];
 
-// exemplo 1
+Z= [0.0001    0.0013    0.0053   -0.0299   -0.1809   -0.2465   -0.1100   -0.0168   -0.0008   -0.0000
+    0.0005    0.0089    0.0259   -0.3673   -1.8670   -2.4736   -1.0866   -0.1602   -0.0067    0.0000
+    0.0004    0.0214    0.1739   -0.3147   -4.0919   -6.4101   -2.7589   -0.2779    0.0131    0.0020
+   -0.0088   -0.0871    0.0364    1.8559    1.4995   -2.2171   -0.2729    0.8368    0.2016    0.0130
+   -0.0308   -0.4313   -1.7334   -0.1148    3.0731    0.4444    2.6145    2.4410    0.4877    0.0301
+   -0.0336   -0.4990   -2.3552   -2.1722    0.8856   -0.0531    2.6416    2.4064    0.4771    0.0294
+   -0.0137   -0.1967   -0.8083    0.2289    3.3983    3.1955    2.4338    1.2129    0.2108    0.0125
+   -0.0014   -0.0017    0.3189    2.7414    7.1622    7.1361    3.1242    0.6633    0.0674    0.0030
+    0.0002    0.0104    0.1733    1.0852    2.6741    2.6725    1.1119    0.1973    0.0152    0.0005
+    0.0000    0.0012    0.0183    0.1099    0.2684    0.2683    0.1107    0.0190    0.0014    0.0000];
+
 scf(3)
 surf(X,Y,Z)
+ ]]></programlisting>
+        <scilab:image>
+        // X and Y initialisation
+        // NB: here, X has the same lines and Y the same columns
+        X=[-3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000
+           -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000];
 
-//exemplo 2
-// como você pode ver, o grid não é necessariamente retangular
-scf(4)
-X(1,4) = -1.5;
-Y(1,4) = -3.5;
-Z(1,4) = -2;
-surf(X,Y,Z)
+        Y=[-3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000   -3.0000
+           -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333   -2.3333
+           -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667   -1.6667
+           -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000   -1.0000
+           -0.3333   -0.3333   -0.3333   -0.3333   -0.3333   -0.3333   -0.3333   -0.3333   -0.3333   -0.3333
+            0.3333    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333    0.3333
+            1.0000    1.0000    1.0000    1.0000    1.0000    1.0000    1.0000    1.0000    1.0000    1.0000
+            1.6667    1.6667    1.6667    1.6667    1.6667    1.6667    1.6667    1.6667    1.6667    1.6667
+            2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333    2.3333
+            3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000    3.0000];
 
+        Z= [0.0001    0.0013    0.0053   -0.0299   -0.1809   -0.2465   -0.1100   -0.0168   -0.0008   -0.0000
+            0.0005    0.0089    0.0259   -0.3673   -1.8670   -2.4736   -1.0866   -0.1602   -0.0067    0.0000
+            0.0004    0.0214    0.1739   -0.3147   -4.0919   -6.4101   -2.7589   -0.2779    0.0131    0.0020
+           -0.0088   -0.0871    0.0364    1.8559    1.4995   -2.2171   -0.2729    0.8368    0.2016    0.0130
+           -0.0308   -0.4313   -1.7334   -0.1148    3.0731    0.4444    2.6145    2.4410    0.4877    0.0301
+           -0.0336   -0.4990   -2.3552   -2.1722    0.8856   -0.0531    2.6416    2.4064    0.4771    0.0294
+           -0.0137   -0.1967   -0.8083    0.2289    3.3983    3.1955    2.4338    1.2129    0.2108    0.0125
+           -0.0014   -0.0017    0.3189    2.7414    7.1622    7.1361    3.1242    0.6633    0.0674    0.0030
+            0.0002    0.0104    0.1733    1.0852    2.6741    2.6725    1.1119    0.1973    0.0152    0.0005
+            0.0000    0.0012    0.0183    0.1099    0.2684    0.2683    0.1107    0.0190    0.0014    0.0000];
+
+        scf(3)
+        surf(X,Y,Z)
+        </scilab:image>
+        <para/>
+        <para>
+            <emphasis role="bold">surf(X,Y,Z) on a cylindrical grid.</emphasis>.
+            Facets are still quadrangular:
+        </para>
+        <programlisting role="example"><![CDATA[
+theta = 0:15:360;
+r = 25:5:100;
+[R,T] = ndgrid(r,theta);
+X = R.*cosd(T);
+Y = R.* sind(T);
+Z = sinc(R/8);
+
+clf
+surf(X, Y, Z)
+
+gcf().color_map = coolcolormap(50);
+gca().rotation_angles=[195 -155];
+ ]]></programlisting>
+        <scilab:image>
+            theta = 0:15:360;
+            r = 25:5:100;
+            [R,T] = ndgrid(r,theta);
+            X = R.*cosd(T);
+            Y = R.* sind(T);
+            Z = sinc(R/8);
+
+            clf
+            surf(X, Y, Z)
+
+            gcf().color_map = coolcolormap(50);
+            gca().rotation_angles=[195 -155];
+        </scilab:image>
+        <para/>
+        <para/>
+        <programlisting role="example"><![CDATA[
 // exemplo 3
-// X e Y são vetores => mesmo comportamento que a amostra 1
-// com vetores, o grid é inevitavelmente retangular
-scf(5)// nova figura de número 5
-X=[ -3.0000   -2.3333   -1.6667   -1.0000   -0.3333    0.3333    1.0000    1.6667    2.3333    3.0000];
-Y=X;
+// X e Y sÃ£o vetores => mesmo comportamento que a amostra 1
+// com vetores, o grid Ã© inevitavelmente retangular
+scf(5)// nova figura de nÃºmero 5
+X = [-3.0000  -2.3333  -1.6667  -1.0000  -0.3333   0.3333   1.0000   1.6667   2.3333   3.0000];
+Y = X;
 surf(X,Y,Z)
 
 
@@ -305,8 +468,8 @@ surf(X,Y,Z)
 xdel(winsid()) // destruindo todas as figuras existentes
 surf(Z,Z+5) // array de cores especificado
 e=gce();
-e.cdata_mapping='direct' // o padrão é 'scaled' relativo ao mapa de cores colormap
-e.color_flag=3; // modo de gradação interpolada. O padrão é 4 (modo 'flat') para surf
+e.cdata_mapping='direct' // o padrÃ£o Ã© 'scaled' relativo ao mapa de cores colormap
+e.color_flag=3; // modo de gradaÃ§Ã£o interpolada. O padrÃ£o Ã© 4 (modo 'flat') para surf
 
 scf(2)
 surf(X,Y,Z,'colorda',ones(10,10),'edgeco','cya','marker','penta','markersiz',20,'markeredg','yel','ydata',56:65)
@@ -320,12 +483,10 @@ scf(10)
 axfig10=gca();
 scf(11);
 surf(axfig10,Z,'ydat',[100:109],'marker','d','markerfac','green','markeredg','yel') // draw onto the axe of figure 10
-
-xdel(winsid())
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="plot2d">plot2d</link>
@@ -346,5 +507,20 @@ xdel(winsid())
                 <link linkend="GlobalProperty">GlobalProperty</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>HistÃ³rico</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.2</revnumber>
+                <revdescription>
+                    The "Foreground", "markForeground", and "markBackground" global properties
+                    colors can now be specified as named colors chosen in the full predefined colors
+                    list, or by their "#RRGGBB" hexadecimal codes, or by their colormap indices.
+                    <para/>
+                    surf(X,Y,fun..) and  surf(X,Y,list(fun, params)) syntaxes added.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

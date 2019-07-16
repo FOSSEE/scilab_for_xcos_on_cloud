@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function bval=multi_fun_file(fil,res_path,Recmode,only_double,verbose_mode,prettyprintoutput)
     // This function converts M-Files containing more than one functio
@@ -30,8 +33,8 @@ function bval=multi_fun_file(fil,res_path,Recmode,only_double,verbose_mode,prett
         file_path="./"
     else
         file_path=part(fil,1:k($))
+        base_name=part(base_name,k($)+1:ke)
     end
-    base_name=part(base_name,k($)+1:ke)
 
     txt=mgetl(fil);
 
@@ -80,11 +83,11 @@ function bval=multi_fun_file(fil,res_path,Recmode,only_double,verbose_mode,prett
         tmpfiles=[]
         for k=1:size(funcdecl,"*")-1
             functxt=txt(funcdecl(k):funcdecl(k+1)-1)
-            str=  strindex(txt(funcdecl(k)),"(")-1
-            if str==-1 then
+            str=  strindex(txt(funcdecl(k)),"(")
+            if str==[] then
                 funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:length(txt(funcdecl(k)))))
             else
-                funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:str(1)))
+                funcname=stripblanks(part(txt(funcdecl(k)),strindex(txt(funcdecl(k)),["function[","function "])+8:str(1)-1))
             end
 
             keq=strindex(funcname,"=")

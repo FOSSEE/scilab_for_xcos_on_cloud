@@ -2,17 +2,20 @@
 // Copyright (C) DIGITEO - 2010 - Clément DAVID
 // Copyright (C) - 2011 - Scilab Enterprises - Clément DAVID
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function pal = xcosPalAddBlock(pal, block, pal_block_img, style)
 
     //  Add a block to a Scilab/Xcos palette instance. Some optional properties can be added to customize the palette icon and the style of the block.
     //
-    // Calling Sequence
+    // Syntax
     //  pal = xcosPalAddBlock(pal, block);
     //  pal = xcosPalAddBlock(pal, block, pal_block_img);
     //  pal = xcosPalAddBlock(pal, block, [], style);
@@ -40,9 +43,9 @@ function pal = xcosPalAddBlock(pal, block, pal_block_img, style)
     //  bigSomPath = TMPDIR + "/sum.sod";
     //
     //  scs_m = SUM_f("define");
-    //  export_to_hdf5(sumPath, "scs_m");
+    //  save(sumPath, "scs_m");
     //  scs_m = BIGSOM_f("define");
-    //  export_to_hdf5(bigSomPath, "scs_m");
+    //  save(bigSomPath, "scs_m");
     //
     //  pal = xcosPalAddBlock(pal, sumPath);
     //  pal = xcosPalAddBlock(pal, bigSomPath);
@@ -74,26 +77,31 @@ function pal = xcosPalAddBlock(pal, block, pal_block_img, style)
     // check and tranform block argument
     if typeof(block) == "Block" then
         scs_m = block;
-    elseif typeof(block) == "string" & isfile(block) then
-        fd = mopen(block, "rb");
-        [err, msg] = merror(fd);
-        if err <> 0 then
-            error(msg);
-        end
-        block = fullpath(block);
-        mclose(fd);
-
-        // store the block instance
-        status = import_from_hdf5(block);
-        if ~status then
-            error(msprintf(gettext("%s: Unable to load block from ""%s"": hdf5 file expected.\n"), "xcosPalAddBlock", block));
-        end
-
-        if exists("scs_m", "l") == 0 then
-            error(msprintf(gettext("%s: Unable to load block from ""%s"": no `scs_m'' variable found.\n"), "xcosPalAddBlock", block));
-        end
     elseif typeof(block) == "string" & exists(block) <> 0 & typeof(evstr(block)) == "function" then
         execstr("scs_m = " + block + "(""define"");");
+    elseif typeof(block) == "string"
+        if isfile(block) then
+            fd = mopen(block, "rb");
+            [err, msg] = merror(fd);
+            if err <> 0 then
+                error(msg);
+            end
+            block = fullpath(block);
+            mclose(fd);
+
+            // store the block instance
+            try
+                load(block);
+            catch
+                error(msprintf(gettext("%s: Unable to load block from ""%s"": hdf5 file expected.\n"), "xcosPalAddBlock", block));
+            end
+            if exists("scs_m", "l") == 0 then
+                error(msprintf(gettext("%s: Unable to load block from ""%s"": no `scs_m'' variable found.\n"), "xcosPalAddBlock", block));
+            end
+        else
+            msg = gettext("%s: Unable to load block from ""%s"": Missing file.\n")
+            error(msprintf(msg, "xcosPalAddBlock", block));
+        end
     else
         error(msprintf(gettext("%s: Wrong type for input argument ""%s"": function as string or Block type or full path string expected.\n"), "xcosPalAddBlock", "block"));
     end
@@ -176,6 +184,4 @@ function pal = xcosPalAddBlock(pal, block, pal_block_img, style)
     pal.blockNames($+1) = scs_m.gui // block named class
     pal.icons($+1) = pal_block_img; // palette icon full path string
     pal.style($+1) = style; // block style (linked to style definition)
-
 endfunction
-

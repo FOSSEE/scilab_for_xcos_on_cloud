@@ -1,14 +1,19 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA - S. Steer, F. Delebecque, V. Couvert
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function  M=createstruct(index,N)
     // Create a struct with field pointed by index equal to N
+
+    mtlbMode = oldEmptyBehaviour("query")=="off"
 
     // If index is not a list, creation is done by routines
     if type(index)==15 then
@@ -23,7 +28,7 @@ function  M=createstruct(index,N)
                 if type(index(1))==1 then
                     // X(p).f = y  -> index=list(p,f)
                     I=index(1)
-                    if mtlb_mode() then
+                    if mtlbMode then
                         Dims=[1 max(I)]
                     else
                         Dims=[max(I) 1]
@@ -37,14 +42,14 @@ function  M=createstruct(index,N)
                         Li=list();for kl=1:nmax, Li(kl)=[];end
                         //set fields pointed to by index(1) to N
                         for kl=1:size(I,"*"), Li(I(kl))=N;end
-                        setfield(3,Li,M);
+                        M=setfield(3,Li,M);
                     end
                     return;
                     // First index is a list of numerical values
                 elseif type(index(1))==15
                     // X(p,q[,...]).f=z -> index=list(list(p,q[,...]),f)
                     I=index(1)
-                    Ndims=lstsize(I) //the number of dimensions
+                    Ndims = size(I) //the number of dimensions
 
                     //compute the struct dimensions from max indices values
                     Dims=[];for kDims=1:Ndims, Dims=[Dims,max(I(kDims)) ];end
@@ -74,7 +79,7 @@ function  M=createstruct(index,N)
                     if type(index(2))==15 then // index=list(f,list(p,q[,...]))
                         Dims=list2vec(index(2))'
                     else // index=list(f,p)
-                        if mtlb_mode() then
+                        if mtlbMode then
                             Dims=[1 index(2)]
                         else
                             Dims=[index(2) 1]
@@ -110,7 +115,7 @@ function  M=createstruct(index,N)
                         if type(index($))==15 then
                             Dims=list2vec(index($))'
                         else
-                            if mtlb_mode() then
+                            if mtlbMode then
                                 Dims=[1 index($)]
                             else
                                 Dims=[index($) 1]
@@ -137,7 +142,7 @@ function  M=createstruct(index,N)
                         if type(index($))==15 then
                             Dims=list2vec(index($))'
                         else
-                            if mtlb_mode() then
+                            if mtlbMode then
                                 Dims=[1 index($)]
                             else
                                 Dims=[index($) 1]

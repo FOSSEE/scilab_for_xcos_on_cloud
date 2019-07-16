@@ -2,24 +2,28 @@
 // Copyright (C) 2008-2009 - T. Pettersen
 // Copyright (C) 2010 - DIGITEO - Allan CORNET
 // Copyright (C) 2011 - DIGITEO - Michael Baudin
+// Copyright (C) 2017 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 //==============================================================================
 
 function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     // Generate help files and demo files from the head comments section of a .sci source file.
     //
-    // Calling Sequence
+    // Syntax
     //  help_from_sci() // generate an empty function template
     //  helptxt = help_from_sci() // generate an empty function template
     //  help_from_sci(funname,helpdir) // generate helpdir/funname.xml from funname.sci.
     //  help_from_sci(dirname,helpdir) // process dirname/*.sci and create helpdir/*.xml help files.
     //  help_from_sci(dirname,helpdir,demodir) // as above but also creating demodir/*.dem.sce demo files.
-    //  [helptxt,demotxt]=help_from_sci(funname) // return funname.xml and funname.dem.sce code as two text matrixes.
+    //  [helptxt,demotxt]=help_from_sci(funname) // return funname.xml and funname.dem.sce code as two text matrices.
     // Parameters
     //  funname: the name of a single .sci source file to be processed.
     //  dirname: directory name where all .sci files will be processed.
@@ -40,12 +44,12 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     //  of the function.
     //
     //  The remaining comments are formatted according to the following (optional) headlines:
-    //  "Calling Sequence", "Parameters", "Description", "Examples", "See also", "Used functions",
+    //  "Syntax", "Parameters", "Description", "Examples", "See also", "Used functions",
     //  "Authors" and "Bibliography".
     //
     //  The following guidelines should be used when writing the source code comments:
     //  <itemizedlist>
-    //    <listitem><para><literal>Calling Sequence</literal> - one example pr. line.</para></listitem>
+    //    <listitem><para><literal>Syntax</literal> - one example pr. line.</para></listitem>
     //    <listitem><para><literal>Parameters</literal> - separate parameter name and
     //    description by a ":". Keep the description of each parameter on the same line.</para></listitem>
     //    <listitem><para><literal>Description</literal> - formatting of the text can be done
@@ -73,7 +77,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     //  // create both a xml help file and a demo file in the current directory.
     //  help_from_sci("test_fun",".",".")
     //
-    //  // From a toolbox root directory a typical calling sequence would be:
+    //  // From a toolbox root directory a typical syntax would be:
     //  // help_from_sci("macros","help\en_US","demos")
     //  // This command would process all .sci files in the macros directory
     //  // and use the head comments section to update all .xml help files in the
@@ -94,7 +98,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
         "function [z] = function_template(x,y)"
         "// Short description on the first line following the function header."
         "//"
-        "// Calling Sequence"
+        "// Syntax"
         "//   [z] = template_function(x,y) // calling examples, one pr. line"
         "//"
         "// Parameters"
@@ -190,6 +194,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     out = out($);
     out = tokens(out,".");
     out = out(1);      // remove .sci (...wont work for fil.name.sci)
+    outxml = strsubst(out, "/^%/","percent", "r");
 
     demotxt = ["mode(1)"
     "//"
@@ -208,7 +213,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     " *"
     " -->"
     ""
-    "<refentry version=""5.0-subset Scilab"" xml:id="""+out+""" xml:lang=""en"""
+    "<refentry version=""5.0-subset Scilab"" xml:id="""+outxml+""" xml:lang=""en"""
     "          xmlns=""http://docbook.org/ns/docbook"""
     "          xmlns:xlink=""http://www.w3.org/1999/xlink"""
     "          xmlns:svg=""http://www.w3.org/2000/svg"""
@@ -235,6 +240,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     line = mgetl(f,1);
     line = replaceTabBySpace(line);
     short_descr = stripblanks(strsubst(line, "//", ""), %T);
+    short_descr = helpfromsci_protects_ampersand(short_descr);
     helptxt = [helptxt;
     "  <refnamediv>"
     "    <refname>"+out+"</refname>"
@@ -242,8 +248,8 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     "  </refnamediv>"
     ];
 
-    cmds = ["CALLING SEQUENCE", "PARAMETERS", "DESCRIPTION", "EXAMPLES", "SEE ALSO", ..
-    "AUTHORS", "BIBLIOGRAPHY", "USED FUNCTIONS"];
+    cmds = ["SYNTAX", "PARAMETERS", "DESCRIPTION", "EXAMPLES", "SEE ALSO", ..
+            "AUTHORS", "BIBLIOGRAPHY", "USED FUNCTIONS" ];
 
     doing = "search";
     i = strindex(line, "//");
@@ -263,7 +269,9 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
             in = stripblanks(in(2));
             code = in;  // store original line for the demos.
             if (doing ~= "Examples") then // Replacing characters like <, > or & should not be done in the Examples
-                in = strsubst(in, "&", "&amp;"); // remove elements that make xml crash.
+                // Replacing "&" that are not prefixing HTML entities, with "&amp;":
+                in = helpfromsci_protects_ampersand(in);
+                //
                 in = strsubst(in, "< ", "&lt; ");
                 if strindex(in ,"<") then
                     if ~helpfromsci_isxmlstr(in) then
@@ -284,7 +292,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
             [add_txt, doing] = change_activity(doing, in);
             helptxt = [helptxt; add_txt];
         else
-            if doing == "Calling Sequence" then
+            if doing == "Syntax" then
                 helptxt = [helptxt;"   " + in];
             elseif doing == "Parameters" then
                 i = strindex(in, ":");
@@ -297,8 +305,12 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
                         par_name = in;
                         par_descr = " ";
                     end
-                    helptxt = [helptxt; "   <varlistentry><term>" + par_name + "</term>"];
-                    helptxt = [helptxt;"      <listitem><para>" + par_descr + "</para></listitem></varlistentry>"];
+                    helptxt = [helptxt
+                               "        <varlistentry>"
+                               "            <term>" + par_name + "</term>"];
+                    helptxt = [helptxt
+                      "            <listitem><para>" + par_descr + "</para></listitem>"
+                      "        </varlistentry>"];
                 end
             elseif doing == "Description" & in == "new_descr_param" then
                 helptxt = [helptxt;"   </para>";"   <para>"];
@@ -342,7 +354,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
     mclose(f);
 
     if ~isempty(helpdir) then
-        fnme = pathconvert(helpdir, %t, %f) + out + ".xml";
+        fnme = pathconvert(helpdir, %t, %f) + outxml + ".xml";
         answ = 1;
         if isfile(fnme) then  // file exists...
             answ = messagebox(fnme + " exists!", "Warning - help_from_sci", "warning", ["Create anyway" "Skip file"], "modal");
@@ -351,7 +363,7 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
             mputl(helptxt, fnme);
             helptxt = fnme;
         else
-            printf(gettext("%s: File skipped %s."), "help_from_sci", out + ".xml");
+            printf(gettext("%s: File skipped %s."), "help_from_sci", outxml + ".xml");
             helptxt = "";
         end
     end
@@ -370,6 +382,15 @@ function [helptxt,demotxt]=help_from_sci(funname,helpdir,demodir)
             printf(gettext("%s: File skipped %s."), "help_from_sci", out + ".demo.sce");
             demotxt = "";
         end
+    end
+endfunction
+//==============================================================================
+function str = helpfromsci_protects_ampersand(str)
+    // Replaces "&" that are not prefixing HTML entities, with "&amp;":
+    strPrev = "";
+    while str ~= strPrev
+        strPrev = str;
+        str = strsubst(str, "/&(?!([a-zA-Z]+|#[0-9]+);)/", "&amp;", "r");
     end
 endfunction
 //==============================================================================
@@ -402,7 +423,7 @@ endfunction
 function [txt, doing] = change_activity(currently_doing, start_doing)
     doing = start_doing;
     select convstr(currently_doing,"u")
-    case "CALLING SEQUENCE" then
+    case "SYNTAX" then
         txt = ["   </synopsis>"; "</refsynopsisdiv>"];
     case "PARAMETERS" then
         txt = ["   </variablelist>"; "</refsection>"];
@@ -423,8 +444,8 @@ function [txt, doing] = change_activity(currently_doing, start_doing)
     end
 
     select convstr(start_doing, "u"),
-    case "CALLING SEQUENCE"
-        txt = [txt; ""; "<refsynopsisdiv>"; "   <title>Calling Sequence</title>"; "   <synopsis>"];
+    case "SYNTAX"
+        txt = [txt; ""; "<refsynopsisdiv>"; "   <title>Syntax</title>"; "   <synopsis>"];
     case "PARAMETERS"
         txt = [txt; ""; "<refsection>"; "   <title>Parameters</title>"; "   <variablelist>"];
     case "DESCRIPTION"
@@ -432,7 +453,7 @@ function [txt, doing] = change_activity(currently_doing, start_doing)
     case "EXAMPLES"
         txt = [txt; ""; "<refsection>"; "   <title>Examples</title>"; "   <programlisting role=""example""><![CDATA["];
     case "SEE ALSO"
-        txt = [txt; ""; "<refsection>"; "   <title>See also</title>"; "   <simplelist type=""inline"">"];
+        txt = [txt; ""; "<refsection role=""see also"">"; "   <title>See also</title>"; "   <simplelist type=""inline"">"];
     case "AUTHORS"
         txt = [txt; ""; "<refsection>"; "   <title>Authors</title>"; "   <simplelist type=""vert"">"];
     case "BIBLIOGRAPHY"

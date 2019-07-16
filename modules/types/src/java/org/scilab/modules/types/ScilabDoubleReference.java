@@ -4,11 +4,14 @@
  *  Copyright (C) 2010-2010 - DIGITEO - Clement DAVID
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -24,15 +27,15 @@ import java.nio.DoubleBuffer;
  * This class is {@link java.io.Serializable} and any modification could impact
  * load and store of data (Xcos files, Javasci saved data, etc...).<br>
  * <br>
- * Example (real):<br />
+ * Example (real):<BR>
  * <code>
- * double [][]a={{21.2, 22.0, 42.0, 39.0},{23.2, 24.0, 44.0, 40.0}};<br />
- * ScilabDouble aMatrix = new ScilabDouble(a);<br />
+ * double [][]a={{21.2, 22.0, 42.0, 39.0},{23.2, 24.0, 44.0, 40.0}};<BR>
+ * ScilabDouble aMatrix = new ScilabDouble(a);<BR>
  * </code> <br>
- * Example (complex):<br />
+ * Example (complex):<BR>
  * <code>
- * double [][]a={{21.2, 22.0, 42.0, 39.0},{23.2, 24.0, 44.0, 40.0}};<br />
- * double [][]aImg={{210.2, 220.0, 420.0, 390.0},{230.2, 240.0, 440.0, 400.0}};<br />
+ * double [][]a={{21.2, 22.0, 42.0, 39.0},{23.2, 24.0, 44.0, 40.0}};<BR>
+ * double [][]aImg={{210.2, 220.0, 420.0, 390.0},{230.2, 240.0, 440.0, 400.0}};<BR>
  * ScilabDouble aMatrix = new ScilabDouble(a, aImg);
  * </code>
  *
@@ -40,8 +43,8 @@ import java.nio.DoubleBuffer;
  */
 public class ScilabDoubleReference extends ScilabDouble {
 
-    private DoubleBuffer realBuffer;
-    private DoubleBuffer imaginaryBuffer;
+    private final DoubleBuffer realBuffer;
+    private final DoubleBuffer imaginaryBuffer;
     private final int nbRows;
     private final int nbCols;
 
@@ -78,6 +81,7 @@ public class ScilabDoubleReference extends ScilabDouble {
      *
      * @return true, if the data are real only.
      */
+    @Override
     public boolean isReal() {
         return imaginaryBuffer == null || imaginaryBuffer.capacity() == 0;
     }
@@ -85,6 +89,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getRawRealPart() {
         return realBuffer;
     }
@@ -92,6 +97,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getRawImaginaryPart() {
         return imaginaryBuffer;
     }
@@ -117,6 +123,7 @@ public class ScilabDoubleReference extends ScilabDouble {
      *
      * @return the real part.
      */
+    @Override
     public double[][] getRealPart() {
         double[][] d = new double[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, realBuffer);
@@ -129,6 +136,7 @@ public class ScilabDoubleReference extends ScilabDouble {
      * @param realPart
      *            the real part.
      */
+    @Override
     public void setRealPart(double[][] realPart) {
         ScilabTypeUtils.setPart(realBuffer, realPart);
     }
@@ -138,6 +146,7 @@ public class ScilabDoubleReference extends ScilabDouble {
      *
      * @return the imaginary part.
      */
+    @Override
     public double[][] getImaginaryPart() {
         double[][] d = new double[nbRows][nbCols];
         ScilabTypeUtils.setBuffer(d, imaginaryBuffer);
@@ -150,6 +159,7 @@ public class ScilabDoubleReference extends ScilabDouble {
      * @param imaginaryPart
      *            the imaginary part.
      */
+    @Override
     public void setImaginaryPart(double[][] imaginaryPart) {
         ScilabTypeUtils.setPart(imaginaryBuffer, imaginaryPart);
     }
@@ -157,6 +167,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getRealElement(final int i, final int j) {
         return realBuffer.get(i + nbRows * j);
     }
@@ -164,6 +175,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getImaginaryElement(final int i, final int j) {
         return imaginaryBuffer.get(i + nbRows * j);
     }
@@ -171,6 +183,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setRealElement(final int i, final int j, final double x) {
         realBuffer.put(i + nbRows * j, x);
     }
@@ -178,6 +191,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setImaginaryElement(final int i, final int j, final double x) {
         imaginaryBuffer.put(i + nbRows * j, x);
     }
@@ -185,6 +199,7 @@ public class ScilabDoubleReference extends ScilabDouble {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setElement(final int i, final int j, final double x, final double y) {
         realBuffer.put(i + nbRows * j, x);
         imaginaryBuffer.put(i + nbRows * j, x);

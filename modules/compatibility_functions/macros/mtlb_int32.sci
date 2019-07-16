@@ -1,22 +1,29 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
-// Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
+// Copyright (C) 2018 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
-function i=mtlb_int32(x)
+function i = mtlb_int32(x)
     // Emulation function for Matlab int32()
 
-    if x==%inf then
-        i=2147483647
-    elseif x==-%inf then
-        i=-2147483648
-    elseif isnan(x) then
-        i=0
+    imin = int32(-%inf)   // -2147483648
+    imax = int32(%inf)    //  2147483647
+    if type(x)==4 then
+        i = int32(x*1)
     else
-        i=int32(x)
+        if type(x)==1
+            if ~isreal(x)
+                x = real(x)
+            end
+            x(isnan(x)) = 0
+        end
+        i = int32(max(min(round(x), imax), imin))
     end
 endfunction

@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2009 - DIGITEO - Sylvestre Koumar
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function myNewTree = uiInsertNode(tree, position, node)
 
@@ -69,15 +72,15 @@ function myNewTree = uiInsertNode(tree, position, node)
 
         // if we have an integer position (ex: 1, 2, 3 ...)
         if nbElement == 1 & myPosition <> "1" then
-            pos = eval(TOKENS(1));
+            pos = evstr(TOKENS(1));
             prevPos = string(pos-1);
         end
 
         // if we have a complexe position (ex: 1.1, 2.4, 3.8 ...)
         if nbElement > 1 then
 
-            first = eval(TOKENS(nbElement-1));
-            second = eval(TOKENS(nbElement));
+            first = evstr(TOKENS(nbElement-1));
+            second = evstr(TOKENS(nbElement));
 
             if (second == 1) then
                 prevPos = TOKENS(1);
@@ -91,7 +94,7 @@ function myNewTree = uiInsertNode(tree, position, node)
                     prevPos = prevPos + "." + TOKENS(index);
                 end
 
-                pos = eval(TOKENS(nbElement));
+                pos = evstr(TOKENS(nbElement));
                 prevPos = prevPos + "." + string(pos-1);
             end
         end

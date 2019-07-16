@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) 2008 - INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="ru" xml:id="return">
     <refnamediv>
         <refname>return</refname>
@@ -7,7 +21,7 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Последовательность вызова</title>
+        <title>Синтаксис</title>
         <synopsis>
             return
             [x1,..,xn]=return(a1,..,an)
@@ -34,18 +48,18 @@
         <title>Описание</title>
         <para>
             В функции <code>return</code> прекращает исполнение функции;
-            <literal>[x1,..,xn]=return(a1,..,an)</literal> прекращает исполнение 
+            <literal>[x1,..,xn]=return(a1,..,an)</literal> прекращает исполнение
             функции и выдаёт локальные переменные <varname>ai</varname> в
             вызывающее окружение под именами <varname>xi</varname>.
         </para>
         <para>
             В режиме <code>pause</code>, можно вернуться на более высокий уровень.
-            <literal>[x1,..,xn]=return(a1,..,an)</literal> возвращает на верхний уровень 
+            <literal>[x1,..,xn]=return(a1,..,an)</literal> возвращает на верхний уровень
             и передаёт локальные переменные <varname>ai</varname> под именами <varname>xi</varname>.
         </para>
         <para>
             В <code>execstr</code>, вызванной функцией
-            <literal>[x1,..,xn]=return(a1,..,an)</literal> 
+            <literal>[x1,..,xn]=return(a1,..,an)</literal>
             прекращает исполнение функции и выдаёт локальные переменные <varname>ai</varname>
             в вызывающее окружение под именами <varname>xi</varname>.
         </para>
@@ -93,5 +107,17 @@ assert_checkequal(b,43)
                 <link linkend="resume">resume</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>История</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                  <literal>return</literal> is now protected:
+                  Assignments like <literal>return=1</literal> are no longer possible.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

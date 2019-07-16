@@ -1,26 +1,29 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
- * Copyright (C) INRIA - 
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) INRIA -
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="justify" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="justify" xml:lang="pt">
     <refnamediv>
         <refname>justify</refname>
         <refpurpose>justifica um array de caracteres</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>Tj=justify(T,opt)</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>T</term>
@@ -37,24 +40,24 @@
             <varlistentry>
                 <term>opt</term>
                 <listitem>
-                    <para>opção com possíveis valores</para>
+                    <para>opÃ§Ã£o com possÃ­veis valores</para>
                     <variablelist>
                         <varlistentry>
                             <term>'r'</term>
                             <listitem>
-                                <para>ou 'right' para justificação direita</para>
+                                <para>ou 'right' para justificaÃ§Ã£o direita</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>'l'</term>
                             <listitem>
-                                <para>ou 'left' para justificação esquerda</para>
+                                <para>ou 'left' para justificaÃ§Ã£o esquerda</para>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>'c'</term>
                             <listitem>
-                                <para>ou 'center' justificação centrada</para>
+                                <para>ou 'center' justificaÃ§Ã£o centrada</para>
                             </listitem>
                         </varlistentry>
                     </variablelist>
@@ -63,15 +66,15 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
             <literal>justify</literal> justifica a coluna de uma matriz de
-            strings de acordo com a opção dada.
+            strings de acordo com a opÃ§Ã£o dada.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 t=['1234','x','adfdfgdfghfgj'
    '1','354556','dgf'
    'sdfgd','','sdfsf'];
@@ -82,7 +85,7 @@ justify(t,'r')
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>Ver Também</title>
+        <title>Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="length">length</link>

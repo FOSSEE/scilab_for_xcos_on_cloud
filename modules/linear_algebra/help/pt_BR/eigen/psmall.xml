@@ -1,22 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="psmall" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="psmall" xml:lang="pt">
     <refnamediv>
         <refname>psmall</refname>
-        <refpurpose>projeção espectral</refpurpose>
+        <refpurpose>projeÃ§Ã£o espectral</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>[Q,M]=psmall(A,thres,flag)</synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -31,7 +34,7 @@
             <varlistentry>
                 <term>thres</term>
                 <listitem>
-                    <para>número real </para>
+                    <para>nÃºmero real </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -53,13 +56,13 @@
     </refsection>
     <refsection>
         <title>Description</title>
-        <para>Projeção sobre auto-subespaço associado com autovalores com parte
+        <para>ProjeÃ§Ã£o sobre auto-subespaÃ§o associado com autovalores com parte
             real &lt; <literal>thres</literal> (<literal>flag='c'</literal>) ou com
-            módulo &lt; <literal>thres</literal> (<literal>flag='d'</literal>).
+            mÃ³dulo &lt; <literal>thres</literal> (<literal>flag='d'</literal>).
         </para>
         <para>
-            A projeção é definda por <literal>Q*M</literal>,
-            <literal>Q</literal> é de posto-coluna cheio, <literal>M</literal> é de
+            A projeÃ§Ã£o Ã© definda por <literal>Q*M</literal>,
+            <literal>Q</literal> Ã© de posto-coluna cheio, <literal>M</literal> Ã© de
             posto-linha cheio e <literal>M*Q=eye</literal>.
         </para>
         <para>
@@ -74,22 +77,22 @@
         </para>
         <para>
             Se <literal>flag='c'</literal> e se <literal>[Q1,M1]</literal> =
-            fatoração em posto cheio (<literal>fullrf</literal>) de
-            <literal>eye()-Q*M</literal>então os autovalores de
+            fatoraÃ§Ã£o em posto cheio (<literal>fullrf</literal>) de
+            <literal>eye()-Q*M</literal>entÃ£o os autovalores de
             <literal>M1*A*Q1</literal> = autovalores de<literal> A</literal> com parte
             real &gt;= <literal>thres</literal>.
         </para>
         <para>
             Se <literal>flag='d'</literal> e se <literal>[Q1,M1]</literal> =
-            fatoração em posto cheio (<literal>fullrf</literal>) de
-            <literal>eye()-Q*M</literal> então os autovalores de
+            fatoraÃ§Ã£o em posto cheio (<literal>fullrf</literal>) de
+            <literal>eye()-Q*M</literal> entÃ£o os autovalores de
             <literal>M1*A*Q1</literal> = autovalores de <literal>A</literal> com
             magnitude &gt;= <literal>thres</literal>.
         </para>
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 A=diag([1,2,3]);X=rand(A);A=inv(X)*A*X;
 [Q,M]=psmall(A,2.5,'d');
 spec(M*A*Q)
@@ -98,7 +101,7 @@ spec(M1*A*Q1)
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="pbig">pbig</link>
@@ -113,7 +116,7 @@ spec(M1*A*Q1)
     </refsection>
     <refsection>
         <title>Used Functions</title>
-        <para>Esta função é baseada na forma de Schur ordenada (Função do
+        <para>Esta funÃ§Ã£o Ã© baseada na forma de Schur ordenada (FunÃ§Ã£o do
             Scilab<literal> schur</literal>).
         </para>
     </refsection>

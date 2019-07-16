@@ -1,68 +1,98 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="if" xml:lang="en">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) 2008 - INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml"
+        xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+        xmlns:scilab="http://www.scilab.org" xml:id="if" xml:lang="pt">
     <refnamediv>
         <refname>if then else</refname>
-        <refpurpose>Execução condicional (significa "se então senão")</refpurpose>
+        <refpurpose>ExecuÃ§Ã£o condicional (significa "se entÃ£o senÃ£o")</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
-        <synopsis>    if expressão1 then sentenças 
-            elseif expressãoi then sentenças 
-            .... 
-            else sentenças 
-            end 
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
+        <synopsis>
+            if expressÃ£o1 then
+                sentenÃ§as
+            elseif expressÃ£oi then
+                sentenÃ§as
+                ....
+            else
+                sentenÃ§as
+            end
         </synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
-            A sentença <literal>if</literal> avalia sentenças lógicas e executa
-            um grupo de sentenças se a expressão é verdadeira.
+            A sentenÃ§a <literal>if</literal> avalia sentenÃ§as lÃ³gicas e executa
+            um grupo de sentenÃ§as se a expressÃ£o Ã© verdadeira.
         </para>
         <para>
-            As <literal>expressõesi</literal> são expressões com valores
-            numéricos ou booleanos. Se as <literal>expressõesi</literal> são matrizes,
-            a condição é verdadeira somente se todas as entradas da matriz são "true"
+            As <literal>expressÃµesi</literal> sÃ£o expressÃµes com valores
+            numÃ©ricos ou booleanos. Se as <literal>expressÃµesi</literal> sÃ£o matrizes,
+            a condiÃ§Ã£o Ã© verdadeira somente se todas as entradas da matriz sÃ£o "true"
             (verdadeiro) ou diferentes de 0.
         </para>
         <para>
             Os opcionais <literal>elseif</literal> e <literal>else</literal>
-            propiciam execução de grupos de sentenças alternativas. A palavra-chave
+            propiciam execuÃ§Ã£o de grupos de sentenÃ§as alternativas. A palavra-chave
             <literal>end</literal> keyword, que corresponde ao
-            <literal>if</literal>termina o último grupo de sentenças. A estrutura de
-            linhas dada acima não é importante, a única restrição é que cada
+            <literal>if</literal>termina o Ãºltimo grupo de sentenÃ§as. A estrutura de
+            linhas dada acima nÃ£o Ã© importante, a Ãºnica restriÃ§Ã£o Ã© que cada
             palavra-chave <literal>then</literal>deve estar na mesma linha de sua
             palavra-chave <literal>if</literal> ou <literal>elseif</literal>
             correspondente.
         </para>
         <para>
-            A palavra-chave <literal>then </literal>pode ser substituída por um
-            retorno de carro ou uma vírgula.
+            A palavra-chave <literal>then </literal>pode ser substituÃ­da por um
+            retorno de carro ou uma vÃ­rgula.
         </para>
-        <para> Aviso: o número de caracteres utilizados para definir o corpo de
-            qualquer instrução condicional (if while for or select/case) deve ser
-            limitado a 16k.
-        </para>
+      <warning>
+        O nÃºmero de caracteres utilizados para definir o corpo de qualquer instruÃ§Ã£o condicional
+        (if while for or select/case) deve ser limitado a 16k.
+      </warning>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 i=2
-for j = 1:3, 
+for j = 1:3,
    if i == j then
-     a(i,j) = 2; 
-   elseif abs(i-j) == 1 then 
-     a(i,j) = -1; 
+     a(i,j) = 2;
+   elseif abs(i-j) == 1 then
+     a(i,j) = -1;
    else a(i,j) = 0;
    end,
 end
  ]]></programlisting>
     </refsection>
     <refsection>
-        <title> Ver Também</title>
+        <title> Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
-                <link linkend="try">try</link>
+                <link linkend="then">then</link>
+            </member>
+            <member>
+                <link linkend="else">else</link>
+            </member>
+            <member>
+                <link linkend="elseif">elseif</link>
+            </member>
+            <member>
+                <link linkend="end">end</link>
             </member>
             <member>
                 <link linkend="while">while</link>
@@ -74,14 +104,26 @@ end
                 <link linkend="boolean">boolean</link>
             </member>
             <member>
-                <link linkend="end">end</link>
+                <link linkend="comparison">comparison</link>
             </member>
             <member>
-                <link linkend="then">then</link>
+                <link linkend="or_op">|, ||</link>
             </member>
             <member>
-                <link linkend="else">else</link>
+                <link linkend="and_op">&amp;, &amp;&amp;</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>HistÃ³rico</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                  <literal>if</literal> is now protected:
+                  Assignments like <literal>if=1</literal> are no longer possible.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

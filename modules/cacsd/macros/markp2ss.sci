@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [Sl]=markp2ss(markpar,n,nout,nin)
     // Given a set of n (matrix) Markov parameters stacked in the (row)-matrix
@@ -21,11 +24,14 @@ function [Sl]=markp2ss(markpar,n,nout,nin)
     H=[];H(n*nout,n*nin)=0;
     p=markpar;
     l1=1:nout;k1=1;
-    H(l1,:)=p;kset=(nmax-nin+1):nmax;zeroing=0*ones(nout,nin);
+    H(l1,:) = p;
+    kset = (nmax-nin+1):nmax;
+    zeroing = zeros(nout, nin);
     for k=2:n;
         l1=l1+nout*ones(l1);
         k1=k1+nin;
-        p=markpar(:,k1:nmax);p(nout,nmax)=0;
+        p=markpar(:,k1:nmax);
+        p(nout,nmax)=0;
         H(l1,:)=p;
     end;
     [u,s,v,deg]=svd(H);

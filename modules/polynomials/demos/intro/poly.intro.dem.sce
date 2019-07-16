@@ -31,7 +31,7 @@ p3=poly(myroots,"x","roots")
 mymatrix=[6 -11 6;1 0 0;0 1 0]
 p4=poly(mymatrix,"x")
 // 2. Algebraic manipulations
-// We can can process simple algebraic computations
+// We can process simple algebraic computations
 // with the polynomials, considered as basic objects.
 p5 = p1+p2
 p6 = p1-p2
@@ -76,9 +76,9 @@ p11=derivat(p9)
 typeof(p1)
 typeof(p9)
 // The numerator and denominator polynomials of the rational polynomial
-// can be extracted with the "numer" and "denom" functions.
-numer(p9)
-denom(p9)
+// can be extracted with the ".num" and ".den" attributes:
+p9.num
+p9.den
 // Rational polynomials can be simplified with the "simp" function,
 // which returns the numerator and denominator of the given couple
 // of polynomials.
@@ -89,7 +89,7 @@ mode(m);
 
 // clear variables
 
-clear       n; clear         d; clear     denom; clear numer;
+clear       n; clear         d;
 clear  typeof; clear       p11; clear        p9; clear %p_r_p;
 clear    lnum; clear         g; clear   factors; clear roots1;
 clear   comp1; clear companion; clear  theroots; clear p10;

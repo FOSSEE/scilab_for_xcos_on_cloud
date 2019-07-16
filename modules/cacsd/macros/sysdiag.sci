@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function r=sysdiag(varargin)
     //Returns the block-diagonal system made with subsystems put in the main
@@ -26,11 +29,11 @@ function r=sysdiag(varargin)
     //!
     r=varargin(1);
     [m1,n1]=size(r);
-    for k=2:size(varargin)
-        ak=varargin(k)
-        [mk,nk]=size(ak);
-        r=[r,0*ones(m1,nk);0*ones(mk,n1),ak]
-        m1=m1+mk
-        n1=n1+nk
+    for k = 2:size(varargin)
+        ak = varargin(k)
+        [mk,nk] = size(ak);
+        r=[r, zeros(m1,nk); zeros(mk,n1), ak]
+        m1 = m1+mk
+        n1 = n1+nk
     end
 endfunction

@@ -1,22 +1,25 @@
 //
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( httzp://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) Scilab Enterprises - 2013 - Bruno JOFRET
 // Copyright (C) 2009-2009 - DIGITEO - Bruno JOFRET
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 //
 //
 
-function %cpr = xcos_simulate(scs_m, needcompile)
+function [%cpr, ok] = xcos_simulate(scs_m, needcompile)
 
     // Load the block libs if not defined
     prot = funcprot();
     funcprot(0);
-    if ~exists("scicos_diagram") then
+    if ~exists("Sourceslib") then
         loadXcosLibs();
     end
     funcprot(prot);
@@ -118,7 +121,9 @@ function %cpr = xcos_simulate(scs_m, needcompile)
     [scs_m,%cpr,needcompile,ok] = do_eval(scs_m, %cpr, %scicos_context);
     if ~ok then
         msg = msprintf(gettext("%s: Error during block parameters evaluation.\n"), "Xcos");
-        messagebox(msg, "Xcos", "error");
+        if getscilabmode() <> "NWNI" then
+            messagebox(msg, "Xcos", "error");
+        end
         error(msprintf(gettext("%s: Error during block parameters evaluation.\n"), "xcos_simulate"));
     end
 
@@ -141,14 +146,14 @@ function %cpr = xcos_simulate(scs_m, needcompile)
         issequal = %f
     else
         //** test typeof outtb element
-        for i=1:lstsize(%state0_n.outtb)
+        for i = 1:size(%state0_n.outtb)
             if typeof(%state0_n.outtb(i))<>typeof(%state0.outtb(i))
                 issequal = %f
                 break
             end
         end
         //** test typeof oz element
-        for i=1:lstsize(%state0_n.oz)
+        for i = 1:size(%state0_n.oz)
             if typeof(%state0_n.oz(i))<>typeof(%state0.oz(i))
                 issequal = %f
                 break
@@ -287,18 +292,19 @@ function %cpr = xcos_simulate(scs_m, needcompile)
             end
 
             ok = %f;
-            //xset('window',curwin)
+            // scf(curwin)
             return
         end
         //scf(gh_win);
-        //xset('window',win);
     end
 
     //** scicos simulation
     tf = scs_m.props.tf
 
     // Inform Xcos the simulator is going to run
-    xcosSimulationStarted();
+    if getscilabmode() <> "NWNI"
+        xcosSimulationStarted();
+    end
 
     //** run scicosim via 'start' flag
     ierr = execstr("[state,t]=scicosim(%cpr.state,%tcur,tf,%cpr.sim,"+..
@@ -388,17 +394,21 @@ function %cpr = xcos_simulate(scs_m, needcompile)
     //and call '[names(1), names(2), ...] = resume(names(1), names(2), ...)' to save the variable into Scilab
     if ~isempty(Names) then
         for i=1:size(Names, "c")
-            execstr("NamesIval  = "+Names(i)+"_val;");
-            execstr("NamesIvalt = "+Names(i)+"_valt;");
-            // If input is a matrix, use function matrix() to reshape the saved values
-            // Check condition using time vector, if we have more values than time stamps, split it
-            if (size(NamesIval, "r") > size(NamesIvalt, "r")) then
-                nRows  = size(NamesIvalt, "r");
-                nCols  = size(NamesIval, "c");
-                nCols2 = size(NamesIval, "r") / nRows;
-                NamesIval = matrix(NamesIval, nCols, nCols2, nRows);
+            if isdef(Names(i)+"_val") then // The block has been activated
+                execstr("NamesIval  = "+Names(i)+"_val;");
+                execstr("NamesIvalt = "+Names(i)+"_valt;");
+                // If input is a matrix, use function matrix() to reshape the saved values
+                // Check condition using time vector, if we have more values than time stamps, split it
+                if (size(NamesIval, "r") > size(NamesIvalt, "r")) then
+                    nRows  = size(NamesIvalt, "r");
+                    nCols  = size(NamesIval, "c");
+                    nCols2 = size(NamesIval, "r") / nRows;
+                    NamesIval = matrix(NamesIval, nCols, nCols2, nRows);
+                end
+                ierr = execstr(Names(i)+" = struct(''values'', NamesIval, ''time'', NamesIvalt)", "errcatch");
+            else
+                ierr = execstr(Names(i)+" = struct(''values'', [], ''time'', [])", "errcatch");
             end
-            ierr = execstr(Names(i)+" = struct(''values'', NamesIval, ''time'', NamesIvalt)", "errcatch");
             if ierr <> 0 then
                 str_err = split_lasterror(lasterror());
                 message(["Simulation problem" ; "Unable to resume To Workspace Variable {"+Names(i)+"}:" ; str_err]);
@@ -453,4 +463,3 @@ function %cpr = xcos_simulate(scs_m, needcompile)
     end
 
 endfunction
-

@@ -2,11 +2,14 @@
 // Copyright (C) INRIA
 // Copyright (C) 2011 - DIGITEO - Michael Baudin
 // Copyright (C) 2012 - DIGITEO - Allan CORNET
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function contour(x, y, z, nz, theta, alpha, leg, flag, ebox, zlev)
 
@@ -21,7 +24,8 @@ function contour(x, y, z, nz, theta, alpha, leg, flag, ebox, zlev)
 
         x = -1:0.1:1;
         y = x;
-        z = eval3d(Surf2, x, y)
+        [X,Y] = ndgrid(x,y);
+        z = Surf2(X,Y)
 
         //scf();
         subplot(211);
@@ -44,27 +48,27 @@ function contour(x, y, z, nz, theta, alpha, leg, flag, ebox, zlev)
     end
 
     if type(x) <> 1 then
-        error(999, msprintf(gettext("%s: Wrong type for input argument #%d: Real vector expected.\n"), "contour", 1));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: Real vector expected.\n"), "contour", 1));
     end
 
     if type(y) <> 1 then
-        error(999, msprintf(gettext("%s: Wrong type for input argument #%d: Real vector expected.\n"), "contour", 2));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: Real vector expected.\n"), "contour", 2));
     end
 
     if type(z) <> 1 & type(z) <> 13 then
-        error(999, msprintf(gettext("%s: Wrong type for input argument #%d: Real matrix or Scilab function expected.\n"), "contour", 3));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: Real matrix or Scilab function expected.\n"), "contour", 3));
     end
 
     if type(nz) <> 1 then
-        error(999, msprintf(gettext("%s: Wrong type for input argument #%d: Real matrix expected.\n"), "contour", 4));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: Real matrix expected.\n"), "contour", 4));
     end
 
     if ~isvector(x) then
-        error(999, msprintf(gettext("%s: Wrong size for input argument #%d: Real vector expected.\n"), "contour", 1));
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: Real vector expected.\n"), "contour", 1));
     end
 
     if ~isvector(y) then
-        error(999, msprintf(gettext("%s: Wrong size for input argument #%d: Real vector expected.\n"), "contour", 2));
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: Real vector expected.\n"), "contour", 2));
     end
 
     levels = [];
@@ -89,12 +93,9 @@ function contour(x, y, z, nz, theta, alpha, leg, flag, ebox, zlev)
         zlev = 0;
     end
 
-    if or(type(z) == [11 13]) then
+    if or(type(z) == [13]) then
         fun = z;
         clear z //to avoid redfinition warning
-        if type(fun) == 11 then
-            comp(fun);
-        end
         z = feval(x, y, fun);
     end
 

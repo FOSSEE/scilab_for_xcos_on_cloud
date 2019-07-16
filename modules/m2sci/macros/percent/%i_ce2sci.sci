@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [tree]=%i_ce2sci(tree)
     // M2SCI function
@@ -20,7 +23,7 @@ function [tree]=%i_ce2sci(tree)
     if type(inds)<>15 then
         inds=list(inds)
     end
-    for kinds=1:lstsize(inds)
+    for kinds=1:size(inds)
         if typeof(inds(kinds))<>"list" & inds(kinds).vtype==String & typeof(inds(kinds))=="cste" & inds(kinds).value<>":" then
             tree=%i_st2sci(tree)
             return
@@ -30,7 +33,7 @@ function [tree]=%i_ce2sci(tree)
     if to.vtype<>Struct then
         if and(to.vtype<>[Cell,Unknown]) then
             if to.vtype==Double & and(to.dims==list(0,0)) then
-                insert(Equal(list(to),Funcall("cell",1,list(),list(to))))
+                m2sci_insert(Equal(list(to),Funcall("cell",1,list(),list(to))))
                 // To be sure that variable will now be of type Cell
                 [bval,index]=isdefinedvar(to)
                 varslist(index).infer.type.vtype=Cell
@@ -38,7 +41,7 @@ function [tree]=%i_ce2sci(tree)
                 error(msprintf(gettext("destination variable is not a cell: %s is of type %s."),to.name,string(to.vtype)))
             end
         elseif to.vtype==Unknown then
-            insert(Equal(list(to),Funcall("cell",1,list(),list(to))))
+            m2sci_insert(Equal(list(to),Funcall("cell",1,list(),list(to))))
             // To be sure that variable will now be of type Cell
             [bval,index]=isdefinedvar(to)
             varslist(index).infer.type.vtype=Cell
@@ -58,7 +61,7 @@ function [tree]=%i_ce2sci(tree)
                     tree.out(1).contents.index($+1)=tree.operands(2)
                     tree.out(1).contents.data($+1)=Infer(list(1,1),Type(Cell,Unknown),from.contents)
 
-                    if lstsize(from.contents.data)==1 then
+                    if size(from.contents.data)==1 then
                         tree.out(1).contents.index($+1)=list(tree.operands(2),Cste("entries"))
                         tree.out(1).contents.data($+1)=from.contents.data(1)
                     else
@@ -72,7 +75,7 @@ function [tree]=%i_ce2sci(tree)
             end
         else // --- Insertion with more than one index value (index is a list) ---
             // Cell array of struct A{p,q,...}.name... or recursive index A{p,q,...}(1,2)...
-            for kind=1:lstsize(tree.operands(2))
+            for kind = 1:size(tree.operands(2))
                 if typeof(tree.operands(2)(kind))=="cste" then
                     if tree.operands(2)(kind).vtype<>String then
                         tree.operands(2)(kind)=list(Cste(1),tree.operands(2)(kind))
@@ -82,12 +85,12 @@ function [tree]=%i_ce2sci(tree)
             IND=tree.operands(2)(1)
             // Update cell dims for inference
             if typeof(IND)=="list" then
-                if lstsize(IND)>lstsize(tree.out(1).dims) then
-                    for kd=lstsize(tree.out(1).dims):lstsize(IND)
+                if size(IND) > size(tree.out(1).dims) then
+                    for kd =size(tree.out(1).dims):size(IND)
                         tree.out(1).dims(kd)=Unknown
                     end
                 end
-                for kd=1:lstsize(tree.out(1).dims)
+                for kd=1:size(tree.out(1).dims)
                     if typeof(IND(kd))=="cste" & tree.out(1).dims(kd)<>Unknown & tree.out(1).dims(kd)<IND(kd).value then
                         tree.out(1).dims(kd)=IND(kd).value
                     end
@@ -131,7 +134,7 @@ function [tree]=%i_ce2sci(tree)
         // Two indexes: to(ind1,ind2,...)=from or more
     else
         tree.out(1).dims=list()
-        for k=1:lstsize(tree.operands)-2
+        for k=1:size(tree.operands)-2
             tree.out(1).dims(k)=Unknown
         end
 
@@ -159,10 +162,10 @@ function [tree]=%i_ce2sci(tree)
         tree.out(1).contents.data($+1)=Infer(list(1,1),Type(Cell,Unknown),Contents())
 
         infertree=list(infertree,Cste("entries"))
-        if lstsize(from.contents.index)==1 then
+        if size(from.contents.index)==1 then
             tree.out(1).contents.index($+1)=infertree
             tree.out(1).contents.data($+1)=from.contents.data(1);
-        elseif lstsize(from.contents.index)==0 then
+        elseif size(from.contents.index)==0 then
             tree.out(1).contents=Contents()
         else
             error(gettext("Not yet implemented."))

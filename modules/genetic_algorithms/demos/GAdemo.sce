@@ -45,8 +45,8 @@ function demo_genetic_algo()
 
     ga_params = init_param();
     // Parameters to adapt to the shape of the optimization problem
-    ga_params = add_param(ga_params, "minbound", eval("min_bd_" + func + "()"));
-    ga_params = add_param(ga_params, "maxbound", eval("max_bd_" + func + "()"));
+    ga_params = add_param(ga_params, "minbound", evstr("min_bd_" + func + "()"));
+    ga_params = add_param(ga_params, "maxbound", evstr("max_bd_" + func + "()"));
     ga_params = add_param(ga_params, "dimension", 2);
     ga_params = add_param(ga_params, "beta", 0);
     ga_params = add_param(ga_params, "delta", 0.1);
@@ -118,9 +118,9 @@ function demo_genetic_algo()
     // Genetic Algorithm for binary codage //
     /////////////////////////////////////////
     clear f;
-    deff("y=f(x)","BinLen = get_param(ga_params,''binary_length''); ..
-    tmp  = convert_to_float(x, BinLen, Max, Min); ..
-    y    = "+func+"(tmp);","n");
+    deff("y = f(x)", "BinLen = get_param(ga_params, ''binary_length'');"+..
+    "tmp  = convert_to_float(x, BinLen, Max, Min);"+..
+    "y    = "+func+"(tmp);");
 
     ga_params = add_param(ga_params, "binary_length", 8);
     ga_params = set_param(ga_params, "crossover_func", crossover_ga_binary);

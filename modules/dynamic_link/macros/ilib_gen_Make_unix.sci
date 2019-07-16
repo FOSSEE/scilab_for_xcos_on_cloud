@@ -3,11 +3,14 @@
 // Copyright (C) 2007-2008 - INRIA - Sylvestre LEDRU (rewrite to use autotools)
 // Copyright (C) 2009-2010 - DIGITEO - Sylvestre LEDRU
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 //=============================================================================
 // Generate a Makefile which can be used by ilib_*
@@ -65,21 +68,14 @@ function ilib_gen_Make_unix(names,   ..
     linkBuildDir    = TMPDIR+"/"+libname;
     mkdir(linkBuildDir);
     commandpath = SCI+"/modules/dynamic_link/src/scripts";
-    [fd,ierr] = mopen(commandpath+"/write.test","w+");
+    usercommandpath = SCIHOME+"/modules/dynamic_link/src/scripts";
 
-    if (ierr<>0) then
-        writePerm=%F
-    else
-        writePerm=%T
-        mclose(fd)
-        mdelete(commandpath+"/write.test");
+    // generate the stuff into the user directory in order to avoid the configure each time.
+     if isdir(usercommandpath) == %F then
+        mkdir(usercommandpath);
+        copyMandatoryFiles(commandpath,usercommandpath);
+        generateConfigure(usercommandpath);
     end
-
-    if (writePerm == %T & ( fileinfo(commandpath+"/Makefile.orig") == [] | fileinfo(commandpath+"/libtool") == [] )) then
-        // We have write permission on the scilab tree, then generate the stuff into the directory in order to avoid the configure each time.
-        generateConfigure(commandpath);
-    end
-
 
     // Copy files => linkBuildDir
     chdir(linkBuildDir);
@@ -88,32 +84,7 @@ function ilib_gen_Make_unix(names,   ..
         mprintf(gettext("   %s: Copy compilation files (Makefile*, libtool...) to TMPDIR\n"),"ilib_gen_Make");
     end
 
-    // List of the files mandatory to generate a lib with the detection of the env
-    mandatoryFiles = ["compilerDetection.sh", ..
-    "configure.ac", ..
-    "configure", ..
-    "Makefile.am", ..
-    "Makefile.in", ..
-    "config.sub", ..
-    "libtool", ..
-    "config.guess", ..
-    "config.status", ..
-    "depcomp", ..
-    "install-sh", ..
-    "ltmain.sh", ..
-    "missing", ..
-    "aclocal.m4"];
-
-    // Copy files to the working tmpdir
-    for x = mandatoryFiles(:)' ;
-        fullPath=commandpath+"/"+x;
-        if (isfile(fullPath)) then
-            [status,msg]=copyfile(fullPath,linkBuildDir);
-            if (status <> 1)
-                error(msprintf(gettext("%s: An error occurred: %s\n"), "ilib_gen_Make",msg));
-            end
-        end
-    end
+    copyMandatoryFiles(usercommandpath,linkBuildDir);
 
     filelist = "";
 
@@ -150,7 +121,7 @@ function ilib_gen_Make_unix(names,   ..
                 end
 
                 if ~isfile(pathFrom + "/" + file_name + file_extension) then
-                    error(999, msprintf(_("%s: Wrong value for input argument #%d: existing file(s) expected. Provided: %s\n"), "ilib_gen_Make_unix", 2, pathFrom + "/" + file_name + file_extension));
+                    error(msprintf(_("%s: Wrong value for input argument #%d: existing file(s) expected. Provided: %s\n"), "ilib_gen_Make_unix", 2, pathFrom + "/" + file_name + file_extension));
                 end
 
                 filelist = filelist + " " + file_name + file_extension;
@@ -166,7 +137,7 @@ function ilib_gen_Make_unix(names,   ..
                 for f=filesMatching(:)'
 
                     if ~isfile(f) then
-                        error(999, msprintf(_("%s: Wrong value for input argument #%d: existing file(s) expected.\n"), "ilib_gen_Make_unix", 2));
+                        error(msprintf(_("%s: Wrong value for input argument #%d: existing file(s) expected.\n"), "ilib_gen_Make_unix", 2));
                     end
 
                     if strindex(f,ignoredFileExtension) == [] then
@@ -187,7 +158,7 @@ function ilib_gen_Make_unix(names,   ..
         end
     end
 
-    if ldflags <> "" | cflags <> "" | fflags <> "" | cc <> "" | fileinfo(commandpath+"/Makefile.orig") == [] | fileinfo(commandpath+"/libtool") == [] then
+    if ldflags <> "" | cflags <> "" | fflags <> "" | cc <> "" | fileinfo(usercommandpath+"/Makefile.orig") == [] | fileinfo(usercommandpath+"/libtool") == [] then
         // Makefile.orig doesn't exists or may be invalid regarding the flags
         // run the ./configure with the flags
 
@@ -199,7 +170,7 @@ function ilib_gen_Make_unix(names,   ..
         generateConfigure(linkBuildDir, ldflags, cflags, fflags, cc)
     else
         // Reuse existing Makefile.orig because compilation flags are all empty
-        [status,msg]=copyfile(commandpath+"/Makefile.orig",linkBuildDir);
+        [status,msg]=copyfile(usercommandpath+"/Makefile.orig",linkBuildDir);
 
         if ( ilib_verbose() == 2 ) then
             mprintf(gettext("   %s: Use the previous detection of compiler.\n"),"ilib_gen_Make");
@@ -280,6 +251,36 @@ function generateConfigure(workingPath, ..
         end
         error(msprintf(gettext("%s: An error occurred during the detection of the compiler(s). Set ilib_verbose(2) for more information.\n"), "ilib_gen_Make"));
         return;
+    end
+
+endfunction
+
+function copyMandatoryFiles(commandpath,workingPath)
+    // List of the files mandatory to generate a lib with the detection of the env
+    mandatoryFiles = ["compilerDetection.sh", ..
+    "configure.ac", ..
+    "configure", ..
+    "Makefile.am", ..
+    "Makefile.in", ..
+    "config.sub", ..
+    "libtool", ..
+    "config.guess", ..
+    "config.status", ..
+    "depcomp", ..
+    "install-sh", ..
+    "ltmain.sh", ..
+    "missing", ..
+    "aclocal.m4"];
+
+    // Copy files to the working path
+    for x = mandatoryFiles(:)' ;
+        fullPath=commandpath+"/"+x;
+        if (isfile(fullPath)) then
+            [status,msg]=copyfile(fullPath,workingPath);
+            if (status <> 1)
+                error(msprintf(gettext("%s: An error occurred: %s\n"), "ilib_gen_Make",msg));
+            end
+        end
     end
 
 endfunction

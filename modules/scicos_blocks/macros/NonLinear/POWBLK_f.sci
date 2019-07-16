@@ -33,7 +33,7 @@ function [x,y,typ]=POWBLK_f(job,arg1,arg2)
             exprs=exprs(2),
         end //compatibility
         while %t do
-            [ok,a,exprs]=scicos_getvalue("Set u^a block parameters",..
+            [ok,a,exprs]=scicos_getvalue("u^a: raise each element of the input",..
             "to the power of",list("vec",1),exprs)
             if ~ok then
                 break,
@@ -49,6 +49,10 @@ function [x,y,typ]=POWBLK_f(job,arg1,arg2)
             model.firing=[] //compatibility
             x.graphics=graphics;
             x.model=model
+            // Updating the label ("%" in exponents like "%e" should be protected):
+            lab = "POWBLK_f;displayedLabel=" + ..
+            "$\mathsf{u^{\,"+strsubst(exprs,"%","{\scriptsize \%\normal }")+"}}$"
+            x.graphics.style = lab;
             break
         end
     case "define" then

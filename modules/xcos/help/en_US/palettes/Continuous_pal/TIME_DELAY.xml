@@ -1,97 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scicos
- * 
+ *
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="TIME_DELAY">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+        xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+        xml:id="TIME_DELAY" xml:lang="en_US">
     <refnamediv>
         <refname>TIME_DELAY</refname>
         <refpurpose>Time delay</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/palettes/TIME_DELAY.png" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/palettes/TIME_DELAY.png" align="center" valign="middle"/>
+            </imageobject>
+        </inlinemediaobject>
     </refsection>
     <refsection id="Contents_TIME_DELAY">
         <title>Contents</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="TIME_DELAY">Time delay</link>
-                </para>
+                <xref linkend="Description_TIME_DELAY">Description</xref>
             </listitem>
             <listitem>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <xref linkend="Palette_TIME_DELAY">Palette</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Description_TIME_DELAY">Description</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Dialogbox_TIME_DELAY">Dialog box</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Defaultproperties_TIME_DELAY">Default properties</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Interfacingfunction_TIME_DELAY">Interfacing function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Computationalfunction_TIME_DELAY">Computational function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Example_TIME_DELAY">Example</xref>
-                        </para>
-                    </listitem>
-                </itemizedlist>
+                <xref linkend="Dialogbox_TIME_DELAY">Parameters</xref>
             </listitem>
-        </itemizedlist>
-    </refsection>
-    <refsection id="Palette_TIME_DELAY">
-        <title>Palette</title>
-        <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="Continuous_pal">Continuous time systems palette</link>
-                </para>
+                <xref linkend="Defaultproperties_TIME_DELAY">Default properties</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Interfacingfunction_TIME_DELAY">Interfacing function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Computationalfunction_TIME_DELAY">Computational function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Example_TIME_DELAY">Example</xref>
             </listitem>
         </itemizedlist>
     </refsection>
@@ -102,25 +67,21 @@
             time. It can be used to simulate a time delay. At the start of the
             simulation, the block outputs the Initial input parameter until the
             simulation time exceeds the Time delay parameter, when the block
-            begins generating the delayed input. 
+            begins generating the delayed input.
         </para>
         <para>
-            The Time delay parameter must be non-negative. 
-            
+            The Time delay parameter must be non-negative.
+
         </para>
     </refsection>
     <refsection id="Dialogbox_TIME_DELAY">
-        <title>Dialog box</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/gui/TIME_DELAY_gui.gif" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para>
-            
-        </para>
+        <title>Parameters</title>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/gui/TIME_DELAY_gui.gif" align="center" style="float:right"/>
+                <!-- align => Javahelp, style => Online -->
+            </imageobject>
+        </inlinemediaobject>
         <itemizedlist>
             <listitem>
                 <para>
@@ -144,6 +105,7 @@
                 <para> Properties : Type 'vec' of size 1</para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Defaultproperties_TIME_DELAY">
         <title>Default properties</title>
@@ -211,11 +173,12 @@
             </listitem>
             <listitem>
                 <para>
-                    <emphasis role="bold">name of computational function:</emphasis>
+                    <emphasis role="bold">name of computational function: </emphasis>
                     <emphasis role="italic">time_delay</emphasis>
                 </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Interfacingfunction_TIME_DELAY">
         <title>Interfacing function</title>
@@ -239,7 +202,7 @@
             <link type="scilab" linkend="scilab.xcos/xcos/examples/continuous_pal/TIME_DELAY_Example.zcos">
                 <inlinemediaobject>
                     <imageobject>
-                        <imagedata align="center" fileref="../../../../examples/continuous_pal/TIME_DELAY_Example.zcos" valign="middle"/>
+                        <imagedata align="center" fileref="../../../../examples/continuous_pal/TIME_DELAY_Example.zcos"/>
                     </imageobject>
                 </inlinemediaobject>
             </link>

@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2009-2010 - DIGITEO - Pierre MARECHAL <pierre.marechal@scilab.org>
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 // End user function
 
@@ -60,7 +63,7 @@ function result = atomsInstall(packages,section)
 
     // Verbose Mode ?
     // =========================================================================
-    if strcmpi(atomsGetConfig("Verbose"),"True") == 0 then
+    if strcmp(atomsGetConfig("Verbose"),"True", "i") == 0 then
         ATOMSVERBOSE = %T;
     else
         ATOMSVERBOSE = %F;
@@ -94,7 +97,7 @@ function result = atomsInstall(packages,section)
         // Allusers can be a boolean or equal to "user" or "allusers"
 
         if type(section) <> 10 then
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: Single string expected.\n"),"atomsInstall",2));
+            error(msprintf(gettext("%s: Wrong type for input argument #%d: string expected.\n"),"atomsInstall",2));
         end
 
         if and(section<>["user","allusers"]) then
@@ -112,7 +115,7 @@ function result = atomsInstall(packages,section)
     atoms_system_directory  = atomsPath("system" ,section);
     atoms_install_directory = atomsPath("install",section);
     atoms_session_directory = atomsPath("system","session");
-    atoms_tmp_directory     = pathconvert( atomsPath("system" ,section) + "tmp_" + sprintf("%d\n",getdate("s")) );
+    atoms_tmp_directory     = pathconvert("TMPDIR\.atoms\tmp_" + sprintf("%d\n",getdate("s")) );
 
     directories2create = [  atoms_system_directory ;   ..
     atoms_install_directory ;  ..
@@ -248,17 +251,18 @@ function result = atomsInstall(packages,section)
     // Loop on install_package_list to print if a package has to be installed
     // or not
     // =========================================================================
+    LF = ascii(10)
     for i=1:size(install_package_list(:,1),"*")
         if install_package_list(i,1) == "+" then
-            atomsDisp(msprintf("\t%s (%s) will be installed in the ''%s'' section\n",install_package_list(i,3),install_package_list(i,4),section));
+            atomsDisp(msprintf(_("\t%s (%s) will be installed in the ''%s'' section"),install_package_list(i,3),install_package_list(i,4),section)+LF);
         elseif install_package_list(i,1) == "~" then
-            atomsDisp(msprintf("\t%s (%s) is already installed in the ''%s'' section and up-to-date\n",install_package_list(i,3),install_package_list(i,4),section));
+            atomsDisp(msprintf(_("\t%s (%s) is already installed in the ''%s'' section and up-to-date"),install_package_list(i,3),install_package_list(i,4),section)+LF);
         end
     end
 
     // Now really install the packages
     // =========================================================================
-
+    atomsDisp(LF)
     for i=1:size(install_package_list(:,1),"*")
 
         toarchive = %T;
@@ -469,9 +473,9 @@ function result = atomsInstall(packages,section)
         DESCRIPTION = atomsDESCRIPTIONadd(DESCRIPTION,this_package_name,this_package_version,this_package_details);
         atomsDESCRIPTIONwrite(DESCRIPTION,DESCRIPTION_file);
 
-        // Sucess message if needed
+        // Success message if needed
         // =====================================================================
-        atomsDisp(msprintf(" success"));
+        atomsDisp(msprintf(" success")+LF);
 
     end
 

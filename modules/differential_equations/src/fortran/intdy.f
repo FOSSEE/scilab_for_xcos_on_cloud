@@ -11,6 +11,7 @@ clll. optimize
      1   ccmax, el0, h, hmin, hmxi, hu, rc, tn, uround
       double precision c, r, s, tp
       dimension yh(nyh,*), dky(*)
+cDEC$ ATTRIBUTES DLLIMPORT:: /ls0001/
       common /ls0001/ rownd, rowns(209),
      2   ccmax, el0, h, hmin, hmxi, hu, rc, tn, uround,
      3   iownd(14), iowns(6),
@@ -80,7 +81,7 @@ c
  90   call xerrwv('intdy--  t (=r1) illegal      ',
      1   30, 52, 1, 0, 0, 0, 1, t, 0.0d+0)
       call xerrwv(
-     1'      t n est pas entre tcur - hu (= r1) et tcur (=r2)',
+     1'      t is not in [tcur-hu, tcur] = [r1, r2]',
      1   60, 52, 1, 0, 0, 0, 2, tp, tn)
       iflag = -2
       return

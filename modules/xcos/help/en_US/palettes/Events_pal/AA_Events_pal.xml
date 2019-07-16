@@ -1,165 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scicos
- * 
+ *
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="Events_pal">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml"
+    xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+    xmlns:scilab="http://www.scilab.org" xml:id="Events_pal" xml:lang="en_US">
     <refnamediv>
         <refname>Events_pal</refname>
         <refpurpose>Event handling palette</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
+            <link linkend="ANDBLK">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="ANDBLK" fileref="../../../../../../modules/xcos/images/palettes/ANDBLK.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="ANDBLK" fileref="../../../../images/palettes/ANDBLK.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="ANDLOG_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="ANDLOG_f" fileref="../../../../../../modules/xcos/images/palettes/ANDLOG_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="ANDLOG_f" fileref="../../../../images/palettes/ANDLOG_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CEVENTSCOPE">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CEVENTSCOPE" fileref="../../../../../../modules/xcos/images/palettes/CEVENTSCOPE.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CEVENTSCOPE" fileref="../../../../images/palettes/CEVENTSCOPE.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLKFROM">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLKFROM" fileref="../../../../../../modules/xcos/images/palettes/CLKFROM.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLKFROM" fileref="../../../../images/palettes/CLKFROM.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLKGOTO">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLKGOTO" fileref="../../../../../../modules/xcos/images/palettes/CLKGOTO.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLKGOTO" fileref="../../../../images/palettes/CLKGOTO.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLKGotoTagVisibility">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLKGotoTagVisibility" fileref="../../../../../../modules/xcos/images/palettes/CLKGotoTagVisibility.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLKGotoTagVisibility" fileref="../../../../images/palettes/CLKGotoTagVisibility.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLKOUTV_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLKOUTV_f" fileref="../../../../../../modules/xcos/images/palettes/CLKOUTV_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLKOUTV_f" fileref="../../../../images/palettes/CLKOUTV_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLKSOMV_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLKSOMV_f" fileref="../../../../../../modules/xcos/images/palettes/CLKSOMV_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLKSOMV_f" fileref="../../../../images/palettes/CLKSOMV_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="CLOCK_c">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="CLOCK_c" fileref="../../../../../../modules/xcos/images/palettes/CLOCK_c.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="CLOCK_c" fileref="../../../../images/palettes/CLOCK_c.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="EDGE_TRIGGER">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="EDGE_TRIGGER" fileref="../../../../../../modules/xcos/images/palettes/EDGE_TRIGGER.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="EDGE_TRIGGER" fileref="../../../../images/palettes/EDGE_TRIGGER.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="ENDBLK">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="ENDBLK" fileref="../../../../../../modules/xcos/images/palettes/ENDBLK.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="ENDBLK" fileref="../../../../images/palettes/ENDBLK.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="END_c">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="END_c" fileref="../../../../../../modules/xcos/images/palettes/END_c.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="END_c" fileref="../../../../images/palettes/END_c.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="ESELECT_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="ESELECT_f" fileref="../../../../../../modules/xcos/images/palettes/ESELECT_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="ESELECT_f" fileref="../../../../images/palettes/ESELECT_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="EVTDLY_c">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="EVTDLY_c" fileref="../../../../../../modules/xcos/images/palettes/EVTDLY_c.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="EVTDLY_c" fileref="../../../../images/palettes/EVTDLY_c.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="EVTGEN_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="EVTGEN_f" fileref="../../../../../../modules/xcos/images/palettes/EVTGEN_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="EVTGEN_f" fileref="../../../../images/palettes/EVTGEN_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="EVTVARDLY">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="EVTVARDLY" fileref="../../../../../../modules/xcos/images/palettes/EVTVARDLY.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="EVTVARDLY" fileref="../../../../images/palettes/EVTVARDLY.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="Extract_Activation">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="Extract_Activation" fileref="../../../../../../modules/xcos/images/palettes/Extract_Activation.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="Extract_Activation" fileref="../../../../images/palettes/Extract_Activation.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="HALT_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="HALT_f" fileref="../../../../../../modules/xcos/images/palettes/HALT_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="HALT_f" fileref="../../../../images/palettes/HALT_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="IFTHEL_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="IFTHEL_f" fileref="../../../../../../modules/xcos/images/palettes/IFTHEL_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="IFTHEL_f" fileref="../../../../images/palettes/IFTHEL_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="M_freq">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="M_freq" fileref="../../../../../../modules/xcos/images/palettes/M_freq.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="M_freq" fileref="../../../../images/palettes/M_freq.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="MCLOCK_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="MCLOCK_f" fileref="../../../../../../modules/xcos/images/palettes/MCLOCK_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="MCLOCK_f" fileref="../../../../images/palettes/MCLOCK_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="MFCLCK_f">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="MFCLCK_f" fileref="../../../../../../modules/xcos/images/palettes/MFCLCK_f.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="MFCLCK_f" fileref="../../../../images/palettes/MFCLCK_f.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="SampleCLK">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="SampleCLK" fileref="../../../../../../modules/xcos/images/palettes/SampleCLK.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="SampleCLK" fileref="../../../../images/palettes/SampleCLK.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
+            </link>.
+
+            <link linkend="freq_div">
             <inlinemediaobject>
                 <imageobject>
-                    <imagedata linkend="freq_div" fileref="../../../../../../modules/xcos/images/palettes/freq_div.png" width="100" depth="100" scalefit="0" align="center" valign="middle"/>
+                    <imagedata linkend="freq_div" fileref="../../../../images/palettes/freq_div.png"
+                     style="width:100px; padding:10px; border-style:solid; border-width:1px; border-color:#1e90ff;"/>
                 </imageobject>
             </inlinemediaobject>
-        </para>
-    </refsection>
-    <refsection id="Module_Events_pal">
-        <title>Module</title>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <link linkend="xcos">xcos</link>
-                </para>
-            </listitem>
-        </itemizedlist>
+            </link>.
     </refsection>
     <refsection id="Description_Events_pal">
         <title>Description</title>
@@ -168,138 +254,80 @@
             gather events in a single link.
         </para>
     </refsection>
-    <refsection id="Blocks_Events_pal">
+    <refsection id="Blocks_Events_pal" role="see also">
         <title>Blocks</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="ANDBLK">ANDBLK - Activation and</link>
-                </para>
+                <link linkend="ANDBLK">ANDBLK</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="ANDLOG_f">ANDLOG_f - Logical and</link>
-                </para>
+                <link linkend="ANDLOG_f">ANDLOG_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CEVENTSCOPE">CEVENTSCOPE — Activation scope</link>
-                </para>
+                <link linkend="CEVENTSCOPE">CEVENTSCOPE</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLKFROM">CLKFROM — Receives data from a corresponding
-                        CLKGOTO
-                    </link>
-                </para>
+                <link linkend="CLKFROM">CLKFROM</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLKGOTO">CLKGOTO — Pass block input to CLKFROM
-                        block
-                    </link>
-                </para>
+                <link linkend="CLKGOTO">CLKGOTO</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLKGotoTagVisibility">CLKGotoTagVisibility — Define
-                        Scope of CLKGOTO tag visibility
-                    </link>
-                </para>
+                <link linkend="CLKGotoTagVisibility">CLKGotoTagVisibility</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLKOUTV_f">CLKOUTV_f — Output activation port</link>
-                </para>
+                <link linkend="CLKOUTV_f">CLKOUTV_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLKSOMV_f">CLKSOMV_f — Activation union</link>
-                </para>
+                <link linkend="CLKSOMV_f">CLKSOMV_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="CLOCK_c">CLOCK_c — Activation clock</link>
-                </para>
+                <link linkend="CLOCK_c">CLOCK_c</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="EDGE_TRIGGER">EDGE_TRIGGER —  EDGE_TRIGGER block</link>
-                </para>
+                <link linkend="EDGE_TRIGGER">EDGE_TRIGGER</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="ENDBLK">ENDBLK —  END block</link>
-                </para>
+                <link linkend="ENDBLK">ENDBLK</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="END_c">END_c —  END_c block</link>
-                </para>
+                <link linkend="END_c">END_c</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="ESELECT_f">ESELECT_f — Synchronous block
-                        Event-Select
-                    </link>
-                </para>
+                <link linkend="ESELECT_f">ESELECT_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="EVTDLY_c">EVTDLY_c — Event delay</link>
-                </para>
+                <link linkend="EVTDLY_c">EVTDLY_c</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="EVTGEN_f">EVTGEN_f — Event generator</link>
-                </para>
+                <link linkend="EVTGEN_f">EVTGEN_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="EVTVARDLY">EVTVARDLY — Event variable delay</link>
-                </para>
+                <link linkend="EVTVARDLY">EVTVARDLY</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="Extract_Activation">Extract_Activation — Extract_Activation block</link>
-                </para>
+                <link linkend="Extract_Activation">Extract_Activation</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="HALT_f">HALT_f — Stop simulation</link>
-                </para>
+                <link linkend="HALT_f">HALT_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="IFTHEL_f">IFTHEL_f — Synchronous block
-                        If-Then-Else
-                    </link>
-                </para>
+                <link linkend="IFTHEL_f">IFTHEL_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="M_freq">M_freq — Multiple Frequencies</link>
-                </para>
+                <link linkend="M_freq">M_freq</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="MCLOCK_f">MCLOCK_f — Clock Frequency division</link>
-                </para>
+                <link linkend="MCLOCK_f">MCLOCK_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="MFCLCK_f">MFCLCK_f — Clock Multiple Frequencies</link>
-                </para>
+                <link linkend="MFCLCK_f">MFCLCK_f</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="SampleCLK">SampleCLK — Sample Time Clock</link>
-                </para>
+                <link linkend="SampleCLK">SampleCLK</link>
             </listitem>
             <listitem>
-                <para>
-                    <link linkend="freq_div">freq_div — Frequency division</link>
-                </para>
+                <link linkend="freq_div">freq_div</link>
             </listitem>
         </itemizedlist>
     </refsection>

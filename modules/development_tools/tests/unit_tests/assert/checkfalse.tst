@@ -1,14 +1,18 @@
 // Copyright (C) 2008 - INRIA - Michael Baudin
 // Copyright (C) 2010 - DIGITEO - Michael Baudin
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2018 - Samuel GOUGEON
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 // <-- CLI SHELL MODE -->
 // <-- ENGLISH IMPOSED -->
+// <-- NO CHECK REF -->
 
 function flag = MY_assert_equal ( computed , expected )
   if computed==expected then
@@ -36,7 +40,7 @@ MY_assert_equal ( ierr , 10000 );
 //
 instr = "[o1,o2,o3]=assert_checkfalse ( %f )";
 ierr=execstr(instr,"errcatch");
-MY_assert_equal ( ierr , 59 );
+MY_assert_equal ( ierr , 999 );
 //////////////////////////////////////////
 // Check error message when type of arguments is false
 instr = "assert_checkfalse ( ""a"" )";
@@ -49,18 +53,16 @@ instr = "assert_checkfalse ( [%f %t] )";
 ierr=execstr(instr,"errcatch");
 MY_assert_equal ( ierr , 10000 );
 errmsg = lasterror();
-refmsg = msprintf( gettext ( "%s: Assertion failed: found false entry in condition = %s" ) , "assert_checkfalse", "[F ...]");
+msg = gettext ("%s: Assertion failed: Entry %%T found in condition(%d).")
+refmsg = msprintf(msg, "assert_checkfalse", 2);
 MY_assert_equal ( errmsg , refmsg );
 //
-[flag,errmsg] = assert_checkfalse ( %f );
-checkassert ( flag , errmsg , "success" );
+for o = list(%f, [%f %f], sparse(%f), sparse([%f %f]))
+    [flag,errmsg] = assert_checkfalse(o);
+    checkassert ( flag , errmsg , "success" );
+end
 //
-[flag,errmsg] = assert_checkfalse ( [%f %f] );
-checkassert ( flag , errmsg , "success" );
-//
-[flag,errmsg] = assert_checkfalse ( %t );
-checkassert ( flag , errmsg , "failure" );
-//
-[flag,errmsg] = assert_checkfalse ( [%t %f] );
-checkassert ( flag , errmsg , "failure" );
-
+for o = list(%t, [%t %f], [%f %t], sparse(%t), sparse([%t %f]), sparse([%f %t]))
+    [flag,errmsg] = assert_checkfalse(o);
+    checkassert(flag , errmsg , "failure");
+end

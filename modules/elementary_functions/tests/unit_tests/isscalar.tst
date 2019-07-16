@@ -5,8 +5,9 @@
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
 //
-// <-- ENGLISH IMPOSED -->
 // <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
+
 //
 // unit tests for isscalar function
 // =============================================================================
@@ -59,45 +60,45 @@ assert_checkequal(isscalar(s), %f); // 3D structure array with singleton (square
 // Cells
 assert_checkequal(isscalar(cell()), %f); // Empty cell
 a = cell(1);
-a(1).entries = 1;
+a{1} = 1;
 assert_checkequal(isscalar(a), %t); // Scalar case
 clear a;
 a = cell(1,3);
-a(1).entries = 1:3;
-a(2).entries = 1:3;
-a(3).entries = 1:3;
+a{1} = 1:3;
+a{2} = 1:3;
+a{3} = 1:3;
 assert_checkequal(isscalar(a), %f); // Row case
 clear a;
 a = cell(3,1);
-a(1).entries = 1:3;
-a(2).entries = 1:3;
-a(3).entries = 1:3;
+a{1} = 1:3;
+a{2} = 1:3;
+a{3} = 1:3;
 assert_checkequal(isscalar(a), %f); // Column case
 clear a;
 a = cell(3,2);
-a(1,1).entries = 1:3;
-a(1,2).entries = 1:3;
-a(2,1).entries = 1:3;
-a(2,2).entries = 1:3;
-a(3,2).entries = 1:3;
-a(3,1).entries = 1:3;
+a{1,1} = 1:3;
+a{1,2} = 1:3;
+a{2,1} = 1:3;
+a{2,2} = 1:3;
+a{3,2} = 1:3;
+a{3,1} = 1:3;
 assert_checkequal(isscalar(a), %f); // Matrix case
 clear a;
 a = cell(2,2,2);
-a(1,1,1).entries =1:3;
-a(1,2,1).entries =1:3;
-a(2,1,1).entries =1:3;
-a(2,2,1).entries =1:3;
-a(1,1,2).entries =1:3;
-a(1,2,2).entries =1:3;
-a(2,1,2).entries =1:3;
-a(2,2,2).entries =1:3;
+a{1,1,1} =1:3;
+a{1,2,1} =1:3;
+a{2,1,1} =1:3;
+a{2,2,1} =1:3;
+a{1,1,2} =1:3;
+a{1,2,2} =1:3;
+a{2,1,2} =1:3;
+a{2,2,2} =1:3;
 assert_checkequal(isscalar(a), %f); // Cubic case
 a = cell(2,1,2);
-a(1,1,1).entries=1:3;
-a(2,1,1).entries=1:3;
-a(1,1,2).entries=1:3;
-a(2,1,2).entries=1:3;
+a{1,1,1}=1:3;
+a{2,1,1}=1:3;
+a{1,1,2}=1:3;
+a{2,1,2}=1:3;
 assert_checkequal(isscalar(a), %f); // Hypermatrix with singleton (square)
 
 // Lists
@@ -111,7 +112,7 @@ assert_checkequal(isscalar(l), %f); // Column case
 // Error messages
 errmsg1 = msprintf(_("%s: Wrong number of input argument(s): %d expected.\n"),"isscalar", 1);
 assert_checkerror("isscalar()", errmsg1);
-errmsg2 = msprintf(_("Wrong number of input arguments."));
+errmsg2 = msprintf(_("Wrong number of input arguments.\n"));
 assert_checkerror("isscalar(1,2)", errmsg2);
 errmsg3 = msprintf(_("Wrong number of output arguments.\n"));
 assert_checkerror("[r,b]=isscalar([1 2 3]);", errmsg3);

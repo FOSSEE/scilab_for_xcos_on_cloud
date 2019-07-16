@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [tree]=%e2sci(tree)
     // M2SCI function
@@ -56,7 +59,7 @@ function [tree]=%e2sci(tree)
         ind=tree.operands(2)
         // --- Recursive extraction ---
         if type(ind)==15 then
-            for kind=1:lstsize(ind)
+            for kind = 1:size(ind)
                 if type(ind(kind))<>15 then
                     if ind(kind).vtype==String then
                         if ind(kind).value=="entries" then
@@ -145,7 +148,7 @@ function [tree]=%e2sci(tree)
                 dims(k-1)=1
                 if typeof(tree.operands(k))=="cste" then
                     if tree.operands(k).value==":" then
-                        if k<=lstsize(var.dims)+1 then
+                        if k <= size(var.dims)+1 then
                             dims(k-1)=var.dims(k-1);
                         else
                             dims(k-1)=Unknown;

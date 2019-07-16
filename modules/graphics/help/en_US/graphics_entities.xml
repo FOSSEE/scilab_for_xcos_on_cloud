@@ -2,14 +2,17 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2018 - Samuel GOUGEON
  *
- --> 
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"  xml:lang="en" xml:id="graphics_entities">
     <refnamediv>
         <refname>Graphics Entities</refname>
@@ -46,6 +49,29 @@
         </para>
         <para/>
         <variablelist>
+            <varlistentry>
+                <term>Console, root, mouse: </term>
+                <listitem>
+                    <para>
+                        With its menus, the console may be considered as a special graphic windows.
+                        Its menus and some graphical meta options may be addressed through its
+                        handle as returned by <code>c=get(0)</code>.
+                        See <link linkend="console_properties">Console properties</link> for details.
+                    </para>
+                    <para>
+                        The root object is a virtual graphical object used to get the computer
+                        screen properties. Its handle is the same as the console's one:
+                        <code>r=get(0)</code>, but the screen properties can be addressed only
+                        in read-only mode.
+                        See <link linkend="root_properties">Root properties</link> for details.
+                    </para>
+                    <para>
+                        On Windows, some additional screen, windowing and mouse parameters may be
+                        retrieved throught the <link linkend="getsystemmetrics">getsystemmetrics</link>
+                        function.
+                    </para>
+                </listitem>
+            </varlistentry>
             <varlistentry>
                 <term>Figure: </term>
                 <listitem>
@@ -279,10 +305,10 @@
                 <term>Light: </term>
                 <listitem>
                     <para>
-                        Lights in scilab aproximates real world lighting where the appearence of
+                        Lights in scilab approximates real world lighting where the appearance of
                         a surface is given by interactions between light rays and the material properties of the
                         surface. Because simulate real world lighting is complex
-                        and computationaly expesive, one uses a simplified model.
+                        and computationally expensive, one uses a simplified model.
                     </para>
                     <para>
                         See <link linkend="light_properties">light entity properties</link> for details.
@@ -290,44 +316,74 @@
                 </listitem>
             </varlistentry>
         </variablelist>
+        <refsect3>
+            <title>Other entities</title>
+            <variablelist>
+                <varlistentry>
+                    <term>Interactive components (uicontrol)</term>
+                    <listitem>
+                        <para>
+                            Scilab allows to create graphical interactive components like sliders,
+                            spinners, editable tables, editable texts on graphics, checkboxes,
+                            groups of radio buttons, listboxes, popup menus, push buttons, etc.
+                            These objects are direct children of the figure where they are defined.
+                            Their properties can be set and tuned through their handles as for
+                            any other graphical objects. Please
+                            see <link linkend="uicontrol_properties">uicontrol properties</link> for
+                            details.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>UI menus</term>
+                    <listitem>
+                        <para>
+                            <link linkend="uimenu">uimenu</link>() allows to add and manage some
+                            menus on the menu bar of any graphical figure. <literal>uimenu()</literal>
+                            returns a handle through which the contents and properties of the
+                            created menu can be addressed. Please see
+                            <link linkend="uimenu_properties">uimenus properties</link> for details.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </refsect3>
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 //Play this example line per line
 
-scf() //create a figure in entity mode
+// Creates a figure in entity mode, gets its handle, displays its properties
+f = scf()
+a = f.children // the handle on the Axes child
+x = (1:10)';  plot2d(x,[x.^2 x.^1.5])
+e = a.children //Compound of 2 polylines
 
-//get the handle on the Figure entity and display its properties
-f=get("current_figure") 
-a=f.children // the handle on the Axes child
-x=(1:10)';  plot2d(x,[x.^2 x.^1.5])
-e=a.children //Compound of 2 polylines
-
-p1=e.children(1) //the last drawn polyline properties
-p1.foreground=5;  // change the polyline color
-e.children.thickness=5; // change the thickness of the two polylines
+p1 = e.children(1)  //the last drawn polyline properties
+p1.foreground = 5;  // change the polyline color
+e.children.thickness = 5; // change the thickness of the two polylines
 
 delete(e.children(2))
 
 move(e.children,[0,30]) //translate the polyline
 
-a.axes_bounds=[0 0 0.5 0.5]; 
+a.axes_bounds = [0 0 0.5 0.5];
 
 subplot(222) //create a new Axes entity
 plot(1:10);
-a1=f.children(1); //get its handle
-copy(e.children,a1); //copy the polyline of the first plot in the new Axes
-a1.data_bounds=[1 0;10 100]; //change the Axes bounds  
+a1 = f.children(1);  // get its handle
+copy(e.children,a1); // copy the polyline of the first plot in the new Axes
+a1.data_bounds = [1 0;10 100]; //change the Axes bounds
 
-set("current_figure",10) //create a new figure with figure_id=10
-plot3d() //the drawing are sent to figure 10
-set("current_figure",f) //make the previous figure the current one
+scf(10); // create a new figure with figure_id=10
+plot3d() // the drawing are sent to figure 10
+scf(f);  // makes the previous figure the current one
 plot2d(x,x^3)  //the drawing are sent to the initial figure
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="set">set</link>
@@ -342,6 +398,9 @@ plot2d(x,x^3)  //the drawing are sent to the initial figure
                 <link linkend="delete">delete</link>
             </member>
             <member>
+                <link linkend="ged">ged</link>
+            </member>
+            <member>
                 <link linkend="object_editor">object editor</link>
             </member>
             <member>
@@ -349,6 +408,12 @@ plot2d(x,x^3)  //the drawing are sent to the initial figure
             </member>
             <member>
                 <link linkend="surf">surf</link>
+            </member>
+            <member>
+                <link linkend="getsystemmetrics">getsystemmetrics</link>
+            </member>
+            <member>
+                <link linkend="setlookandfeel">setlookandfeel</link>
             </member>
         </simplelist>
     </refsection>

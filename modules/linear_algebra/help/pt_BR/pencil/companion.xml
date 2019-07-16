@@ -1,31 +1,34 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="companion" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="companion" xml:lang="pt">
     <refnamediv>
         <refname>companion</refname>
         <refpurpose>matriz companheira</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title> Seqüência de Chamamento </title>
+        <title> SeqÃ¼Ãªncia de Chamamento </title>
         <synopsis>A=companion(p)</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Parâmetros</title>
+        <title>ParÃ¢metros</title>
         <variablelist>
             <varlistentry>
                 <term>p</term>
                 <listitem>
-                    <para>polinômio ou vetor de polinômios </para>
+                    <para>polinÃ´mio ou vetor de polinÃ´mios </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -37,33 +40,33 @@
         </variablelist>
     </refsection>
     <refsection>
-        <title>Descrição</title>
+        <title>DescriÃ§Ã£o</title>
         <para>
-            Retorna uma matriz quadrada <literal>A</literal> com o polinômio
-            característico igual a <literal>p</literal> se <literal>p</literal> é
-            mônico. Se <literal>p</literal> não é mônico, o polinômio característico
-            de <literal>A</literal> é igual a <literal>p/c</literal> onde
-            <literal>c</literal> é o coeficiente do termo de maior grau em
+            Retorna uma matriz quadrada <literal>A</literal> com o polinÃ´mio
+            caracterÃ­stico igual a <literal>p</literal> se <literal>p</literal> Ã©
+            mÃ´nico. Se <literal>p</literal> nÃ£o Ã© mÃ´nico, o polinÃ´mio caracterÃ­stico
+            de <literal>A</literal> Ã© igual a <literal>p/c</literal> onde
+            <literal>c</literal> Ã© o coeficiente do termo de maior grau em
             <literal>p</literal>.
         </para>
         <para>
-            Se <literal>p</literal> é um vetor de polinômios mônicos,
-            <literal>A</literal> é diagonal em blocos, e o polinômio característico do
-            i-ésimo bloco é <literal>p(i)</literal>.
+            Se <literal>p</literal> Ã© um vetor de polinÃ´mios mÃ´nicos,
+            <literal>A</literal> Ã© diagonal em blocos, e o polinÃ´mio caracterÃ­stico do
+            i-Ã©simo bloco Ã© <literal>p(i)</literal>.
         </para>
     </refsection>
     <refsection>
         <title>Exemplos</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 s=poly(0,'s');
 p=poly([1,2,3,4,1],'s','c')
-det(s*eye()-companion(p))
+det(s*eye(4,4)-companion(p))
 roots(p)
 spec(companion(p))
  ]]></programlisting>
     </refsection>
     <refsection>
-        <title> Ver Também</title>
+        <title> Ver TambÃ©m</title>
         <simplelist type="inline">
             <member>
                 <link linkend="spec">spec</link>

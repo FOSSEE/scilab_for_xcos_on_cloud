@@ -5,6 +5,9 @@
 //
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
+//
+// <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
 
 // Try to find the path of Scilab executable
 if (getos() <> "Windows") & (isempty(fileinfo(SCI + "/bin/scilab"))) then
@@ -17,13 +20,6 @@ else
 end
 
 for i = 1:10
-
-  if getos() == "Windows" then
-	[outputs,status,exitcode] = dos(SCIPATH + "/bin/scilex.exe -nwni -e exit(" + string(i) + ")");
-  else
 	exitcode = unix(SCIPATH + "/bin/scilab -nwni -e ""exit(" + string(i) + ")""");
-  end
-  
-  if exitcode <> i then pause,end
-  
+    assert_checkequal(exitcode, i);
 end

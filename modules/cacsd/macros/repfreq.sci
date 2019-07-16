@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
-// Copyright (C) 1984-2011 - INRIA - Serge STEER
+// Copyright (C) 1984 - 2011 - INRIA - Serge STEER
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [frq,rep,splitf]=repfreq(sys,fmin,fmax,pas)
 
@@ -13,11 +16,21 @@ function [frq,rep,splitf]=repfreq(sys,fmin,fmax,pas)
     l10=log(10);
     [lhs,rhs]=argn(0)
     //discretization
-    if and(typeof(sys)<>[ "rational" "state-space" ]) then
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: Linear dynamical system expected.\n"),"repfreq",1))
+    if and(typeof(sys)<>[ "rational" "state-space" "zpk"]) then
+        args=["sys","fmin","fmax","pas"];
+        ierr=execstr("[frq,rep,splitf]=%"+overloadname(sys)+"_repfreq("+strcat(args(1:rhs),",")+")","errcatch")
+        if ierr<>0 then
+            msg = gettext("%s: Wrong type for input argument #%d: Linear dynamical system expected.\n")
+            error(msprintf(msg, "repfreq", 1))
+        end
+        return
     end
+    if typeof(sys)=="zpk" then sys=zpk2tf(sys);end
     dom=sys.dt
-    if dom==[]|dom==0 then error(96,1),end
+    if dom==[] | dom==0 then
+        msg = gettext("%s: Argument #%d: Undefined time domain.\n")
+        error(msprintf(msg, "repfreq", 1));
+    end
     if dom=="d" then dom=1;end
 
     select  rhs
@@ -42,7 +55,8 @@ function [frq,rep,splitf]=repfreq(sys,fmin,fmax,pas)
         pas=pas_def
     case 4 then ,
     else
-        error(msprintf(gettext("%s: Wrong number of input arguments: %d to %d expected.\n"), "repfreq",1,4))
+        msg = gettext("%s: Wrong number of input arguments: %d to %d expected.\n")
+        error(msprintf(msg, "repfreq", 1, 4))
     end;
     splitf=1
     if rhs<>2 then
@@ -72,8 +86,8 @@ function [frq,rep,splitf]=repfreq(sys,fmin,fmax,pas)
                 frq= [exp(l10*((log(-fmax)/l10):pas:(log(-fmin)/l10))) -fmin];
                 frq=-frq($:-1:1);
             elseif fmin >= fmax then
-                error(msprintf(gettext("%s: Wrong value for input arguments #%d and #%d: %s < %s expected.\n"),..
-                "repfreq",2,3,"fmin","fmax"));
+                msg = gettext("%s: Wrong value for input arguments #%d and #%d: %s < %s expected.\n")
+                error(msprintf(msg, "repfreq", 2, 3, "fmin", "fmax"));
             else
                 fmin=max(eps,fmin);
                 frq=[exp(l10*((log(fmin)/l10):pas:(log(fmax)/l10))) fmax];
@@ -88,22 +102,39 @@ function [frq,rep,splitf]=repfreq(sys,fmin,fmax,pas)
     case "r" then
         [n,d]=sys(["num","den"]),
         [mn,nn]=size(n)
-        if nn<>1 then error(95,1),end
+        if nn<>1 then
+            msg = gettext("%s: Argument #%d: %s expected.\n")
+            error(msprintf(msg, "repfreq", 1, _("SISO system")))
+        end
         if dom=="c" then
             rep=freq(n,d,2*%pi*%i*frq),
         else
             rep=freq(n,d,exp(2*%pi*%i*dom*frq)),
         end;
     case "lss" then
-        [a,b,c,d,x0]=sys(2:6),
-        [mn,nn]=size(b)
-        if nn<>1 then error(95,1),end
+        [a,b,c,d]=abcd(sys)
+        [mn,nn]=size(d)
+        if nn<>1 then
+            msg = gettext("%s: Argument #%d: %s expected.\n")
+            error(msprintf(msg, "repfreq", 1, _("SISO system")))
+        end
+
         if dom=="c" then
-            rep=freq(a,b,c,d,2*%pi*%i*frq)
+            if a==[] then
+                rep=(d*2*%pi*%i)*frq
+            else
+                rep=freq(a,b,c,d,2*%pi*%i*frq)
+            end
         else
-            rep=freq(a,b,c,d,exp(2*%pi*%i*dom*frq))
+            if a==[] then
+                rep=d*exp(2*%pi*%i*dom*frq)
+            else
+                rep=freq(a,b,c,d,exp(2*%pi*%i*dom*frq))
+            end
         end;
-    else error(97,1),
+    else
+        msg = gettext("%s: Argument #%d: A system in state space or transfer matrix form expected.\n")
+        error(msprintf(msg, "repfreq", 1))
     end;
     //representation
     if lhs==1 then frq=rep,end

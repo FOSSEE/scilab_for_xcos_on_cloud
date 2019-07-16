@@ -6,6 +6,7 @@
 // =============================================================================
 
 // <-- TEST WITH GRAPHIC -->
+// <-- NO CHECK REF -->
 
 // <-- Non-regression test for bug 3590 -->
 //
@@ -14,10 +15,9 @@
 //
 // <-- Short Description -->
 // Error message when we want to see a figure which has as userdata a structure (struct).
-// 
+//
 
 userdata = struct("dd",2);
 h=figure();
 set(h,"user_data",userdata);
 if execstr("disp(h.user_data)","errcatch")<>0 then pause; end
-    

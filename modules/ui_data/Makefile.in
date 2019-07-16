@@ -17,23 +17,29 @@
 #
 # Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) DIGITEO - 2010 - Allan CORNET
-# 
-# This file must be used under the terms of the CeCILL.
-# This source file is licensed as described in the file COPYING, which
-# you should have received as part of this distribution.  The terms
-# are also available at    
-# http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+#
+# Copyright (C) 2012 - 2016 - Scilab Enterprises
+#
+# This file is hereby licensed under the terms of the GNU GPL v2.0,
+# pursuant to article 5.3.4 of the CeCILL v.2.1.
+# This file was originally licensed under the terms of the CeCILL v2.1,
+# and continues to be available under such terms.
+# For more information, see the COPYING file which you should have received
+# along with this program.
 #
 
 # Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) 2006-2008 - INRIA - Sylvestre LEDRU <sylvestre.ledru@inria.fr>
 # Copyright (C) 2008      - INRIA - Pierre MARECHAL <pierre.marechal@inria.fr>
 #
-# This file must be used under the terms of the CeCILL.
-# This source file is licensed as described in the file COPYING, which
-# you should have received as part of this distribution.  The terms
-# are also available at
-# http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+# Copyright (C) 2012 - 2016 - Scilab Enterprises
+#
+# This file is hereby licensed under the terms of the GNU GPL v2.0,
+# pursuant to article 5.3.4 of the CeCILL v.2.1.
+# This file was originally licensed under the terms of the CeCILL v2.1,
+# and continues to be available under such terms.
+# For more information, see the COPYING file which you should have received
+# along with this program.
 #
 
 ##########
@@ -108,16 +114,17 @@ build_triplet = @build@
 host_triplet = @host@
 @GIWS_TRUE@am__append_1 = giws
 @SWIG_TRUE@am__append_2 = swig
-@GUI_TRUE@am__append_3 = libsciui_data.la 
+@GUI_TRUE@am__append_3 = libsciui_data.la
 DIST_COMMON = $(top_srcdir)/Makefile.incl.am $(srcdir)/Makefile.in \
 	$(srcdir)/Makefile.am $(top_srcdir)/config/mkinstalldirs \
 	$(top_srcdir)/config/depcomp
 @NEED_JAVA_TRUE@am__append_4 = java
 subdir = modules/ui_data
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/backtrace.m4 \
-	$(top_srcdir)/m4/compiler.m4 $(top_srcdir)/m4/curl.m4 \
-	$(top_srcdir)/m4/docbook.m4 $(top_srcdir)/m4/doxygen.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
+	$(top_srcdir)/m4/backtrace.m4 $(top_srcdir)/m4/compiler.m4 \
+	$(top_srcdir)/m4/curl.m4 $(top_srcdir)/m4/docbook.m4 \
+	$(top_srcdir)/m4/doxygen.m4 $(top_srcdir)/m4/eigen.m4 \
 	$(top_srcdir)/m4/fftw.m4 $(top_srcdir)/m4/fortran.m4 \
 	$(top_srcdir)/m4/giws.m4 $(top_srcdir)/m4/hdf5.m4 \
 	$(top_srcdir)/m4/intel_compiler.m4 \
@@ -196,13 +203,12 @@ libsciui_data_disable_la_OBJECTS =  \
 am__DEPENDENCIES_1 =
 libsciui_data_la_DEPENDENCIES = libsciui_data-algo.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am__objects_5 = sci_gateway/c/libsciui_data_la-gw_ui_data.lo
-am__objects_6 = sci_gateway/cpp/libsciui_data_la-sci_editvar.lo \
+am__objects_5 = sci_gateway/cpp/libsciui_data_la-sci_editvar.lo \
 	sci_gateway/cpp/libsciui_data_la-sci_browsevar.lo \
 	sci_gateway/cpp/libsciui_data_la-sci_filebrowser.lo \
 	sci_gateway/cpp/libsciui_data_la-sci_updatebrowsevar.lo \
 	sci_gateway/cpp/libsciui_data_la-sci_closeEditvar.lo
-am_libsciui_data_la_OBJECTS = $(am__objects_5) $(am__objects_6)
+am_libsciui_data_la_OBJECTS = $(am__objects_5)
 libsciui_data_la_OBJECTS = $(am_libsciui_data_la_OBJECTS)
 libsciui_data_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
@@ -311,6 +317,7 @@ AUTOMAKE = @AUTOMAKE@
 AVALON_FRAMEWORK = @AVALON_FRAMEWORK@
 AWK = @AWK@
 BATIK = @BATIK@
+BLAS_CFLAGS = @BLAS_CFLAGS@
 BLAS_LIBS = @BLAS_LIBS@
 CC = @CC@
 CCACHE = @CCACHE@
@@ -345,6 +352,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 ECJ = @ECJ@
 EGREP = @EGREP@
+EIGEN_CPPFLAGS = @EIGEN_CPPFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
@@ -368,6 +376,8 @@ GMSGFMT_015 = @GMSGFMT_015@
 GRAPHICS_ENABLE = @GRAPHICS_ENABLE@
 GREP = @GREP@
 GUI_ENABLE = @GUI_ENABLE@
+HAMCREST = @HAMCREST@
+HAVE_CXX11 = @HAVE_CXX11@
 HDF5_CFLAGS = @HDF5_CFLAGS@
 HDF5_LIBS = @HDF5_LIBS@
 HELP_ENABLE = @HELP_ENABLE@
@@ -404,6 +414,9 @@ LAPACK_LIBS = @LAPACK_LIBS@
 LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LEX = @LEX@
+LEXLIB = @LEXLIB@
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBM = @LIBM@
@@ -417,6 +430,9 @@ LOOKS = @LOOKS@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LUCENE = @LUCENE@
+LUCENE_ANALYZER = @LUCENE_ANALYZER@
+LUCENE_PARSER = @LUCENE_PARSER@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
@@ -498,6 +514,8 @@ UMFPACK_CFLAGS = @UMFPACK_CFLAGS@
 UMFPACK_ENABLE = @UMFPACK_ENABLE@
 UMFPACK_LIB = @UMFPACK_LIB@
 USE_NLS = @USE_NLS@
+VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
+VALGRIND_LIBS = @VALGRIND_LIBS@
 VERSION = @VERSION@
 WITH_OCAML = @WITH_OCAML@
 WITH_TKSCI = @WITH_TKSCI@
@@ -516,6 +534,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -571,17 +591,20 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+yacc_present = @yacc_present@
 
 #### Target ######
 modulename = ui_data
 
 #### ui_data : Conf files ####
 libsciui_data_la_rootdir = $(mydatadir)
-libsciui_data_la_root_DATA = license.txt 
+libsciui_data_la_root_DATA = license.txt
 
 #### ui_data : init scripts ####
 libsciui_data_la_etcdir = $(mydatadir)/etc
 libsciui_data_la_etc_DATA = \
+	etc/newsfeed.css \
+	etc/newsfeed.xml \
 	etc/ui_data.quit \
 	etc/ui_data.start \
 	etc/variablebrowser_menubar.xml \
@@ -589,64 +612,88 @@ libsciui_data_la_etc_DATA = \
 	etc/XConfiguration-variables.xml \
 	etc/XConfiguration-variables.xsl
 
-UI_DATA_JNI_SOURCES = src/jni/BrowseVar.cpp \
-		      src/jni/EditVar.cpp \
-		      src/jni/FileBrowser.cpp
+UI_DATA_JNI_SOURCES = \
+    src/jni/BrowseVar.cpp \
+    src/jni/EditVar.cpp \
+	src/jni/FileBrowser.cpp
 
-UI_DATA_C_SOURCES = src/jni/ui_data_wrap.c \
-                    src/c/PutScilabVariable.c
+UI_DATA_C_SOURCES = \
+    src/jni/ui_data_wrap.c \
+    src/c/PutScilabVariable.c
 
-UI_DATA_CXX_SOURCES = src/cpp/BrowseVarManager.cpp \
-		      src/cpp/FileBrowserChDir.cpp
+UI_DATA_CXX_SOURCES = \
+    src/cpp/BrowseVarManager.cpp \
+    src/cpp/FileBrowserChDir.cpp
 
 GIWS_WRAPPERS = \
-src/jni/BrowseVar.giws.xml \
-src/jni/EditVar.giws.xml \
-src/jni/FileBrowser.giws.xml
+    src/jni/BrowseVar.giws.xml \
+    src/jni/EditVar.giws.xml \
+    src/jni/FileBrowser.giws.xml
 
 SWIG_WRAPPERS = \
-src/jni/ui_data.i
+    src/jni/ui_data.i
 
 BUILT_SOURCES = $(am__append_1) $(am__append_2)
-GATEWAY_C_SOURCES = sci_gateway/c/gw_ui_data.c
-GATEWAY_CXX_SOURCES = sci_gateway/cpp/sci_editvar.cpp \
-		      sci_gateway/cpp/sci_browsevar.cpp \
-		      sci_gateway/cpp/sci_filebrowser.cpp \
-			sci_gateway/cpp/sci_updatebrowsevar.cpp \
-			sci_gateway/cpp/sci_closeEditvar.cpp
+GATEWAY_CXX_SOURCES = \
+    sci_gateway/cpp/sci_editvar.cpp \
+    sci_gateway/cpp/sci_browsevar.cpp \
+    sci_gateway/cpp/sci_filebrowser.cpp \
+    sci_gateway/cpp/sci_updatebrowsevar.cpp \
+    sci_gateway/cpp/sci_closeEditvar.cpp
 
-libsciui_data_la_CPPFLAGS = $(JAVA_JNI_INCLUDE) \
-			-I$(srcdir)/includes/ \
-			-I$(srcdir)/src/cpp/ \
-			-I$(srcdir)/src/c/ \
-			-I$(srcdir)/src/jni/ \
-	 		-I$(top_srcdir)/modules/jvm/includes/ \
-			-I$(top_srcdir)/modules/output_stream/includes/ \
-			-I$(top_srcdir)/modules/commons/src/jni \
-			-I$(top_srcdir)/modules/localization/includes/ \
-			-I$(top_srcdir)/modules/api_scilab/includes/ \
-			-I$(top_srcdir)/modules/fileio/includes/ \
-			-I$(top_srcdir)/modules/core/includes \
-			$(AM_CPPFLAGS)
+libsciui_data_la_CPPFLAGS = \
+    $(JAVA_JNI_INCLUDE) \
+    -I$(srcdir)/includes/ \
+    -I$(srcdir)/src/cpp/ \
+    -I$(srcdir)/src/c/ \
+    -I$(srcdir)/src/jni/ \
+    -I$(top_srcdir)/modules/ast/includes/ast/ \
+    -I$(top_srcdir)/modules/ast/includes/exps/ \
+    -I$(top_srcdir)/modules/ast/includes/operations/ \
+    -I$(top_srcdir)/modules/ast/includes/parse/ \
+    -I$(top_srcdir)/modules/ast/includes/symbol/ \
+    -I$(top_srcdir)/modules/ast/includes/system_env/ \
+    -I$(top_srcdir)/modules/ast/includes/types/ \
+    -I$(top_srcdir)/modules/ast/includes/analysis/ \
+    -I$(top_srcdir)/modules/jvm/includes/ \
+    -I$(top_srcdir)/modules/output_stream/includes/ \
+    -I$(top_srcdir)/modules/commons/src/jni/ \
+    -I$(top_srcdir)/modules/localization/includes/ \
+    -I$(top_srcdir)/modules/api_scilab/includes/ \
+    -I$(top_srcdir)/modules/fileio/includes/ \
+    -I$(top_srcdir)/modules/string/includes/ \
+    -I$(top_srcdir)/modules/dynamic_link/includes/ \
+    -I$(top_srcdir)/modules/threads/includes/ \
+    -I$(top_srcdir)/modules/console/includes/ \
+    $(AM_CPPFLAGS)
 
 
-# Without the ui_data module 
-libsciui_data_disable_la_CPPFLAGS = -I$(srcdir)/includes/ \
-			-I$(top_srcdir)/modules/localization/includes/ \
-			-I$(top_srcdir)/modules/output_stream/includes \
-			$(AM_CPPFLAGS)
+# Without the ui_data module
+libsciui_data_disable_la_CPPFLAGS = \
+    -I$(srcdir)/includes/ \
+    -I$(top_srcdir)/modules/ast/includes/ast/ \
+    -I$(top_srcdir)/modules/ast/includes/exps/ \
+    -I$(top_srcdir)/modules/ast/includes/operations/ \
+    -I$(top_srcdir)/modules/ast/includes/parse/ \
+    -I$(top_srcdir)/modules/ast/includes/symbol/ \
+    -I$(top_srcdir)/modules/ast/includes/system_env/ \
+    -I$(top_srcdir)/modules/ast/includes/types/ \
+    -I$(top_srcdir)/modules/ast/includes/analysis/ \
+    -I$(top_srcdir)/modules/localization/includes/ \
+    -I$(top_srcdir)/modules/output_stream/includes \
+    $(AM_CPPFLAGS)
 
 UI_DATA_DISABLE_C_SOURCES = src/noui_data/noui_data.c
 libsciui_data_disable_la_SOURCES = $(UI_DATA_DISABLE_C_SOURCES)
 pkglib_LTLIBRARIES = libsciui_data-disable.la $(am__append_3)
-@GUI_TRUE@noinst_LTLIBRARIES = libsciui_data-algo.la 
+@GUI_TRUE@noinst_LTLIBRARIES = libsciui_data-algo.la
 libsciui_data_la_LDFLAGS = $(AM_LDFLAGS)
 libsciui_data_algo_la_SOURCES = $(UI_DATA_C_SOURCES) $(UI_DATA_JNI_SOURCES) $(UI_DATA_CXX_SOURCES)
-libsciui_data_la_SOURCES = $(GATEWAY_C_SOURCES) $(GATEWAY_CXX_SOURCES)
+libsciui_data_la_SOURCES = $(GATEWAY_CXX_SOURCES)
 libsciui_data_algo_la_CPPFLAGS = $(libsciui_data_la_CPPFLAGS)
 
 # For the code check (splint)
-CHECK_SRC = $(UI_DATA_C_SOURCES) $(GATEWAY_C_SOURCES)
+CHECK_SRC = $(UI_DATA_C_SOURCES)
 INCLUDE_FLAGS = $(libsciui_data_la_CPPFLAGS)
 libsciui_data_la_LIBADD = libsciui_data-algo.la $(X_LIBS) $(X_EXTRA_LIBS)
 
@@ -659,7 +706,8 @@ libsciui_data_la_sci_gateway_DATA = sci_gateway/ui_data_gateway.xml
 # Generated with:
 #    $ find images/ -type f -printf "%p \\\\\n" -name *.svg -or -name *.gif -or -name *.jpg -or -name *.png |sort -u
 libsciui_data_la_iconsdir = $(mydatadir)/
-nobase_libsciui_data_la_icons_DATA = images/icons/16x16/mimetypes/array_up.png \
+nobase_libsciui_data_la_icons_DATA = \
+images/icons/16x16/mimetypes/array_up.png \
 images/icons/16x16/mimetypes/boolean.png \
 images/icons/16x16/mimetypes/cell.png \
 images/icons/16x16/mimetypes/double.png \
@@ -882,15 +930,6 @@ src/noui_data/libsciui_data_disable_la-noui_data.lo:  \
 
 libsciui_data-disable.la: $(libsciui_data_disable_la_OBJECTS) $(libsciui_data_disable_la_DEPENDENCIES) $(EXTRA_libsciui_data_disable_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(LINK) -rpath $(pkglibdir) $(libsciui_data_disable_la_OBJECTS) $(libsciui_data_disable_la_LIBADD) $(LIBS)
-sci_gateway/c/$(am__dirstamp):
-	@$(MKDIR_P) sci_gateway/c
-	@: > sci_gateway/c/$(am__dirstamp)
-sci_gateway/c/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) sci_gateway/c/$(DEPDIR)
-	@: > sci_gateway/c/$(DEPDIR)/$(am__dirstamp)
-sci_gateway/c/libsciui_data_la-gw_ui_data.lo:  \
-	sci_gateway/c/$(am__dirstamp) \
-	sci_gateway/c/$(DEPDIR)/$(am__dirstamp)
 sci_gateway/cpp/$(am__dirstamp):
 	@$(MKDIR_P) sci_gateway/cpp
 	@: > sci_gateway/cpp/$(am__dirstamp)
@@ -918,8 +957,6 @@ libsciui_data.la: $(libsciui_data_la_OBJECTS) $(libsciui_data_la_DEPENDENCIES) $
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
-	-rm -f sci_gateway/c/*.$(OBJEXT)
-	-rm -f sci_gateway/c/*.lo
 	-rm -f sci_gateway/cpp/*.$(OBJEXT)
 	-rm -f sci_gateway/cpp/*.lo
 	-rm -f src/c/*.$(OBJEXT)
@@ -934,7 +971,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@sci_gateway/c/$(DEPDIR)/libsciui_data_la-gw_ui_data.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sci_gateway/cpp/$(DEPDIR)/libsciui_data_la-sci_browsevar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sci_gateway/cpp/$(DEPDIR)/libsciui_data_la-sci_closeEditvar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sci_gateway/cpp/$(DEPDIR)/libsciui_data_la-sci_editvar.Plo@am__quote@
@@ -993,13 +1029,6 @@ src/noui_data/libsciui_data_disable_la-noui_data.lo: src/noui_data/noui_data.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/noui_data/noui_data.c' object='src/noui_data/libsciui_data_disable_la-noui_data.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsciui_data_disable_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/noui_data/libsciui_data_disable_la-noui_data.lo `test -f 'src/noui_data/noui_data.c' || echo '$(srcdir)/'`src/noui_data/noui_data.c
-
-sci_gateway/c/libsciui_data_la-gw_ui_data.lo: sci_gateway/c/gw_ui_data.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsciui_data_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT sci_gateway/c/libsciui_data_la-gw_ui_data.lo -MD -MP -MF sci_gateway/c/$(DEPDIR)/libsciui_data_la-gw_ui_data.Tpo -c -o sci_gateway/c/libsciui_data_la-gw_ui_data.lo `test -f 'sci_gateway/c/gw_ui_data.c' || echo '$(srcdir)/'`sci_gateway/c/gw_ui_data.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) sci_gateway/c/$(DEPDIR)/libsciui_data_la-gw_ui_data.Tpo sci_gateway/c/$(DEPDIR)/libsciui_data_la-gw_ui_data.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='sci_gateway/c/gw_ui_data.c' object='sci_gateway/c/libsciui_data_la-gw_ui_data.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsciui_data_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o sci_gateway/c/libsciui_data_la-gw_ui_data.lo `test -f 'sci_gateway/c/gw_ui_data.c' || echo '$(srcdir)/'`sci_gateway/c/gw_ui_data.c
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1100,7 +1129,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-	-rm -rf sci_gateway/c/.libs sci_gateway/c/_libs
 	-rm -rf sci_gateway/cpp/.libs sci_gateway/cpp/_libs
 	-rm -rf src/c/.libs src/c/_libs
 	-rm -rf src/cpp/.libs src/cpp/_libs
@@ -1312,8 +1340,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-rm -f sci_gateway/c/$(DEPDIR)/$(am__dirstamp)
-	-rm -f sci_gateway/c/$(am__dirstamp)
 	-rm -f sci_gateway/cpp/$(DEPDIR)/$(am__dirstamp)
 	-rm -f sci_gateway/cpp/$(am__dirstamp)
 	-rm -f src/c/$(DEPDIR)/$(am__dirstamp)
@@ -1335,7 +1361,7 @@ clean-am: clean-generic clean-libtool clean-local \
 	clean-noinstLTLIBRARIES clean-pkglibLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf sci_gateway/c/$(DEPDIR) sci_gateway/cpp/$(DEPDIR) src/c/$(DEPDIR) src/cpp/$(DEPDIR) src/jni/$(DEPDIR) src/noui_data/$(DEPDIR)
+	-rm -rf sci_gateway/cpp/$(DEPDIR) src/c/$(DEPDIR) src/cpp/$(DEPDIR) src/jni/$(DEPDIR) src/noui_data/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-local distclean-tags
@@ -1384,7 +1410,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf sci_gateway/c/$(DEPDIR) sci_gateway/cpp/$(DEPDIR) src/c/$(DEPDIR) src/cpp/$(DEPDIR) src/jni/$(DEPDIR) src/noui_data/$(DEPDIR)
+	-rm -rf sci_gateway/cpp/$(DEPDIR) src/c/$(DEPDIR) src/cpp/$(DEPDIR) src/jni/$(DEPDIR) src/noui_data/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1471,7 +1497,7 @@ check-code:
 @SWIG_TRUE@	if test -n "$(SWIG_WRAPPERS)"; then \
 @SWIG_TRUE@		for file in $(SWIG_WRAPPERS) ; do \
 @SWIG_TRUE@			echo "Swig process of $$file (Java) ..."; \
-@SWIG_TRUE@			$(SWIG_BIN) $(SWIG_JAVA) -package $$SWIG_PACKAGENAME  -outdir $$SWIG_OUTDIR $$file; \
+@SWIG_TRUE@			$(SWIG_BIN) $(SWIG_OPTIONS) $(SWIG_JAVA) -package $$SWIG_PACKAGENAME  -outdir $$SWIG_OUTDIR $$file; \
 @SWIG_TRUE@		done; \
 @SWIG_TRUE@	fi
 
@@ -1480,7 +1506,7 @@ check-code:
 @SWIG_TRUE@	if test -n "$(SWIG_SCILAB_WRAPPERS)"; then \
 @SWIG_TRUE@		for file in $(SWIG_SCILAB_WRAPPERS) ; do \
 @SWIG_TRUE@			echo "Swig process of $$file (Scilab) ..."; \
-@SWIG_TRUE@			$(SWIG_BIN) $(SWIG_SCILAB)  -outdir $$SWIG_OUTDIR $$file; \
+@SWIG_TRUE@			$(SWIG_BIN) $(SWIG_OPTIONS) $(SWIG_SCILAB)  -outdir $$SWIG_OUTDIR $$file; \
 @SWIG_TRUE@		done; \
 @SWIG_TRUE@	fi
 

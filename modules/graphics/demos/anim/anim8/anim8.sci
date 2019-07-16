@@ -46,7 +46,7 @@ function demo_riemann()
     my_axe               = gca();
     my_fac3d             = gce();
 
-    my_handle.axes_size  = [ 600 650 ];
+    // my_handle.axes_size  = [ 600 650 ];
 
     my_handle.background = -2;                 // white
     my_axe.background    = -1;                 // gray
@@ -69,6 +69,7 @@ function demo_riemann()
     "background"          , [0.9 0.9 0.9], ..
     "Relief"              , "groove", ..
     "callback"            , "quit_riemann", ..
+    "callback_type"       , 10, ..
     "tag"                 , "pushbutton_bac" ..
     );
 
@@ -80,6 +81,7 @@ function demo_riemann()
     "position"            , [ 150 15 100 30 ], ..
     "background"          , [0.9 0.9 0.9], ..
     "Relief"              , "groove", ..
+    "callback_type"       , 10, ..
     "callback"            , "pause_riemann", ..
     "tag"                 , "my_pause_button" ..
     );
@@ -92,6 +94,7 @@ function demo_riemann()
     "position"            , [ 150 15 100 30 ], ..
     "background"          , [0.9 0.9 0.9], ..
     "callback"            , "play_riemann", ..
+    "callback_type"       , 10, ..
     "Relief"              , "groove", ..
     "visible"             , "off", ..
     "tag"                 , "my_play_button" ..

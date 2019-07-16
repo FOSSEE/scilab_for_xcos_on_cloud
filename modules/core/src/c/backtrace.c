@@ -25,7 +25,7 @@
 #include <string.h>
 
 #include "machine.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 
 #if defined(HAVE_GLIBC_BACKTRACE)
 #include <memory.h>
@@ -149,7 +149,7 @@ sci_backtrace_t *sci_backtrace_create(void)
                 bt->s_file[i] = infos->dli_fname ? strdup(infos->dli_fname) : strdup(" ");
 
                 // we calculate the relative address in the library
-                snprintf(buffer, 32, "%p", p - infos->dli_fbase);
+                snprintf(buffer, 32, "%p", (void*)(p - infos->dli_fbase));
                 bt->s_addr[i] = strdup(buffer);
             }
         }

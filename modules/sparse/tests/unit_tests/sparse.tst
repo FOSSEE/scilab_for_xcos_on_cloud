@@ -7,7 +7,6 @@
 
 // <-- CLI SHELL MODE -->
 
-mode(5)
 lines(0)
 ij=[1 6;1 5;1 3;2 4;2 1;4 4;4 3;5 1;6 6];
 v=[1;2;3;4;5;6;7;8;9];
@@ -26,26 +25,26 @@ bc=sparse([1 6;1 2;6 5],[-1;-1;-1]+%i*[0;0.3;-1.2],[6 6]);
 mac=sparse([1 6;1 5;1 3;2 4;2 1;4 4;4 3;5 1;6 6],-(1:9)-%i*(21:29),[6 6]);
 mbc=sparse([1 6;1 2;6 5],[1;1;1]+%i*[0;-0.3;1.2],[6 6]);
 //
-if %t then
+
 //-------------------------------------------------------------
 //test des primitives sparse, full
 //--------------------------------------------------------------
 //  -- for real matrix
 if or(full(sparse(0.3))<>0.3) then pause,end
-v=0*ones(1,3);v(3)=5;v(1)=1;
+v= zeros(1,3);v(3)=5;v(1)=1;
 if or(full(sparse([1 1;1 3],[1 5]))<>v) then pause,end
-v=0*ones(1,300);v(300)=5;v(1)=1;
+v= zeros(1,300);v(300)=5;v(1)=1;
 if or(full(sparse([1 1;1 300],[1 5]))<>v) then pause,end
-v=0*ones(3,1);v(3)=5;v(1)=1;
+v= zeros(3,1);v(3)=5;v(1)=1;
 if or(full(sparse([1 1;3 1],[1 5]))<>v) then pause,end
-v=0*ones(300,1);v(300)=5;v(1)=1;
+v= zeros(300,1);v(300)=5;v(1)=1;
 if or(full(sparse([1 1;300 1],[1 5]))<>v) then pause,end
 sp=sparse([1 6;1 5;1 3;2 4;2 1;4 4;4 3;5 1;6 6],1:9,[6 6]);
 a=[0,0,3,0,2,1;;5,0,0,4,0,0;0,0,0,0,0,0;0,0,7,6,0,0;8,0,0,0,0,0;0,0,0,0,0,9];
 if or(full(sp)<>a) then pause,end
 sp=sparse([1 6;1 5;1 3;2 4;2 1;4 4;4 3;5 1;6 6],1:9,[8 6]);a(8,6)=0;
 if or(full(sp)<>a) then pause,end
-if or(full(sparse([],[],[4 10]))<>0*ones(4,10)) then pause,end
+if or(full(sparse([],[],[4 10]))<> zeros(4,10)) then pause,end
 v=sparse([2 1;3 1;4 1;6 1],[10;11;12;13],[6,1]);
 a=[0;10;11;12;0;13];
 if or(full(v)<>a) then pause,end
@@ -102,7 +101,7 @@ if or(full(v-v)<>full(v)-full(v)) then pause,end
 if or(full(vt+sparse([],[],[1,6]))<>full(vt)) then pause,end
 if or(full(vt+vt)<>full(vt)+full(vt)) then pause,end
 if or(full(vt-vt)<>full(vt)-full(vt)) then pause,end
-if or(full(zer+zer)<>0*ones(6,6)) then pause,end
+if or(full(zer+zer)<> zeros(6,6)) then pause,end
 if or(full(a+a)<>full(a)+full(a)) then pause,end
 if or(full(b+b)<>full(b)+full(b)) then pause,end
 if or(full(a+zer)<>full(a)) then pause,end
@@ -188,8 +187,6 @@ if or(full(2*eye()-ac)<>2*eye()-full(ac)) then pause,end
 if or(full(ac+full(bc))<>full(ac)+full(bc)) then pause,end
 if or(full(ac-full(bc))<>full(ac)-full(bc)) then pause,end
 if or(full(full(ac)+full(bc))<>full(ac)+full(bc)) then pause,end
-end
-if %t then
 //-----------------------------------------------
 // multiplication tests
 //-----------------------------------------------
@@ -351,7 +348,7 @@ if or(full(vc([1 1]))<>vcf([1 1])) then pause,end
 // ----------------------------------------------------------
 // test des insertions
 //-----------------------------------------------------------
-end
+
 a=sparse([1 6;1 5;1 3;2 4;2 1;4 4;4 3;5 1;6 6],1:9,[6 6]);
 vt=sparse([1 2;1 3;1 4;1 6],[10;11;12;13],[1,6]);
 // full line insertion

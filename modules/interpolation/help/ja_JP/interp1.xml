@@ -2,22 +2,32 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA - Farid BELAHCENE
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="interp1" xml:lang="ja">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="interp1" xml:lang="ja">
     <refnamediv>
         <refname>interp1</refname>
         <refpurpose>一次元補間関数</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>呼び出し手順</title>
-        <synopsis>[yp]=interp1(x, y,xp [, method,[extrapolation]])</synopsis>
+        <synopsis>
+          yp = interp1(x, y, xp)
+          yp = interp1(x, y, xp, method)
+          yp = interp1(x, y, xp, method, extrapolation)
+        </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>パラメータ</title>
@@ -98,7 +108,7 @@
             <varlistentry>
                 <term>"nearest"</term>
                 <listitem>
-                    <para>各 xp(j), yp(j) の値は, 
+                    <para>各 xp(j), yp(j) の値は,
                         xp(j)の最近傍にある x(i) に対応する y(i) の値を選択します.
                     </para>
                 </listitem>
@@ -141,16 +151,16 @@
     </refsection>
     <refsection>
         <title>例</title>
-        <programlisting role="example"><![CDATA[ 
-x=linspace(0,3,20);
-y=x^2;
-xx=linspace(0,3,100);
-yy1=interp1(x,y,xx,'linear');
-yy2=interp1(x,y,xx,'spline');
-yy3=interp1(x,y,xx,'nearest');
-plot(xx,[yy1;yy2;yy3],x,y,'*')
+        <programlisting role="example"><![CDATA[
+x = linspace(0, 3, 20);
+y = x^2;
+xx = linspace(0, 3, 100);
+yy1 = interp1(x, y, xx, 'linear');
+yy2 = interp1(x, y, xx, 'spline');
+yy3 = interp1(x, y, xx, 'nearest');
+plot(xx, [yy1; yy2; yy3], x, y, '*')
 xtitle('interpolation of square function')
-legend(['linear','spline','nearest'],a=2)
+legend(['linear','spline','nearest'], "in_upper_left");
  ]]></programlisting>
         <scilab:image>
             x=linspace(0,3,20);

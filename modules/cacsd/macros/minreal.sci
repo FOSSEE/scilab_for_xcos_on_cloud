@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA -
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [a,b,c]=minreal(a,b,c,domaine,tol)
     //
@@ -14,7 +17,8 @@ function [a,b,c]=minreal(a,b,c,domaine,tol)
     select typeof(a)
     case "state-space" then
         if lhs<>1 then
-            error(msprintf(gettext("%s: Wrong number of output arguments: %d expected.\n"),"minreal",1)),
+            msg = gettext("%s: Wrong number of output arguments: %d expected.\n")
+            error(msprintf(msg, "minreal", 1))
         end;
         select rhs
         case 1 then
@@ -23,11 +27,13 @@ function [a,b,c]=minreal(a,b,c,domaine,tol)
             istol = %t,
             tol = b,
         else
-            error(msprintf(gettext("%s: Wrong number of input arguments: %d or %d expected.\n"),"minreal",1,2)),
-        end;
-        [a,b,c,d,x0,dom] = a(2:7);
+            msg = gettext("%s: Wrong number of input arguments: %d or %d expected.\n");
+            error(msprintf(msg, "minreal", 1, 2))
+        end
+        [a,b,c,d,x0,dom] = a(2:7)
         if dom == [] then
-            error(96,1);
+            msg = gettext("%s: Argument #%d: Undefined time domain.\n");
+            error(msprintf(msg, "minreal", 1));
         end
         domaine="c";
         if dom<>"c" then
@@ -35,16 +41,19 @@ function [a,b,c]=minreal(a,b,c,domaine,tol)
         end
     case "constant" then
         if lhs<>3 then
-            error(msprintf(gettext("%s: Wrong number of output arguments: %d expected.\n"),"minreal",3)),
-        end;
+            msg = gettext("%s: Wrong number of output arguments: %d expected.\n");
+            error(msprintf(msg, "minreal", 3))
+        end
         select rhs
         case 4 then istol = %f
         case 5 then istol = %t,
         else
-            error(msprintf(gettext("%s: Wrong number of input arguments: %d or %d expected.\n"),"minreal",4,5));
-        end;
+            msg = gettext("%s: Wrong number of input arguments: %d or %d expected.\n");
+            error(msprintf(msg, "minreal", 4, 5))
+        end
     else
-        error(91,1);
+        msg = gettext("%s: Argument #%d: Linear state space expected.\n");
+        error(msprintf(msg, "minreal", 1))
     end;
     //
     wc = lyap(a', -b*b', domaine);

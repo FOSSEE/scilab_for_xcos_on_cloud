@@ -3,14 +3,20 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Jean-Baptiste Silvy
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"  xml:lang="en" xml:id="eventhandlerfunctions">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="en" xml:id="eventhandlerfunctions">
     <refnamediv>
         <refname>event handler functions</refname>
         <refpurpose>
@@ -18,7 +24,7 @@
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>event_handler_function(h,x,y,ibut)</synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -28,7 +34,7 @@
                 <term>h</term>
                 <listitem>
                     <para>window number if the event occurred in an axe with a figure type parent. (DEPRECATED)</para>
-                    <para>handle of the axe's parent where the event occured.</para>
+                    <para>handle of the axe's parent where the event occurred.</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -55,7 +61,7 @@
         <title>Description</title>
         <para>
             When the event handler mode is enable, Scilab will call the specified event handler
-            function each time an event occures in the graphic window. The event handler function
+            function each time an event occurres in the graphic window. The event handler function
             must comply with the above prototype. Each time an event occurred, the function is called
             and its four parameters are set accordingly to the window number, mouse position and
             type of event.
@@ -174,6 +180,12 @@
                     <para>graphic window has been closed</para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term>ibut==-10000</term>
+                <listitem>
+                    <para>Unmanaged event; it could be a drag and drop or a fast click and move</para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         <para>
             For example, let say that the name of the event handler function is fooHandler
@@ -191,7 +203,7 @@
 function my_eventhandler(win,x,y,ibut)
   if ibut==-1000 then return,end
   [x,y]=xchange(x,y,'i2f')
-  xinfo(msprintf('Event code %d at mouse position is (%f,%f)',ibut,x,y))
+  gcf().info_message = msprintf('Event code %d at mouse position is (%f,%f)',ibut,x,y);
 endfunction
 
 plot2d()
@@ -209,7 +221,7 @@ fig.event_handler_enable = "off" ; //suppress the event handler
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="figure_properties">figure_properties</link>

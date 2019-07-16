@@ -3,11 +3,14 @@
  * Copyright (C) 2013 - Pedro Arthur dos S. Souza
  * Copyright (C) 2013 - Caio Lucas dos S. Souza
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -28,8 +31,8 @@ import org.scilab.forge.scirenderer.tranformations.Vector3d;
 import org.scilab.modules.graphic_objects.PolylineData;
 import org.scilab.modules.graphic_objects.SurfaceData;
 import org.scilab.modules.graphic_objects.ObjectData;
-import org.scilab.modules.gui.editor.CommonHandler;
-import org.scilab.modules.gui.editor.AxesHandler;
+import org.scilab.modules.renderer.utils.CommonHandler;
+import org.scilab.modules.renderer.utils.AxesHandler;
 
 import java.lang.Math;
 import java.util.List;
@@ -44,7 +47,7 @@ public class GEDPicker {
     private final Double delta = 7.0;
     private Integer axesUID;
     private Axes axes;
-    private double Z;
+    private double Z = 2;
 
     /**
      * Picker, given a figure and a click position in pixel coordinates
@@ -259,11 +262,16 @@ public class GEDPicker {
         v1 = new Vector3d((v1.getX() - factors[1][0]) / factors[0][0], (v1.getY() - factors[1][1]) / factors[0][1], (v1.getZ() - factors[1][2]) / factors[0][2]);
 
         Vector3d Dir = v0.minus(v1).getNormalized();
-        Z = 2.0;
-        double curZ = SurfaceData.pickSurface(obj, v0.getX(), v0.getY(), v0.getZ(),
-                                              Dir.getX(), Dir.getY(), Dir.getZ(), mat[2], mat[6], mat[10], mat[14]);
-        if (curZ < Z) {
-            return true;
+        // ray is the parametric cuve t -> v0 + t * Dir
+
+        double t = SurfaceData.pickSurface(obj, v0.getX(), v0.getY(), v0.getZ(), Dir.getX(), Dir.getY(), Dir.getZ());
+
+        if (t !=  Double.NEGATIVE_INFINITY) {
+            Vector3d intersectPoint = new Vector3d(v0.plus(Dir.times(t)));
+            double curZ = intersectPoint.getX() * mat[2] + intersectPoint.getY() * mat[6] + intersectPoint.getZ() * mat[10] + mat[14];
+            if (curZ < Z) {
+                return true;
+            }
         }
         return false;
     }
@@ -381,7 +389,7 @@ public class GEDPicker {
         double xr = data[1] / 2.;
         double yr = data[0] / 2.;
 
-        Vector3d center =  new Vector3d(upperLeft[0] + xr , upperLeft[1] - yr , upperLeft[2]);
+        Vector3d center =  new Vector3d(upperLeft[0] + xr, upperLeft[1] - yr, upperLeft[2]);
 
         //checks if the point lies within the ellipse
         double x = point.getX() - center.getX();

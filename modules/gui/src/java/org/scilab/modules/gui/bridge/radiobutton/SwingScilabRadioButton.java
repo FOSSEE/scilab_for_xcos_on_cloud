@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2007 - INRIA - Vincent Couvert
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -34,7 +37,6 @@ import org.scilab.modules.gui.bridge.checkbox.SwingScilabCheckBox;
 import org.scilab.modules.gui.bridge.groupmanager.GroupManager;
 import org.scilab.modules.gui.events.callback.CommonCallBack;
 import org.scilab.modules.gui.menubar.MenuBar;
-import org.scilab.modules.gui.radiobutton.SimpleRadioButton;
 import org.scilab.modules.gui.textbox.TextBox;
 import org.scilab.modules.gui.toolbar.ToolBar;
 import org.scilab.modules.gui.utils.Position;
@@ -43,13 +45,14 @@ import org.scilab.modules.gui.utils.ScilabAlignment;
 import org.scilab.modules.gui.utils.ScilabRelief;
 import org.scilab.modules.gui.utils.ScilabSwingUtilities;
 import org.scilab.modules.gui.utils.Size;
+import org.scilab.modules.gui.widget.Widget;
 
 /**
  * Swing implementation for Scilab RadioButton in GUIs
  * @author Vincent COUVERT
  * @author Marouane BEN JELLOUL
  */
-public class SwingScilabRadioButton extends JRadioButton implements SwingViewObject, SimpleRadioButton {
+public class SwingScilabRadioButton extends JRadioButton implements SwingViewObject, Widget {
 
     private static final long serialVersionUID = -4094092157137686082L;
 
@@ -92,7 +95,7 @@ public class SwingScilabRadioButton extends JRadioButton implements SwingViewObj
                             Integer id = 0;
                             if (aButton instanceof SwingScilabRadioButton) {
                                 id = ((SwingScilabRadioButton) aButton).getId();
-                            } else if (aButton instanceof SwingScilabRadioButton) {
+                            } else if (aButton instanceof SwingScilabCheckBox) {
                                 id = ((SwingScilabCheckBox) aButton).getId();
                             } else {
                                 continue;
@@ -350,6 +353,11 @@ public class SwingScilabRadioButton extends JRadioButton implements SwingViewObj
                     GroupManager.getGroupManager().removeFromGroup(this);
                 } else {
                     GroupManager.getGroupManager().addToGroup(groupName, this);
+                    boolean select = GroupManager.getGroupManager().isSelected(groupName);
+                    Double[] Value = (Double[]) controller.getProperty(uid, __GO_UI_VALUE__);
+                    if (select && Value[0] == 1) {
+                        setChecked(true);
+                    }
                 }
                 break;
             }

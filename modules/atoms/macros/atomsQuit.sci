@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2012 - DIGITEO - Allan CORNET
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 // Call .quit file of loaded modules
 
@@ -27,6 +30,10 @@ function result = atomsQuit()
 
     atomsModulesLoaded = atomsGetLoaded();
     sizeLoaded = size(atomsModulesLoaded);
+    // To silently redefine the same quitModule() in the series of .quit files,
+    // when several modules are unloaded:
+    old_prot = funcprot(0);
+
     for i = 1:sizeLoaded(1)
 
         this_package_name = atomsModulesLoaded(i, 1);
@@ -46,4 +53,5 @@ function result = atomsQuit()
             end
         end
     end
+    funcprot(old_prot)
 endfunction

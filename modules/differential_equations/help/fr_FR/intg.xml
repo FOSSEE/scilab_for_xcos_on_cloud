@@ -34,7 +34,7 @@
             <varlistentry>
                 <term>ea</term>
                 <listitem>
-                    <para>erreur absolue désirée (1.d-14 par défaut).</para>
+                    <para>erreur absolue désirée (1.d-13 par défaut).</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -150,7 +150,7 @@
     </refsection>
     <refsection>
         <title>Exemples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 //External écrit en Scilab
 function y=f(x),y=x*sin(30*x)/sqrt(1-((x/(2*%pi))^2)),endfunction
 exact=-2.5432596188;
@@ -172,10 +172,10 @@ F=['      double precision function ffun(x)'
    '      ffun=x*sin(30.0d+0*x)/sqrt(1.0d+0-(x/(2.0d+0*pi))**2)'
    '      return'
    '      end'];
-mputl(F,fullfile(TMPDIR,'ffun.f'))
+mputl(F,'ffun.f')
 
 // compilation du code Fortran
-l=ilib_for_link('ffun',fullfile(TMPDIR,'ffun.f'),[],'f');
+l=ilib_for_link('ffun','ffun.f',[],'f');
 
 // link incrémental
 link(l,'ffun','f')
@@ -193,10 +193,10 @@ C=['#include <math.h>'
    '  y=*x/(2.0e0*pi);'
    '  return *x*sin(30.0e0**x)/sqrt(1.0e0-y*y);'
    '}'];
-mputl(C,fullfile(TMPDIR,'cfun.c'))
+mputl(C,'cfun.c')
 
 // compilation du code C
-l=ilib_for_link('cfun',fullfile(TMPDIR,'cfun.c'),[],'c');
+l=ilib_for_link('cfun','cfun.c',[],'c');
 
 // incremental linking
 link(l,'cfun','c')

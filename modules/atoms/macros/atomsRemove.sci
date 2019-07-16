@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2009-2010 - DIGITEO - Pierre MARECHAL <pierre.marechal@scilab.org>
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 // End user function
 
@@ -64,7 +67,7 @@ function result = atomsRemove(packages,section,del)
 
     // Verbose Mode ?
     // =========================================================================
-    if strcmpi(atomsGetConfig("Verbose"),"True") == 0 then
+    if strcmp(atomsGetConfig("Verbose"),"True", "i") == 0 then
         ATOMSVERBOSE = %T;
     else
         ATOMSVERBOSE = %F;
@@ -160,7 +163,7 @@ function result = atomsRemove(packages,section,del)
 
     // Some checking on packages variable
     // =========================================================================
-
+    i_keep = [];
     for i=1:size(packages(:,1),"*")
 
         package_names(i)    = packages(i,1);
@@ -185,7 +188,10 @@ function result = atomsRemove(packages,section,del)
             installed_details = atomsGetInstalledDetails(packages(i,:),section);
 
             if installed_details(3) == "allusers" then
-                error(msprintf(gettext("%s: You have not enough rights to remove the package %s (%s).\n"),"atomsRemove",package_names(i),package_versions(i)));
+                msg = gettext("%s: You have not enough rights to remove the package %s (%s).\n")
+                warning(msprintf(msg, "atomsRemove", package_names(i), package_versions(i)));
+                i_keep = [i_keep i];
+                continue
             end
 
         elseif (section=="user") & isempty(package_versions(i)) then
@@ -193,12 +199,17 @@ function result = atomsRemove(packages,section,del)
             // Check if we have the right to remove at least one of the version
             // of the package
             if isempty(atomsGetInstalledVers(package_names(i),section)) then
-                error(msprintf(gettext("%s: You have not enough rights to remove any version of the package %s.\n"),"atomsRemove",package_names(i)));
+                msg = gettext("%s: You have not enough rights to remove any version of the package %s.\n")
+                warning(msprintf(msg, "atomsRemove", package_names(i)));
+                i_keep = [i_keep i];
+                continue
             end
 
         end
 
     end
+    packages(i_keep, :) = [];
+
 
     // Build the list of package to Uninstall
     // =========================================================================
@@ -206,22 +217,24 @@ function result = atomsRemove(packages,section,del)
     // Loop on remList to print if a package has to be remove
     // or not
     // =========================================================================
+    LF = ascii(10)
     if ATOMSVERBOSE
         for i=1:size(remove_package_list(:,1),"*")
             if remove_package_list(i,1) == "-" then
                 if del==%T then
-                    atomsDisp(msprintf("\t%s (%s) will be removed from the ''%s'' section and its package fully deleted",remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5)));
+                    atomsDisp(msprintf(_("\t%s (%s) will be removed from the ''%s'' section and its package fully deleted"),remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5))+LF);
                 else
-                    atomsDisp(msprintf("\t%s (%s) will be removed from the ''%s'' section",remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5)));
+                    atomsDisp(msprintf(_("\t%s (%s) will be removed from the ''%s'' section"),remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5))+LF);
                 end
             elseif (remove_package_list(i,1) == "~") & (remove_package_list(i,1) == "B") then
-                atomsDisp(msprintf("\t%s (%s) cannot be removed from the ''%s'' section and will be broken",remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5)));
+                atomsDisp(msprintf(_("\t%s (%s) cannot be removed from the ''%s'' section and will be broken"),remove_package_list(i,3),remove_package_list(i,4),remove_package_list(i,5))+LF);
             end
         end
     end
 
     // Now we have the list of package that have to be uninstalled
     // =========================================================================
+    atomsDisp(LF)
 
     for i=1:size(remove_package_list(:,1),"*")
 
@@ -239,11 +252,11 @@ function result = atomsRemove(packages,section,del)
 
         // Check if the package is loaded or not
         if atomsIsLoaded([this_package_name this_package_version]) then
-            mprintf( "\tthe package %s (%s) is currently loaded, It will be removed at next Scilab start\n" , this_package_name , this_package_version );
+            mprintf(_("\tthe package %s (%s) is currently loaded, It will be removed at next Scilab start\n") , this_package_name , this_package_version );
             continue;
         end
 
-        atomsDisp(msprintf(gettext("Removing %s (%s)(%s).\n\n"), this_package_name , this_package_version , this_package_section));
+        atomsDisp(msprintf(gettext("\tRemoving %s (%s)(%s)... "), this_package_name , this_package_version , this_package_section));
 
         // Online or offline, we only need the information registered in
         load(atomsPath("system",this_package_section)+"installed.bin");
@@ -262,12 +275,13 @@ function result = atomsRemove(packages,section,del)
             (grep(this_package_directory,pathconvert(SCIHOME)) == []) &..
             (grep(this_package_directory,"/^(SCI|SCIHOME)\"+filesep()+"/","r") == []) then
 
-            atomsError("error", ..
+            atomsError("warning", ..
             msprintf( ..
-            gettext("%s: The directory of this package (%s-%s) is located neither in SCI nor in SCIHOME. For security reason, ATOMS refuses to delete this directory.\n"), ..
+            gettext("%s: The directory of this package (%s-%s) is located neither in SCI nor in SCIHOME.\n\tFor security reason, ATOMS refuses to delete this directory.\n"), ..
             "atomsRemove", ..
             this_package_name, ..
             this_package_version));
+            continue
         end
 
         if isdir(this_package_directory) then
@@ -275,13 +289,14 @@ function result = atomsRemove(packages,section,del)
             uninstall_status = rmdir(this_package_directory,"s");
 
             if uninstall_status<>1 then
-                atomsError("error", ..
+                atomsError("warning", ..
                 msprintf( ..
-                gettext("%s: The directory of this package (%s-%s) cannot been deleted, please check if you have write access on this directory : %s.\n"), ..
+                gettext("%s: The package (%s - %s) directory ""%s"" cannot be deleted.\n\tIt may be used and locked. Please also check that you have write permission on it.\n"), ..
                 "atomsRemove", ..
                 this_package_name, ..
                 this_package_version, ..
                 strsubst(this_package_directory,"\","\\") ));
+                continue
             end
 
         end
@@ -294,9 +309,9 @@ function result = atomsRemove(packages,section,del)
         if isdir(this_package_root_dir) & listfiles(this_package_root_dir)==[] then
             stat = rmdir(this_package_root_dir);
             if stat<>1 then
-                atomsError("error", ..
+                atomsError("warning", ..
                 msprintf( ..
-                gettext("%s: The root directory of this package (%s-%s) cannot been deleted, please check if you have write access on this directory : %s.\n"), ..
+                gettext("%s: The package (%s - %s) has been removed from its root directory ""%s"".\n\tHowever, this empty directory cannot be deleted. It may be used and locked, or you may have no write permission on it.\n"), ..
                 "atomsRemove", ..
                 this_package_name, ..
                 this_package_version, ..
@@ -338,9 +353,9 @@ function result = atomsRemove(packages,section,del)
 
         result = [ result ; this_package_insdet ];
 
-        // Sucess message if needed
+        // Success message if needed
         // =====================================================================
-        atomsDisp(msprintf(" success"));
+        atomsDisp(msprintf(" success")+LF);
     end
 
     // Go to the initial location

@@ -2,23 +2,26 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2011-2011 - DIGITEO - Sylvestre LEDRU
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
-#include <stdio.h>
 #include <mpi.h>
 #include "api_scilab.h"
 #include "gw_mpi.h"
 #include "Scierror.h"
-#include "MALLOC.h"
+#include "sci_malloc.h"
 #include "localization.h"
 #include "deserialization.h"
+#include "getOptionalComm.h"
 
-int sci_mpi_recv(char *fname, unsigned long fname_len)
+int sci_mpi_recv(char *fname, void* pvApiCtx)
 {
     SciErr sciErr;
     int iRet = 0;
@@ -30,9 +33,27 @@ int sci_mpi_recv(char *fname, unsigned long fname_len)
     double Tag = 0;
     double Rank = 0;
     MPI_Status status;
+    MPI_Comm comm = NULL;
 
-    CheckInputArgument(pvApiCtx, 2, 2);
+    CheckInputArgument(pvApiCtx, 2, 3);
     CheckOutputArgument(pvApiCtx, 1, 1);
+
+    // if no optional "comm" is given, return MPI_COMM_WORLD
+    comm = getOptionalComm(pvApiCtx);
+    if (comm == NULL)
+    {
+        Scierror(999, _("%s: Wrong type for input argument #%s: An MPI communicator expected.\n"), fname, "comm");
+        return 0;
+    }
+
+    if (comm == MPI_COMM_NULL)
+    {
+        // return empty matrix
+        createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 1, 0, 0, NULL);
+        AssignOutputVariable(pvApiCtx, 1) = nbInputArgument(pvApiCtx) + 1;
+        ReturnArguments(pvApiCtx);
+        return 0;
+    }
 
     //Rank
     sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr1);
@@ -65,7 +86,7 @@ int sci_mpi_recv(char *fname, unsigned long fname_len)
     }
 
     //wait message "Rank" node
-    iRet = MPI_Probe((int)Rank, (int)Tag, MPI_COMM_WORLD, &status);
+    iRet = MPI_Probe((int)Rank, (int)Tag, comm, &status);
     if (iRet != MPI_SUCCESS)
     {
         char error_string[MPI_MAX_ERROR_STRING];
@@ -95,7 +116,7 @@ int sci_mpi_recv(char *fname, unsigned long fname_len)
     }
 
     //receive data
-    iRet = MPI_Recv(piBuffer, iBufferSize, MPI_INT, (int)Rank, (int)Tag, MPI_COMM_WORLD, &status);
+    iRet = MPI_Recv(piBuffer, iBufferSize, MPI_INT, (int)Rank, (int)Tag, comm, &status);
     if (iRet != MPI_SUCCESS)
     {
         char error_string[MPI_MAX_ERROR_STRING];

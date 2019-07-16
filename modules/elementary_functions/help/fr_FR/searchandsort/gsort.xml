@@ -148,7 +148,7 @@
         </para>
         <para>
             Pour les nombres complexes, <literal>gsort</literal> peut être
-            surchargé. 
+            surchargé.
         </para>
         <para>voir la macro:
             SCI/modules/elementary_functions/macros/%_gsort.sci
@@ -165,20 +165,20 @@
     </refsection>
     <refsection>
         <title>Exemples</title>
-        <programlisting role="example"> 
+        <programlisting role="example">
             alr=[1,2,2;
             1,2,1;
             1,1,2;
             1,1,1];
             [alr1,k]=gsort(alr,'lr','i')
             [alr1,k]=gsort(alr,'lc','i')
-            
+
             A=int32(alr)
-            
+
             gsort(A)
             gsort(A,'lr','i')
             gsort(A,'lc','i')
-            
+
             A=['Scilab' '2.6'
             'Scilab' '2.7'
             'xcos' '2.7'
@@ -186,7 +186,7 @@
             'xcos' '3.1'
             'xcos' '4.0'
             'Scilab' '4.0']
-            
+
             gsort(A,'lr','i')
             gsort(A,'lc','i')
         </programlisting>
@@ -197,8 +197,6 @@
             <member>
                 <link linkend="find">find</link>
             </member>
-        </simplelist>
-        <simplelist type="inline">
             <member>
                 <link linkend="overloading">overloading</link>
             </member>
@@ -212,11 +210,11 @@
         </para>
     </refsection>
     <refsection>
-        <title>History</title>
+        <title>Historique</title>
         <revhistory>
             <revision>
                 <revnumber>5.4.0</revnumber>
-                <revremark>Cette fonction permet la surcharge pour les types non gérés (autres que vecteur ou matrice de nombres réels, entiers ou de chaînes de caractères ou vecteur creux).</revremark>
+                <revremark>Cette fonction peut être étendue aux types non gérés (autres que vecteur ou matrice de nombres réels, entiers ou de chaînes de caractères ou vecteur creux).</revremark>
             </revision>
         </revhistory>
     </refsection>

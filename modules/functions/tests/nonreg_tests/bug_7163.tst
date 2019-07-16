@@ -1,31 +1,25 @@
 // =============================================================================
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
-// Copyright (C) 2010 - INRIA - Serge STEER <serge.steer@inria.fr>
+// Copyright (C) 2010 - DIGITEO - Vincent COUVERT
 //
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
-
+//
 // <-- CLI SHELL MODE -->
-
+// <-- NO CHECK REF -->
+//
 // <-- Non-regression test for bug 7163 -->
 //
 // <-- Bugzilla URL -->
-// http://www.scilab.org/cgi-bin/bugzilla_bugAdmin_II/show_bug.cgi?id=7163
+// http://bugzilla.scilab.org/7163
 //
 // <-- Short Description -->
-//   assignment index : are translated into eye()
-function foo
-  a(:)
-  a(:,1)
-  a(1,:)
-  a(:,:)
+// tree2code wrongly replaced every (:) occurence in a function definition with (eye()).
 
-  a(:)=3
-  a(:,1)=4
-  a(1,:)=5
-  a(:,:)=6
+function foo(r)
+    r(:)=1
 endfunction
-t=stripblanks(fun2string(foo));
-t=strsubst(t(2:$-1),' ','');
-tref=["a(:)";"a(:,1)";"a(1,:)";"a(:,:)";"";"a(:)=3";"a(:,1)=4";"a(1,:)=5";"a(:,:)=6"];
-if or(t<>tref) then pause,end
+
+txt = tree2code(macr2tree(foo));
+
+if or(txt<>["function foo(r)";"r(:) = 1";"endfunction";""]) then pause; end

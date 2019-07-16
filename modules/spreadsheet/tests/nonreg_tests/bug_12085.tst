@@ -1,9 +1,12 @@
+//<-- CLI SHELL MODE -->
 // =============================================================================
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2013 - Scilab Enterprises - Antoine ELIAS
 //
 // This file is distributed under the same license as the Scilab package.
 // =============================================================================
+//
+// <-- NO CHECK REF -->
 //
 // <-- Non-regression test for bug 12085 -->
 //
@@ -19,8 +22,6 @@ data_ref = [49 44 49];
 
 if getos() == "Windows" then
     eol = [13 10]; //CRLF
-elseif getos()=="Darwin" then
-    eol = [13]; //CR
 else
     eol = [10]; //LF
 end

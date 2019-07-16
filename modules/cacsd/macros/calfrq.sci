@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
-// Copyright (C) INRIA -
+// Copyright (C) 1985 - 2016 - INRIA - Serge Steer
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function [frq, bnds, splitf] = calfrq(h, fmin, fmax)
@@ -19,11 +22,21 @@ function [frq, bnds, splitf] = calfrq(h, fmin, fmax)
 
     // Check inputs
     // ------------
-    if and(typeof(h) <> ["state-space" "rational"])
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: Linear state space or a transfer function expected.\n"), "calfrq", 1))
+    if and(typeof(h) <> ["state-space" "rational" "zpk"]) then
+        args=["h", "fmin", "fmax"]
+        ierr=execstr("%"+overloadname(h)+"_calfrq("+strcat(args(1:rhs),",")+")","errcatch")
+        if ierr<>0 then
+            msg = _("%s: Wrong type for input argument #%d: Linear dynamical system or row vector of floats expected.\n")
+            error(msprintf(msg, "calfrq", 1))
+        end
+        return
     end
+
+
     if typeof(h) == "state-space" then
         h = ss2tf(h)
+    elseif typeof(h) == "zpk" then
+        h=zpk2tf(h)
     end
 
     [m, n] = size(h.num)
@@ -32,19 +45,23 @@ function [frq, bnds, splitf] = calfrq(h, fmin, fmax)
     case "d" then
         dom = 1
     case [] then
-        error(96, 1)
+        msg = _("%s: Argument #%d: Undefined time domain.\n");
+        error(msprintf(msg, "calfrq", 1));
     case 0 then
-        error(96, 1)
+        msg = _("%s: Argument #%d: Undefined time domain.\n");
+        error(msprintf(msg, "calfrq", 1));
     end;
 
     if type(dom) == 1 then
         nyq_frq = 1/2/dom;
         if fmax > nyq_frq then
-            warning(msprintf(gettext("%s: Frequencies beyond Nyquist frequency are ignored.\n"), "calfrq"));
+            msg = _("%s: Frequencies beyond Nyquist frequency are ignored.\n")
+            warning(msprintf(msg, "calfrq"));
             fmax = min(fmax, nyq_frq)
         end
         if fmin < -nyq_frq then
-            warning(msprintf(gettext("%s: Negative frequencies below Nyquist frequency are ignored.\n"), "calfrq"));
+            msg = _("%s: Negative frequencies below Nyquist frequency are ignored.\n")
+            warning(msprintf(msg, "calfrq"));
             fmin = max(fmin, -nyq_frq)
         end
     end
@@ -87,8 +104,8 @@ function [frq, bnds, splitf] = calfrq(h, fmin, fmax)
         bnds = [bnds(1), bnds(2), -bnds(4), -bnds(3)];
         return;
     elseif fmin >= fmax then
-        error(msprintf(gettext("%s: Wrong value for input arguments #%d and #%d: %s < %s expected.\n"),..
-        "calfrq", 2, 3, "fmin", "fmax"));
+        msg = _("%s: Wrong value for input arguments #%d and #%d: %s < %s expected.\n");
+        error(msprintf(msg, "calfrq", 2, 3, "fmin", "fmax"));
     end
 
     // Compute dicretisation over a given range

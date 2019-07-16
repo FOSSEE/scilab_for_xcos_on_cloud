@@ -4,18 +4,20 @@
  * Copyright (C) 2007 - INRIA - Marouane BEN JELLOUL
  * Copyright (C) 2011 - DIGITEO - Vincent COUVERT
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
 package org.scilab.modules.gui.bridge.pushbutton;
 
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_UI_ICON__;
-import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_UI_FOREGROUNDCOLOR__;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -35,12 +37,10 @@ import javax.swing.border.Border;
 import org.scilab.modules.commons.gui.FindIconHelper;
 import org.scilab.modules.console.utils.ScilabSpecialTextUtilities;
 import org.scilab.modules.graphic_objects.console.Console;
-import org.scilab.modules.graphic_objects.graphicController.GraphicController;
 import org.scilab.modules.gui.SwingViewObject;
 import org.scilab.modules.gui.SwingViewWidget;
 import org.scilab.modules.gui.events.callback.CommonCallBack;
 import org.scilab.modules.gui.menubar.MenuBar;
-import org.scilab.modules.gui.pushbutton.SimplePushButton;
 import org.scilab.modules.gui.textbox.TextBox;
 import org.scilab.modules.gui.toolbar.ToolBar;
 import org.scilab.modules.gui.utils.Position;
@@ -49,13 +49,14 @@ import org.scilab.modules.gui.utils.ScilabAlignment;
 import org.scilab.modules.gui.utils.ScilabRelief;
 import org.scilab.modules.gui.utils.ScilabSwingUtilities;
 import org.scilab.modules.gui.utils.Size;
+import org.scilab.modules.gui.widget.Widget;
 
 /**
  * Swing implementation for Scilab PushButtons in GUIs
  * @author Vincent COUVERT
  * @author Marouane BEN JELLOUL
  */
-public class SwingScilabPushButton extends JButton implements SwingViewObject, SimplePushButton {
+public class SwingScilabPushButton extends JButton implements SwingViewObject , Widget {
 
     private static final long serialVersionUID = 2277539556048935959L;
 

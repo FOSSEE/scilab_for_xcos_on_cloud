@@ -41,8 +41,8 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
     // This function is used to alert the user on setvalue
     // (invalid exprs we keep the previous parameters)
     function message(str)
-        if length(arg1.doc) >= 1 then
-            uid = arg1.doc(1);
+        if length(arg1.model.uid) >= 1 then
+            uid = arg1.model.uid;
             uid = [full_uids uid];
 
             html = "<html><body>";
@@ -78,18 +78,19 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
     deff("result         = dialog(labels,valueini)","result=valueini")
     deff("[result,Quit]  = scstxtedit(valueini,v2)","result=valueini,Quit=0")
     deff("[ok,tt]        = MODCOM(funam,tt,vinp,vout,vparam,vparamv,vpprop)",..
-    "[dirF, nameF, extF] = fileparts(funam);..
-    [modelica_path, modelica_directory] = getModelicaPath();..
-    funam1 = []; ..
-    if (extF == """")  then, ..
-        funam1 = modelica_directory + nameF + "".mo""; ..
-    elseif fileinfo(funam) == [] then, ..
-        funam1 = funam; ..
-    end; ..
-    if funam1 <> [] then, ..
-        mputl(tt, funam1); ..
-    end");
-    %nx=lstsize(scs_m.objs)
+    "[dirF, nameF, extF] = fileparts(funam);"+..
+    "[modelica_path, modelica_directory] = getModelicaPath();"+..
+    "funam1 = []; "+..
+    "if (extF == """")  then, "+..
+    "    funam1 = modelica_directory + nameF + "".mo""; "+..
+    "elseif fileinfo(funam) == [] then, "+..
+    "    funam1 = funam; "+..
+    "end; "+..
+    "if funam1 <> [] then, "+..
+    "    mputl(tt, funam1); "+..
+    "end");
+    %nx = size(scs_m.objs)
+    %x=scs_m.objs;
     funcprot(%mprt)
     for %kk=1:%nx
         o=scs_m.objs(%kk)
@@ -100,19 +101,19 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
                 context=sblock.props.context
                 [scicos_context1,ierr]=script2var(context,%scicos_context)
                 if ierr <>0 then
-                    %now_win=xget("window")
+                    %now_win = gcf()
                     scicosmessage(["Cannot evaluate a context";lasterror()])
-                    xset("window",%now_win)
+                    scf(%now_win)
                 else
                     previous_full_uids = full_uids;
-                    if length(o.doc) >= 1 then
-                        full_uids = [full_uids o.doc(1)];
+                    if length(o.model.uid) >= 1 then
+                        full_uids = [full_uids o.model.uid];
                     end
                     [sblock,%w,needcompile2,ok]=do_eval(sblock,list(),scicos_context1)
                     needcompile1=max(needcompile1,needcompile2)
                     full_uids = previous_full_uids;
                     if ok then
-                        scs_m.objs(%kk).model.rpar=sblock
+                        %x(%kk).model.rpar=sblock
                     else
                         return
                     end
@@ -120,9 +121,9 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
             elseif o.model.sim(1)=="asuper" then
             else
                 model=o.model
-                if ~isdef(o.gui) | ~or(type(evstr(o.gui) == [13 11])) then
-                    if length(o.doc) >= 1 then
-                        uid = [full_uids o.doc(1)];
+                if ~isdef(o.gui) | ~type(evstr(o.gui) == 13) then
+                    if length(o.model.uid) >= 1 & getscilabmode() == "STD" then
+                        uid = [full_uids o.model.uid];
 
                         html = "<html><body>";
                         html = html + "<em>" + gettext("Evaluation problem: Unknown block") + "</em><br/>";
@@ -163,7 +164,7 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
                         end
                     end
 
-                    if (prod(size(model.sim))==1 & ~model.equations==list()) | itisanMBLOCK then
+                    if (prod(size(model.sim))==1 & ~(model.equations==list())) | itisanMBLOCK then
                         if ~isequal(model.equations.parameters,model_n.equations.parameters) then
                             param_name   = model.equations.parameters(1);
                             param_name_n = model_n.equations.parameters(1);
@@ -193,7 +194,7 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
                         end
                     end
 
-                    scs_m.objs(%kk)=o
+                    %x(%kk)=o
                 else
                     error(msprintf(gettext("%s: Error while calling block %s [uid=''%s'']: invalid parameter (ier=%f, %%scicos_prob=%%%s).\n"), "do_eval", o.gui, o.model.uid, ier, string(%scicos_prob)));
                     ok=%f
@@ -202,6 +203,7 @@ function [scs_m,cpr,needcompile,ok]=do_eval(scs_m,cpr,%scicos_context)
             end
         end
     end
+    scs_m.objs = %x;
     needcompile=needcompile1
     if needcompile==4 then cpr=list(),end
 endfunction

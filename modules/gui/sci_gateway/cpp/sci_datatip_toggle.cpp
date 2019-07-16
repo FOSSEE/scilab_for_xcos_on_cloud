@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2013 - Gustavo Barbosa Libotte <gustavolibotte@gmail.com>
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -21,12 +24,16 @@ extern "C"
 #include "gw_gui.h"
 #include "HandleManagement.h"
 #include "CurrentFigure.h"
+#include "sciprint.h"
 }
 
 using namespace org_scilab_modules_gui_datatip;
 
-int sci_datatip_toggle(char *fname, unsigned long fname_len)
+int sci_datatip_toggle(char *fname, void* pvApiCtx)
 {
+    sciprint(_("%s: %s is obsolete and will be removed from Scilab %s\n"), _("Warning"), fname, "6.1");
+    sciprint(_("%s: Please use %s instead.\n"), _("Warning"), "datatipManagerMode()");
+
     int iFigureUID      = 0;
 
     int iErr            = 0;

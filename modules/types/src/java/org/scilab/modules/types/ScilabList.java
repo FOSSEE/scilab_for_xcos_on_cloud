@@ -3,11 +3,14 @@
  *  Copyright (C) 2009-2009 - DIGITEO - Bruno JOFRET
  *  Copyright (C) 2011-2011 - DIGITEO - Calixte DENIZET
  *
- *  This file must be used under the terms of the CeCILL.
- *  This source file is licensed as described in the file COPYING, which
- *  you should have received as part of this distribution.  The terms
- *  are also available at
- *  http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -25,11 +28,11 @@ import java.util.Collection;
  * This class is {@link java.io.Serializable} and any modification could impact
  * load and store of data (Xcos files, Javasci saved data, etc...).<br>
  * <br>
- * Example:<br />
+ * Example:<BR>
  * <code>
- * ScilabList data = new ScilabList();<br />
- * data.add(new ScilabString("hello"));<br />
- * data.add(new ScilabDouble(2));<br />
+ * ScilabList data = new ScilabList();<BR>
+ * data.add(new ScilabString("hello"));<BR>
+ * data.add(new ScilabDouble(2));<BR>
  * </code>
  *
  * @see org.scilab.modules.javasci.Scilab
@@ -37,7 +40,6 @@ import java.util.Collection;
 public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
 
     private static final long serialVersionUID = 6884293176289980909L;
-    private static final ScilabTypeEnum type = ScilabTypeEnum.sci_list;
 
     private static final int VERSION = 0;
 
@@ -66,6 +68,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
      *
      * Note that the first element of this collection is the header used by
      * Scilab to find each field name.
+     * @param varName the variable name
      */
     public ScilabList(String varName) {
         super();
@@ -84,6 +87,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isReference() {
         return false;
     }
@@ -91,6 +95,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getVarName() {
         return varName;
     }
@@ -98,6 +103,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSwaped() {
         return false;
     }
@@ -122,7 +128,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
      */
     @Override
     public ScilabTypeEnum getType() {
-        return type;
+        return ScilabTypeEnum.sci_list;
     }
 
     /**
@@ -143,8 +149,9 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
      * different elements of the list. ii) returned[i] for i&gt;=1 contains the
      * serialized form of each items.
      *
-     * @return a serialized SiclabList/
+     * @return a serialized ScilabList/
      */
+    @Override
     public Object[] getSerializedObject() {
         int[] types = new int[size()];
         Object[] items = new Object[types.length + 1];
@@ -188,7 +195,7 @@ public class ScilabList extends ArrayList<ScilabType> implements ScilabType {
     }
 
     /**
-     * Display the representation in the Scilab language of the type<br />
+     * Display the representation in the Scilab language of the type<BR>
      * Note that the representation can be copied/pasted straight into Scilab
      *
      * @return the pretty-printed data

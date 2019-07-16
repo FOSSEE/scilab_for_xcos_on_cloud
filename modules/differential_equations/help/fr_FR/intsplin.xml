@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
-    * Copyright (C) 2002-2006 - INRIA - Serge STEER 
-    * 
-    * This file must be used under the terms of the CeCILL.
-    * This source file is licensed as described in the file COPYING, which
-    * you should have received as part of this distribution.  The terms
-    * are also available at    
-    * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+    * Copyright (C) 2002-2006 - INRIA - Serge STEER
+    *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
     *
     -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="fr" xml:id="intsplin">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="fr" xml:id="intsplin">
     <refnamediv>
         <refname>intsplin</refname>
-        <refpurpose>intégration approchée de données expérimentales utilisant une interpolation par une spline.  </refpurpose>
+        <refpurpose>intégration approchée de données expérimentales utilisant une interpolation par une spline.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Séquence d'appel</title>
-        <synopsis>v = intsplin([x,] s)</synopsis>
+        <synopsis>
+          v = intsplin(y)
+          v = intsplin(x, y)
+        </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Paramètres</title>
@@ -26,19 +35,21 @@
                 <term>x  </term>
                 <listitem>
                     <para>
-                        vecteur des abscisses, classées par ordre croissant. La valeur par défaut est <literal>1:size(y,'*')</literal>
+                        vecteur des abscisses (nombres réels), classées par ordre croissant.
+                        Il doit avoir autant d'éléments que <literal>y</literal>.
+                        Les valeurs par défaut sont <literal>1:size(y,'*')</literal>
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term>s  </term>
+                <term>y</term>
                 <listitem>
-                    <para>vecteur des ordonnées.
+                    <para>vecteur des ordonnées, à valeurs réelles ou complexes.
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term>v  </term>
+                <term>v</term>
                 <listitem>
                     <para>valeur de l'approximation de l'intégrale
                     </para>
@@ -49,13 +60,12 @@
     <refsection>
         <title>Description</title>
         <para>
-            Calcule une approximation de :
+            Soit <literal>f</literal> une fonction donnée sous forme de valeurs expérimentales
+          échantillonnées <literal>(xi, yi=f(xi))</literal>.
         </para>
         <para>
-            où <literal>f</literal> est donnée sous forme de valeurs expérimentales :
-        </para>
-        <para>
-            <literal>s(i)=f(x(i))</literal>  et <literal>x0=x(1)</literal>, <literal>x1=x(n)</literal>
+          <function>intsplin</function> calcule une approximation de <literal>integrale{f(x).dx}</literal>
+          de <literal>x0=x(1)</literal> à <literal>x1=x($)</literal>
         </para>
         <para>
             Entre les points, <literal>f</literal> est approchée à l'aide d'une spline.
@@ -63,9 +73,18 @@
     </refsection>
     <refsection>
         <title>Exemples</title>
-        <programlisting role="example"><![CDATA[ 
-t=0:0.1:%pi
+        <programlisting role="example"><![CDATA[
+t = 0:0.1:%pi
 intsplin(t,sin(t))
+
+intsplin(1:5)            // 12
+
+x = 0:0.1:0.4;
+intsplin(x, 1:5)         // 1.2
+
+intsplin((1:5)*%i)       // 12i
+intsplin(x, (1:5)*%i)    // 1.2i
+intsplin(x, x+(1:5)*%i)  // 0.08 + 1.2i
  ]]></programlisting>
     </refsection>
     <refsection role="see also">

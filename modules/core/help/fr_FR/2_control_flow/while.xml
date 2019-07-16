@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) 2008 - INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="fr" xml:id="while">
     <refnamediv>
         <refname>while</refname>
@@ -7,9 +21,9 @@
     <refsynopsisdiv>
         <title>Séquence d'appel</title>
         <synopsis>
-            while expr ,instructions,...[,else instructions], end
-            while expr do instructions,...[,else instructions], end
-            while expr then instructions,...[,else instructions], end
+            while expr ,instructions,..., end
+            while expr do instructions,..., end
+            while expr then instructions,..., end
         </synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -30,13 +44,6 @@
                     virgule.  Pour la compatibilité avec Matlab, il est aussi
                     possible, mais non recommendé de mettre un espace à la
                     place de ces séparateurs.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    La construction optionnelle <literal>,else instructions</literal> permet de spécifier
-                    des <literal>instructions</literal> à exécuter si l'expression <literal>expr</literal>
-                    est fausse.
                 </para>
             </listitem>
         </itemizedlist>
@@ -64,25 +71,22 @@
             Par exemple, utiliser :
         </para>
         <programlisting role=""><![CDATA[
-      i = 0
-      while i<5
-          disp("i");
-          i = i + 1;
-      end
+i = 0
+while i<5
+   disp(i);
+   i = i + 1;
+end
 ]]></programlisting>
         <para>
             rather than
         </para>
         <programlisting role=""><![CDATA[
-      i = 0; while i<5 disp("i"); i = i + 1; end
+i = 0; while i<5, disp(i), i = i + 1; end
 ]]></programlisting>
-        <para>
-            <warning>
-                Attention : le nombre de caractères constituant le corps d'une
-                instruction conditionnelle (if while for ou select/case) est limité à
-                16k.
-            </warning>
-        </para>
+      <warning>
+        Le nombre de caractères constituant le corps d'une instruction conditionnelle (if while
+        for ou select/case) est limité à 16k.
+      </warning>
     </refsection>
     <refsection>
         <title>Exemples</title>
@@ -100,20 +104,39 @@ e,k
         <title>Voir aussi</title>
         <simplelist type="inline">
             <member>
-                <link linkend="for">for</link>
+                <link linkend="or_op">|, ||</link>
             </member>
             <member>
-                <link linkend="select">select</link>
+                <link linkend="and_op">&amp;, &amp;&amp;</link>
             </member>
             <member>
                 <link linkend="break">break</link>
             </member>
             <member>
-                <link linkend="return">return</link>
+                <link linkend="for">for</link>
             </member>
             <member>
-                <link linkend="pause">pause</link>
+                <link linkend="select">select</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection>
+        <title>Historique</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revremark>
+                    <itemizedlist>
+                      <listitem>
+                        La syntaxe avec <literal>[,else instructions]</literal> n'est plus admise.
+                      </listitem>
+                      <listitem>
+                        <literal>while</literal> est désormais protégé. Les affectations telles que
+                        <literal>while=1</literal> ne sont plus possibles.
+                      </listitem>
+                  </itemizedlist>
+                </revremark>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

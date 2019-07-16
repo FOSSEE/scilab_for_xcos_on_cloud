@@ -70,19 +70,15 @@ AC_DEFUN([AC_PROG_JAVAC], [
          # Don't follow the symlink since Java under MacOS is messy
          # Uses the wrapper providing by Apple to retrieve the path
          # See: http://developer.apple.com/mac/library/qa/qa2001/qa1170.html
-           JAVAC=$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.6+)/bin/javac
+           JAVAC=$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.8+)/bin/javac
                DONT_FOLLOW_SYMLINK=yes
          ;;
     esac
     fi
     if test "x$JAVAC" = "x" ; then
-        if test -d "$SCI_SRCDIR_FULL/java/jdk"; then # Scilab thirparties
-            AC_PATH_PROG(JAVAC, javac, ,"$SCI_SRCDIR_FULL/java/jdk/bin")
-        else
-            AC_PATH_PROG(JAVAC, javac)
-            if test "x$JAVAC" = "x" ; then
-                AC_MSG_ERROR([javac not found on PATH ... did you try with --with-jdk=DIR])
-            fi
+        AC_PATH_PROG(JAVAC, javac)
+        if test "x$JAVAC" = "x" ; then
+            AC_MSG_ERROR([javac not found on PATH ... did you try with --with-jdk=DIR])
         fi
     fi
     if test ! -f "$JAVAC" ; then
@@ -258,7 +254,7 @@ Maybe JAVA_HOME is pointing to a JRE (Java Runtime Environment) instead of a JDK
              *darwin* )
             AC_MSG_RESULT([Darwin (Mac OS X) found. Use the standard paths.])
             # See: http://developer.apple.com/mac/library/qa/qa2001/qa1170.html
-            ac_java_jvm_dir=$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.6+)
+            ac_java_jvm_dir=$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.8+)
             JAVAC=$ac_java_jvm_dir/bin/javac
             ;;
         esac
@@ -313,6 +309,9 @@ Maybe JAVA_HOME is pointing to a JRE (Java Runtime Environment) instead of a JDK
 
     # The class java.util.stream.DoubleStream is new to 1.8
     AC_JAVA_TRY_COMPILE([import java.util.stream.DoubleStream;], , "no", ac_java_jvm_version=1.8)
+
+    # The class java.lang.ProcessHandle is new to 1.9
+    AC_JAVA_TRY_COMPILE([import java.lang.ProcessHandle;], , "no", ac_java_jvm_version=1.9)
 
     if test "x$ac_java_jvm_version" = "x" ; then
         AC_MSG_ERROR([Could not detect Java version, 1.4 or newer is required])
@@ -400,7 +399,7 @@ AC_DEFUN([AC_JAVA_JNI_INCLUDE], [
          else
         case "$host_os" in
              *darwin* )
-                       ac_java_jvm_jni_include_flags="-I/Developer/SDKs/MacOSX${macosx_version}.sdk/System/Library/Frameworks/JavaVM.framework/Headers -I$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.6+)/include/ -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/"
+                       ac_java_jvm_jni_include_flags="-I/Developer/SDKs/MacOSX${macosx_version}.sdk/System/Library/Frameworks/JavaVM.framework/Headers -I$(/usr/libexec/java_home --arch x86_64 --failfast --version 1.8+)/include/ -I/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers/"
                   ;;
               *)
                        AC_MSG_ERROR([Could not locate Java's jni.h include file])
@@ -481,7 +480,10 @@ AC_DEFUN([AC_JAVA_JNI_LIBS], [
         powerpc)
           machine=ppc
           ;;
-        ppc64|ppc64le)
+        ppc64le)
+          machine=ppc64le
+          ;;
+        ppc64)
           machine=ppc64
           ;;
         armv*)
@@ -504,8 +506,32 @@ AC_DEFUN([AC_JAVA_JNI_LIBS], [
     libSymbolToTest="JNI_GetCreatedJavaVMs"
 
     if test "$ac_java_jvm_name" = "jdk"; then
-        # Sun/Blackdown 1.4 for Linux (client JVM)
 
+        # OpenJDK 9
+        F=lib/libjava.so
+        if test "x$ac_java_jvm_jni_lib_flags" = "x" ; then
+            AC_MSG_LOG([Looking for $ac_java_jvm_dir/$F])
+            if test -f $ac_java_jvm_dir/$F ; then
+                AC_MSG_LOG([Found $ac_java_jvm_dir/$F])
+                D=`dirname $ac_java_jvm_dir/$F`
+                ac_java_jvm_jni_lib_runtime_path=$D
+                ac_java_jvm_jni_lib_flags="-L$D -ljava -lverify"
+                D=$ac_java_jvm_dir/lib/client
+        if test ! -f $D/libjvm.so; then # Check if it is in the client or server directory
+            # Try the server directory
+            D=$ac_java_jvm_dir/lib/server
+            if test ! -f $D/libjvm.so; then
+                AC_MSG_ERROR([Could not find libjvm.so in
+                jre/lib/$machine/client/ or in jre/lib/$machine/server/.
+                Please report to http://bugzilla.scilab.org/])
+            fi
+        fi
+                ac_java_jvm_jni_lib_runtime_path="${ac_java_jvm_jni_lib_runtime_path}:$D"
+                ac_java_jvm_jni_lib_flags="$ac_java_jvm_jni_lib_flags -L$D -ljvm"
+            fi
+        fi
+
+        # Sun/Blackdown 1.4 for Linux (client JVM)
         F=jre/lib/$machine/libjava.so
         if test "x$ac_java_jvm_jni_lib_flags" = "x" ; then
             AC_MSG_LOG([Looking for $ac_java_jvm_dir/$F])

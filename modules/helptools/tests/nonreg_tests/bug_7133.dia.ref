@@ -19,11 +19,8 @@ temp = editor;
 function editor(name)
 endfunction;
 Warning : redefining function: editor                  . Use funcprot(0) to avoid this message
-
 [helptxt, demotxt] = help_from_sci();
 editor = temp;
-Warning : redefining function: editor                  . Use funcprot(0) to avoid this message
-
 refDemotxt = [
 "mode(1)"
 "//"
@@ -63,7 +60,7 @@ refHelptxt = [
 ""
 ""
 "<refsynopsisdiv>"
-"   <title>Calling Sequence</title>"
+"   <title>Syntax</title>"
 "   <synopsis>"
 "   [z] = template_function(x,y) // calling examples, one pr. line"
 "   "
@@ -73,12 +70,18 @@ refHelptxt = [
 "<refsection>"
 "   <title>Parameters</title>"
 "   <variablelist>"
-"   <varlistentry><term>x:</term>"
-"      <listitem><para> the x parameter   // single line description of each parameter.</para></listitem></varlistentry>"
-"   <varlistentry><term>y:</term>"
-"      <listitem><para> the y parameter   // parameter name and description must be</para></listitem></varlistentry>"
-"   <varlistentry><term>z:</term>"
-"      <listitem><para> the z parameter   // separated by "":"".</para></listitem></varlistentry>"
+"        <varlistentry>"
+"            <term>x:</term>"
+"            <listitem><para> the x parameter   // single line description of each parameter.</para></listitem>"
+"        </varlistentry>"
+"        <varlistentry>"
+"            <term>y:</term>"
+"            <listitem><para> the y parameter   // parameter name and description must be</para></listitem>"
+"        </varlistentry>"
+"        <varlistentry>"
+"            <term>z:</term>"
+"            <listitem><para> the z parameter   // separated by "":"".</para></listitem>"
+"        </varlistentry>"
 "   </variablelist>"
 "</refsection>"
 ""

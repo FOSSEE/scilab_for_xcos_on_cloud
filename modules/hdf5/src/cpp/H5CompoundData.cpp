@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2012 - Scilab Enterprises - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -27,6 +30,11 @@ H5CompoundData::H5CompoundData(H5Object & _parent, const hsize_t _totalSize, con
         hid_t mtype = H5Tget_member_type(compoundType, i);
         hsize_t size = H5Tget_size(mtype);
         char * mname = H5Tget_member_name(compoundType, i);
+        std::string name(mname);
+
+        //free crash: it will be fix with hdf5 libs >= 1.8.16 with new function h5free_memory
+        //h5free_memory(mname);
+
         size_t offs = H5Tget_member_offset(compoundType, i);
         FieldInfo * info = 0;
         if (H5Tget_class(type) == H5T_STRING && !H5Tis_variable_str(type))
@@ -35,10 +43,9 @@ H5CompoundData::H5CompoundData(H5Object & _parent, const hsize_t _totalSize, con
             size++;
         }
 
-        info = new FieldInfo(mtype, size, offs, std::string(mname));
-        (*infos)[std::string(mname)] = info;
+        info = new FieldInfo(mtype, size, offs, name);
+        (*infos)[name] = info;
         fieldinfos[i] = info;
-        free(mname);
     }
 }
 
@@ -97,7 +104,7 @@ H5Object & H5CompoundData::getData(const unsigned int size, const unsigned int *
 
     if (pos >= totalSize)
     {
-        throw H5Exception(__LINE__, __FILE__, _("Invalid index."));
+        throw H5Exception(__LINE__, __FILE__, _("Invalid index.\n"));
     }
 
     _dims = new hsize_t[1];
@@ -106,7 +113,7 @@ H5Object & H5CompoundData::getData(const unsigned int size, const unsigned int *
     return *new H5CompoundData(*const_cast<H5CompoundData *>(this), 1, dataSize, 1, _dims, static_cast<char *>(data) + offset + pos * (dataSize + stride), type, 0, 0, false);
 }
 
-void H5CompoundData::getFieldNames(const int position, void * vApiCtx)
+void H5CompoundData::getFieldNames(const int position, void * pvApiCtx)
 {
     std::vector<std::string> names;
     names.reserve(nfields);

@@ -8,29 +8,18 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2012-08-30 21:04+0000\n"
+"PO-Revision-Date: 2019-02-12 15:51+0000\n"
 "Last-Translator: oriolsbd <oriolsbd@yahoo.es>\n"
 "Language-Team: Catalan <ca@li.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: ca\n"
-
-#, c-format
-msgid "Scilab '%s' module disabled in -nogui or -nwni mode.\n"
-msgstr ""
-"El mòdul '%s' de l'Scilab està inhabilitat en els modes -nogui i -nwni.\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
 msgstr ""
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: Single string expected.\n"
-msgstr ""
-"%s: L'argument d'entrada #%d és d'un tipus incorrecte: Ha de ser una cadena "
-"de text simple.\n"
 
 #, c-format
 msgid "%s: Could find or create the working directory %s.\n"
@@ -54,9 +43,6 @@ msgid "Scilab '%s' module not installed.\n"
 msgstr "No està instal·lat el mòdul '%s' del Scilab.\n"
 
 msgid "Version"
-msgstr ""
-
-msgid "Description"
 msgstr ""
 
 #, c-format
@@ -106,10 +92,12 @@ msgid "-- Deleting help files --\n"
 msgstr "-- S'està eliminant els fitxers d'ajuda --\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
 msgstr ""
-"%s: L'argument d'entrada #%d és d'un tipus incorrecte: Ha de ser una cadena "
-"de caràcters.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: a string expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: The help browser is disabled in %s mode.\n"
@@ -156,10 +144,14 @@ msgid "%s: File skipped %s."
 msgstr "%s: S'ha ignorat el fitxer %s."
 
 #, c-format
-msgid "%s: Wrong size for input argument #%d: A string expected.\n"
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
 msgstr ""
 "%s: L'argument d'entrada #%d té una mida incorrecta: Ha de ser una cadena de "
 "text.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Text(s) expected.\n"
+msgstr ""
 
 msgid " * Add some comments about XML file"
 msgstr ""
@@ -167,7 +159,7 @@ msgstr ""
 msgid "Add short description here."
 msgstr ""
 
-msgid "Calling Sequence"
+msgid "Syntax"
 msgstr ""
 
 msgid "Arguments"
@@ -279,6 +271,12 @@ msgid ""
 "Building the manual file [%s].\n"
 msgstr ""
 
+#
+# File: modules/helptools/macros/xmltoformat.sci, line: 754
+#, c-format
+msgid "Post-processing Right-to-Left pages in %s...\n"
+msgstr ""
+
 #, c-format
 msgid "%s: %s has not been generated."
 msgstr "%s: El %s no s'ha generat."
@@ -295,11 +293,6 @@ msgstr ""
 msgid "%s: Wrong type for input argument #%d: An integer expected.\n"
 msgstr ""
 "%s: L'argument d'entrada #%d és d'un tipus incorrecte: Ha de ser un enter.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: Single string expected.\n"
-msgstr ""
-"%s: L'argument #%d és d'un tipus incorrecte: Ha de ser un text simple.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: An integer expected.\n"
@@ -322,19 +315,19 @@ msgstr ""
 "existeixi.\n"
 
 #, c-format
-msgid "%s: The CHAPTER file is not well formated at line %d\n"
+msgid "%s: The CHAPTER file is not well formatted at line %d\n"
 msgstr "%s: El fitxer de CHAPTER té un format incorrecte a la línia %d\n"
 
 #, c-format
 msgid ""
-"%s: Wrong value for input argument #%d: A string that end with "
-".last_successful_build expected.\n"
+"%s: Wrong value for input argument #%d: A string that end with ."
+"last_successful_build expected.\n"
 msgstr ""
 "%s: L'argument d'entrada #%d té un valor incorrecte: Ha de ser una cadena de "
 "caràcters que acabi amb .last_successful_build.\n"
 
 #, c-format
-msgid "%s: The last_successful_build file is not well formated at line %d\n"
+msgid "%s: The last_successful_build file is not well formatted at line %d\n"
 msgstr ""
 "%s: El fitxer de last_successful_build té un format incorrecte a la línia "
 "%d\n"

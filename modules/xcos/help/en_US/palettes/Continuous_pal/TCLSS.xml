@@ -1,118 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Scicos
- * 
+ *
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="TCLSS">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+        xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+        xml:id="TCLSS" xml:lang="en_US">
     <refnamediv>
         <refname>TCLSS</refname>
         <refpurpose>Continuous linear system with jump</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/palettes/TCLSS.png" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/palettes/TCLSS.png" align="center" valign="middle"/>
+            </imageobject>
+        </inlinemediaobject>
     </refsection>
     <refsection id="Contents_TCLSS">
         <title>Contents</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="TCLSS">Continuous linear system with jump</link>
-                </para>
+                <xref linkend="Description_TCLSS">Description</xref>
             </listitem>
             <listitem>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <xref linkend="Palette_TCLSS">Palette</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Description_TCLSS">Description</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Dialogbox_TCLSS">Dialog box</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Defaultproperties_TCLSS">Default properties</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Interfacingfunction_TCLSS">Interfacing function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Computationalfunction_TCLSS">Computational function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Example_TCLSS">Example</xref>
-                        </para>
-                    </listitem>
-                </itemizedlist>
+                <xref linkend="Dialogbox_TCLSS">Parameters</xref>
             </listitem>
-        </itemizedlist>
-    </refsection>
-    <refsection id="Palette_TCLSS">
-        <title>Palette</title>
-        <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="Continuous_pal">Continuous time systems palette</link>
-                </para>
+                <xref linkend="Defaultproperties_TCLSS">Default properties</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Interfacingfunction_TCLSS">Interfacing function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Computationalfunction_TCLSS">Computational function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Example_TCLSS">Example</xref>
             </listitem>
         </itemizedlist>
     </refsection>
     <refsection id="Description_TCLSS">
         <title>Description</title>
         <para>
-            This block realizes a continuous-time linear state-space system with the possibility of jumps in the state. The number of inputs to this block is two. The first input is the regular input of the linear system, the second carries the new value of the state which is copied into the state when an event arrives at the unique event input port of this block. That means the state of the system jumps to the value present on the second input (of size equal to that of the state). The system is defined by the <literal>(A,B,C,D)</literal> matrices and the initial state <literal>x_0</literal>. The dimensions must be compatible. The sizes of inputs and outputs are adjusted automatically. 
+            This block realizes a continuous-time linear state-space system with the possibility of jumps in the state. The number of inputs to this block is two. The first input is the regular input of the linear system, the second carries the new value of the state which is copied into the state when an event arrives at the unique event input port of this block. That means the state of the system jumps to the value present on the second input (of size equal to that of the state). The system is defined by the <literal>(A,B,C,D)</literal> matrices and the initial state <literal>x_0</literal>. The dimensions must be compatible. The sizes of inputs and outputs are adjusted automatically.
         </para>
     </refsection>
     <refsection id="Dialogbox_TCLSS">
-        <title>Dialog box</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/gui/TCLSS_gui.gif" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para>
-            
-        </para>
+        <title>Parameters</title>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/gui/TCLSS_gui.gif" align="center" style="float:right"/>
+                <!-- align => Javahelp, style => Online -->
+            </imageobject>
+        </inlinemediaobject>
         <itemizedlist>
             <listitem>
                 <para>
@@ -158,6 +119,7 @@
                 <para> Properties : Type 'vec' of size "size(%1,2)". </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Defaultproperties_TCLSS">
         <title>Default properties</title>
@@ -233,6 +195,7 @@
                 </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Interfacingfunction_TCLSS">
         <title>Interfacing function</title>
@@ -252,14 +215,12 @@
     </refsection>
     <refsection id="Example_TCLSS">
         <title>Example</title>
-        <para>
-            <link type="scilab" linkend="scilab.xcos/xcos/examples/continuous_pal/TCLSS_Example.zcos">
-                <inlinemediaobject>
-                    <imageobject>
-                        <imagedata align="center" fileref="../../../../examples/continuous_pal/TCLSS_Example.zcos" valign="middle"/>
-                    </imageobject>
-                </inlinemediaobject>
-            </link>
-        </para>
+        <link type="scilab" linkend="scilab.xcos/xcos/examples/continuous_pal/TCLSS_Example.zcos">
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../../../examples/continuous_pal/TCLSS_Example.zcos" align="center"/>
+                </imageobject>
+            </inlinemediaobject>
+        </link>
     </refsection>
 </refentry>

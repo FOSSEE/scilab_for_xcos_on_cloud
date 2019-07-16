@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="backslash">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="en" xml:id="backslash">
     <refnamediv>
         <refname>backslash</refname>
         <refpurpose>(\) left matrix division.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Calling Sequence</title>
+        <title>Syntax</title>
         <synopsis>X=A\B</synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -53,7 +56,7 @@
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 A=[
    9.   -36.    30.
   -36.   192.  -180.
@@ -92,7 +95,7 @@ A*x-b, A*y-b
 // A benchmark of several linear solvers
 
 [A,descr,ref,mtype] = ReadHBSparse(SCI+..
-   "/modules/umfpack/examples/bcsstk24.rsa");
+   "/modules/umfpack/demos/bcsstk24.rsa");
 
 b = zeros(size(A,1),1);
 
@@ -110,7 +113,7 @@ mprintf('\ntime with backslash: %.3f\n',toc());
  ]]></programlisting>
     </refsection>
     <refsection role="see also">
-        <title>See Also</title>
+        <title>See also</title>
         <simplelist type="inline">
             <member>
                 <link linkend="slash">slash</link>
@@ -140,7 +143,10 @@ mprintf('\ntime with backslash: %.3f\n',toc());
         <revhistory>
             <revision>
                 <revnumber>5.4.1</revnumber>
-                <revremark>The threshold level for conditioning in blackslash increased.</revremark>
+                <revremark>
+                  The threshold level which switches between Gaussian Elimination with row pivoting
+                  and linear least squares when computing A\B is decreased from sqrt(eps) to eps.
+                </revremark>
             </revision>
         </revhistory>
     </refsection>

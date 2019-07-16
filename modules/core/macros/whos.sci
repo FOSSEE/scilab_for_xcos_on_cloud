@@ -3,11 +3,14 @@
 // Copyright (C) DIGITEO - 2010 - Allan CORNET
 // Copyright (C) 2010 - Samuel Gougeon
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function whos(%_opt,%_sel)
 
@@ -49,9 +52,13 @@ function whos(%_opt,%_sel)
     //============================================================================
 
     function writeWhosLine(_name, _namedtype, _sz, _bytes)
+        _sz_str=_sz;
+        if type(_sz)==1 then
+            _sz_str=part(msprintf("%dx",_sz(:)),1:$-1);
+        end
         mprintf("%s\n", part(_name, 1:25) + part(_namedtype,1:15) + ..
-        part(strcat(string(_sz), _(" by ")), 1:15) + ..
-        part(string(_bytes), 1:13));
+        part(_sz_str,1:15) + ..
+        part(msprintf("%d",_bytes), 1:13));
     endfunction
 
     //============================================================================

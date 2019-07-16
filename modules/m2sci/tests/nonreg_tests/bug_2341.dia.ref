@@ -26,9 +26,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch")
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -38,9 +38,8 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch")
   Conversion of M-tree: Done
   Macro to tree conversion: Done
   ****** End of mfile2sci() session ******
- ierr  =
- 
-    0.  
+ ierr  = 
+    0.
 if ierr<>0 then bugmes();quit;end
 // TEST2: commas OK without spaces
 MFILECONTENTS=["function [a,b,c,d]=bug2341";
@@ -53,9 +52,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch")
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -65,9 +64,8 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch")
   Conversion of M-tree: Done
   Macro to tree conversion: Done
   ****** End of mfile2sci() session ******
- ierr  =
- 
-    0.  
+ ierr  = 
+    0.
 if ierr<>0 then bugmes();quit;end
 // TEST3: commas OK with spaces before
 MFILECONTENTS=["function [a  ,b ,c   ,d]=bug2341";
@@ -80,9 +78,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -104,9 +102,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -128,9 +126,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -152,9 +150,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -176,9 +174,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...
@@ -200,9 +198,9 @@ ierr=execstr("mfile2sci("""+MFILE+""","""+TMPDIR+""")","errcatch");
   File to convert: TMPDIR/bug2341.m
   Result file path: TMPDIR/
   Recursive mode: OFF
-  Only double values used in M-file: YES
+  Only double values used in M-file: NO
   Verbose mode: 3
-  Generate formated code: NO
+  Generate formatted code: NO
   M-file reading...
   M-file reading: Done
   Syntax modification...

@@ -3,11 +3,14 @@
  * Copyright (C) INRIA - Allan CORNET
  * Copyright (C) 2008-2008 - INRIA - Sylvestre LEDRU
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -20,14 +23,11 @@
 #include "GetXmlFileEncoding.h"
 #include "FileExist.h"
 #include "addToClasspath.h"
-#include "setgetSCIpath.h"
-#include "MALLOC.h"
+#include "sci_path.h"
+#include "sci_malloc.h"
 #include "localization.h"
-#include "scilabmode.h"
-#include "stricmp.h"
-#ifdef _MSC_VER
-#include "strdup_windows.h"
-#endif
+#include "configvariable_interface.h"
+#include "os_string.h"
 #include "getshortpathname.h"
 #include "BOOL.h"
 /*--------------------------------------------------------------------------*/
@@ -65,7 +65,7 @@ BOOL LoadClasspath(char *xmlfilename)
             char *classpath = NULL;
             char *load = "";
             typeOfLoad eLoad = STARTUP;
-            char *currentMode = getScilabModeString();
+            const char *currentMode = getScilabModeString();
             /* Xpath Query :
              * Retrieve all the path which are not disabled in our mode
              */
@@ -87,11 +87,9 @@ BOOL LoadClasspath(char *xmlfilename)
             if (ClassPathxmlDocPtr == NULL)
             {
                 fprintf(stderr, _("Error: could not parse file %s\n"), xmlfilename);
-                if (encoding)
-                {
-                    FREE(encoding);
-                    encoding = NULL;
-                }
+                FREE(encoding);
+                encoding = NULL;
+                FREE(XPath);
                 return bOK;
             }
 
@@ -143,7 +141,7 @@ BOOL LoadClasspath(char *xmlfilename)
                     if ( (classpath) && (strlen(classpath) > 0) && (strncmp(classpath, "@", 1) != 0) ) /* If it starts by a @ that means it hasn't been able to find it... which is normal... for example with the documentation */
                     {
 #define KEYWORDSCILAB "$SCILAB"
-                        char *sciPath = getSCIpath();
+                        char *sciPath = getSCI();
                         char *FullClasspath = NULL;
 
                         if (strncmp(classpath, KEYWORDSCILAB, strlen(KEYWORDSCILAB)) == 0)
@@ -157,7 +155,7 @@ BOOL LoadClasspath(char *xmlfilename)
                         }
                         else
                         {
-                            FullClasspath = strdup(classpath);
+                            FullClasspath = os_strdup(classpath);
                         }
 
                         if (FullClasspath)
@@ -193,21 +191,15 @@ BOOL LoadClasspath(char *xmlfilename)
             {
                 xmlXPathFreeContext(xpathCtxt);
             }
-            if (XPath)
-            {
-                FREE(XPath);
-                XPath = NULL;
-            }
+            FREE(XPath);
+            XPath = NULL;
         }
         else
         {
             fprintf(stderr, _("Error : Not a valid classpath file %s (encoding not 'utf-8') Encoding '%s' found\n"), xmlfilename, encoding);
         }
-        if (encoding)
-        {
-            FREE(encoding);
-            encoding = NULL;
-        }
+        FREE(encoding);
+        encoding = NULL;
     }
     else
     {

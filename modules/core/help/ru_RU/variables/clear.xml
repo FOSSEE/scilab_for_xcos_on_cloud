@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="ru" xml:id="clear">
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) 2008 - INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="ru" xml:id="clear">
     <refnamediv>
         <refname>clear</refname>
         <refpurpose>уничтожает переменные</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Последовательность вызова</title>
+        <title>Синтаксис</title>
         <synopsis>
             clear a b c
             clear('a','b','c')
@@ -27,7 +44,7 @@
         <para>
             Эта команда уничтожает переменные, которые не защищены. Она удаляет
             перечисленные переменные из окружения. Само по себе, без аргументов, <code>clear</code>
-            уничтожает все переменные за исключением переменных, защищённых с помощью 
+            уничтожает все переменные за исключением переменных, защищённых с помощью
             <code>predef</code>. Таким образом, две команды <code>predef(0)</code> и
             <code>clear</code> уничтожают все переменные.
         </para>
@@ -67,8 +84,27 @@ isdef("b") // F
                 <link linkend="predef">predef</link>
             </member>
             <member>
+                <link linkend="funcprot">funcprot</link>
+            </member>
+            <member>
                 <link linkend="who">who</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>История</title>
+        <revhistory>
+            <revision>
+                <revnumber>5.5.0</revnumber>
+                <revdescription>Argument can now be a matrix of strings</revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                  <literal>clear</literal> is now protected:
+                  Assignments like <literal>clear=1</literal> are no longer possible.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

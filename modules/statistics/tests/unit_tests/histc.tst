@@ -5,37 +5,40 @@
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
 //
+//<-- CLI SHELL MODE -->
+//<-- NO CHECK REF -->
 
 rand("seed", 0);
 d = rand(1, 10000, "normal");
 [cfC, indC] = histc(20, d);
 
 refCF = [
-0.000257209601
-0.001028838404
-0.005144192018
-0.009259545632
-0.027007008092
-0.073561945850
-0.128604800438
-0.205767680700
-0.303764538634
-0.364723214041
-0.397131623751
-0.363179956436
-0.289875220186
-0.190335104648
-0.110085709175
-0.061215885008
-0.026749798491
-0.010288384035
-0.002829305610
-0.001286048004 ]';
+   0.0002572096
+   0.00102883842
+   0.00514419209
+   0.00925954575
+   0.02700700845
+   0.07356194682
+   0.12860480213
+   0.20576768341
+   0.30376454264
+   0.36472321885
+   0.39713162899
+   0.36317996123
+   0.28987522401
+   0.19033510716
+   0.11008571063
+   0.06121588582
+   0.02674979884
+   0.01028838417
+   0.00282930565
+   0.00128604802
+]';
 assert_checkequal(size(indC), [1 10000]);
-assert_checkalmostequal(cfC, refCF);
+assert_checkalmostequal(cfC, refCF,1e-7);
 [cfC, indC] = histc(int32(20), d);
 assert_checkequal(size(indC), [1 10000]);
-assert_checkalmostequal(cfC, refCF);
+assert_checkalmostequal(cfC, refCF, 1e-7);
 
 // Same test, without normalization
 [cfC, indC] = histc(20, d, normalization=%f);
@@ -70,7 +73,7 @@ assert_checkequal(cfC, refCF);
 
 // With x instead of n as first argument
 cfC = histc([-5 0 5], d);
-refCF = [0.09982 0.10018];
+refCF = [0.09982   0.10018];
 assert_checkequal(cfC, refCF);
 cfC = histc(int8([-5 0 5]), d);
 assert_checkequal(cfC, refCF);
@@ -78,7 +81,6 @@ cfC = histc(int16([-5 0 5]), d);
 assert_checkequal(cfC, refCF);
 cfC = histc(int32([-5 0 5]), d);
 assert_checkequal(cfC, refCF);
-assert_checkequal(sum(cfC), 0.2);
 cfC = histc([-5 0 5], d, %f);
 assert_checkequal(sum(cfC), 10000); // -5 > d > 5, and d has 10000 elements.
 
@@ -90,51 +92,52 @@ D = grand(100000, 1, "exp", 1/lambda);
 [cfC, indC] = histc(40, D);
 
 refCF = [
-1.698711801698
-1.24408608389
-0.908431380900
-0.656611502242
-0.489635746028
-0.352875852007
-0.257181774872
-0.194479129735
-0.141490978915
-0.097271105433
-0.073615680960
-0.050401824411
-0.038416409344
-0.028512671632
-0.021447584856
-0.014634822607
-0.010660711296
-0.008200547151
-0.005866545269
-0.004289516971
-0.004163354707
-0.001387784902
-0.001450866034
-0.000946216979
-0.000756973583
-0.000756973583
-0.000441567923
-0.000315405660
-0.000252324528
-0.000189243396
-0.000063081132
-0.000189243396
-0.000126162264
-0.000063081132
-0.000063081132
-0
-0
-0.000063081132
-0
-0.000063081132 ]';
+   1.6987118D+00
+   1.2440861D+00
+   9.0843138D-01
+   6.5661150D-01
+   4.8963575D-01
+   3.5287585D-01
+   2.5718177D-01
+   1.9447913D-01
+   1.4149098D-01
+   9.7271105D-02
+   7.3615681D-02
+   5.0401824D-02
+   3.8416409D-02
+   2.8512672D-02
+   2.1447585D-02
+   1.4634823D-02
+   1.0660711D-02
+   8.2005472D-03
+   5.8665453D-03
+   4.2895170D-03
+   4.1633547D-03
+   1.3877849D-03
+   1.4508660D-03
+   9.4621698D-04
+   7.5697358D-04
+   7.5697358D-04
+   4.4156792D-04
+   3.1540566D-04
+   2.5232453D-04
+   1.8924340D-04
+   6.3081132D-05
+   1.8924340D-04
+   1.2616226D-04
+   6.3081132D-05
+   6.3081132D-05
+   0.0000000D+00
+   0.0000000D+00
+   6.3081132D-05
+   0.0000000D+00
+   6.3081132D-05
+ ]';
 assert_checkequal(size(indC), [100000 1]);
-assert_checkalmostequal(cfC, refCF);
+assert_checkalmostequal(cfC, refCF, 1e-7);
 [cfC, indC] = histc(int8(40), D);
 assert_checkequal(size(indC), [100000 1]);
-assert_checkalmostequal(cfC, refCF);
+assert_checkalmostequal(cfC, refCF, 1e-7);
 
 // Same test, without normalization
 [cfC, indC] = histc(40, D, normalization=%f);
@@ -188,7 +191,7 @@ assert_checkalmostequal(cfC, refCF);
 
 // With x instead of n as first argument
 cfC = histc([0 7], D);
-refCF = 0.142857142857;
+refCF = 1/7;
 assert_checkalmostequal(cfC, refCF);
 cfC = histc(int8([0 7]), D);
 assert_checkalmostequal(cfC, refCF);

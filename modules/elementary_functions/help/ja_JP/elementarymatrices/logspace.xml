@@ -2,12 +2,15 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="logspace" xml:lang="ja">
@@ -42,11 +45,11 @@
     <refsection>
         <title>説明</title>
         <para>
-            <latex>10^{d1}</latex> および
-            <latex>10^{d2}</latex>の間に指数的に等間隔にとった
+            10<superscript>d1</superscript> および
+            10<superscript>d2</superscript>の間に指数的に等間隔にとった
             <literal>n</literal>個の点からなる行ベクトルを返します.
-            <latex>d2=\pi</latex> の場合,
-            <latex>10^{d1}</latex> および <latex>\pi</latex>の間の
+            <emphasis>d2=π</emphasis> の場合,
+            10<superscript>d1</superscript> および πの間の
             点となります.
         </para>
     </refsection>

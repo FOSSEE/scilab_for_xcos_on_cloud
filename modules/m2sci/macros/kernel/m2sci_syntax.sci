@@ -2,11 +2,14 @@
 // Copyright (C) ???? - INRIA - Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [helppart,txt,batch]=m2sci_syntax(txt)
     // Make minor changes on M-file data syntax to have it readable by Scilab
@@ -142,17 +145,6 @@ function [helppart,txt,batch]=m2sci_syntax(txt)
             end
         end
 
-        // Insert a blank when a digit is followed by a dotted operator
-        // So that point is associated to operator and not to digit
-        // Because if it is associated to digit, dot is suppressed by comp()
-        kdot=strindex(tk,[".*","./",".\",".^",".''"])
-        if kdot<>[] then
-            kdgt=kdot(find(abs(_str2code(part(tk,kdot-1)))<9))
-            for kk=size(kdgt,"*"):-1:1
-                tk=part(tk,1:kdgt(kk)-1)+" "+part(tk,kdgt(kk):length(tk));
-            end
-        end
-
         // Modify struct like x.(fieldname) which become x(fieldname)
         tk=strsubst(tk,".(","(")
 
@@ -211,22 +203,33 @@ function [helppart,txt,batch]=m2sci_syntax(txt)
         kc=isacomment(tk)
         if kc<>0 then // Current line has or is a comment
             // If function prototype immediately followed by a comment on same line
-            if part(stripblanks(tk),1:9) == "function " | part(stripblanks(tk),1:9) == "function[" then
+            protoline = or(part(stripblanks(tk),1:9) == ["function " "function["]);
+            if protoline then
                 first_ncl=k
             end
-            com=part(tk,kc+1:length(tk))
-            if stripblanks(part(tk,1:kc-1))<>"" &  ~(stripblanks(part(tk,1:9))=="function " | stripblanks(part(tk,1:9))=="function[")  then endofhelp=%t;end
-            if ~endofhelp & part(tk,1:9) ~= "function " then helppart=[helppart;com];end // Get help part placed at the beginning of the file
+            com = part(tk,kc+1:length(tk))
+            endofhelp = stripblanks(part(tk,1:kc-1))<>"" & ~protoline
+            if ~endofhelp & part(tk,1:9) ~= "function " then
+                helppart = [helppart;com];
+            end // Get help part placed at the beginning of the file
             if length(com)==0 then com=" ",end
-            com=strsubst(com,quote,quote+quote)
-            com=strsubst(com,dquote,dquote+dquote)
-            if part(com,1:12)=="m2sciassume " | part(com,1:13)=="m2scideclare " then // User has given a clue to help translation
+            com = strsubst(com, quote, quote+quote)
+            com = strsubst(com, dquote, dquote+dquote)
+            if part(com,1:12)=="m2sciassume " | part(com,1:13)=="m2scideclare " then
+                // User has given a clue to help translation
                 if part(com,1:12)=="m2sciassume " then
                     warning(gettext("m2sciassume is obsolete, used m2scideclare instead."));
                 end
-                com=";m2scideclare("+quote+part(com,13:length(com))+quote+")"
+                com = "m2scideclare("+quote+part(com,13:$)+quote+")"
+                if kc>1
+                    com = ";" + com
+                end
             else
-                com=";//"+com
+                if protoline
+                    com = ";//" + com
+                else
+                    com = " //" + com
+                end
             end
             tkbeg=part(tk,1:kc-1)
 
@@ -451,5 +454,4 @@ function [helppart,txt,batch]=m2sci_syntax(txt)
         end
         // END of BUG 2341 fix: function prototype with no comma between output parameters names
     end
-
 endfunction

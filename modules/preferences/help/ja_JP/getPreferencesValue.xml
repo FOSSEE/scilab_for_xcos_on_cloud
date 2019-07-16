@@ -3,17 +3,20 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2014 - Scilab Enterprises - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="getPreferencesValue" xml:lang="ja">
     <refnamediv>
         <refname>getPreferencesValue</refname>
-        <refpurpose>設定値を取得</refpurpose>
+        <refpurpose>設定値を取得 <emphasis role="bold">（非推奨）</emphasis></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>呼び出し手順</title>
@@ -27,7 +30,7 @@
             <varlistentry>
                 <term>xpath</term>
                 <listitem>
-                    <para>文字列, 
+                    <para>文字列,
                         設定ファイルのノードを取得する
                         XPathリクエストを表す.
                     </para>
@@ -52,12 +55,16 @@
     </refsection>
     <refsection>
         <title>説明</title>
+        <warning>
+            <literal>getPreferencesValue()</literal> is obsolete. It is cloned into
+            <code>xmlGetValues()</code>. It will be removed from Scilab 6.1.x
+        </warning>
         <para>
             設定ファイル(<literal>SCIHOME+'/XConfiguration.xml'</literal>)の
-            属性の値を取得します. 
+            属性の値を取得します.
         </para>
         <para>
-            docを指定した場合, 値はこの文書内で探されます. 
+            docを指定した場合, 値はこの文書内で探されます.
             複数のリクエストを実行する必要がある際,
             同じ設定ファイルを重複してパースすることを避けるために
             有用です.
@@ -89,11 +96,11 @@
     </web>
     ...
 </interface>
-	      ]]></programlisting>
+          ]]></programlisting>
                 <para>
-                    パスは<literal>"/interface/web/body/proxy"</literal> 
+                    パスは<literal>"/interface/web/body/proxy"</literal>
                     (または簡単化するために<literal>"//web/body/proxy"</literal>)
-                    となります. 
+                    となります.
                 </para>
             </member>
         </simplelist>
@@ -108,8 +115,40 @@ getPreferencesValue("//web/body/proxy", ["enabled", "host", "port"]);
         <title>参照</title>
         <simplelist type="inline">
             <member>
+                <link linkend="xmlGetValues">xmlGetValues</link>
+            </member>
+            <member>
                 <link linkend="setPreferencesValue">setPreferencesValue</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>History</title>
+        <revhistory>
+            <revision>
+                <revnumber>5.5.0</revnumber>
+                <revdescription>getPreferencesValue() introduced.
+                </revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                    <itemizedlist>
+                        <listitem>
+                            XMLsource can now be the path + filename of the preferences file.
+                        </listitem>
+                        <listitem>
+                            A tag with multiple occurrences can now be read.
+                        </listitem>
+                    </itemizedlist>
+                </revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.0.2</revnumber>
+                <revdescription>getPreferencesValue() is cloned into xmlGetValues(). It is
+                    declared obsolete and will be removed from Scilab 6.1.x
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

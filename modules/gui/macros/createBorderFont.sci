@@ -2,11 +2,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 //
 //
 
@@ -22,33 +25,33 @@ function ret = createBorderFont(varargin)
 
     fontname = varargin(1);
     if typeof(fontname) <> "string" | size(fontname, "*") <> 1 then
-        error(999, msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"), "createBorderFont", 1));
+        error(msprintf(_("%s: Wrong type for input argument #%d: string expected.\n"), "createBorderFont", 1));
     end
 
     fontsize = varargin(2);
     if typeof(fontsize) <> "constant" | size(fontsize, "*") <> 1 then
-        error(999, msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 2));
+        error(msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 2));
     end
 
     if rhs > 2 then
         fontweight = varargin(3);
         if typeof(fontweight) <> "string" | size(fontweight, "*") <> 1 then
-            error(999, msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 3));
+            error(msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 3));
         end
 
         if fontweight <> ["normal", "bold"] then
-            error(999, msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"), "createBorderFont", 3, "normal", "bold"));
+            error(msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"), "createBorderFont", 3, "normal", "bold"));
         end
     end
 
     if rhs > 3 then
         fontangle = varargin(4);
         if typeof(fontangle) <> "string" | size(fontangle, "*") <> 1 then
-            error(999, msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 4));
+            error(msprintf(_("%s: Wrong type for input argument #%d: A integer value expected.\n"), "createBorderFont", 4));
         end
 
         if fontangle <> ["normal", "italic"] then
-            error(999, msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"), "createBorderFont", 4, "normal", "italic"));
+            error(msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"), "createBorderFont", 4, "normal", "italic"));
         end
     end
 

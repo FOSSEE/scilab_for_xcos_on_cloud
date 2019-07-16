@@ -3,11 +3,14 @@
  * Copyright (C) 2011 - DIGITEO - Calixte DENIZET
  * Copyright (C) 2013 - Scilab Enterprises - Calixte DENIZET
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -123,6 +126,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -167,6 +172,10 @@ public final class ScilabVariables {
      * @param indexes
      *            an integer array with the indexes of the (sub)*-list which
      *            will contain the data
+     * @param real complex real part data buffer
+     * @param imag complex imaginary part data buffer
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -211,6 +220,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -255,6 +266,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -299,6 +312,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -343,6 +358,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -387,6 +404,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -431,6 +450,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -475,6 +496,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -519,6 +542,8 @@ public final class ScilabVariables {
      *            will contain the data
      * @param data
      *            the data
+     * @param rows number of rows
+     * @param cols number of columns
      * @param handlerId
      *            the handler id
      */
@@ -800,6 +825,7 @@ public final class ScilabVariables {
      *
      * @param varName
      *            the variable name
+     * @param nbItems number of element in the list
      * @param indexes
      *            an integer array with the indexes of the (sub)*-list which
      *            will contain the data
@@ -839,6 +865,7 @@ public final class ScilabVariables {
      * Call when the list filling is finished a * @param indexes an integer
      * array with the indexes of the (sub)*-list which will contain the data
      *
+     * @param indexes to close
      * @param handlerId
      *            the handler id
      */

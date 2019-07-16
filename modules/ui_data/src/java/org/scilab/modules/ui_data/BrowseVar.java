@@ -3,11 +3,14 @@
  * Copyright (C) 2010 - DIGITEO - Bruno JOFRET
  * Copyright (C) 2010 - DIGITEO - Sylvestre KOUMAR
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 package org.scilab.modules.ui_data;
@@ -65,6 +68,7 @@ public class BrowseVar {
     private static final ImageIcon LIST_ICON = new ImageIcon(FindIconHelper.findIcon("list"));
     private static final ImageIcon TLIST_ICON = new ImageIcon(FindIconHelper.findIcon("tlist"));
     private static final ImageIcon MLIST_ICON = new ImageIcon(FindIconHelper.findIcon("mlist"));
+    private static final ImageIcon CELL_ICON = new ImageIcon(FindIconHelper.findIcon("cell"));
     private static final ImageIcon USER_ICON = new ImageIcon(FindIconHelper.findIcon("user"));
     private static final ImageIcon FPTR_ICON = new ImageIcon(FindIconHelper.findIcon("fptr"));
 
@@ -106,7 +110,10 @@ public class BrowseVar {
             case 16:
                 return TLIST_ICON;
             case 17:
+            case 18:
                 return MLIST_ICON;
+            case 19:
+                return CELL_ICON;
             case 128:
                 return USER_ICON;
             case 130:

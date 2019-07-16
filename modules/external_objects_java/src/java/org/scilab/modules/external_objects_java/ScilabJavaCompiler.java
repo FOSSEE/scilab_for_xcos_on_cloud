@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010 - 2011 - Calixte DENIZET <calixte@contrib.scilab.org>
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -27,11 +30,14 @@ import java.net.URLClassLoader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.swing.SwingUtilities;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.FileObject;
@@ -96,7 +102,7 @@ public class ScilabJavaCompiler {
 
             if (compiler == null) {
                 if (ecjLoaded) {
-                    throw new ScilabJavaException("No java compiler in the classpath\nCheck for tools.jar (comes from JDK) or ecj-3.6.x.jar (Eclipse Compiler for Java)");
+                    throw new ScilabJavaException("No java compiler in the classpath\nCheck for tools.jar (comes from JDK) or ecj-4.4.x.jar (Eclipse Compiler for Java)");
                 }
 
                 // Compiler should be in thirdparty so we load it
@@ -116,7 +122,29 @@ public class ScilabJavaCompiler {
      * @return an integer corresponding to the compiled and loaded class.
      */
     public static int compileCode(String className, String[] code) throws ScilabJavaException {
-        findCompiler();
+        if (SwingUtilities.isEventDispatchThread()) {
+            findCompiler();
+        } else {
+            try {
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            findCompiler();
+                        } catch (ScilabJavaException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (InvocationTargetException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
 
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, Locale.getDefault(), null);
@@ -158,6 +186,12 @@ public class ScilabJavaCompiler {
 
         String[] compileOptions = new String[] {"-d", BINPATH};
         Iterable<String> options = Arrays.asList(compileOptions);
+
+        try {
+            stdFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Collections.singleton(new File(BINPATH)));
+        } catch (IOException ex) {
+            Logger.getLogger(ScilabJavaCompiler.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         CompilationTask task = compiler.getTask(out, manager, diagnostics, options, null, compilationUnits);
         boolean success = task.call();
@@ -209,27 +243,32 @@ public class ScilabJavaCompiler {
         int cpt = 1;
         buffer.append("----------\n");
         for (Diagnostic <? extends JavaFileObject > d : diagnostics.getDiagnostics()) {
-            buffer.append(Integer.toString(cpt++)).append(". ").append(d.getKind()).append(" in ").append(d.getSource().toUri().getPath()).append(" (at line ").append(Long.toString(d.getLineNumber())).append(")\n");
+            buffer.append(Integer.toString(cpt++)).append(". ").append(d.getKind());
+            if (d.getSource() != null) {
+                buffer.append(" in ").append(d.getSource().toUri().getPath()).append(" (at line ").append(Long.toString(d.getLineNumber())).append(")\n");
 
-            Reader reader = null;
-            try {
-                reader = d.getSource().openReader(true);
-                reader.skip(d.getStartPosition());
-                char[] data = new char[(int) (d.getEndPosition() - d.getStartPosition() + 1)];
-                reader.read(data);
-                buffer.append("        ").append(data).append('\n');
-                Arrays.fill(data, '^');
-                buffer.append("        ").append(data).append('\n');
-            } catch (IOException e) {
+                Reader reader = null;
+                try {
+                    reader = d.getSource().openReader(true);
+                    reader.skip(d.getStartPosition());
+                    char[] data = new char[(int) (d.getEndPosition() - d.getStartPosition() + 1)];
+                    reader.read(data);
+                    buffer.append("        ").append(data).append('\n');
+                    Arrays.fill(data, '^');
+                    buffer.append("        ").append(data).append('\n');
+                } catch (IOException e) {
 
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) { }
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (IOException e) { }
+                    }
                 }
+            } else {
+                // this is not a file related error
+                buffer.append('\n');
             }
-
             buffer.append(d.getMessage(Locale.getDefault())).append('\n');
         }
 

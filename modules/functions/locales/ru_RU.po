@@ -8,91 +8,89 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2013-12-12 16:37+0000\n"
+"PO-Revision-Date: 2019-02-12 15:02+0000\n"
 "Last-Translator: Stanislav V. Kroter <krotersv@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: ru\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 #, c-format
-msgid "%s: Can not read input argument #%d.\n"
-msgstr "%s: Не могу прочитать входной аргумент №%d.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d.\n"
-msgstr "%s: Неверный размер входного параметра №%d.\n"
-
-#, c-format
-msgid ""
-"%s: Wrong type for input argument #%d: A scalar or a string expected.\n"
-msgstr ""
-"%s: Неверный тип входного параметра №%d: ожидался скаляр или строка.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: A scalar expected.\n"
-msgstr "%s: Неверный размер входного параметра №%d: ожидался скаляр.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d: An integer expected.\n"
-msgstr ""
-"%s: Неверное значение входного параметра №%d: ожидалось целое число.\n"
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
+msgstr "%s: Неверное количество входных аргументов: ожидалось от %d до %d.\n"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: 'errcatch' expected.\n"
+msgstr "%s: Неверное значение входного параметра №%d: ожидалось «errcatch».\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A integer expected.\n"
 msgstr ""
-"%s: Неверное значение входного параметра №%d: ожидалось «errcatch».\n"
+"%s: Неверный тип входного аргумента №%d: ожидалось целочисленное значение.\n"
 
 #, c-format
-msgid "%s: Memory allocation error.\n"
-msgstr "%s: Ошибка выделения памяти.\n"
-
-#, c-format
-msgid "%s : Memory allocation error.\n"
-msgstr "%s: Ошибка выделения памяти.\n"
-
-#, c-format
-msgid "%s: Wrong value(s) for input argument(s).\n"
-msgstr "%s: Неверные значения входных параметров.\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
-msgstr "%s: Неверный тип входного параметра №%d: ожидалась строка.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: A string expected.\n"
-msgstr "%s: Неверный размер входного параметра №%d: ожидалась строка.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d: 'm' or 'n' expected.\n"
+msgid "%s: Wrong type for input argument #%d: A integer or string expected.\n"
 msgstr ""
-"%s: Неверное значение входного параметра №%d: ожидалось «m» или «n».\n"
+"%s: Неверный тип входного аргумента №%d: ожидался тип integer или string.\n"
 
 #, c-format
-msgid "%s: Wrong size for input argument #%d: String expected.\n"
-msgstr "%s: Неверный размер входного параметра №%d: ожидалась строка.\n"
+msgid "%s: Cannot open file %s.\n"
+msgstr "%s: Не удалось открыть файл %s.\n"
+
+#, c-format
+msgid "%s: Unable to parse macro '%s'"
+msgstr "%s: Невозможно преобразовать в машиночитаемую форму сценарий '%s'"
+
+#, c-format
+msgid ""
+"%s: Wrong type for input argument #%d: A macro without varargin and "
+"varargout expected.\n"
+msgstr ""
+"%s: Неверный тип входного аргумента №%d: ожидался сценарий без varargin и "
+"varargout.\n"
+
+#, c-format
+msgid "Recursion limit reached (%d).\n"
+msgstr "Достигнут предел рекурсии (%d).\n"
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: '%s' or '%s' expected.\n"
+msgstr ""
+"%s: Неверное значение входного аргумента №%d: ожидалось «%s» или «%s».\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Vector of strings expected.\n"
+msgstr "%s: Неверный тип входного аргумента №%d: ожидался вектор строк.\n"
+
+#, c-format
+msgid "%s: Wrong number of output argument(s): %d expected.\n"
+msgstr "%s: Неверное количество выходных аргументов: ожидалось %d.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A String expected.\n"
+msgstr "%s: Неверный тип входного аргумента №%d: ожидалась строка.\n"
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: A String expected.\n"
+msgstr "%s: Неверный размер входного аргумента №%d: ожидалась строка.\n"
 
 #, c-format
 msgid "%s: Invalid library %s.\n"
 msgstr "%s: Некорректная библиотека %s.\n"
 
 #, c-format
-msgid "%s: Wrong type of input argument #%d: String expected.\n"
-msgstr "%s: Неверный тип входного параметра №%d: ожидалась строка.\n"
+msgid "%s: Wrong number of output arguments: %d expected.\n"
+msgstr "%s: Неверное количество выходных аргументов: ожидалось %d.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d.\n"
-msgstr "%s: Неверный тип входного параметра №%d.\n"
+msgid "%s: Wrong type for input arguments: macro expected.\n"
+msgstr "%s: Неверный тип входных аргументов: ожидался сценарий.\n"
 
 #, c-format
-msgid "%s: Wrong number of input argument(s): %d expected.\n"
-msgstr "%s: Неверное количество входных аргументов: Ожидалось %d.\n"
-
-#, c-format
-msgid "%s: obsolete op-code %d.\n"
-msgstr "%s: устаревший код операции %d.\n"
+msgid "%s: Wrong number of input arguments: at least %d expected.\n"
+msgstr "%s: Неверное количество входных аргументов: ожидалось не менее %d.\n"
 
 #, c-format
 msgid "Checking: %s.\n"
@@ -107,72 +105,16 @@ msgid "%s: File %s doesn't exist.\n"
 msgstr "%s: Файл %s не существует.\n"
 
 #, c-format
-msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
-msgstr "%s: Неверное количество входных аргументов: Ожидалось от %d до %d.\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: A boolean expected.\n"
-msgstr ""
-"%s: Неверный тип входного аргумента №%d: ожидалось логическое значение.\n"
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: A boolean expected.\n"
-msgstr ""
-"%s: Неверный размер входного параметра №%d: ожидалось логическое значение.\n"
-
-#, c-format
-msgid "-- Creation of [%s] (Macros) --\n"
-msgstr "-- Создание [%s] (Макросы) --\n"
-
-#, c-format
-msgid "%s: No files with extension %s found in %s\n"
-msgstr "%s: Файлы с расширением %s не найдены в %s\n"
-
-#, c-format
-msgid ""
-"%s: Wrong type for input argument #%d:  A matrix of string expected.\n"
-msgstr "%s: Неверный тип входного аргумента №%d:  ожидалась матрица строк.\n"
-
-#, c-format
-msgid "%s: %s file compilation forced\n"
-msgstr "%s: Вынужденная компиляция файла %s\n"
-
-#, c-format
-msgid "%s: Processing file: %s\n"
-msgstr "%s: Обрабатывается файл: %s\n"
-
-#, c-format
-msgid "%s: Regenerate names and lib\n"
-msgstr "%s: Обновляются файлы names и lib\n"
-
-#, c-format
-msgid "%s: %s file cannot be created\n"
-msgstr "%s: не удалось создать файл %s\n"
-
-#, c-format
-msgid ""
-"Library file %s has been updated,\n"
-"but cannot be loaded into Scilab because %s is a protected variable.\n"
-msgstr ""
-"Файл библиотеки %s был обновлён,\n"
-"но не может быть загружен в Scilab, потому что %s является защищённой "
-"переменной.\n"
-
-#, c-format
-msgid "%s: Error in file %s : %s.\n"
-msgstr "%s: Ошибка в файле %s : %s.\n"
-
-#, c-format
-msgid "%s: Impossible to open file %s for writing\n"
-msgstr "%s: Не удалось открыть файл %s для записи\n"
-
-#, c-format
-msgid "%s: File %s does not contain any function.\n"
-msgstr "%s: Файл %s не содержит ни одной функции.\n"
+msgid "%s: This feature has not been implemented: %s.\n"
+msgstr "%s: Эта функциональная возможность ещё не реализована: %s.\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument: %d expected.\n"
 msgstr "%s: Неверное количество входных аргументов: ожидалось %d.\n"
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
+msgstr "%s: Неверный размер входного параметра №%d: ожидалась строка.\n"
 
 #, c-format
 msgid "%s: I cannot find any files with extension %s in %s\n"
@@ -201,68 +143,8 @@ msgid "No comment available."
 msgstr "Комментарий недоступен."
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: Scilab function expected.\n"
-msgstr ""
-"%s: Неверный тип входного параметра №%d: ожидалось имя функции Scilab.\n"
-
-#, c-format
-msgid ""
-"%s: Wrong values for input argument: No profile data in the function\n"
-msgstr ""
-"%s: Неверные значения входного аргумента: функция не подготовлена к "
-"профилированию\n"
-
-msgid "Complexity"
-msgstr "Сложность"
-
-msgid "Tools"
-msgstr "Инструменты"
-
-msgid "Edit"
-msgstr "Правка"
-
-msgid "?"
-msgstr "Справка"
-
-msgid "Exit"
-msgstr "Выход"
-
-msgid "Click to get corresponding line, move with a-z."
-msgstr "Нажатие - получить соответствующую строку, a-z - перемещение."
-
-#, c-format
-msgid "line %s [%s call, %s sec] :: "
-msgstr "строка %s [%s вызов, %s с] :: "
-
-#, c-format
-msgid "line %s [%s calls, %s sec] :: "
-msgstr "строка %s [%s вызовов, %s с] :: "
-
-#, c-format
-msgid "%s: The function has not been built for profiling"
-msgstr "%s: Функция не подготовлена к профилированию"
-
-#, c-format
-msgid "No variable named: %s.\n"
-msgstr "Нет переменной с именем: %s.\n"
-
-#, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: A Scilab function name is expected.\n"
-msgstr ""
-"%s: Неверное значение входного параметра №%d: ожидалось имя функции Scilab.\n"
-
-#, c-format
-msgid "%s is already noncompiled.\n"
-msgstr "%s уже не скомпилирован.\n"
-
-#, c-format
-msgid "%s is already compiled.\n"
-msgstr "%s уже скомпилирован.\n"
-
-#, c-format
-msgid "%s is already compiled for profiling.\n"
-msgstr "%s уже скомпилирован для профилирования.\n"
+msgid "%s: Wrong type for input argument #%d: '%s' expected.\n"
+msgstr "%s: Неверный тип входного аргумента №%d: ожидался '%s'.\n"
 
 #, c-format
 msgid "%s: Private function: cannot access to this function directly.\n"
@@ -279,3 +161,7 @@ msgstr "Используйте %s."
 #, c-format
 msgid "This feature will be permanently removed in Scilab %s"
 msgstr "Эта функция будет окончательно удалена в Scilab %s"
+
+#~ msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
+#~ msgstr ""
+#~ "%s: Неверное количество входных аргументов: Ожидалось от %d до %d.\n"

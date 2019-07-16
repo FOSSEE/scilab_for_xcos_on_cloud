@@ -10,116 +10,168 @@
       @import url("style.css");
     </style>
   </head>
-
   <body>
-
     <div class="manualnavbar" align="left">
-      <img src="jarsci:ban_en_US.png" alt="ban_en_US.png"/>
-      <br/>
-      <a href="http://www.scilab.org/" class="ulink">Portail Scilab</a> | 
-      <a href="http://help.scilab.org/" class="ulink">Aide en ligne</a> | 
-      <a href="http://wiki.scilab.org/" class="ulink">Wiki</a> | 
-      <a href="http://bugzilla.scilab.org/" class="ulink">Suivi de bugs</a> | 
-      <a href="http://forge.scilab.org/" class="ulink">Forge</a> | 
-      <a href="http://lists.scilab.org/" class="ulink">Archives des listes de diffusion</a> | 
-      <a href="http://atoms.scilab.org/" class="ulink">ATOMS</a> | 
-      <a href="http://fileexchange.scilab.org/" class="ulink">File Exchange</a>
+      <a href="https://www.scilab.org/" class="ulink">Portail Scilab</a> |
+      <a href="https://help.scilab.org/" class="ulink">Aide en ligne</a> |
+      <a href="https://wiki.scilab.org/" class="ulink">Wiki</a> |
+      <a href="https://bugzilla.scilab.org/" class="ulink">Suivi de bugs</a> |
+      <a href="https://forge.scilab.org/" class="ulink">Forge</a> |
+      <a href="https://lists.scilab.org/" class="ulink">Archives des listes de diffusion</a> |
+      <a href="https://atoms.scilab.org/" class="ulink">ATOMS</a> |
+      <a href="https://fileexchange.scilab.org/" class="ulink">File Exchange</a>
       <hr/>
     </div>
-
     <span class="path"><a href="index.html">Aide Scilab</a> &gt;&gt; Page d'accueil</span>
-
     <br/>
     <br/>
-
-    <!-- Scilab 5.5.2 -->
     <div class="refsection">
-      <h3 class="title">Nouveautés</h3>
-      <h2>Scilab 5.5.2</h2>
-      Scilab 5.5.2 est une version mineure qui résout en particulier deux bugs sérieux :
-      <ul>
-        <li>Scilab ne démarrait pas sous certaines plateformes Windows en raison d'un problème de chargement de bibliothèques internes d'ATOMS (voir le bug <a href="http://bugzilla.scilab.org/12842">#12842</a>), </li>
-        <li>Tous les graphiques s'affichaient en rouge sous certaines plateformes Windows (voir le bug <a href="http://bugzilla.scilab.org/12788">#12788</a>).</li>
-      </ul>
-      Cette version inclut également de nouvelles fonctionnalités graphiques. Par exemple, la fonction <a href="fec.html">fec</a> a été améliorée pour permettre le rendu de maillages basés sur tous types de polygone convexe (pas seulement des triangles).
-      <br/><br/>
-      <a href="http://www.scilab.org/community/news/20150401/release_notes">Voir les notes de version de Scilab 5.5.2 (en anglais).</a>
-      <br/><br/>
+      <h3 class="title">Bienvenue dans Scilab 6.0.2</h3>
+      <p class="para">
+        Scilab 6.0 est une nouvelle version majeure de Scilab, la
+        plateforme open source de calcul numérique.
+      </p>
+      <p class="para">
+        Voici un tour d'horizon des changements opérés entre Scilab 6.0.0 6.0.0 &amp; 6.0.1.
+      </p>
+      <h2 class="title">Nouveautés du language</h2>
+      <p class="para">
+        Le menu &quot;Fichier => Ouvrir un fichier&quot; de la console permet désormais d'ouvrir
+        des fichiers *.xcos *.zcos *.scg ou lib avec le composant Scilab adapté,
+        et d'autres fichiers encore avec le bon programme installé sur la machine.
+        Tous les fichiers étaient ouverts dans SciNotes et pouvaient le planter.
+      </p>
+      <p class="para">
+       &quot;gcd&quot; et &quot;lcm&quot; d'entiers retournent désormais toujours un résultat positif.
+      </p>
+      <p class="para">
+        &quot;cat&quot; a été réécrite. Elle est plus rapide et peut traiter de larges sets de données.
+      </p>
+      <p class="para">
+        Les avertissements de &quot;fplot3d1&quot; appelée sans option ont été retirés.
+      </p>
+      <p class="para">
+        &quot;whereis&quot; a été améliorée :
+        <ul>
+          <li>Elle peut être utilisée dans les fonctions internes.</li>
+          <li>Quand un même nom de fonction est présent dans plusieurs librairies, &quot;whereis&quot;
+            les retourne tous au lieu du dernier chargé.</li>
+          <li>Pour les macros utilisateurs, &quot;"script"&quot; est maintenant retournée
+            au lieu de &quot;[]&quot;.</li>
+        </ul>
+      </p>
+      <p class="para">
+        La vitesse de &quot;mgetl&quot; a été augmentée pour les fichiers contenant beaucoup de lignes.
+      </p>
+      <p class="para">
+        &quot;ndgrid(x)&quot; peut ne prendre qu'un argument d'entrée &quot;x&quot;,
+        avec par défaut &quot;y=x&quot;.
+      </p>
+      <p class="para">
+        Certaines fonctions ont été marquées obsolètes et seront supprimées dans Scilab 6.1 : &quot;nanmin&quot;,
+        &quot;nanmax&quot;, &quot;xgetech&quot;, &quot;lstsize&quot;, &quot;eval&quot; &amp; &quot;dgettext&quot; &amp; &quot;denom&quot; &amp; &quot;numer&quot;.
+      </p>
+      <h2 class="title">Documentation</h2>
+      <p class="para">
+        Ajout des attributs &quot;id&quot;, &quot;width&quot;, &quot;height&quot;, &quot;align&quot;
+        et &quot;style&quot; pour le tag &quot;&lt;imagedata&gt;&quot;.
+      </p>
+      <p class="para">
+        Ajout de l'attribut &quot;id&quot; pour le tag &quot;&lt;tr&gt;&quot;.
+      </p>
+      <p class="para">
+        De nombreuses pages one été améliorées, comprenant : &quot;ismatrix&quot;, &quot;xget&quot;, &quot;xset&quot;,
+        &quot;ieee&quot;, &quot;evstr&quot;, &quot;uigetfont&quot;, &quot;uigetdir&quot;, &quot;uigetfile&quot;,
+        &quot;uiputfile&quot;, &quot;cat&quot;, &quot;makecell&quot;, &quot;xstring&quot;, &quot;norm&quot;,
+        &quot;barhomogenize&quot;, &quot;colordef&quot;, &quot;matrix&quot;, &quot;type&quot;, &quot;isinf&quot;,
+        &quot;unique&quot;, &quot;getPreferencesValue&quot;, &quot;gcd&quot;, &quot;isglobal&quot;,
+        &quot;whereis&quot;, &quot;mode&quot; &amp; &quot;%onprompt&quot;.
+      </p>
+      <h2 class="title">Corrections de bugs</h2>
+      <p class="para">
+        Dans cette version, de larges efforts ont été déployés pour la résolution de bugs et la stabilisation.
+        Les informations détaillées de ces changements sont visibles sur la page <a href="CHANGES.html">CHANGES</a>.
+      </p>
+      <h3 class="title">Ce qui était nouveau dans Scilab 6.0.x</h3>
+      <h2 class="title">Nouveau langage, nouveau coeur &amp; nouvel Xcos</h2>
+      <p class="para">
+        Cette version inclut une réécriture majeure du noyau interne
+        de Scilab. Les modifications apportées aux aspects visibles du
+        logiciel sont limitées.
+      </p>
+      <p class="para">
+        Le premier grand changement interne est un tout nouvel
+        analyseur syntaxique et un interprète.
+      </p>
+      <p class="para">
+        Les changements de langage ne sont pas tous
+        rétrocompatibles. Vous devez mettre à jour vos
+        scripts/programmes/modules, ce qui devrait être très rapide
+        dans la plupart des cas.
+        </p>
+      <p class="para">
+        Le deuxième grand changement interne est la possibilité de
+        manipuler de plus grands ensembles de données sans épuiser
+        les ressources du système.
+      </p>
+      <p class="para">
+        Xcos - l'éditeur graphique de modélisation et de simulation de systèmes
+        dynamiques - utilise aussi le nouveau moteur de Scilab, et tourne désormais
+        sur du code natif. Ceci devrait améliorer de manière significative les performances
+        et permettre l'édition de schémas beacoup plus volumineux.
+        Xcos peut charger et lancer les simulations de modèles créés avec les versions
+        antérieures de Scilab.
+      </p>
+      <h2 class="title">Utilitaire de productivit&eacute; de code</h2>
+      <p class="para">Plusieurs fonctionnalités ont été ajoutées pour permettre
+        d'&eacute;crire plus facilement de meilleurs scripts Scilab :
+        <ul>
+          <li>Un debugger entièrement fonctionnel.</li>
+          <li>Un outil de mesure de couverture, et de profilage.</li>
+          <li>Un outil d’analyse statique, slint, est présent : il
+            détecte le code peu clair, risqué, ou suspect.
+            Il n’est pas encore documenté.</li>
+        </ul>
+      </p>
+      <h2 class="title">Flux d'actualit&eacute;</h2>
+      <p class="para">
+        Une nouvelle fen&ecirc;tre est disponible dans l'environnement de Scilab :
+        le &quot;flux d'actualit&eacute;&quot;. Il fournit des nouvelles, conseils et
+        des communications g&eacute;n&eacute;rales de la communaut&eacute;
+        et de l'&Eacute;quipe Scilab.
+      </p>
+      <h2 class="title">Changement de licences</h2>
+      <p class="para">
+        Scilab est maintenant distribu&eacute; selon les termes de la GNU General Public
+        License (GPL) v2.0. Dans ses versions pr&eacute;c&eacute;dentes,
+        Scilab &eacute;tait distribu&eacute; selon les termes de la CeCILL v2.1 et
+        continue d'&ecirc;tre disponible selon ces termes.
+      </p>
+      <p class="para">
+        Dans cette version, la bibliothèque Intel Math Kernel Library (MKL)
+        et la bibliothèque FFTW optimis&eacute;e sont incluses dans Scilab. Elles
+        sont sujettes &agrave; la licence Intel (EULA).
+      </p>
     </div>
-
-    <!-- Scilab 5.5.1 -->
-    <div class="refsection">
-      <h2 class="title">Scilab 5.5.1</h2>
-      Scilab 5.5.1 est une version mineure corrigeant en particulier trois bugs sérieux :
-      <ul>
-        <li>Scilab ne pouvait pas être utilisé sur les plateformes Linux utilisant une ancienne version de la GLIBC (CentOS, RedHat, etc).</li>
-        <li>La mise à jour des modules ATOMS échouait avec certaines configurations.</li>
-        <li>Les versions japonaise and russe de l'aide n'étaient pas disponibles sur les versions Linux.</li>
-      </ul>
-      <a href="http://www.scilab.org/community/news/20141002/release_notes">Voir les notes de version de Scilab 5.5.1 (en anglais).</a>
-      <br/><br/>
-    </div>
-
-    <!-- Scilab 5.5.0 -->
-    <div class="refsection">
-      <h2 class="title">Scilab 5.5.0</h2>
-      Les possibilités de création d'interface utilisateur (IHM) ont été remaniées :
-      <ul>
-        <li>Des améliorations des fonctions de création de <a href="figure.html">figures</a> avec de nouvelles <a href="figure_properties.html">propriétés</a>.</li>
-        <li>De nouveaux styles d'<a href="uicontrol.html">uicontrols</a> : tab, layer, spinner.</li>
-        <li>De nouvelles <a href="uicontrol_properties.html">propriétés d'uicontrols</a>.</li>
-        <li>Le positionnement et le redimensionnement des uicontrols peuvent être gérés en utilisant des <a href="layout.html">layouts</a>.</li>
-      </ul>
-      Cette version inclut de nouveaux ensembles de fonctions :
-      <ul>
-        <li>Un module HDF5 permettant de <a href="h5objects.html">lire/écrire</a> des fichiers et des ensembles de données HDF5.</li>
-        <li>Une interface pour interagir directement avec des objets externes Java depuis Scilab. Pour plus d'information, consulter <a href="jims-getting-started.html">le tutoriel</a> (anglais).</li>
-        <li>Une fonction <a href="getURL.html">getURL</a> pour récupérer/lire des fichiers distants via les protocoles ftp:// ou http://.</li>
-        <li>La possibilité de <a href="addlocalizationdomain.html">traduire des modules externes Scilab</a>.</li>
-        <li>Des capacités MPI disponibles dans les sources de Scilab (désactivées par défaut).</li>
-        <li>De nouvelles fonctions spéciales : <a href="erfi.html">erfi</a> et <a href="dawson.html">dawson</a>.</li>
-        <li>Un nouveau solveur <a href="daskr.html">daskr</a> dans Scilab et Xcos.</li>
-      </ul>
-      De nouvelles fonctionnalités graphiques améliorant l'utilisabilité et les capacités de Scilab ont été intégrées :
-      <ul>
-        <li>Des améliorations de la fonction <a href="Matplot.html">Matplot</a> pour afficher des images en vraies couleurs.</li>
-        <li>La gestion de l'<a href="lighting.html">éclairage dans les graphiques 3D</a>.</li>
-        <li>De nouvelles interactions sur les graphiques permettant d'éditer les objets graphiques directement sur les figures à l'aide de la souris.</li>
-        <li>Des <a href="datatips.html">fonctionnalités datatips </a> réécrites en code natif Java.</li>
-        <li>Des possibilités de personnalisation des axes et des graduations avec des <a href="axes_properties.html">propriétés</a> dédiées.</li>
-      </ul>
-      Scilab est passé en version 2.1 de la licence CeCILL.
-      <br/><br/>
-      De nombreuses corrections de bugs et améliorations de l'aide sont également disponibles dans cette version.
-      <br/><br/>
-      <a href="http://www.scilab.org/community/news/20140411/release_notes">Voir les notes de version de Scilab 5.5.0 (en anglais).</a>
-      <br/><br/>
-    </div>
-
     <hr/>
     <br/>
-
     <div class="refsection">
       <h3 class="title">Documentation et aide</h3>
-      <p class="para">Cette aide est aussi consultable sur <a href="http://help.scilab.org">http://help.scilab.org</a>, avec des fonctionnalit&eacute;s avanc&eacute;es telles que les commentaires, les favoris, le moteur de recherche, etc.</p>
-      <p class="para">Si vous d&eacute;butez avec Scilab, vous pouvez consulter la liste des <a href="scilab_keywords.html">mots-cl&eacute;s Scilab</a>.</p>
-      <p class="para">Scilab Enterprises propose aussi des <a href="http://www.scilab.org/support/documentation/tutorials">documentations et tutoriels</a>.</p>
+      <p class="para">Si vous débutez avec Scilab, vous pouvez consulter le <a href="https://www.scilab.org/sites/default/files/Scilab_beginners_0.pdf">tutoriel d'initiation à Scilab</a> et le <a href="https://www.scilab.org/sites/default/files/Xcos_beginners_0.pdf">tutoriel d'initiation à Xcos</a> fournis par l'&Eacute;quipe Scilab</p>
+      <p class="para">L'&eacute;quipe Scilab propose aussi de la <a href="https://www.scilab.org/tutorials">documentation et des tutoriels</a>.</p>
       <br/>
     </div>
-
-
     <hr/>
     <br/>
-
     <div class="refsection">
       <h3 class="title">Autres ressources</h3>
-      <p class="para"><a href="http://www.scilab.org/" class="ulink">Portail Scilab</a> - Consulter le site Internet de Scilab</p>
-      <p class="para"><a href="http://wiki.scilab.org/" class="ulink">Wiki</a> - Consulter les nombreuses documentations, astuces, etc.</p>
-      <p class="para"><a href="http://bugzilla.scilab.org/" class="ulink">Suivi de bugs</a> - D&eacute;poser des probl&egrave;mes et des souhaits sur Scilab</p>
-      <p class="para"><a href="http://forge.scilab.org/" class="ulink">Forge</a> - Consulter et publier des modules Scilab</p>
-      <p class="para"><a href="http://www.scilab.org/communities/developer_zone/tools/mailing_list" class="ulink">Listes de diffusion</a> - Communiquer et &eacute;changer avec la communaut&eacute;</p>
-      <p class="para"><a href="http://atoms.scilab.org/" class="ulink">ATOMS</a> - Acc&eacute;der aux modules externes packag&eacute;s dans Scilab</p>
-      <p class="para"><a href="http://fileexchange.scilab.org/" class="ulink">File Exchange</a> - Echanger vos scripts, r&eacute;sultats et fichiers.</p>
+      <p class="para"><a href="https://www.scilab.org/" class="ulink">Portail Scilab</a> - Consulter le site Internet officiel de Scilab</p>
+      <p class="para"><a href="https://wiki.scilab.org/" class="ulink">Wiki</a> - Consulter les nombreuses documentations, astuces, etc.</p>
+      <p class="para"><a href="https://bugzilla.scilab.org/" class="ulink">Suivi de bugs</a> - D&eacute;poser des probl&egrave;mes et des souhaits sur Scilab</p>
+      <p class="para"><a href="https://forge.scilab.org/" class="ulink">Forge</a> - Consulter et publier des modules Scilab</p>
+      <p class="para"><a href="https://www.scilab.org/fr/development/ml" class="ulink">Listes de diffusion</a> - Communiquer et &eacute;changer avec la communaut&eacute;</p>
+      <p class="para"><a href="https://atoms.scilab.org/" class="ulink">ATOMS</a> - Acc&eacute;der aux modules externes packag&eacute;s dans Scilab</p>
+      <p class="para"><a href="https://fileexchange.scilab.org/" class="ulink">File Exchange</a> - Echanger vos scripts, r&eacute;sultats et fichiers.</p>
       <br/>
     </div>
   </body>

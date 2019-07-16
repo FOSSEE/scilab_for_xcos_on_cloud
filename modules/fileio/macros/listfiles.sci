@@ -2,11 +2,14 @@
 // Copyright (C) 2007 - INRIA - Allan CORNET
 // Copyright (C) 2012 - Scilab Enterprises - Antoine ELIAS
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 
 function files= listfiles(paths,flag,flagexpand)
@@ -46,28 +49,19 @@ function files= listfiles(paths,flag,flagexpand)
     end
 
     for i=1:size(paths,"*")  // Loop on the file/path list
-        [path,fname,extension]=fileparts(paths(i)); // Retrieve the information
-        // about the file
         if isdir(paths(i)) then // It is a directory then returns all the file in the dir
             path = paths(i) + filesep();
-            fname="*";
-            if bMulti then
-                if getos() == "Windows" // Don't want this case under Linux/Unix
-                    // Windows will return the file toto even if you provided toto.*
-                    extension=".*";
-                end
-            else
-                extension="";
+            fname = "*";
+            extension = "";
+        else //isfile
+            [path, fname, extension] = fileparts(paths(i)); // Retrieve the information
+            if path == "" then
+                path = "./";
             end
-        else
-            // It is a file
-            if path == "" then path="./",end;
-            if getos() == "Windows" // Don't want this case under Linux/Unix
-                // Windows will return the file toto even if you provided toto.*
-                if extension == "" then extension=".*",end;
+            
+            if fname == "" then
+                fname = "*";
             end
-
-            if fname == "" then fname="*",end;
         end
 
         filesi=findfiles(path,fname+extension);

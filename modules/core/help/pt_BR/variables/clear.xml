@@ -1,41 +1,77 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="clear" xml:lang="en">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) 2008 - INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="clear" xml:lang="pt">
     <refnamediv>
         <refname>clear</refname>
-        <refpurpose>cancela variáveis</refpurpose>
+        <refpurpose>cancela variÃ¡veis</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Seqüência de Chamamento</title>
+        <title>SeqÃ¼Ãªncia de Chamamento</title>
         <synopsis>clear a</synopsis>
     </refsynopsisdiv>
     <refsection>
-        <title>Descrição</title>
-        <para>Este comando cancela variáveis que não estão protegidas. Ele remove
-            as variáveis nomeadas do ambiente. Por si só, <literal>clear</literal>
-            cancela todas as variáveis, exceto as protegidas por
+        <title>DescriÃ§Ã£o</title>
+        <para>Este comando cancela variÃ¡veis que nÃ£o estÃ£o protegidas. Ele remove
+            as variÃ¡veis nomeadas do ambiente. Por si sÃ³, <literal>clear</literal>
+            cancela todas as variÃ¡veis, exceto as protegidas por
             <literal>predef</literal>. Logo, os dois comandos
             <literal>predef(0)</literal> e <literal>clear</literal> removem todas as
-            variáveis.
+            variÃ¡veis.
         </para>
-        <para>Normalmente, variáveis protegidas são bibliotecas padrões e
-            variáveis com o prefixo '%'
+        <para>Normalmente, variÃ¡veis protegidas sÃ£o bibliotecas padrÃµes e
+            variÃ¡veis com o prefixo '%'
         </para>
         <para>
-            Note a sintaxe particular <literal>clear a</literal> e não
-            <literal>clear(a)</literal>. Note também que <literal>a=[]</literal> não
+            Note a sintaxe particular <literal>clear a</literal> e nÃ£o
+            <literal>clear(a)</literal>. Note tambÃ©m que <literal>a=[]</literal> nÃ£o
             cancela <literal>a</literal> , mas define <literal>a</literal> como uma
             matriz vazia.
         </para>
     </refsection>
     <refsection>
-        <title> Ver Também </title>
+        <title> Ver TambÃ©m </title>
         <simplelist type="inline">
             <member>
                 <link linkend="predef">predef</link>
             </member>
             <member>
+                <link linkend="funcprot">funcprot</link>
+            </member>
+            <member>
                 <link linkend="who">who</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>HistÃ³rico</title>
+        <revhistory>
+            <revision>
+                <revnumber>5.5.0</revnumber>
+                <revdescription>Argument can now be a matrix of strings</revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.0.0</revnumber>
+                <revdescription>
+                  <literal>clear</literal> is now protected:
+                  Assignments like <literal>clear=1</literal> are no longer possible.
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010 - DIGITEO - Manuel JULIACHS
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -15,10 +18,12 @@ package org.scilab.modules.graphic_objects.polyline;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_ARROW_SIZE_FACTOR__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_BAR_WIDTH__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_CLOSED__;
+import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATA_MODEL__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATATIPS_COUNT__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATATIPS__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATATIP_DISPLAY_FNC__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATATIP_MARK__;
+import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_DATATIP_DISPLAY_MODE__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_INTERP_COLOR_MODE__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_INTERP_COLOR_VECTOR_SET__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_INTERP_COLOR_VECTOR__;
@@ -26,6 +31,7 @@ import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProp
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_X_SHIFT__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_Y_SHIFT__;
 import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_Z_SHIFT__;
+import static org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties.__GO_COLOR_SET__;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +56,25 @@ public class Polyline extends ClippableContouredObject {
     /** Polyline properties names */
     private enum PolylineProperty { CLOSED, ARROWSIZEFACTOR, POLYLINESTYLE,
                                     INTERPCOLORVECTOR, INTERPCOLORVECTORSET, INTERPCOLORMODE,
-                                    XSHIFT, YSHIFT, ZSHIFT, BARWIDTH, DATATIPS, DATATIPSCOUNT, TIP_DISPLAY_FNC, TIP_MARK
+                                    XSHIFT, YSHIFT, ZSHIFT, BARWIDTH, DATATIPS, DATATIPSCOUNT,
+                                    TIP_DISPLAY_FNC, TIP_MARK, COLORSET, DATATIPDISPLAYMODE, DATA
                                   };
+
+    public enum DatatipDisplayMode { ALWAYS, MOUSECLICK, MOUSEOVER;
+
+    public static DatatipDisplayMode intToEnum(Integer i) {
+        switch (i) {
+            case 0:
+                return DatatipDisplayMode.ALWAYS;
+            case 1:
+                return DatatipDisplayMode.MOUSECLICK;
+            case 2:
+                return DatatipDisplayMode.MOUSEOVER;
+            default:
+                return DatatipDisplayMode.ALWAYS;
+        }
+    }
+                                   };
 
     /** Specifies whether the polyline is closed */
     private boolean closed;
@@ -91,6 +114,11 @@ public class Polyline extends ClippableContouredObject {
 
     private Integer tipMark;
 
+    /** has color set */
+    private boolean colorSet;
+
+    DatatipDisplayMode datatipDisplayMode;
+
     /** Constructor */
     public Polyline() {
         super();
@@ -107,6 +135,8 @@ public class Polyline extends ClippableContouredObject {
         datatips = new ArrayList<Integer>();
         displayFnc = "";
         tipMark = 11;
+        colorSet = false;
+        datatipDisplayMode = DatatipDisplayMode.ALWAYS;
     }
 
     @Override
@@ -141,6 +171,8 @@ public class Polyline extends ClippableContouredObject {
                 return PolylineProperty.ZSHIFT;
             case __GO_BAR_WIDTH__ :
                 return PolylineProperty.BARWIDTH;
+            case __GO_DATA_MODEL__ :
+                return PolylineProperty.DATA;
             case __GO_DATATIPS__ :
                 return PolylineProperty.DATATIPS;
             case __GO_DATATIPS_COUNT__ :
@@ -149,6 +181,10 @@ public class Polyline extends ClippableContouredObject {
                 return PolylineProperty.TIP_DISPLAY_FNC;
             case __GO_DATATIP_MARK__ :
                 return PolylineProperty.TIP_MARK;
+            case __GO_COLOR_SET__ :
+                return PolylineProperty.COLORSET;
+            case __GO_DATATIP_DISPLAY_MODE__:
+                return PolylineProperty.DATATIPDISPLAYMODE;
             default :
                 return super.getPropertyFromName(propertyName);
         }
@@ -182,6 +218,8 @@ public class Polyline extends ClippableContouredObject {
                     return getZShift();
                 case BARWIDTH:
                     return getBarWidth();
+                case DATA:
+                    return getIdentifier();
                 case DATATIPS:
                     return getDatatips();
                 case DATATIPSCOUNT:
@@ -190,6 +228,10 @@ public class Polyline extends ClippableContouredObject {
                     return getDisplayFunction();
                 case TIP_MARK:
                     return getTipMark();
+                case COLORSET:
+                    return getColorSet();
+                case DATATIPDISPLAYMODE:
+                    return getDatatipDisplayMode();
             }
         }
         return super.getProperty(property);
@@ -232,8 +274,14 @@ public class Polyline extends ClippableContouredObject {
                     case BARWIDTH:
                         setBarWidth((Double) value);
                         break;
+                    case DATA:
+                        updateDatatips();
+                        break;
                     case DATATIPS:
                         setDatatips((Integer[]) value);
+                        break;
+                    case DATATIPSCOUNT:
+                        // nothing should be done
                         break;
                     case TIP_DISPLAY_FNC:
                         setDisplayFunction((String) value);
@@ -241,6 +289,11 @@ public class Polyline extends ClippableContouredObject {
                     case TIP_MARK:
                         setTipMark((Integer) value);
                         break;
+                    case COLORSET:
+                        setColorSet((Boolean) value);
+                        break;
+                    case DATATIPDISPLAYMODE:
+                        return setDatatipDisplayMode((Integer)value);
                 }
             }
             return super.setProperty(property, value);
@@ -418,24 +471,20 @@ public class Polyline extends ClippableContouredObject {
     }
 
     /**
-     * @return Type as String
-     */
-    public Integer getType() {
-        return GraphicObjectProperties.__GO_POLYLINE__;
-    }
-
-    /**
      * @return datatips
      */
     public Integer[] getDatatips() {
         return datatips.toArray(new Integer[datatips.size()]);
     }
 
-    /**
-     * @param datatips the datatips to set
-     */
-    private UpdateStatus setDatatips(List<Integer> datatips) {
-        this.datatips = datatips;
+    public UpdateStatus updateDatatips() {
+        GraphicController controller =  GraphicController.getController();
+        for (Integer uid : getDatatips()) {
+            Datatip datatip = (Datatip) controller.getObjectFromId(uid);
+            datatip.updateText();
+            //trigger redraw
+            controller.setProperty(uid, __GO_DATA_MODEL__, 0);
+        }
         return UpdateStatus.Success;
     }
 
@@ -474,5 +523,62 @@ public class Polyline extends ClippableContouredObject {
         }
 
         return UpdateStatus.NoChange;
+    }
+
+    /**
+     * @return the colorSet
+     */
+    public Boolean getColorSet() {
+        return colorSet;
+    }
+
+    /**
+     * @param colorSet the colorSet to set
+     */
+    public UpdateStatus setColorSet(Boolean colorSet) {
+        this.colorSet = colorSet;
+        return UpdateStatus.Success;
+    }
+
+
+    /**
+     * Get the current datatip display mode
+     * @return the datatip display mode
+     */
+    public Integer getDatatipDisplayMode() {
+        return datatipDisplayMode.ordinal();
+    }
+
+    /**
+     * Get the current datatip display mode as a enum
+     * @return the datatip display mode
+     */
+    public DatatipDisplayMode getDatatipDisplayModeAsEnum() {
+        return datatipDisplayMode;
+    }
+
+    /**
+     * Set the datatip display mode
+     * @param dm datatip display mode.
+     */
+    public UpdateStatus setDatatipDisplayMode(Integer dm) {
+        datatipDisplayMode = DatatipDisplayMode.intToEnum(dm);
+        return UpdateStatus.Success;
+    }
+
+    /**
+     * Set the datatip display mode
+     * @param dm datatip display mode.
+     */
+    public UpdateStatus setDatatipDisplayModeAsEnum(DatatipDisplayMode dm) {
+        datatipDisplayMode = dm;
+        return UpdateStatus.Success;
+    }
+
+    /**
+     * @return Type as String
+     */
+    public Integer getType() {
+        return GraphicObjectProperties.__GO_POLYLINE__;
     }
 }

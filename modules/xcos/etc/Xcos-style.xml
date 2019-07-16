@@ -149,6 +149,7 @@
         <add as="rounded" value="1"/>
         <add as="fillColor" value="white"/>
         <add as="strokeColor" value="red"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <add as="CURV_f" extend="blockWithLabel">
         <add as="displayedLabel" value="Curve"/>
@@ -157,6 +158,7 @@
         <add as="shape" value="hexagon"/>
         <add as="rounded" value="1"/>
         <add as="fillColor" value="white"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <add as="READAU_f" extend="blockWithLabel">
         <add as="displayedLabel" value="Read from .au&lt;BR&gt;         sound file"/>
@@ -183,6 +185,7 @@
         <add as="shape" value="hexagon"/>
         <add as="rounded" value="1"/>
         <add as="fillColor" value="white"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <add as="READC_f" extend="blockWithLabel">
         <add as="displayedLabel" value="Read from&lt;BR&gt;         C binary file"/>
@@ -205,6 +208,7 @@
     <add as="FROMWSB" extend="blockWithLabel">
         <!-- FIXME: update label from parameters (not as exprs) -->
         <add as="displayedLabel" value="From workspace"/>
+        <!--<add as="displayedLabel" value="$\mathsf{\substack{From workspace\\ \Large %s}}$"/> -->
     </add>
     <!-- CONTINUOUS -->
     <add as="DERIV" extend="blockWithLabel">
@@ -213,9 +217,11 @@
     <add as="INTEGRAL_m" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/INTEGRAL.svg"/>
         <!--
-			<add as="displayedLabel" value="&lt;FONT SIZE=&quot;6&quot;&gt;
-			&#8747; &lt;/FONT&gt;"/>
-		-->
+        <add as="INTEGRAL_m" extend="blockWithLabel">
+            <add as="displayedLabel" value="$%s$"/>
+            <add as="displayedLabel" value="&lt;FONT SIZE=&quot;6&quot;&gt;
+            &#8747; &lt;/FONT&gt;"/>
+        -->
     </add>
     <add as="INTEGRAL" extend="INTEGRAL_m"/>
     <add as="CLSS" extend="blockWithLabel">
@@ -223,7 +229,7 @@
     </add>
     <add as="CLSS_f" extend="CLSS"/>
     <add as="CLR" extend="blockWithLabel">
-        <add as="displayedLabel" value="$\frac{%s}{%s}$"/>
+        <add as="displayedLabel" value="$\mathsf\frac{%s}{%s}$"/>
     </add>
     <add as="CLR_f" extend="CLR"/>
     <add as="TIME_DELAY" extend="blockWithLabel">
@@ -323,7 +329,7 @@
 		-->
     </add>
     <add as="POWBLK_f" extend="blockWithLabel">
-        <add as="displayedLabel" value="u^a"/>
+        <add as="displayedLabel" value="$\mathsf{u^{%s}}$"/>
     </add>
     <add as="INVBLK" extend="blockWithLabel">
         <add as="displayedLabel" value="1/u"/>
@@ -342,12 +348,13 @@
         <add as="displayedLabel" value="A / B"/>
     </add>
     <add as="EXPBLK_m" extend="blockWithLabel">
-        <add as="displayedLabel" value="a^u"/>
+        <add as="displayedLabel" value="$\mathsf{{{\scriptsize \%\normal}e}^{\large\,u}}$"/>
     </add>
     <add as="PROD_f" extend="blockWithLabel">
         <add as="shape" value="ellipse"/>
         <remove as="image"/>
-        <add as="fontSize" value="20"/>
+        <add as="fontSize" value="18"/>
+        <add as="displayedLabel" value="X"/>
     </add>
     <add as="MATZREIM" extend="blockWithLabel">
         <add as="displayedLabel" value="Re &amp; Im"/>
@@ -372,7 +379,7 @@
 		-->
     </add>
     <add as="TrigFun" extend="blockWithLabel">
-        <add as="displayedLabel" value="Trig function"/>
+        <add as="displayedLabel" value="$\mathsf{\tiny\begin{array}{ccc}sin\!\!&amp;\!\!cos\!\!&amp;\!\!tan\\asin\!\!&amp;\!\!acos\!\!&amp;\!\!atan\\sinh\!\!&amp;\!\!cosh\!\!&amp;\!\!tanh\\\!asinh\!\!\!&amp;\!\!acosh\!\!\!&amp;\!\!atanh\\&amp;&amp;\\\multicolumn{3}{c}{\normalsize sin}\end{array}}$"/>
     </add>
     <add as="PRODUCT" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/PRODUCT.svg"/>
@@ -386,7 +393,7 @@
 		-->
     </add>
     <add as="MAXMIN" extend="blockWithLabel">
-        <add as="displayedLabel" value="MIN / MAX"/>
+        <add as="displayedLabel" value="$\mathsf{\tiny MIN|MAX\\\small{MAX}}$"/>
     </add>
     <add as="ABS_VALUE" extend="blockWithLabel">
         <add as="displayedLabel" value="ABS"/>
@@ -398,6 +405,7 @@
         <add as="shape" value="ellipse"/>
         <remove as="image"/>
         <add as="fontSize" value="20"/>
+        <add as="displayedLabel" value="+"/>
     </add>
     <add as="SOM_f" extend="blockWithLabel">
         <add as="shape" value="ellipse"/>
@@ -433,6 +441,7 @@
     <add as="OUTIMPL_f" extend="blockWithLabel">
         <add as="shape" value="hexagon"/>
         <add as="fillColor" value="white"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <!-- INTEGER -->
     <add as="BITCLEAR" extend="blockWithLabel">
@@ -442,8 +451,7 @@
         <add as="displayedLabel" value="Set bit %2$s"/>
     </add>
     <add as="CONVERT" extend="blockWithLabel">
-        <!-- FIXME: update label from parameters -->
-        <add as="displayedLabel" value="Convert to"/>
+        <add as="displayedLabel" value="$\scriptsize \mathsf{\substack{CONVERT\\\\\ \!decim.\\\Rightarrow\\uint32}}$"/>
     </add>
     <add as="EXTRACTBITS" extend="blockWithLabel">
         <add as="displayedLabel" value="Extract Bits %2$s"/>
@@ -567,7 +575,6 @@
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/ASCOPE.svg"/>
     </add>
     <add as="AFFICH_m" extend="Affiche"/>
-    <add as="AFFICH_f" extend="Affiche"/>
     <add as="TRASH_f" extend="blockWithLabel">
         <add as="displayedLabel" value="Trash"/>
     </add>
@@ -589,7 +596,7 @@
         <add as="displayedLabel" value="N(z,p)&lt;BR&gt;&lt;HR&gt;D(z,p)"/>
     </add>
     <add as="DLR" extend="blockWithLabel">
-        <add as="displayedLabel" value="$\frac{%s}{%s}$"/>
+        <add as="displayedLabel" value="$\mathsf\frac{%s}{%s}$"/>
     </add>
     <add as="DLR_f" extend="DLR"/>
     <add as="DLSS" extend="blockWithLabel">
@@ -625,6 +632,7 @@
         <add as="shape" value="hexagon"/>
         <add as="fillColor" value="white"/>
         <add as="strokeColor" value="red"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <add as="CLKOUT_f" extend="CLKOUTV_f"/>
     <add as="CLKSOMV_f" extend="blockWithLabel">
@@ -645,7 +653,6 @@
     </add>
     <add as="M_freq" extend="blockWithLabel">
         <add as="displayedLabel" value="Multiple&lt;BR&gt;         frequency"/>
-        
     </add>
     <add as="ANDBLK" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/ANDBLK.svg"/>
@@ -757,10 +764,11 @@
         <add as="shape" value="hexagon"/>
         <add as="rounded" value="1"/>
         <add as="fillColor" value="white"/>
+        <add as="displayedLabel" value="%s"/>
     </add>
     <add as="RELATIONALOP" extend="blockWithLabel">
-        <add as="displayedLabel" value="Relational&lt;BR&gt;         op : &amp;&lt;"/>
-        <!-- new value for the label defined in the interface function of block -->  
+        <add as="displayedLabel" value="$\Large\lt$"/>
+        <!-- new value for the label defined in the interface function of block -->
     </add>
     <add as="TEXT_f" extend="Label">
         <!-- <add as="displayedLabel" value="Text"/>  -->
@@ -799,8 +807,26 @@
     </add>
     <add as="DSUPER" extend="SUPER_f"/>
     <!-- ELECTRICAL -->
-    <add as="Capacitor" extend="Icon">
+    <add as="Resistor" extend="blockWithLabel">
+        <add as="image" value="$SCILAB/modules/xcos/images/blocks/Resistor.svg"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="verticalLabelPosition" value="top"/>
+        <add as="displayedLabel" value="$\mathsf{\,\\\,\\\,\\\,\\\,\\\,\\\,\,\\\,\\\tiny{\!10\,m\Omega}}$"/>
+    </add>
+    <add as="VariableResistor" extend="Icon">
+        <add as="image" value="$SCILAB/modules/xcos/images/blocks/VariableResistor.svg"/>
+    </add>
+    <add as="Capacitor" extend="blockWithLabel">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/Capacitor.svg"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="verticalLabelPosition" value="top"/>
+        <add as="displayedLabel" value="$\mathsf{\,\\\,\\\,\\\,\\\,\\\,\,\\\,\\\tiny{\!10\,mF}}$"/>
+    </add>
+    <add as="Inductor" extend="blockWithLabel">
+        <add as="image" value="$SCILAB/modules/xcos/images/blocks/Inductor.svg"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="verticalLabelPosition" value="top"/>
+        <add as="displayedLabel" value="$\mathsf{\,\\\,\\\,\\\,\\\,\\\,\\\,\,\\\,\\\tiny{\!10\,\mu H}}$"/>
     </add>
     <add as="Ground" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/Ground.svg"/>
@@ -810,23 +836,17 @@
         <add as="perimeter" value="ellipsePerimeter"/>
         <add as="displayedLabel" value="1 V&lt;br/&gt;~ %s"/>
     </add>
-    <add as="ConstantVoltage" extend="Icon">
+    <add as="ConstantVoltage" extend="blockWithLabel">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/ConstantVoltage.svg"/>
-    </add>
-    <add as="Inductor" extend="Icon">
-        <add as="image" value="$SCILAB/modules/xcos/images/blocks/Inductor.svg"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="verticalLabelPosition" value="middle"/>
+        <add as="displayedLabel" value="$\mathsf{\,\\\,\\\,\\\,\,\\\tiny{\!10\,mV}}$"/>
     </add>
     <add as="PotentialSensor" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/PotentialSensor.svg"/>
     </add>
-    <add as="VariableResistor" extend="Icon">
-        <add as="image" value="$SCILAB/modules/xcos/images/blocks/VariableResistor.svg"/>
-    </add>
     <add as="CurrentSensor" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/CurrentSensor.svg"/>
-    </add>
-    <add as="Resistor" extend="Icon">
-        <add as="image" value="$SCILAB/modules/xcos/images/blocks/Resistor.svg"/>
     </add>
     <add as="VoltageSensor" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/VoltageSensor.svg"/>
@@ -849,7 +869,7 @@
     <add as="SineVoltage" extend="blockWithLabel">
         <add as="shape" value="ellipse"/>
         <add as="perimeter" value="ellipsePerimeter"/>
-        <add as="displayedLabel" value="%s V&lt;br/&gt;~"/>
+        <add as="displayedLabel" value="$\mathsf{\substack{%1$s\,V\\ \sim\,%3s}}$"/>
     </add>
     <add as="Switch" extend="Icon">
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/SWITCH.svg"/>
@@ -912,8 +932,7 @@
         <add as="image" value="$SCILAB/modules/xcos/images/blocks/BPLATFORM.svg"/>
     </add>
     <add as="AUTOMAT" extend="blockWithLabel">
-        <!-- FIXME : Show parameters over block  -->
-        <add as="displayedLabel" value="Automaton&lt;BR&gt;         nM=2, nX=1"/>
+        <add as="displayedLabel" value="$\mathsf{\substack{\large Automaton\\%s\ modes\ |\ \vphantom{%s}%s\ states}}$"/>
     </add>
     <!-- GENERATED BLOCKS -->
     <add as="SPLIT_f" extend="Split"/>

@@ -4,12 +4,15 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008 - INRIA
  * ...
- * 
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at    
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  -->
 
@@ -51,7 +54,7 @@
                         
                         または行列<literal>[y0 ydot0]</literal>のどちらかです.
                         
-                        <literal>g(t,y0,ydot0)</literal>は 0 に等しい必要があります. 
+                        <literal>g(t,y0,ydot0)</literal>は 0 に等しい必要があります.
                         
                         <literal>ydot0</literal>の推定値のみが既知の場合,
                         
@@ -155,7 +158,7 @@
                     
                     <para>
                         
-                        <link linkend="external">外部</link> (関数またはリストまたは文字列). 
+                        <link linkend="external">外部</link> (関数またはリストまたは文字列).
                         
                         <literal>g(t,y,ydot)</literal>の値を計算. 以下のようにします :
                         
@@ -175,7 +178,7 @@
                                 
                                 <literal>r=g(t,y,ydot)</literal> と誤差フラグ<literal>ires</literal>を
                                 
-                                返す必要があります. 
+                                返す必要があります.
                                 
                                 <literal>res</literal>が<literal>r</literal>の計算に
                                 
@@ -203,7 +206,7 @@
                                 
                             </para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 list(res,x1,x2,...)
  ]]></programlisting>
                             
@@ -215,7 +218,7 @@ list(res,x1,x2,...)
                                 
                             </para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 r=res(t,y,ydot,x1,x2,...)
  ]]></programlisting>
                             
@@ -243,17 +246,17 @@ r=res(t,y,ydot,x1,x2,...)
                             
                             <para>Cの場合,呼び出し手順は次のようになります:</para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 void res(double *t, double y[], double yd[], double r[],
          int *ires, double rpar[], int ipar[])
  ]]></programlisting>
                             
                             <para>Fortranの場合,呼び出し手順は次のようになります:</para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 subroutine res(t,y,yd,r,ires,rpar,ipar)
 double precision t, y(*),yd(*),r(*),rpar(*)
-integer ires,ipar(*)  
+integer ires,ipar(*)
  ]]></programlisting>
                             
                             <para>
@@ -278,7 +281,7 @@ integer ires,ipar(*)
                 
                 <listitem>
                     
-                    <para>外部 (関数またはリストまたは文字列). 
+                    <para>外部 (関数またはリストまたは文字列).
                         
                         指定したパラメータ<literal>cj</literal>の値を用いて
                         
@@ -314,7 +317,7 @@ integer ires,ipar(*)
                             
                             <para>以下のようにする必要があります</para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 list(jac,x1,x2,...)
  ]]></programlisting>
                             
@@ -326,7 +329,7 @@ list(jac,x1,x2,...)
                                 
                             </para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 r=jac(t,y,ydot,cj,x1,x2,...)
  ]]></programlisting>
                             
@@ -356,14 +359,14 @@ r=jac(t,y,ydot,cj,x1,x2,...)
                             
                             <para>Cの場合,呼び出し手順は次のようになります:</para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 void jac(double *t, double y[], double yd[], double pd[],
          double *cj, double rpar[], int ipar[])
  ]]></programlisting>
                             
                             <para>Fortranの場合, 呼び出し手順は次のようになります:</para>
                             
-                            <programlisting role="no-scilab-exec"><![CDATA[ 
+                            <programlisting role="no-scilab-exec"><![CDATA[
 subroutine jac(t,y,yd,pd,cj,rpar,ipar)
 double precision t, y(*),yd(*),pd(*),cj,rpar(*)
 integer ipar(*)
@@ -605,7 +608,7 @@ integer ipar(*)
             
         </para>
         
-        <programlisting role="no-scilab-exec"><![CDATA[ 
+        <programlisting role="no-scilab-exec"><![CDATA[
 g(t,y,ydot)=0
 y(t0)=y0  and   ydot(t0)=ydot0
   ]]></programlisting>
@@ -616,7 +619,7 @@ y(t0)=y0  and   ydot(t0)=ydot0
         
         <title>例</title>
         
-        <programlisting role="example"><![CDATA[ 
+        <programlisting role="example"><![CDATA[
 function [r,ires]=chemres(t,y,yd)
    r=[-0.04*y(1)+1d4*y(2)*y(3)-yd(1)
        0.04*y(1)-1d4*y(2)*y(3)-3d7*y(2)*y(2)-yd(2)
@@ -653,6 +656,7 @@ y3=dassl([y0,yd0],0,t,list(chemres,0.04,1d4,3d7),list(chemjac,0.04,1d4,3d7));
 // Cコードを使用
 //------------
 // - Cコードを作成
+cd TMPDIR
 rescode=['void chemres(double *t, double y[], double yd[], double r[], int *ires, double rpar[], int ipar[])'
          ' {'
          '   r[0] = -0.04*y[0]+1.0e4*y[1]*y[2]                -yd[0];'
@@ -675,11 +679,11 @@ jaccode=['void chemjac(double *t, double y[], double yd[], double pd[], double *
          '   pd[7] = -1.0e4*y[1];'
          '   pd[8] =  1.0;'
          ' }'];
-mputl([rescode;jaccode],fullfile(TMPDIR,'mycode.c')) //Cファイルを作成
+mputl([rescode;jaccode],'mycode.c') //Cファイルを作成
 // - コンパイル
-ilib_for_link(['chemres','chemjac'],fullfile(TMPDIR,'mycode.c'),[],'c','',fullfile(TMPDIR,'loader.sce'));//compile
+ilib_for_link(['chemres','chemjac'],'mycode.c',[],'c','','loader.sce');//compile
 // - Scilabにリンク
-exec(fullfile(TMPDIR,'loader.sce')) //incremental linking
+exec(loader.sce') //incremental linking
 // - dasslをコール
 y4=dassl([y0,yd0],0,t,'chemres','chemjac');
  ]]></programlisting>
@@ -711,9 +715,9 @@ y4=dassl([y0,yd0],0,t,'chemres','chemjac');
             </member>
             
             <member>
-                
-                <link linkend="fort">fort</link>
-                
+
+                <link linkend="call">call</link>
+				
             </member>
             
             <member>

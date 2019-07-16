@@ -2,11 +2,14 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2012 - Gustavo Barbosa Libotte
  *
- * This file must be used under the terms of the CeCILL.
- * This source file is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
  *
  */
 
@@ -37,9 +40,9 @@ import javax.swing.SwingUtilities;
 
 import org.scilab.modules.commons.gui.FindIconHelper;
 import org.scilab.modules.localization.Messages;
-import org.scilab.modules.gui.editor.AxesHandler;
-import org.scilab.modules.gui.editor.ObjectSearcher;
-import org.scilab.modules.gui.editor.EntityPicker;
+import org.scilab.modules.renderer.utils.AxesHandler;
+import org.scilab.modules.renderer.utils.ObjectSearcher;
+import org.scilab.modules.renderer.utils.EntityPicker;
 import org.scilab.modules.gui.utils.ScilabSwingUtilities;
 import org.scilab.modules.graphic_objects.graphicController.GraphicController;
 import org.scilab.modules.graphic_objects.graphicObject.GraphicObjectProperties;
@@ -467,7 +470,7 @@ public class DatatipManagerMode {
     /**
      * Check if we are on a curve
      * @param pos the mouse position
-     * @return true if the click occured on a curve
+     * @return true if the click occurred on a curve
      */
     private boolean onCurve(Integer[] pos) {
         Integer axes = AxesHandler.clickedAxes(getFigure(), pos);

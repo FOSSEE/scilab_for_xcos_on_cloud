@@ -18,11 +18,14 @@
 # Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) Scilab Enterprises - 2011-2013 - Clement David
 #
-# This file must be used under the terms of the CeCILL.
-# This source file is licensed as described in the file COPYING, which
-# you should have received as part of this distribution.  The terms
-# are also available at
-# http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+# Copyright (C) 2012 - 2016 - Scilab Enterprises
+#
+# This file is hereby licensed under the terms of the GNU GPL v2.0,
+# pursuant to article 5.3.4 of the CeCILL v.2.1.
+# This file was originally licensed under the terms of the CeCILL v2.1,
+# and continues to be available under such terms.
+# For more information, see the COPYING file which you should have received
+# along with this program.
 #
 
 VPATH = @srcdir@
@@ -93,9 +96,10 @@ subdir = desktop
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/backtrace.m4 \
-	$(top_srcdir)/m4/compiler.m4 $(top_srcdir)/m4/curl.m4 \
-	$(top_srcdir)/m4/docbook.m4 $(top_srcdir)/m4/doxygen.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
+	$(top_srcdir)/m4/backtrace.m4 $(top_srcdir)/m4/compiler.m4 \
+	$(top_srcdir)/m4/curl.m4 $(top_srcdir)/m4/docbook.m4 \
+	$(top_srcdir)/m4/doxygen.m4 $(top_srcdir)/m4/eigen.m4 \
 	$(top_srcdir)/m4/fftw.m4 $(top_srcdir)/m4/fortran.m4 \
 	$(top_srcdir)/m4/giws.m4 $(top_srcdir)/m4/hdf5.m4 \
 	$(top_srcdir)/m4/intel_compiler.m4 \
@@ -243,6 +247,7 @@ AUTOMAKE = @AUTOMAKE@
 AVALON_FRAMEWORK = @AVALON_FRAMEWORK@
 AWK = @AWK@
 BATIK = @BATIK@
+BLAS_CFLAGS = @BLAS_CFLAGS@
 BLAS_LIBS = @BLAS_LIBS@
 CC = @CC@
 CCACHE = @CCACHE@
@@ -277,6 +282,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 ECJ = @ECJ@
 EGREP = @EGREP@
+EIGEN_CPPFLAGS = @EIGEN_CPPFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
@@ -300,6 +306,8 @@ GMSGFMT_015 = @GMSGFMT_015@
 GRAPHICS_ENABLE = @GRAPHICS_ENABLE@
 GREP = @GREP@
 GUI_ENABLE = @GUI_ENABLE@
+HAMCREST = @HAMCREST@
+HAVE_CXX11 = @HAVE_CXX11@
 HDF5_CFLAGS = @HDF5_CFLAGS@
 HDF5_LIBS = @HDF5_LIBS@
 HELP_ENABLE = @HELP_ENABLE@
@@ -336,6 +344,9 @@ LAPACK_LIBS = @LAPACK_LIBS@
 LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LEX = @LEX@
+LEXLIB = @LEXLIB@
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBM = @LIBM@
@@ -349,6 +360,9 @@ LOOKS = @LOOKS@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LUCENE = @LUCENE@
+LUCENE_ANALYZER = @LUCENE_ANALYZER@
+LUCENE_PARSER = @LUCENE_PARSER@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
@@ -430,6 +444,8 @@ UMFPACK_CFLAGS = @UMFPACK_CFLAGS@
 UMFPACK_ENABLE = @UMFPACK_ENABLE@
 UMFPACK_LIB = @UMFPACK_LIB@
 USE_NLS = @USE_NLS@
+VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
+VALGRIND_LIBS = @VALGRIND_LIBS@
 VERSION = @VERSION@
 WITH_OCAML = @WITH_OCAML@
 WITH_TKSCI = @WITH_TKSCI@
@@ -448,6 +464,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -503,6 +521,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+yacc_present = @yacc_present@
 SUBDIRS = images/icons/
 
 # Desktop file

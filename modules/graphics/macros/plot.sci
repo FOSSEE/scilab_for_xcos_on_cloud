@@ -1,11 +1,15 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2004-2006 - INRIA - Fabrice Leray
 // Copyright (C) 2008 - INRIA - Jean-Baptiste Silvy
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2018 - Samuel GOUGEON
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function plot(varargin)
     // Try to build a new better parser that could manage things like:
@@ -18,6 +22,7 @@ function plot(varargin)
         //LineSpec and PropertySpec examples:
         t = 0:%pi/20:2*%pi;
         tt = t';
+        clf('reset');
         drawlater();
         subplot(211);
         plot(tt, sin(tt), "ro-.", tt, cos(tt), "cya+", tt, abs(sin(tt)), "--mo");
@@ -28,10 +33,8 @@ function plot(varargin)
     end
 
 
-
     CurColor = 0; // current color used if no color specified via LineSpec
     // nor PropertyName
-
 
 
     ListArg = varargin;
@@ -43,7 +46,8 @@ function plot(varargin)
             sca(ListArg(1));
             ListArg(1) = null(); // remove this parameter from the list
         else
-            warning("Handle should be an Axes handle")
+            msg = _("%s: Argument #%d: Graphic handle(s) of type ""%s"" expected.\n")
+            warning(msprintf(msg, "plot", 1, "Axes"))
             return;
         end
     end
@@ -66,8 +70,9 @@ function plot(varargin)
 
     for i=1:nv-1
         acceptedTypes=[];
-        acceptedTypes=find(Ttmp(i,1)==1 & or(Ttmp(i+1,1)==[1,13,130])) // to accept double, macro function or primitive as second argument
-
+        // double, macro function or primitive,
+        //    or list(macro|primitive, params) accepted as second argument
+        acceptedTypes=find(Ttmp(i,1)==1 & or(Ttmp(i+1,1)==[1,13,130,15]))
         if (acceptedTypes<>[]) then
             couple=[couple i];
             Ttmp(i,1)  = 99; // Replace a known type by 99 (no meaning) to count it once only!
@@ -102,7 +107,7 @@ function plot(varargin)
         //
         // 1. Test if 2 data couples (first : type==1, second : type=[1,13,130])
         // are at least separated by 2 indices
-        if (couple(2:$)-couple(1:$-1)<2)
+        if (size(couple, "*") > 1 && couple(2:$)-couple(1:$-1)<2)
             warning("Error inside input argument !");
             return;
         end
@@ -152,8 +157,6 @@ function plot(varargin)
         xyIndexLineSpec(1,1) = 0; // no x specified
         xyIndexLineSpec(1,2) = couple;
 
-        //pause;
-
         if (couple+1 < P1)
             if (argTypes(couple+1,1)==10) then // LineSpec treatment
                 xyIndexLineSpec(1,3) = couple+1;
@@ -169,7 +172,7 @@ function plot(varargin)
     cur_draw_mode = current_figure.immediate_drawing;
     current_figure.immediate_drawing = "off";
 
-    // check wether this is the first plot for the axes in which we will draw
+    // check whether this is the first plot for the axes in which we will draw
     curAxes = gca();
     // save auto_clear state.
     OldAutoClear = curAxes.auto_clear;
@@ -181,8 +184,7 @@ function plot(varargin)
 
     FinalAgreg=[]; // Final Compound containing all the new created plots.
 
-    //for i=numplot:-1:1
-    for i=1:numplot
+    for i = 1:numplot
         // Set off auto_clear for allowing multiple graphics entity
         // will be restored behond
         if i>1 then
@@ -199,48 +201,71 @@ function plot(varargin)
 
         if (provided_data == 2) then
 
-            if (type(ListArg(xyIndexLineSpec(i,2))) == 13 | type(ListArg(xyIndexLineSpec(i,2))) == 130)
-                // A function (macro or primitive) is given. We need to build the vector or matrix.
-                sizefirstarg = size(ListArg(xyIndexLineSpec(i,1)));
-                buildFunc = ListArg(xyIndexLineSpec(i,2));
+            // A function (macro or primitive) is given:
+            if (type(ListArg(xyIndexLineSpec(i,2))) == 13 | ..
+                type(ListArg(xyIndexLineSpec(i,2))) == 130| ..
+                type(ListArg(xyIndexLineSpec(i,2))) == 15)
+                //   We need to build the vector or matrix.
                 firstarg = ListArg(xyIndexLineSpec(i,1));
-                tmp = [];
-
-                for ii=1:sizefirstarg(1,2)
-                    for jj=1:sizefirstarg(1,1)
-
-                        // function evaluation may fail
-                        // try/cacth is buggy for now
-                        // so use execstr until the bug is fixed
-                        err = execstr("tmp(jj,ii) = buildFunc(firstarg(jj,ii))","errcatch","n");
-
-                        if (err <> 0) then
-                            // reset data
-                            ResetFigureDDM(current_figure, cur_draw_mode);
-
-                            // get error
-                            [err_message, err_number, err_line, err_func] = lasterror(%t);
-
-                            clear buildFunc;
-                            // print it
-                            if (err_func <> "") then
-                                // ascii(10) = \n
-                                error(msprintf(gettext("%s: Error : unable to evaluate input function ''%s''.") + ascii(10) + gettext("Error %d at line %d of the function: ''%s''"), "plot", err_func,err_number, err_line, err_message));
-                            else
-                                error(msprintf(gettext("%s: Error : unable to evaluate input function.") + ascii(10) + gettext("Error %d at line %d of the function: ''%s''"), "plot", err_number, err_line, err_message));
-                            end
-                            // exit function
-                            return;
-                        end
-
+                sizefirstarg = size(firstarg);
+                secondarg = ListArg(xyIndexLineSpec(i,2));
+                params = list();
+                withParams = type(secondarg)==15
+                if withParams
+                    if size(secondarg)~=2 | and(type(secondarg(1))~=[13 130])
+                        ResetFigureDDM(current_figure, cur_draw_mode);
+                        msg = _("%s: wrong list() specification for the curve #%d.\n")
+                        error(msprintf(msg, "plot", i))
                     end
+                    buildFunc = secondarg(1)
+                    secondarg(1) = null()
+                    params = secondarg
+                else
+                    buildFunc = secondarg
                 end
 
+                // We test if the function is vectorized:
+                isvectorized = %t;
+                try
+                    s1 = min(3,sizefirstarg(1,1))
+                    s2 = min(3,sizefirstarg(1,2))
+                    tmp = buildFunc(firstarg(1:s1,1:s2), params(:))
+                    isvectorized = and(size(tmp)==[s1 s2])  | size(tmp,1)==s1*s2;;
+                catch
+                    isvectorized = %f;
+                end
 
+                // We evaluate ordinates accordingly:
+                try
+                    if isvectorized
+                        tmp = buildFunc(firstarg, params(:));
+                    else
+                        tmp = [];
+                        for ii = 1:sizefirstarg(1,2)
+                            for jj = 1:sizefirstarg(1,1)
+                                tmp(jj,ii) = buildFunc(firstarg(jj,ii), params(:));
+                            end
+                        end
+                    end
+                catch // An error has occurred:
+                    // reset data
+                    ResetFigureDDM(current_figure, cur_draw_mode);
+
+                    // get error info
+                    [err_message, err_number, err_line, err_func] = lasterror(%t);
+
+                    // yield it
+                    if err_func~="", err_func = """"+err_func+"""", end
+                    msg1 = gettext("%s: Error : unable to evaluate input function %s.")
+                    msg2 = gettext("Error %d at line %d of the function: ''%s''")
+                    error(msprintf(msg1 + ascii(10) + msg2, "plot", ..
+                        err_func, err_number, err_line, err_message));
+                end
+                // All right: go on plotting:
                 ListArg(xyIndexLineSpec(i,2)) = tmp;
-                // if there is an other iteration, we will have error message redefining function.
+                // if there is another iteration, we will have error message redefining function.
                 // we need to clear here and not before, because user must see the warning if needed.
-                clear buildFunc;
+                clear buildFunc secondarg;
             end
             [X,Y] = checkXYPair(typeOfPlot,ListArg(xyIndexLineSpec(i,1)),ListArg(xyIndexLineSpec(i,2)),current_figure,cur_draw_mode)
         else

@@ -3,11 +3,14 @@
 // Copyright (C) ???? - ENPC
 // Copyright (C) 2014 - Scilab Enterprises - Pierre-Aimé AGNEL
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [t]=soundsec (n,rate)
     // Return [0,n) seconds of t parameter at frequency = rate (sample/sec)
@@ -25,13 +28,13 @@ function [t]=soundsec (n,rate)
         if isreal(n)
             if ~isscalar(n)
                 //n is not a real positive scalar
-                error(999, msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"soundsec",1,1,1));
+                error(msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"soundsec",1,1,1));
             end
         else //n is not real
-            error(999, msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",1));
+            error(msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",1));
         end
     else //n is not a constant matrix
-        error(999, msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",1));
+        error(msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",1));
     end
 
     //rate must be a real strictly positive scalar
@@ -39,22 +42,22 @@ function [t]=soundsec (n,rate)
         if isreal(rate)
             if ~isscalar(rate)
                 //rate is not a real positive scalar
-                error(999, msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"soundsec",2,1,1));
+                error(msprintf(_("%s: Wrong size for input argument #%d: %d-by-%d matrix expected.\n"),"soundsec",2,1,1));
             end
         else //rate is not real
-            error(999, msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",2));
+            error(msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",2));
         end
     else //rate is not a constant matrix
-        error(999, msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",2));
+        error(msprintf(_("%s: Wrong type for argument #%d: Real matrix expected.\n"),"soundsec",2));
     end
 
     //n and rate must be positive
     if n<0
-        error(999, msprintf(_("%s: Wrong value for input argument #%d: Must be >= %d.\n"),"soundsec",1,0));
+        error(msprintf(_("%s: Wrong value for input argument #%d: Must be >= %d.\n"),"soundsec",1,0));
     end
 
     if rate<0
-        error(999, msprintf(_("%s: Wrong value for input argument #%d: Must be >= %d.\n"),"soundsec",2,0));
+        error(msprintf(_("%s: Wrong value for input argument #%d: Must be >= %d.\n"),"soundsec",2,0));
     end
     //Format test end
     //==============================================================================

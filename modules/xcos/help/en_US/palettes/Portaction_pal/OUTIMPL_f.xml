@@ -1,106 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  * Xcos
- * 
+ *
  * Copyright (C) INRIA - METALAU Project <scicos@inria.fr> (HTML version)
  * Copyright (C) DIGITEO - Scilab Consortium (XML Docbook version)
  * Copyright (C) 2011 - Bernard DUJARDIN <bernard.dujardin@contrib.scilab.org>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * 
+ *
  * See the file ./license.txt
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="OUTIMPL_f" xml:lang="en_US">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+        xmlns:scilab="http://www.scilab.org" xml:id="OUTIMPL_f" xml:lang="en_US">
     <refnamediv>
         <refname>OUTIMPL_f</refname>
         <refpurpose>Output implicit port</refpurpose>
     </refnamediv>
     <refsection>
         <title>Block Screenshot</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../../images/palettes/OUTIMPL_f.png" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../../images/palettes/OUTIMPL_f.png" align="center"/>
+            </imageobject>
+        </inlinemediaobject>
     </refsection>
     <refsection id="Contents_OUTIMPL_f">
         <title>Contents</title>
         <itemizedlist>
             <listitem>
-                <para>
-                    <link linkend="OUTIMPL_f">Output implicit port</link>
-                </para>
+                <xref linkend="Description_OUTIMPL_f">Description</xref>
             </listitem>
             <listitem>
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <xref linkend="Palette_OUTIMPL_f">Palette</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Description_OUTIMPL_f">Description</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Dialogbox_OUTIMPL_f">Dialog box</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Defaultproperties_OUTIMPL_f">Default properties</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Example_OUTIMPL_f">Example</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Interfacingfunction_OUTIMPL_f">Interfacing function</xref>
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <xref linkend="Seealso_OUTIMPL_f">See also</xref>
-                        </para>
-                    </listitem>
-                </itemizedlist>
+                <xref linkend="Dialogbox_OUTIMPL_f">Parameters</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Defaultproperties_OUTIMPL_f">Default properties</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Example_OUTIMPL_f">Example</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Interfacingfunction_OUTIMPL_f">Interfacing function</xref>
+            </listitem>
+            <listitem>
+                <xref linkend="Seealso_OUTIMPL_f">See also</xref>
             </listitem>
         </itemizedlist>
     </refsection>
-    <refsection id="Palette_OUTIMPL_f">
-        <title>Palettes</title>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <link linkend="Portaction_pal">Port &amp; Subsystem palette</link>
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <link linkend="Sinks_pal">Sinks palette</link>
-                </para>
-            </listitem>
-        </itemizedlist>
-    </refsection>
+
     <refsection id="Description_OUTIMPL_f">
         <title>Description</title>
         <para>
@@ -110,18 +71,15 @@
             This block is a signal link from outside of a system into a sub-system. In a Super Block, the implicit's output ports must be numbered from 1 to the total number of implicit's output ports. You can set it with the <emphasis role="bold">Port number</emphasis> parameter.
         </para>
     </refsection>
+
     <refsection id="Dialogbox_OUTIMPL_f">
-        <title>Dialog box</title>
-        <para>
-            <inlinemediaobject>
-                <imageobject>
-                    <imagedata fileref="../../../gui/portaction_pal/en_US/OUTIMPL_f_gui.png" align="center" valign="middle"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para>
-            
-        </para>
+        <title>Parameters</title>
+        <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../../../gui/portaction_pal/en_US/OUTIMPL_f_gui.png" align="center" style="float:right"/>
+                    <!-- align => Javahelp, style => Online -->
+            </imageobject>
+        </inlinemediaobject>
         <itemizedlist>
             <listitem>
                 <para>
@@ -195,17 +153,18 @@
                 </para>
             </listitem>
         </itemizedlist>
+        <para/>
     </refsection>
     <refsection id="Example_OUTIMPL_f">
         <title>Example</title>
         <para>
-            In the following example the Super block is a basic transistor switch. 
+            In the following example the Super block is a basic transistor switch.
         </para>
         <para>
             <link type="scilab" linkend="scilab.xcos/xcos/examples/portaction_pal/en_US/OUTIMPL_f_en_US.zcos">
                 <inlinemediaobject>
                     <imageobject>
-                        <imagedata fileref="../../../../examples/portaction_pal/en_US/OUTIMPL_f_en_US.zcos" align="center" valign="middle"/>
+                        <imagedata fileref="../../../../examples/portaction_pal/en_US/OUTIMPL_f_en_US.zcos" align="center"/>
                     </imageobject>
                 </inlinemediaobject>
             </link>
@@ -216,7 +175,7 @@
         <scilab:image><![CDATA[
 // overload messagebox to avoid the "modelica compiler" message
 function [btn] = messagebox(msg, msgboxtitle, msgboxicon, buttons, ismodal)
-	btn=1;
+    btn=1;
 endfunction
 
 importXcosDiagram(SCI + "/modules/xcos/examples/portaction_pal/en_US/OUTIMPL_f_en_US.zcos");

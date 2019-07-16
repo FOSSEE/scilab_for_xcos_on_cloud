@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2011-09-01 15:20+0000\n"
+"PO-Revision-Date: 2019-02-12 15:20+0000\n"
 "Last-Translator: Carml <mighty.carml@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 17413)\n"
-"Language: it\n"
+"X-Generator: Launchpad (build 18857)\n"
 
 msgid "overflow error"
 msgstr "errore di overflow"
@@ -24,8 +24,50 @@ msgid "Trigger block must have discrete time input."
 msgstr "Il blocco di attivazione deve avere un ingresso di tempo discreto."
 
 #, c-format
+msgid ""
+"The LU factorization has been completed, but the factor U is exactly "
+"singular : U(%d,%d) is exactly zero."
+msgstr ""
+
+msgid "Read error!\n"
+msgstr "Errore di lettura!\n"
+
+msgid "Could not open the file!\n"
+msgstr "Non è possibile aprire il file!\n"
+
+msgid "Read error\n"
+msgstr "Errore di lettura\n"
+
+#, c-format
+msgid "delayed time=%f but last stored time=%f \n"
+msgstr "il tempo ritardato=%f , ma l'ultimo tempo immagazzinato = %f \n"
+
+msgid "Consider increasing the length of buffer in delay block \n"
+msgstr ""
+
+msgid "Size of buffer or input size have changed!\n"
+msgstr "La dimensione del buffer o la dimensione dell'ingresso è cambiata!\n"
+
+#, c-format
+msgid "delayed time=%f but last stored time=%f\n"
+msgstr "il tempo ritardato=%f , ma l'ultimo tempo immagazzinato = %f\n"
+
+msgid "Consider increasing the length of buffer in variable delay block\n"
+msgstr ""
+
+msgid "Could not open /dev/audio!\n"
+msgstr "Non è possibile aprire /dev/audio!\n"
+
+#, c-format
 msgid "The '%s' variable does not exist.\n"
 msgstr "La variabile \"%s\" non esiste.\n"
+
+#, c-format
+msgid "%s: Wrong SOD file format version. Max Expected: %d Found: %d\n"
+msgstr ""
+
+msgid "Erroneous saved file.\n"
+msgstr ""
 
 msgid "Invalid variable type.\n"
 msgstr "Variabile di tipo non valido.\n"
@@ -64,6 +106,15 @@ msgstr "Il risultato dovrebbe essere di tipo uint16.\n"
 msgid "Output should be of uint32 type.\n"
 msgstr "Il risultato dovrebbe essere di tipo uint32.\n"
 
+msgid "Cannot read the values field.\n"
+msgstr ""
+
+msgid "The Time vector type is not double.\n"
+msgstr "Il tipo del vettore Time non è double.\n"
+
+msgid "The Time vector type is complex.\n"
+msgstr ""
+
 #, c-format
 msgid ""
 "The Time vector has a wrong size, expecting [%d, %d] and getting [%d, %d].\n"
@@ -71,54 +122,11 @@ msgstr ""
 "Il vettore Time ha una dimensione sbagliata, era attesa [%d, %d] e ottenuta "
 "[%d, %d].\n"
 
-msgid "The Time vector type is not double.\n"
-msgstr "Il tipo del vettore Time non è double.\n"
+msgid "Cannot read the time field.\n"
+msgstr ""
 
 msgid "The time vector should be an increasing vector.\n"
 msgstr "Il vettore Time dovrebbe essere un vettore crescente.\n"
-
-msgid "Allocation problem in spline.\n"
-msgstr "Problema di allocazione in spline.\n"
-
-msgid "Invalid variable type : error in hypermat scilab coding.\n"
-msgstr ""
-"Il tipo della variabile non è corretto: errore nella codifica della "
-"ipermatrice di Scilab.\n"
-
-#, c-format
-msgid ""
-"The LU factorization has been completed, but the factor U is exactly "
-"singular : U(%d,%d) is exactly zero."
-msgstr ""
-
-msgid "Read error!\n"
-msgstr "Errore di lettura!\n"
-
-msgid "Could not open the file!\n"
-msgstr "Non è possibile aprire il file!\n"
-
-msgid "Read error\n"
-msgstr "Errore di lettura\n"
-
-#, c-format
-msgid "delayed time=%f but last stored time=%f \n"
-msgstr "il tempo ritardato=%f , ma l'ultimo tempo immagazzinato = %f \n"
-
-msgid "Consider increasing the length of buffer in delay block \n"
-msgstr ""
-
-msgid "Size of buffer or input size have changed!\n"
-msgstr "La dimensione del buffer o la dimensione dell'ingresso è cambiata!\n"
-
-#, c-format
-msgid "delayed time=%f but last stored time=%f\n"
-msgstr "il tempo ritardato=%f , ma l'ultimo tempo immagazzinato = %f\n"
-
-msgid "Consider increasing the length of buffer in variable delay block\n"
-msgstr ""
-
-msgid "Could not open /dev/audio!\n"
-msgstr "Non è possibile aprire /dev/audio!\n"
 
 msgid "Clear a bit"
 msgstr ""
@@ -161,13 +169,16 @@ msgstr ""
 msgid "Type conversion"
 msgstr ""
 
-msgid "Input Type (1:double, 3:int32, 4:int16, 5:int8, ...)"
-msgstr "Tipo dei dati in ingresso (1:double, 3:int32, 4:int16, 5:int8, ...)"
+msgid "(b) 0:Nothing, 1:Saturate, 2:Error"
+msgstr ""
 
-msgid "Output Type (1:double, 3:int32, 4:int16, 5:int8, ...)"
-msgstr "Tipo dei dati in uscita: (1:double, 3:int32, 4:int16, 5:int8, ...)"
+msgid "Input type (a)"
+msgstr ""
 
-msgid "Do on Overflow (0:Nothing, 1:Saturate, 2:Error)"
+msgid "Output type (a)"
+msgstr ""
+
+msgid "Do on overflow (b)"
 msgstr ""
 
 msgid "Do on Overflow"
@@ -251,6 +262,9 @@ msgid "Indexes must be in the interval %s."
 msgstr "Gli indici devono essere nell'intervallo %s."
 
 msgid "Integer matrix multiplication"
+msgstr ""
+
+msgid "Do on Overflow (0:Nothing, 1:Saturate, 2:Error)"
 msgstr ""
 
 msgid "JK flip-flop"
@@ -485,69 +499,8 @@ msgstr "Porta di uscita implicita"
 msgid "Regular output port"
 msgstr "Porta di uscita regolare"
 
-#, c-format
-msgid "Feature %s is obsolete."
-msgstr ""
-
-#, c-format
-msgid "Please use %s instead."
-msgstr ""
-
-msgid "Write to output file"
-msgstr ""
-
-msgid "&nbsp; - A binary file if no format given"
-msgstr "&nbsp; - Un file binario se non è selezionato un formato"
-
-msgid "Write is done on:"
-msgstr ""
-
-msgid "&nbsp; - A formatted text file if a  format (Fortran type) is given"
-msgstr ""
-"&nbsp; - Un file di testo formattato se un formato (di tipo Fortran) è "
-"selezionato"
-
-msgid "Input Size"
-msgstr "Dimensione dei dati in ingresso"
-
-msgid "Output File Name"
-msgstr "Nome del file in uscita"
-
 msgid "Buffer Size"
 msgstr "Dimensione del buffer"
-
-msgid "Output Format"
-msgstr "Formato dei dati in uscita"
-
-msgid "End current simulation first."
-msgstr "Terminare prima la simulazione attuale."
-
-msgid ""
-"Simulation running !!! You cannot switch<br />between formatted and "
-"unformatted when running"
-msgstr ""
-
-msgid "You cannot modify 'Output File Name' when running."
-msgstr ""
-
-msgid "Wrong value for 'Output File Name' parameter"
-msgstr ""
-
-msgid "You must provide a filename."
-msgstr ""
-
-#, c-format
-msgid "Directory '%s' does not exist"
-msgstr "La directory '%s' non esiste"
-
-msgid "Input Format"
-msgstr "Formato dei dati in ingresso"
-
-msgid "You must enclose the format's string between parentheses."
-msgstr ""
-
-msgid "Must be greater than 1."
-msgstr "Deve essere maggiore di 1."
 
 msgid "Swap Mode (0:No, 1:Yes)"
 msgstr ""
@@ -565,8 +518,20 @@ msgstr "Terminare prima la simulazione attuale"
 msgid "Swap Mode"
 msgstr ""
 
+msgid "Input Size"
+msgstr "Dimensione dei dati in ingresso"
+
+msgid "Output File Name"
+msgstr "Nome del file in uscita"
+
 msgid "Write to C binary file"
 msgstr ""
+
+msgid "Output Format"
+msgstr "Formato dei dati in uscita"
+
+msgid "Input Format"
+msgstr "Formato dei dati in ingresso"
 
 msgid "Valid formats are: "
 msgstr ""
@@ -575,8 +540,18 @@ msgstr ""
 msgid "You cannot modify '%s' when running"
 msgstr ""
 
+msgid "End current simulation first."
+msgstr "Terminare prima la simulazione attuale."
+
 msgid "You cannot modify 'Buffer Size' when running."
 msgstr ""
+
+msgid "You must provide a filename."
+msgstr ""
+
+#, c-format
+msgid "Directory '%s' does not exist"
+msgstr "La directory '%s' non esiste"
 
 msgid "Event input port"
 msgstr ""
@@ -770,6 +745,9 @@ msgstr ""
 msgid "Wrong value for indexes in '%s' parameter: %s."
 msgstr ""
 
+msgid "&nbsp; - A binary file if no format given"
+msgstr "&nbsp; - Un file binario se non è selezionato un formato"
+
 msgid "Read from an input file"
 msgstr ""
 
@@ -803,6 +781,9 @@ msgstr ""
 
 #, c-format
 msgid "Wrong format for '%s' parameter: %s."
+msgstr ""
+
+msgid "You must enclose the format's string between parentheses."
 msgstr ""
 
 msgid "Buffer size must be at least 2."

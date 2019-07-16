@@ -1,11 +1,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function h=mtlb_plot(varargin)
     // Emulation function for Matlab plot()
@@ -41,9 +44,9 @@ function h=mtlb_plot(varargin)
     colorIndex=1
 
     // plot(Y)
-    if lstsize(varargin)==1 then
+    if size(varargin)==1 then
         mtlb_plotY(varargin(1))
-    elseif lstsize(varargin)==2 then
+    elseif size(varargin)==2 then
 
         // plot(Y,Linespec)
         if type(varargin(2))==10 then
@@ -75,7 +78,7 @@ function h=mtlb_plot(varargin)
             mtlbColor=mtlbColorOrder(colorIndex,:);
         end
         // plot(X,Y,Linespec)
-    elseif lstsize(varargin)==3 & type(varargin(3))==10 then
+    elseif size(varargin)==3 & type(varargin(3))==10 then
         mtlb_plotXY(varargin(1),varargin(2))
         curh=gce()
         curh=curh.children(1)
@@ -95,8 +98,8 @@ function h=mtlb_plot(varargin)
         mtlbColor=mtlbColorOrder(colorIndex,:);
     else
         k=1
-        while k<=lstsize(varargin)
-            if k<lstsize(varargin) & type(varargin(k))<>10 then
+        while k <= size(varargin)
+            if k < size(varargin) & type(varargin(k))<>10 then
                 mtlb_plotXY(varargin(k),varargin(k+1))
                 set(gca(),"auto_clear","off")
                 X=varargin(k)
@@ -110,7 +113,7 @@ function h=mtlb_plot(varargin)
                     colorIndex=1;
                 end
                 mtlbColor=mtlbColorOrder(colorIndex,:);
-            elseif k<=lstsize(varargin) & type(varargin(k))==10 then
+            elseif k <= size(varargin) & type(varargin(k))==10 then
                 opt=varargin(k)
                 opt=convstr(opt,"l")
                 if ~isempty(strindex("linestyle",opt)) then

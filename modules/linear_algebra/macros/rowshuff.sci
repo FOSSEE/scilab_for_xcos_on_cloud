@@ -2,11 +2,14 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2008 - INRIA - François DELEBECQUE
 //
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+// Copyright (C) 2012 - 2016 - Scilab Enterprises
+//
+// This file is hereby licensed under the terms of the GNU GPL v2.0,
+// pursuant to article 5.3.4 of the CeCILL v.2.1.
+// This file was originally licensed under the terms of the CeCILL v2.1,
+// and continues to be available under such terms.
+// For more information, see the COPYING file which you should have received
+// along with this program.
 
 function [Ws,Fs1]=rowshuff(Fs,alfa)
     // Shuffle algorithm: Given the pencil Fs=s*E-A, returns Ws=W(s)
@@ -20,12 +23,18 @@ function [Ws,Fs1]=rowshuff(Fs,alfa)
     if RHS==1 then
         alfa=0;
     end
+    Fs1 = Fs;
     [E,A]=pen2ea(Fs);
     //     E is non singular: --> exit
-    if rcond(E) >= 1.d-5 then W=eye(E);Fs1=Fs;return;end
+    if rcond(E) >= 1.d-5 then   // includes the Fs==[] case
+        W = eye(E);
+        return
+    end
     //     E is singular:
-    s=poly(0,"s");tol=1.d-10*(norm(E,1)+norm(A,1));
-    [n,n]=size(E);Ws=eye(n,n);
+    s = poly(0,"s");
+    tol = 1.d-10*(norm(E,1)+norm(A,1));
+    [n,n] = size(E);
+    Ws = eye(n,n);
     //
     rk=0;i=0;
     while rk  < n
@@ -34,7 +43,9 @@ function [Ws,Fs1]=rowshuff(Fs,alfa)
             W=[];
         end
         [W,rk]=rowcomp(E);
-        if rk==n then return;end
+        if rk==n then
+            return
+        end
         W1=W(1:rk,:);W2=W(rk+1:n,:);
         E=[W1*E;
         -W2*A];

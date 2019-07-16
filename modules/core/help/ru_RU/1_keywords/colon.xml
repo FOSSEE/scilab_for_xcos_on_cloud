@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="ru" xml:id="colon">
+<!--
+ * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Copyright (C) INRIA
+ *
+ * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *
+ * This file is hereby licensed under the terms of the GNU GPL v2.0,
+ * pursuant to article 5.3.4 of the CeCILL v.2.1.
+ * This file was originally licensed under the terms of the CeCILL v2.1,
+ * and continues to be available under such terms.
+ * For more information, see the COPYING file which you should have received
+ * along with this program.
+ *
+ -->
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="ru" xml:id="colon">
     <refnamediv>
-        <refname>colon</refname>
-        <refpurpose>(:) оператор "двоеточие"</refpurpose>
+        <refname>двоеточие (:)</refname>
+        <refpurpose>оператор "двоеточие"</refpurpose>
     </refnamediv>
     <refsection>
         <title>Описание</title>
         <para>
-            Символ двоеточие <literal>:</literal> может использоваться для того, чтобы явным 
-            образом формировать векторы (см. также <link linkend="linspace">linspace</link>,  <link linkend="logspace">logspace</link>):
+            Символ двоеточие <literal>:</literal> может использоваться для того, чтобы явным
+            образом формировать векторы (см. также <link linkend="linspace">linspace</link>,
+            <link linkend="logspace">logspace</link>):
         </para>
         <variablelist>
             <varlistentry>
@@ -29,7 +47,7 @@
             </varlistentry>
         </variablelist>
         <para>
-            Двоеточие также может использоваться для того, чтобы выделить выбранные строки, столбцы и 
+            Двоеточие также может использоваться для того, чтобы выделить выбранные строки, столбцы и
             элементы векторов и матриц (см. также <link linkend="extraction">выделение</link>, <link linkend="insertion">вставка</link>):
         </para>
         <variablelist>
@@ -61,7 +79,7 @@
                 <term>A(j:k)</term>
                 <listitem>
                     <para>
-                        является вектором-столбцом 
+                        является вектором-столбцом
                         <programlisting>
                             [A(j)
                             A(j+1)
@@ -75,12 +93,12 @@
                 <term>A(:,j:k)</term>
                 <listitem>
                     <para>
-                        is 
+                        is
                         <programlisting>
                             [A(1,j)  A(1,j+1)  ... A(1,k)
                             A(2,j)  A(2,j+1)  ... A(2,k)
-                            . . . . . . . . . . . 
-                            A(M,j)  A(M,j+1)  ... A(M,k)] 
+                            . . . . . . . . . . .
+                            A(M,j)  A(M,j+1)  ... A(M,k)]
                         </programlisting>
                         если <literal>A</literal> имеет размеры <literal>M</literal> на <literal>N</literal>;
                     </para>
@@ -93,8 +111,8 @@
                         <programlisting>
                             [A(j,1)    A(j,2)   ... A(j,N)
                             A(j+1,1)  A(j+1,2) ... A(j+1,N)
-                            . . . . . . . . . . . 
-                            A(k,1)    A(k,2)   ... A(k,N)] 
+                            . . . . . . . . . . .
+                            A(k,1)    A(k,2)   ... A(k,N)]
                         </programlisting>
                         если <literal>A</literal> имеет размеры <literal>M</literal> на <literal>N</literal>;
                     </para>
@@ -104,20 +122,24 @@
                 <term>A(:)=w</term>
                 <listitem>
                     <para>
-                        заполняет матрицу <literal>A</literal> элементами <literal>w</literal> (если 
+                        заполняет матрицу <literal>A</literal> элементами <literal>w</literal> (если
                         <literal>w</literal> является матрицей, то элементы заполняются столбец за столбцом).
                     </para>
                 </listitem>
             </varlistentry>
         </variablelist>
         <para>
-            Обратите внимание, что если <literal>i</literal>, <literal>j</literal>, <literal>k</literal> 
+            Обратите внимание, что если <literal>i</literal>, <literal>j</literal>, <literal>k</literal>
             или <literal>d</literal> являются нецелыми числами, то будет использоваться только целая часть.
         </para>
+       <note>
+          <literal>type(:)</literal> равно 129.
+          <literal>typeof(:)</literal> равно <literal>"implicitlist"</literal>.
+       </note>
     </refsection>
     <refsection>
         <title>Примеры</title>
-        <programlisting><![CDATA[ 
+        <programlisting><![CDATA[
 a = 1:5
 b = 1:3:12
 A = matrix(1:42,7,6);
@@ -149,10 +171,13 @@ A(i)
         <title>Смотрите также</title>
         <simplelist type="inline">
             <member>
-                <link linkend="matrix">matrix</link>
+                <link linkend="dollar">доллар</link>
             </member>
             <member>
-                <link linkend="for">for</link>
+                <link linkend="extraction">extraction</link>
+            </member>
+            <member>
+                <link linkend="matrix">matrix</link>
             </member>
             <member>
                 <link linkend="linspace">linspace</link>
@@ -161,5 +186,29 @@ A(i)
                 <link linkend="logspace">logspace</link>
             </member>
         </simplelist>
+    </refsection>
+    <refsection role="history">
+        <title>История</title>
+        <revhistory>
+            <revision>
+                <revnumber>6.0</revnumber>
+                <revdescription>
+                  <itemizedlist>
+                    <listitem>
+                        <literal>type(:)</literal> равен 129 (как и у <literal>1:$</literal>)
+                        вместо 1. <literal>size(:)</literal> неопределён
+                        (вместо <literal>[-1,-1]</literal>).
+                    </listitem>
+                    <listitem>
+                        <literal>typeof(:)</literal> теперь <literal>"implicitlist"</literal>,
+                        как и у <literal>1:$</literal>.
+                    </listitem>
+                    <listitem>
+                       <literal>%i:10</literal> теперь выдаёт ошибку.
+                    </listitem>
+                  </itemizedlist>
+                </revdescription>
+            </revision>
+        </revhistory>
     </refsection>
 </refentry>

@@ -10,69 +10,71 @@
 // prod
 // Check error
 d=[1 10;254 9];
+
 assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prod",2,"""*"",""r"",""c"",""m"",""native"",""double""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong size for argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"), "prod", 2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 //==============================================================================
 // matrices of integer
 i = uint8(d);
+
 assert_checkfalse(execstr("prod(i, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prod",2,"""*"",""r"",""c"",""m"",""native"",""double""");
 assert_checkerror("prod(i, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(i, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong size for argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"), "prod", 2);
 assert_checkerror("prod(i, [""r"", ""c""])", refMsg);
 
 assert_checkfalse(execstr("prod(i,""r"", ""nat"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong value for argument #%d.\n"), 3);
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"),"prod", 3, """native""", """double""");
 assert_checkerror("prod(i,""r"", ""nat"")", refMsg);
 
 assert_checkfalse(execstr("prod(i,""r"", [""nat"" ""dble""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong size for argument #%d.\n"), 3);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"), "prod", 3);
 assert_checkerror("prod(i,""r"", [""nat"" ""dble""])", refMsg);
 
 assert_checkfalse(execstr("prod(i,""orient"", ""t"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prod",2,"""*"",""r"",""c"",""m""");
 assert_checkerror("prod(i,""orient"", ""t"")", refMsg);
 
 assert_checkfalse(execstr("prod(i,1,1)"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong type for argument #%d: String expected.\n"), 3);
+refMsg = msprintf(_("%s: Wrong type for input argument #%d: string expected.\n"), "prod", 3);
 assert_checkerror("prod(i,1,1)", refMsg);
 
 //==============================================================================
 // sparse matrices
 d = sparse(d);
-assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong argument #%d.\n"), 2);
+assert_checkfalse(execstr("prod(d, ""orient"")","errcatch") == 0);
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prod",2,"""*"",""r"",""c"",""m""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("Wrong size for argument #%d.\n"), 2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 //==============================================================================
 // boolean matrices
 d = [%f %t;%t %f];
 assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),"prod",2,"""*"",""r"",""c"",""m""");
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),"prod",2,"""*"",""r"",""c"",""m"",""native"",""double""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 assert_checkfalse(execstr("prod(d,""r"", ""nat"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong value for input argument #%d: ""%s"" or ""%s"" expected.\n"),"prod", 3, "native", "double");
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: %s or %s expected.\n"),"prod", 3, """native""", """double""");
 assert_checkerror("prod(d,""r"", ""nat"")", refMsg);
 
 assert_checkfalse(execstr("prod(d,""r"", [""nat"" ""dble""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",3);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"),"prod",3);
 assert_checkerror("prod(d,""r"", [""nat"" ""dble""])", refMsg);
 
 assert_checkfalse(execstr("prod(d,""orient"", ""t"")"   ,"errcatch") == 0);
@@ -81,7 +83,7 @@ refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set 
 assert_checkerror("prod(d,""orient"", ""t"")", refMsg);
 
 assert_checkfalse(execstr("prod(d,1,1)"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"),"prod",3);
+refMsg = msprintf(_("%s: Wrong type for input argument #%d: string expected.\n"),"prod",3);
 assert_checkerror("prod(d,1,1)", refMsg);
 
 //==============================================================================
@@ -93,7 +95,7 @@ refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set 
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 assert_checkfalse(execstr("prod(d,""r"", ""nat"")"   ,"errcatch") == 0);
@@ -101,7 +103,7 @@ refMsg = msprintf(_("%s: Wrong value for input argument #%d: ""%s"" or ""%s"" ex
 assert_checkerror("prod(d,""r"", ""nat"")", refMsg);
 
 assert_checkfalse(execstr("prod(d,""r"", [""nat"" ""dble""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",3);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: string expected.\n"),"prod",3);
 assert_checkerror("prod(d,""r"", [""nat"" ""dble""])", refMsg);
 
 assert_checkfalse(execstr("prod(d,""orient"", ""t"")"   ,"errcatch") == 0);
@@ -110,19 +112,18 @@ refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set 
 assert_checkerror("prod(d,""orient"", ""t"")", refMsg);
 
 assert_checkfalse(execstr("prod(d,1,1)"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong type for input argument #%d: A string expected.\n"),"prod",3);
+refMsg = msprintf(_("%s: Wrong type for input argument #%d: string expected.\n"),"prod",3);
 assert_checkerror("prod(d,1,1)", refMsg);
 
 //==============================================================================
 // hypermatrices
 d = rand(2,2,2);
 assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),..
-"prod",2,"""*"",""r"",""c"",""m""");
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prod",2,"""*"",""r"",""c"",""m"",""native"",""double""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 //==============================================================================
@@ -130,12 +131,11 @@ assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 s = poly(0, "s");
 d = [s s^2;s*%i 1];
 assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),..
-"prod",2,"""*"",""r"",""c"",""m""");
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),"prod",2,"""*"",""r"",""c"",""m"",""native"",""double""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: A scalar string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 //==============================================================================
@@ -143,12 +143,11 @@ assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 s = poly(0, "s");
 d = [1/s 1/s^2; 1/s 1];
 assert_checkfalse(execstr("prod(d, ""orient"")"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),..
-"prod",2,"""*"",""r"",""c"",""m""");
+refMsg = msprintf(_("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"),"prod",2,"""*"",""r"",""c"",""m""");
 assert_checkerror("prod(d, ""orient"")", refMsg);
 
 assert_checkfalse(execstr("prod(d, [""r"", ""c""])"   ,"errcatch") == 0);
-refMsg = msprintf(_("%s: Wrong size for input argument #%d: A string expected.\n"),"prod",2);
+refMsg = msprintf(_("%s: Wrong size for input argument #%d: string expected.\n"),"prod",2);
 assert_checkerror("prod(d, [""r"", ""c""])", refMsg);
 
 //empty matrices
@@ -180,8 +179,8 @@ T=list(list(),list("native"),list("double"));
 for typ=T
     assert_checkequal(prod(d, typ(:)), 22860);
     assert_checkequal(prod(d, "*", typ(:)), 22860);
-    assert_checkequal(prod(d, 1, typ(:)), hypermat([1,2,2],[254;90;1;1]));
-    assert_checkequal(prod(d, 2, typ(:)), hypermat([2,1,2],[10;2286;1;1]));
+    assert_checkequal(prod(d, 1, typ(:)), matrix([254;90;1;1], [1,2,2]));
+    assert_checkequal(prod(d, 2, typ(:)), matrix([10;2286;1;1], [2,1,2]));
     assert_checkequal(prod(d, 3, typ(:)), [1,10;254,9]);
     assert_checkequal(prod(d, 5, typ(:)), d);
 end
@@ -210,16 +209,16 @@ T = list(list(),list("native"));
 for typ=T
     assert_checkequal(prod(i, typ(:)), uint8(76));
     assert_checkequal(prod(i, "*", typ(:)), uint8(76));
-    assert_checkequal(prod(i, 1, typ(:)), hypermat([1,2,2],uint8([254;90;1;1])));
-    assert_checkequal(prod(i, 2, typ(:)), hypermat([2,1,2],uint8([10;238;1;1])));
+    assert_checkequal(prod(i, 1, typ(:)), matrix(uint8([254;90;1;1]), [1,2,2]));
+    assert_checkequal(prod(i, 2, typ(:)), matrix(uint8([10;238;1;1]), [2,1,2]));
     assert_checkequal(prod(i, 3, typ(:)), uint8([1,10;254,9]));
     assert_checkequal(prod(i, 5, typ(:)), i);
 end
 
 assert_checkequal(prod(i, "double"), 22860);
 assert_checkequal(prod(i, "*", "double"), 22860);
-assert_checkequal(prod(i, 1, "double"), hypermat([1,2,2],[254;90;1;1]));
-assert_checkequal(prod(i, 2, "double"), hypermat([2,1,2],[10;2286;1;1]));
+assert_checkequal(prod(i, 1, "double"), matrix([254;90;1;1], [1,2,2]));
+assert_checkequal(prod(i, 2, "double"), matrix([10;2286;1;1], [2,1,2]));
 assert_checkequal(prod(i, 3, "double"), [1,10;254,9]);
 assert_checkequal(prod(i, 5, "double"), double(i));
 
@@ -239,8 +238,8 @@ T=list(list(),list("native"),list("double"));
 for typ=T
     assert_checkequal(prod(p, typ(:)), 2*s^4+4*s^5+2*s^6);
     assert_checkequal(prod(p, "*", typ(:)), 2*s^4+4*s^5+2*s^6);
-    assert_checkequal(prod(p, 1, typ(:)), hypermat([1,2,2],[s^3;1+s;1+s;2*s]));
-    assert_checkequal(prod(p, 2, typ(:)), hypermat([2,1,2],[s+s^2;s^2;s;2+2*s]));
+    assert_checkequal(prod(p, 1, typ(:)), matrix([s^3;1+s;1+s;2*s], [1,2,2]));
+    assert_checkequal(prod(p, 2, typ(:)), matrix([s+s^2;s^2;s;2+2*s], [2,1,2]));
     assert_checkequal(prod(p, 3, typ(:)), [s,s+s^2;s^2+s^3,2]);
     assert_checkequal(prod(p, 5, typ(:)), p);
 end
@@ -281,16 +280,16 @@ T = list(list(),list("double"));
 for typ=T
     assert_checkequal(prod(b, typ(:)), 0);
     assert_checkequal(prod(b, "*", typ(:)), 0);
-    assert_checkequal(prod(b, 1, typ(:)), hypermat([1,2,2],[0;1;0;0]));
-    assert_checkequal(prod(b, 2, typ(:)), hypermat([2,1,2],[1;0;0;0]));
+    assert_checkequal(prod(b, 1, typ(:)), matrix([0;1;0;0], [1,2,2]));
+    assert_checkequal(prod(b, 2, typ(:)), matrix([1;0;0;0], [2,1,2]));
     assert_checkequal(prod(b, 3, typ(:)), [1,0;0,0]);
     assert_checkequal(prod(b, 5, typ(:)), double(b));
 end
 
 assert_checkequal(prod(b, "native"), %f);
 assert_checkequal(prod(b, "*", "native"), %f);
-assert_checkequal(prod(b, 1, "native"), hypermat([1,2,2],[%f;%t;%f;%f]));
-assert_checkequal(prod(b, 2, "native"), hypermat([2,1,2],[%t;%f;%f;%f]));
+assert_checkequal(prod(b, 1, "native"), matrix([%f;%t;%f;%f], [1,2,2]));
+assert_checkequal(prod(b, 2, "native"), matrix([%t;%f;%f;%f], [2,1,2]));
 assert_checkequal(prod(b, 3, "native"), [%t,%f;%f,%f]);
 assert_checkequal(prod(b, 5, "native"), b);
 
