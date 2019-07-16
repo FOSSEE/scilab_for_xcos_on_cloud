@@ -28,6 +28,8 @@
 #include "localization.h"
 #include "sci_malloc.h"
 #include "dynlib_scicos_blocks.h"
+#include "scicos.h"
+#include "scoUtils.h"
 /*--------------------------------------------------------------------------*/
 SCICOS_BLOCKS_IMPEXP void writeau(int *flag, int *nevprt,
                                   double *t, double xd[],
@@ -47,6 +49,11 @@ ipar[6]   = swap
 ipar[7:6+lfil] = character codes for file name
 */
 {
+    int processId = getpid();
+    FILE *filePointer = getLogFilePointer();
+    int block_id = 22;
+    char str[100];
+
     FILE *fd = NULL;
     int n = 0, k = 0, i = 0, ierr = 0;
     double *buffer = NULL, *record = NULL;
@@ -120,7 +127,12 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 4)
     {
-        wcfopen(fd, "/dev/audio", "wb");
+        sprintf(str, "%s.%d.%ld.%s", "audio", processId, getMicrotime(), "au");
+        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());
+        fprintf(filePointer, "%d %d || %d || %s\n",
+                block_id, processId, get_block_number(), str);
+
+        wcfopen(fd, str, "wb");
         if (!fd )
         {
             scicos_print(_("Could not open /dev/audio!\n"));
@@ -146,9 +158,11 @@ ipar[7:6+lfil] = character codes for file name
                 return;
             }
         }
+        fprintf(filePointer, "%d || Ending %d\n", processId, get_block_number());
         fclose(fd);
         z[2] = 0.0;
     }
+    fflush(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/
