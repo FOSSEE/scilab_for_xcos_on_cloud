@@ -28,6 +28,8 @@
 #include "localization.h"
 #include "sci_malloc.h"
 #include "dynlib_scicos_blocks.h"
+#include "scicos.h"
+#include "scoUtils.h"
 /*--------------------------------------------------------------------------*/
 SCICOS_BLOCKS_IMPEXP void writec(int *flag, int *nevprt,
                                  double *t, double xd[],
@@ -48,6 +50,10 @@ ipar[7:6+lfil] = character codes for file name
 */
 
 {
+    int processId = getpid();
+    FILE *filePointer = getLogFilePointer();
+    int block_id = 21;
+
     char str[100], type[4];
     int job = 1, three = 3;
     FILE *fd = NULL;
@@ -106,6 +112,12 @@ ipar[7:6+lfil] = character codes for file name
             str[i] = (char) ipar[i + 7];
         }
         str[ipar[1]] = '\0';
+
+        sprintf(str, "%s.%d.%ld.%s", "writec", processId, getMicrotime(), "datas");
+        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());//-1 as no figure uid
+        fprintf(filePointer, "%d %d || %d || %s\n",
+                block_id, processId, get_block_number(), str);
+
         wcfopen(fd, str, "wb");
         if (!fd )
         {
@@ -143,8 +155,10 @@ ipar[7:6+lfil] = character codes for file name
             }
         }
         fclose(fd);
+        fprintf(filePointer, "%d || Ending %d\n", processId,  get_block_number());
         z[2] = 0.0;
     }
+    fflush(filePointer);
     return;
 }
 /*--------------------------------------------------------------------------*/

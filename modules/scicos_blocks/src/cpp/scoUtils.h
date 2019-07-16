@@ -16,6 +16,9 @@
 #ifndef _SCO_UTILS_
 #define _SCO_UTILS_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "BOOL.h"
 
 /**
@@ -36,5 +39,19 @@ int findChildWithKindAt(int parent, int type, const int position);
  * \param label the label to set
  */
 BOOL setLabel(int iAxeUID, int _iName, char* pstLabel);
+
+/**
+ * Get the file pointer
+ *
+ * \return the file pointer to the log file
+ */
+FILE *getLogFilePointer(void);
+
+/**
+ * get the current time
+ *
+ * \return the current time in microseconds
+ */
+long getMicrotime(void);
 
 #endif /* _SCO_UTILS_ */

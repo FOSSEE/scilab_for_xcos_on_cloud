@@ -159,6 +159,10 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
+    int processId = getpid();
+    FILE *filePointer = getLogFilePointer();
+    int block_id = 3;
+
     switch (flag)
     {
 
@@ -176,6 +180,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
             break;
 
         case StateUpdate:
@@ -207,10 +212,21 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
              * Append the data (copy) then free
              */
             appendData(block, t, u);
-            FREE(u);
 
             for (i = 0; i < links_count; i++)
             {
+                int iFigureUID = getFigure(block);
+                int iAxeUID = getAxe(iFigureUID, block);
+                int iPolylineUID = getPolyline(iAxeUID, block, i);
+                double time = t;
+                double y = u[i];
+                double z = 0;
+                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
+                        block_id, processId,
+                        iFigureUID, iAxeUID, iPolylineUID,
+                        time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3],
+                        "CFSCOPE");
+
                 result = pushData(block, i);
                 if (result == FALSE)
                 {
@@ -218,15 +234,18 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                     break;
                 }
             }
+            FREE(u);
             break;
 
         case Ending:
+            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
             freeScoData(block);
             break;
 
         default:
             break;
     }
+    fflush(filePointer);
 }
 
 /*-------------------------------------------------------------------------*/

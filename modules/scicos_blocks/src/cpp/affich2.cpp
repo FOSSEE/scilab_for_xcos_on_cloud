@@ -26,6 +26,7 @@ extern "C"
 #include "sci_malloc.h"
 #include "scicos_block4.h"
 #include "scicos.h"
+#include "scoUtils.h"
 #include "core_math.h"
 #include "os_string.h"
 
@@ -46,6 +47,11 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
     char ***pstValue = NULL;
     char pstConv[128];
 
+    int processId = getpid();
+    FILE *filePointer = getLogFilePointer();
+    int block_id = 20;
+    double time = 0;
+
     iRowsIn = GetInPortRows(block, 1);
     iColsIn = GetInPortCols(block, 1);
 
@@ -58,6 +64,12 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
         case ReInitialization:
             // Getting the allocated area
             pstValue = (char ***)block->work[0];
+
+            time = get_scicos_time();
+            fprintf(filePointer, "%d %d || %s | 0 | %s || %f %d %d",
+                    block_id, processId,
+                    block->uid, block->uid,
+                    time, iRowsIn, iColsIn);
 
             for (i = 0; i < iRowsIn; i++)
             {
@@ -80,15 +92,19 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
                     sprintf(pstConv, pstFormat, dblValue);
 #endif
                     pstValue[i][j] = os_strdup(pstConv);
+
+                    fprintf(filePointer, " %f", dblValue);
                 }
             }
 
+            fprintf(filePointer, " AFFICH_m\n");
             AfficheBlock_setValue(block->uid, pstValue, iRowsIn, iColsIn);
 
             break;
 
         case Initialization:       //init
             pstValue = (char ***)MALLOC(sizeof(char **) * iRowsIn);
+            fprintf(filePointer, "%d || Initialization %s\n", processId, block->uid);
 
             for (i = 0; i < iRowsIn; i++)
             {
@@ -123,6 +139,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
         case Ending:
             // Getting the allocated area
             pstValue = (char ***)block->work[0];
+            fprintf(filePointer, "%d || Ending %s\n", processId, block->uid);
 
             for (i = 0; i < iRowsIn; i++)
             {
@@ -134,6 +151,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
         default:
             break;
     }
+    fflush(filePointer);
 }
 
 //
