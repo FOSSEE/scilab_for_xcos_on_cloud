@@ -206,7 +206,6 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 1;
@@ -228,7 +227,7 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -253,19 +252,17 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
                 int iPolylineUID = getPolyline(iAxeUID, block, i, FALSE);
                 double time = t;
                 double y = u[i];
-                double z = 0;
                 const char *labl = GetLabelPtrs(block);
                 if (strlen(labl) == 0)
                     labl = "CSCOPE";
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
-                        block_id, processId,
-                        iFigureUID, iAxeUID, iPolylineUID,
-                        time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3],
+                fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %s\n",
+                        block_id, block->uid, iAxeUID, iPolylineUID,
+                        time, y, 1, block->rpar[1], block->rpar[2], block->rpar[3],
                         labl);
                 /*
-                 * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
-                 * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
-                 * time - current time interval(x-axis), y - value of y-axis, z - value of z-axis,
+                 * block_id - block_id of this block,  block->uid - uid of the block ,
+                 * iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
+                 * time - current time interval(x-axis), y - value of y-axis,
                  * 1 - representing 1 output graph,
                  * block->rpar[1] - yMin value, block->rpar[2] - yMax value, block->rpar[3] - refresh period,
                  * labl - Label for graph(default - "CSCOPE")
@@ -289,7 +286,7 @@ SCICOS_BLOCKS_IMPEXP void cscope(scicos_block * block, scicos_flag flag)
             pushHistory(block, 0, sco->internal.maxNumberOfPoints);
             deleteBufferPolylines(block);
 #endif
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 

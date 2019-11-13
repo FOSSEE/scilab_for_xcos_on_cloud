@@ -127,10 +127,10 @@ ipar[7:6+lfil] = character codes for file name
     }
     else if (*flag == 4)
     {
-        sprintf(str, "%s.%d.%ld.%s", "audio", processId, getMicrotime(), "au");
-        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());
-        fprintf(filePointer, "%d %d || %d || %s\n",
-                block_id, processId, get_block_number(), str);
+        sprintf(str, "%s.%ld.%s", "audio", getMicrotime(), "au");
+        fprintf(filePointer, "Initialization %d\n", get_block_number());
+        fprintf(filePointer, "%d || %d || %s\n",
+                block_id, get_block_number(), str);
 
         wcfopen(fd, str, "wb");
         if (!fd )
@@ -158,7 +158,7 @@ ipar[7:6+lfil] = character codes for file name
                 return;
             }
         }
-        fprintf(filePointer, "%d || Ending %d\n", processId, get_block_number());
+        fprintf(filePointer, "Ending %d\n", get_block_number());
         fclose(fd);
         z[2] = 0.0;
     }
