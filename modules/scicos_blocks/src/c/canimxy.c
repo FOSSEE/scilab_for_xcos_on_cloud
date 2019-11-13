@@ -150,7 +150,6 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
     int j;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     int block_id = 9;
 
@@ -169,7 +168,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
                 // allocation error
                 set_block_error(-5);
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -183,7 +182,6 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
 
             double *x = GetRealInPortPtrs(block, 1);
             double *y = GetRealInPortPtrs(block, 2);
-            double z = 0;
             appendData(block, x, y);
             for (j = 0; j < block->insz[0]; j++)
             {
@@ -191,12 +189,11 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %s %d\n",
-                        block_id, processId,
-                        iFigureUID, iAxeUID, iPolylineUID,
-                        x[j], y[j], z,
+                fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %f %d %s\n",
+                        block_id, block->uid, iAxeUID, iPolylineUID,
+                        x[j], y[j],
                         1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3],
-                        "CANIMXY", block->ipar[2]);
+                        block->ipar[2] ,"CANIMXY" );
 
                 result = pushData(block, j);
                 if (result == FALSE)
@@ -208,7 +205,7 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 

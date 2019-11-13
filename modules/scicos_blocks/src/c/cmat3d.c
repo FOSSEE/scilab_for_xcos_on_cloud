@@ -149,6 +149,9 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
     sco_data *sco;
 
     BOOL result;
+    FILE *filePointer = getLogFilePointer();
+    // Give block id to distinguish blocks
+    int block_id = 13;
 
     switch (flag)
     {
@@ -167,6 +170,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -181,6 +185,56 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             u = GetRealInPortPtrs(block, 1);
 
             result = pushData(block, u);
+
+            int iFigureUID;
+            int iAxeUID;
+            int iPlot3dUID;
+
+            int m, n, i, colormapLen;
+            double xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta;
+
+            iFigureUID = getFigure(block);
+            iAxeUID = getAxe(iFigureUID, block);
+            iPlot3dUID = getPlot3d(iAxeUID, block);
+
+            m = GetInPortSize(block, 1, 1);
+            n = GetInPortSize(block, 1, 2);
+            colormapLen = block->ipar[3];
+            if (colormapLen == 1)
+            {
+                xMin = (double) 0;  // xMin
+                xMax = (double) m;  // xMax
+                yMin = (double) 0;  // yMin
+                yMax = (double) n;  // yMax
+            }
+            else
+            {
+                xMin = block->rpar[colormapLen + 0];   // xMin
+                xMax = block->rpar[colormapLen + 1];   // xMax
+                yMin = block->rpar[colormapLen + 2];   // yMin
+                yMax = block->rpar[colormapLen + 3];   // yMax
+            }
+
+            zMin = (double)block->ipar[0]; // zMin
+            zMax = (double)block->ipar[1]; // zMax
+
+            alpha = 50;      // alpha
+            theta = 280;     // theta
+            // Handles fractional values
+            xMin = round(xMin - 0.4999);
+            xMax = xMax + 0.4999;
+            yMin = round(yMin - 0.4999);
+            yMax = yMax + 0.4999;
+            zMin = round(zMin - 0.4999);
+            zMax = zMax + 0.4999;
+            fprintf(filePointer, "%d || %s || %d | %d | %d | %d || %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f ||",
+            block_id, block->uid, iAxeUID, iPlot3dUID, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
+            for (i = 0; i < m * n; i++)
+            {
+                fprintf(filePointer, " %.0f", u[i]);
+            }
+            fprintf(filePointer," %s\n","CMAT3D");
+
             if (result == FALSE)
             {
                 Coserror("%s: unable to push some data.", "cmat3d");
@@ -189,6 +243,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 

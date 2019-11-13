@@ -50,7 +50,6 @@ ipar[7:6+lfil] = character codes for file name
 */
 
 {
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     int block_id = 21;
 
@@ -113,10 +112,10 @@ ipar[7:6+lfil] = character codes for file name
         }
         str[ipar[1]] = '\0';
 
-        sprintf(str, "%s.%d.%ld.%s", "writec", processId, getMicrotime(), "datas");
-        fprintf(filePointer, "%d || Initialization %d\n", processId, get_block_number());//-1 as no figure uid
-        fprintf(filePointer, "%d %d || %d || %s\n",
-                block_id, processId, get_block_number(), str);
+        sprintf(str, "%s.%ld.%s", "writec", getMicrotime(), "datas");
+        fprintf(filePointer, "Initialization %d\n", get_block_number());//-1 as no figure uid
+        fprintf(filePointer, "%d || %d || %s\n",
+                block_id, get_block_number(), str);
 
         wcfopen(fd, str, "wb");
         if (!fd )
@@ -155,7 +154,7 @@ ipar[7:6+lfil] = character codes for file name
             }
         }
         fclose(fd);
-        fprintf(filePointer, "%d || Ending %d\n", processId,  get_block_number());
+        fprintf(filePointer, "Ending %d\n",  get_block_number());
         z[2] = 0.0;
     }
     fflush(filePointer);
