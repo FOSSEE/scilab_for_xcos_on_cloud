@@ -92,7 +92,7 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
 #endif
                     pstValue[i][j] = strdup(pstConv);
 
-                    fprintf(filePointer, " %f", dblValue);
+                    fprintf(filePointer, " %s", pstConv);
                 }
             }
 
