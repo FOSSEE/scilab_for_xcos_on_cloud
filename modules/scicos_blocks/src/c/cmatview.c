@@ -145,6 +145,10 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
 
     BOOL result;
 
+    FILE *filePointer = getLogFilePointer();
+    // Give block id to distinguish blocks
+    int block_id = 12;
+
     switch (flag)
     {
 
@@ -162,6 +166,7 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -176,6 +181,31 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             u = GetRealInPortPtrs(block, 1);
 
             result = pushData(block, u);
+            int i;
+            int m, n;
+            double alpha, beta;
+            double scaledData;
+            int iAxeUID;
+            int iGrayplotUID;
+
+            iAxeUID = getAxe(iFigureUID, block);
+            iGrayplotUID = getGrayplot(iAxeUID, block);
+
+            m = GetInPortSize(block, 1, 1);
+            n = GetInPortSize(block, 1, 2);
+            /*
+            * Scale the data
+            */
+            alpha = block->rpar[0];
+            beta = block->rpar[1];
+            fprintf(filePointer, "%d || %s || %d | %d | %d | %d ||",
+            block_id, block->uid, iAxeUID, iGrayplotUID, m, n);
+            for (i = 0; i < m * n; i++)
+            {
+                scaledData = floor(alpha * u[i] + beta);
+                fprintf(filePointer, " %.0f", scaledData); // this values when passed to grayplot gives same chart as cmatview chart
+            }
+            fprintf(filePointer," %s\n","CMATVIEW");
             if (result == FALSE)
             {
                 Coserror("%s: unable to push some data.", "cmatview");
@@ -184,6 +214,7 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
