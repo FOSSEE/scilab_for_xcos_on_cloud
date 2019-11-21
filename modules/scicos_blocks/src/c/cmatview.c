@@ -148,9 +148,6 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 12;
-    int iAxeUID;
-    int iGrayplotUID;
-
 
     switch (flag)
     {
@@ -184,10 +181,12 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             u = GetRealInPortPtrs(block, 1);
 
             result = pushData(block, u);
-            int i,j;
+            int i;
             int m, n;
-            double alpha, beta ,min ,max;
-            double *scaledData;
+            double alpha, beta;
+            double scaledData;
+            int iAxeUID;
+            int iGrayplotUID;
 
             iAxeUID = getAxe(iFigureUID, block);
             iGrayplotUID = getGrayplot(iAxeUID, block);
@@ -199,20 +198,13 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             */
             alpha = block->rpar[0];
             beta = block->rpar[1];
-            scaledData = (double *)MALLOC(m * n * sizeof(double));
-            if (scaledData == NULL)
-            {
-                result = FALSE;
-                return result;
-            }
-            fprintf(filePointer, "%d %d || %d | %d | %d | %d  | %d ||", block_id,processId, iFigureUID, iAxeUID,iGrayplotUID,m,n);
+            fprintf(filePointer, "%d %d || %d | %d | %d | %d  | %d ||", block_id, processId, iFigureUID, iAxeUID, iGrayplotUID, m, n);
             for (i = 0; i < m * n; i++)
             {
-                scaledData[i] = floor(alpha * u[i] + beta);
-                fprintf(filePointer, " %f", scaledData[i]); // this values when passed to grayplot gives same chart as cmatview chart
+                scaledData = round(alpha * u[i] + beta);
+                fprintf(filePointer, " %.0f", scaledData); // this values when passed to grayplot gives same chart as cmatview chart
             }
             fprintf(filePointer,"\n");
-            FREE(scaledData);
             if (result == FALSE)
             {
                 Coserror("%s: unable to push some data.", "cmatview");
