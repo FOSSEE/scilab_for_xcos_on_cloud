@@ -198,7 +198,7 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             */
             alpha = block->rpar[0];
             beta = block->rpar[1];
-            fprintf(filePointer, "%d %d || %d | %d | %d | %d  | %d ||", block_id, processId, iFigureUID, iAxeUID, iGrayplotUID, m, n);
+            fprintf(filePointer, "%d %d || %d | %s | %d | %d | %d | %d ||", block_id, processId, iFigureUID, block->uid, iAxeUID, iGrayplotUID, m, n);
             for (i = 0; i < m * n; i++)
             {
                 scaledData = round(alpha * u[i] + beta);
