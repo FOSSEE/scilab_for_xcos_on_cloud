@@ -148,6 +148,10 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
     sco_data *sco;
 
     BOOL result;
+    int processId = getpid();
+    FILE *filePointer = getLogFilePointer();
+    // Give block id to distinguish blocks
+    int block_id = 13;
 
     switch (flag)
     {
@@ -166,6 +170,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
+            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
             break;
 
         case StateUpdate:
@@ -180,6 +185,28 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             u = GetRealInPortPtrs(block, 1);
 
             result = pushData(block, u);
+
+            int iFigureUID;
+            int iAxeUID;
+            int iPlot3dUID;
+
+            int m, n, i;
+
+            iFigureUID = getFigure(block);
+            iAxeUID = getAxe(iFigureUID, block);
+            iPlot3dUID = getPlot3d(iAxeUID, block);
+
+            m = GetInPortSize(block, 1, 1);
+            n = GetInPortSize(block, 1, 2);
+            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d ||",
+            block_id, processId,
+            iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n);
+            for (i = 0; i < m * n; i++)
+            {
+                fprintf(filePointer, " %.0f", u[i]);
+            }
+            fprintf(filePointer," %s\n","CMAT3D");
+
             if (result == FALSE)
             {
                 Coserror("%s: unable to push some data.", "cmat3d");
@@ -188,6 +215,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
+            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
             freeScoData(block);
             break;
 
