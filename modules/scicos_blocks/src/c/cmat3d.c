@@ -190,7 +190,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             int iAxeUID;
             int iPlot3dUID;
 
-            int m, n, i;
+            int m, n, i, colormapLen, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta;
 
             iFigureUID = getFigure(block);
             iAxeUID = getAxe(iFigureUID, block);
@@ -198,9 +198,30 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
 
             m = GetInPortSize(block, 1, 1);
             n = GetInPortSize(block, 1, 2);
-            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d ||",
+            colormapLen = block->ipar[3];
+            if (colormapLen == 1)
+            {
+                xMin = (double) 0;  // xMin
+                xMax = (double) m;  // xMax
+                yMin = (double) 0;  // yMin
+                yMax = (double) n;  // yMax
+            }
+            else
+            {
+                xMin = block->rpar[colormapLen + 0];   // xMin
+                xMax = block->rpar[colormapLen + 1];   // xMax
+                yMin = block->rpar[colormapLen + 2];   // yMin
+                yMax = block->rpar[colormapLen + 3];   // yMax
+            }
+
+            zMin = (double)block->ipar[0]; // zMin
+            zMax = (double)block->ipar[1]; // zMax
+
+            alpha = 50;      // alpha
+            theta = 280;     // theta
+            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %d | %d | %d | %d | %d | %d | %d | %d ||",
             block_id, processId,
-            iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n);
+            iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
             for (i = 0; i < m * n; i++)
             {
                 fprintf(filePointer, " %.0f", u[i]);
