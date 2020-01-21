@@ -190,7 +190,8 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             int iAxeUID;
             int iPlot3dUID;
 
-            int m, n, i, colormapLen, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta;
+            int m, n, i, colormapLen;
+            double xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta;
 
             iFigureUID = getFigure(block);
             iAxeUID = getAxe(iFigureUID, block);
@@ -219,7 +220,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
 
             alpha = 50;      // alpha
             theta = 280;     // theta
-            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %d | %d | %d | %d | %d | %d | %d | %d ||",
+            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %f | %f | %f | %f | %f | %f | %f | %f ||",
             block_id, processId,
             iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
             for (i = 0; i < m * n; i++)
