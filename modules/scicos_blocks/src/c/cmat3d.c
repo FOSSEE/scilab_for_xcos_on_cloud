@@ -220,7 +220,14 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
 
             alpha = 50;      // alpha
             theta = 280;     // theta
-            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %f | %f | %f | %f | %f | %f | %f | %f ||",
+            // Handles fractional values
+            xMin = round(xMin - 0.4999);
+            xMax = xMax + 0.4999;
+            yMin = round(yMin - 0.4999);
+            yMax = yMax + 0.4999;
+            zMin = round(zMin - 0.4999);
+            zMax = zMax + 0.4999;
+            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f ||",
             block_id, processId,
             iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
             for (i = 0; i < m * n; i++)
