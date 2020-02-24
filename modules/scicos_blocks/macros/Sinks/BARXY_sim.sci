@@ -11,7 +11,6 @@
 //
 
 function block=BARXY_sim(block,flag)
-    pid = getpid();
     fd = getLogFilePointer();
     block_id = 11;
 
@@ -22,7 +21,7 @@ function block=BARXY_sim(block,flag)
         f = findobj("Tag", block.uid);
         if f == [] then
             f = figure("Tag", block.uid, "Figure_name", "BARXY");
-            mfprintf(fd, '%d || Initialization %d\n', pid, block_id);
+            mfprintf(fd, 'Initialization %s\n', block.uid);
         else
             scf(f);
             clf();
@@ -51,7 +50,7 @@ function block=BARXY_sim(block,flag)
         a.children(1).data = [u1, u2]
 
         // Block_id of BARXY - 11, Print the co-ordinates of line, Print the name of block and line thickness
-        mfprintf(fd, '%d || Block Identifier %d %f %f %f %f %f %f %f %f %s %s\n', pid, block_id, u1(1), u2(1), u1(2), u2(2), block.rpar(1), block.rpar(2), block.rpar(3), block.rpar(4), 'BARXY', string(block.ipar));
+        mfprintf(fd, '%d || %s || %f %f %f %f %f %f %f %f %s %s\n', block_id, block.uid, u1(1), u2(1), u1(2), u2(2), block.rpar(1), block.rpar(2), block.rpar(3), block.rpar(4), string(block.ipar), 'BARXY');
     end
 
 endfunction

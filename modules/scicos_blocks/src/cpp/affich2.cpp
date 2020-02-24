@@ -46,7 +46,6 @@ SCICOS_BLOCKS_IMPEXP void affich2(scicos_block * block, int flag)
     char ***pstValue = NULL;
     char pstConv[128];
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     int block_id = 20;
     double time = 0;
