@@ -148,7 +148,6 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
     int j;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     int block_id = 9;
 
