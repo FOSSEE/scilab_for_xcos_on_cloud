@@ -167,7 +167,6 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
 
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 23;
@@ -188,7 +187,7 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
 
             setSegsBuffers(block, DEFAULT_MAX_NUMBER_OF_POINTS);
             break;
@@ -218,20 +217,15 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
                     int iSegsUID = getSegs(iAxeUID, block, i);
                     double time = t;
                     double y = 0.8;
-                    double z = 0;
-                    const char *labl = GetLabelPtrs(block);
-                    if (strlen(labl) == 0)
-                       labl = "CEVSCPE";
-                    fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %s\n",
-                            block_id, processId,
-                            iFigureUID, iAxeUID, iSegsUID,
-                            time, y, z, 1, block->rpar[0],
-                            labl);
+                    fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %s\n",
+                            block_id, block->uid, iAxeUID, iSegsUID,
+                            time, y, 1, block->rpar[0],
+                            "CEVSCPE");
                     /*
-                     * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
-                     * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph,
-                     * time - current time interval (x-axis), y - value of y-axis, z - value of z-axis,
-                     * 1 - representing 1 output graph, block->rpar[0] - refresh period, labl - Label for graph (default - "CEVSCPE")
+                     * block_id - block_id of this block, block->uid - uid of block
+                     * iAxeUID - axes id of graph, iSegsUID - segID of graph
+                     * time - current time interval (x-axis), y - value of y-axis,
+                     * 1 - representing 1 output graph, block->rpar[0] - refresh period
                      */
 
                     result = pushData(block, i);
@@ -245,7 +239,7 @@ SCICOS_BLOCKS_IMPEXP void cevscpe(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
