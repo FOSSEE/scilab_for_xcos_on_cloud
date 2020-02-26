@@ -161,7 +161,6 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
     int i;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     int block_id = 3;
 
@@ -182,7 +181,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -222,11 +221,9 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
                 int iPolylineUID = getPolyline(iAxeUID, block, i);
                 double time = t;
                 double y = u[i];
-                double z = 0;
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
-                        block_id, processId,
-                        iFigureUID, iAxeUID, iPolylineUID,
-                        time, y, z, 1, block->rpar[1], block->rpar[2], block->rpar[3],
+                fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %s\n",
+                        block_id, block->uid, iAxeUID, iPolylineUID,
+                        time, y, 1, block->rpar[1], block->rpar[2], block->rpar[3],
                         "CFSCOPE");
 
                 result = pushData(block, 0, i);
@@ -240,7 +237,7 @@ SCICOS_BLOCKS_IMPEXP void cfscope(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
