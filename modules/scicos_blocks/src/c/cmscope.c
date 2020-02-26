@@ -216,7 +216,6 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
     int i, j;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 2;
@@ -238,7 +237,7 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -264,24 +263,19 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                     int iPolylineUID = getPolyline(iAxeUID, block, i,j, FALSE);
                     double time = t;
                     double y = u[j];
-                    double z = 0;
-                    const char *labl = GetLabelPtrs(block);
-                    if (strlen(labl) == 0)
-                        labl = "CMSCOPE";
                     int nin = block->nin;
                     int input = i;
                     double period = block->rpar[block->nrpar - 3 * nin + input];
                     double ymin = block->rpar[block->nrpar - 2 * nin + 2 * input];
                     double ymax = block->rpar[block->nrpar - 2 * nin + 2 * input + 1];
-                    fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %s\n",
-                            block_id, processId,
-                            iFigureUID, iAxeUID, iPolylineUID,
-                            time, y, z, nin, ymin, ymax, period,
-                            labl);
+                    fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %s\n",
+                            block_id, block->uid, iAxeUID, iPolylineUID,
+                            time, y, nin, ymin, ymax, period,
+                            "CMSCOPE");
                     /*
-                     * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
-                     * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
-                     * time - current time interval (x-axis), y - value of y-axis, z - value of z-axis,
+                     * block_id - block_id of this block, block->uid - uid of the block ,
+                     * iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
+                     * time - current time interval (x-axis), y - value of y-axis,
                      * nin - representing number of output graphs, ymin - yMin value, ymax - yMax value, period - refresh period,
                      * labl - Label for graph (default - "CMSCOPE")
                      */
@@ -306,7 +300,7 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                 pushHistory(block, i, sco->internal.maxNumberOfPoints[i]);
             }
             deleteBufferPolylines(block);
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
