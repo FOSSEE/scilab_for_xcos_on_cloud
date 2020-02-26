@@ -268,10 +268,13 @@ SCICOS_BLOCKS_IMPEXP void cmscope(scicos_block * block, scicos_flag flag)
                     double period = block->rpar[block->nrpar - 3 * nin + input];
                     double ymin = block->rpar[block->nrpar - 2 * nin + 2 * input];
                     double ymax = block->rpar[block->nrpar - 2 * nin + 2 * input + 1];
+                    const char *labl = GetLabelPtrs(block);
+                    if (strlen(labl) == 0)
+                        labl = "CMSCOPE";
                     fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %s\n",
                             block_id, block->uid, iAxeUID, iPolylineUID,
                             time, y, nin, ymin, ymax, period,
-                            "CMSCOPE");
+                            labl);
                     /*
                      * block_id - block_id of this block, block->uid - uid of the block ,
                      * iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
