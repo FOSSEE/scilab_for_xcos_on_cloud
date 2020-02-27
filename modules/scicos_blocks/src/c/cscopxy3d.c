@@ -150,7 +150,6 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
     int j;
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 5;
@@ -170,7 +169,7 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
                 // allocation error
                 set_block_error(-5);
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -192,11 +191,10 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
-                fprintf(filePointer, "%d %d || %d | %d | %d || %f %f %f %d %f %f %f %f %f %f %s %f %f\n",
-                        block_id, processId,
-                        iFigureUID, iAxeUID, iPolylineUID,
-                        x[j], y[j], z[j], 1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3], block->rpar[4], block->rpar[5],
-                        "CSCOPXY3D", block->rpar[6], block->rpar[7]);
+                fprintf(filePointer, "%d || %s || %d | %d || %f %f %f %d %f %f %f %f %f %f %f %f %s\n",
+                        block_id, block->uid, iAxeUID, iPolylineUID,
+                        x[j], y[j], z[j], 1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3], block->rpar[4],
+                        block->rpar[5], block->rpar[6], block->rpar[7], "CSCOPXY3D");
                 /*
                  * block_id - block_id of this block, process_id - process id of currently running scilab's instance,
                  * iFigureUID - figure id of graph generated, iAxeUID - axes id of graph, iPolylineUID - id for each separate output line of graph,
@@ -218,7 +216,7 @@ SCICOS_BLOCKS_IMPEXP void cscopxy3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
