@@ -180,7 +180,6 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
 
             double *x = GetRealInPortPtrs(block, 1);
             double *y = GetRealInPortPtrs(block, 2);
-            double z = 0;
             appendData(block, x, y);
             for (j = 0; j < block->insz[0]; j++)
             {
@@ -188,9 +187,9 @@ SCICOS_BLOCKS_IMPEXP void canimxy(scicos_block * block, scicos_flag flag)
                 int iFigureUID = getFigure(block);
                 int iAxeUID = getAxe(iFigureUID, block);
                 int iPolylineUID = getPolyline(iAxeUID, block, j);
-                fprintf(filePointer, "%d || %s || %d | %d || %f %f %f %d %f %f %f %f %d %s\n",
+                fprintf(filePointer, "%d || %s || %d | %d || %f %f %d %f %f %f %f %d %s\n",
                         block_id, block->uid, iAxeUID, iPolylineUID,
-                        x[j], y[j], z,
+                        x[j], y[j],
                         1, block->rpar[0], block->rpar[1], block->rpar[2], block->rpar[3],
                         block->ipar[2] ,"CANIMXY" );
 
