@@ -144,7 +144,6 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
 
     BOOL result;
 
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 12;
@@ -166,7 +165,7 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -198,9 +197,8 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             */
             alpha = block->rpar[0];
             beta = block->rpar[1];
-            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d ||",
-            block_id, processId,
-            iFigureUID, iAxeUID, iGrayplotUID,block->uid, m, n);
+            fprintf(filePointer, "%d || %s || %d | %d | %d | %d ||",
+            block_id, block->uid, iAxeUID, iGrayplotUID, m, n);
             for (i = 0; i < m * n; i++)
             {
                 scaledData = floor(alpha * u[i] + beta);
@@ -215,7 +213,7 @@ SCICOS_BLOCKS_IMPEXP void cmatview(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 

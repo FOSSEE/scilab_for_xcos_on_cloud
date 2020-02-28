@@ -148,7 +148,6 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
     sco_data *sco;
 
     BOOL result;
-    int processId = getpid();
     FILE *filePointer = getLogFilePointer();
     // Give block id to distinguish blocks
     int block_id = 13;
@@ -170,7 +169,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
                 set_block_error(-5);
                 break;
             }
-            fprintf(filePointer, "%d || Initialization %d\n", processId, iFigureUID);
+            fprintf(filePointer, "Initialization %s\n", block->uid);
             break;
 
         case StateUpdate:
@@ -227,9 +226,8 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             yMax = yMax + 0.4999;
             zMin = round(zMin - 0.4999);
             zMax = zMax + 0.4999;
-            fprintf(filePointer, "%d %d || %d | %d | %d | %s | %d | %d || %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f ||",
-            block_id, processId,
-            iFigureUID, iAxeUID, iPlot3dUID, block->uid, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
+            fprintf(filePointer, "%d || %s || %d | %d | %d | %d || %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f | %.0f ||",
+            block_id, block->uid, iAxeUID, iPlot3dUID, m, n, xMin, xMax, yMin, yMax, zMin, zMax, alpha, theta);
             for (i = 0; i < m * n; i++)
             {
                 fprintf(filePointer, " %.0f", u[i]);
@@ -244,7 +242,7 @@ SCICOS_BLOCKS_IMPEXP void cmat3d(scicos_block * block, scicos_flag flag)
             break;
 
         case Ending:
-            fprintf(filePointer, "%d || Ending %d\n", processId, getFigure(block));
+            fprintf(filePointer, "Ending %s\n", block->uid);
             freeScoData(block);
             break;
 
