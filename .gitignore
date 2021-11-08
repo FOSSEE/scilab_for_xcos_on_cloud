@@ -4,6 +4,7 @@
 *.cmx
 *.la
 *.lo
+*.mli
 *.o
 scilab.pc
 /*.properties
