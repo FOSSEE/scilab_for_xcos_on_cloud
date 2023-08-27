@@ -43,7 +43,7 @@ types::Function::ReturnValue sci_winqueryreg(types::typed_list &in, int _iRetCou
         return types::Function::Error;
     }
 
-    if (_iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(999, _("%s: Wrong number of output arguments: %d expected.\n"), fname.data(), 1);
         return types::Function::Error;
@@ -146,7 +146,7 @@ types::Function::ReturnValue sci_winqueryreg(types::typed_list &in, int _iRetCou
                 }
                 else
                 {
-                    Scierror(999, _("%s: Cannot open Windows registry.\n"), fname);
+                    Scierror(999, _("%s: Cannot open Windows registry.\n"), fname.data());
                     return types::Function::Error;
                 }
             }

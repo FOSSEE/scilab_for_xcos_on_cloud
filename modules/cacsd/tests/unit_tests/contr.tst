@@ -69,4 +69,4 @@ assert_checkerror("contr(a,b,''ee'')", refMsg);
 
 assert_checkequal(contr(a',c',0.0001), 3);
 
-
+

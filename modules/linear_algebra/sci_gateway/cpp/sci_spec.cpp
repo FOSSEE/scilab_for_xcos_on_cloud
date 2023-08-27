@@ -40,6 +40,8 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
     bool symmetric          = FALSE;
     int iRet                = 0;
 
+    _iRetCount = std::max(1, _iRetCount);
+
     if (in.size() != 1 && in.size() != 2)
     {
         Scierror(77, _("%s: Wrong number of input argument(s): %d to %d expected.\n"), "spec", 1, 2);
@@ -117,7 +119,7 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
         }
 
         symmetric = isSymmetric(pDblA->getReal(), pDblA->getImg(), pDblA->isComplex(), pDblA->getRows(), pDblA->getCols()) == 1;
-        int eigenValuesCols = (_iRetCount == 1) ? 1 : pDblA->getCols();
+        int eigenValuesCols = (_iRetCount <= 1) ? 1 : pDblA->getCols();
 
         if (symmetric)
         {
@@ -160,13 +162,13 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
 
                 if (_iRetCount == 2)
                 {
-                    vGetPointerFromDoubleComplex((doublecomplex*)pDataA, pDblA->getSize() , pDblEigenVectors->getReal(), pDblEigenVectors->getImg());
-                    vFreeDoubleComplexFromPointer((doublecomplex*)pDataA);
+                    vGetPointerFromDoubleComplex((doublecomplex*)pDataA, pDblA->getSize(), pDblEigenVectors->getReal(), pDblEigenVectors->getImg());
                     expandToDiagonalOfMatrix(pDblEigenValues->getReal(), pDblA->getCols());
                     out.push_back(pDblEigenVectors);
                 }
                 out.push_back(pDblEigenValues);
                 pDblA->killMe();
+                vFreeDoubleComplexFromPointer((doublecomplex*)pDataA);
             }
             else // not symmetric
             {
@@ -226,6 +228,10 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
 
                 if (_iRetCount == 2)
                 {
+                    if (pDblEigenVectors)
+                    {
+                        pDblEigenVectors->killMe();
+                    }
                     expandToDiagonalOfMatrix(pDblEigenValues->getReal(), pDblA->getCols());
                     out.push_back(pDblA);
                 }
@@ -243,6 +249,10 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
                 if (iRet < 0)
                 {
                     pDblA->killMe();
+                    if (pDblEigenVectors)
+                    {
+                        pDblEigenVectors->killMe();
+                    }
                     Scierror(998, _("%s: On entry to ZHEEV parameter number  3 had an illegal value (lapack library problem).\n"), "spec");
                     return types::Function::Error;
                 }
@@ -250,6 +260,10 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
                 if (iRet > 0)
                 {
                     pDblA->killMe();
+                    if (pDblEigenVectors)
+                    {
+                        pDblEigenVectors->killMe();
+                    }
                     Scierror(24, _("%s: The QR algorithm failed to compute all the eigenvalues, and no eigenvectors have been computed. Elements and %d+1:N of WR and WI contain eigenvalues which have converged.\n"), "spec", iRet);
                     return types::Function::Error;
                 }
@@ -341,7 +355,7 @@ types::Function::ReturnValue sci_spec(types::typed_list &in, int _iRetCount, typ
                 Scierror(999, _("%s: Cannot allocate more memory.\n"), "spec");
                 return types::Function::Error;
             }
-            
+
             if (!pDataB)
             {
                 vFreeDoubleComplexFromPointer((doublecomplex*)pDataA);

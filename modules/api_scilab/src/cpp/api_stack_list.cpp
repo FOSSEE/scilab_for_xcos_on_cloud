@@ -20,7 +20,7 @@
 #include <map>
 #include <string>
 #include "list.hxx"
-#include "listundefined.hxx"
+#include "void.hxx"
 #include "tlist.hxx"
 #include "mlist.hxx"
 #include "struct.hxx"
@@ -107,9 +107,10 @@ SciErr getListItemNumber(void* _pvCtx, int* _piAddress, int* _piNbItem)
     types::List* pL = (types::List*)_piAddress;
     switch (iType)
     {
-        case sci_list :
+        case sci_list : /* fall through */
         case sci_tlist :
             *_piNbItem = pL->getSize();
+            break;
         case sci_mlist :
             // an mlist can also be a struct in Scilab 5 do not manage it in this API
             if (pIT->isStruct())
@@ -145,7 +146,7 @@ SciErr getListItemAddress(void* _pvCtx, int* _piAddress, int _iItemNum, int** _p
     types::List* pL = (types::List*)_piAddress;
     //get offset of item array
     types::InternalType* pIT = pL->get(_iItemNum - 1);
-    if (pIT->isListUndefined())
+    if (pIT->isVoid())
     {
         *_piItemAddress = NULL;
     }
@@ -270,7 +271,7 @@ static SciErr createCommonNamedList(void* _pvCtx, const char* _pstName, int _iLi
     *_piAddress = (int*)pL;
     // create a list with the user number of items
     // it helps to check a wrong item, for example in createCommonListInList
-    pL->set(_iNbItem - 1, new types::ListUndefined());
+    pL->set(_iNbItem - 1, new types::Void());
 
     wchar_t* pwstName = to_wide_string(_pstName);
     symbol::Context* ctx = symbol::Context::getInstance();
@@ -335,7 +336,7 @@ static SciErr createCommonList(void* _pvCtx, int _iVar, int _iListType, int _iNb
 
     // create a list with the user number of items
     // it helps to check a wrong item, for example in createCommonListInList
-    pL->set(_iNbItem - 1, new types::ListUndefined());
+    pL->set(_iNbItem - 1, new types::Void());
 
     int rhs = _iVar - *getNbInputArgument(_pvCtx);
     out[rhs - 1] = pL;
@@ -543,7 +544,7 @@ static SciErr createCommonListInList(void* _pvCtx, const char* _pstName, int* _p
         return sciErr;
     }
     // create a list in the list with a user number of items
-    pChild->set(_iNbItem - 1, new types::ListUndefined());
+    pChild->set(_iNbItem - 1, new types::Void());
 
     types::List* pParent = (types::List*)_piParent;
     pParent->set(_iItemPos - 1, pChild);
@@ -592,7 +593,7 @@ SciErr createUndefinedInNamedList(void* _pvCtx, const char* _pstName, int* _piPa
         return sciErr;
     }
 
-    pL->set(_iItemPos - 1, new types::ListUndefined());
+    pL->set(_iItemPos - 1, new types::Void());
     return sciErr;
 }
 

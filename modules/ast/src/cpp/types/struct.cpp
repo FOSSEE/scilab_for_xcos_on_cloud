@@ -18,6 +18,7 @@
 #include "list.hxx"
 #include "int.hxx"
 #include "localization.hxx"
+#include "overload.hxx"
 #include "scilabWrite.hxx"
 #include "exp.hxx"
 #include "types_tools.hxx"
@@ -35,35 +36,42 @@ Struct::Struct()
 #endif
 }
 
-Struct::Struct(int _iRows, int _iCols)
+Struct::Struct(int _iRows, int _iCols, bool _bInit)
 {
     m_bDisableCloneInCopyValue = false;
     SingleStruct** pIT  = NULL;
-    SingleStruct *p = new SingleStruct();
     int piDims[2] = {_iRows, _iCols};
     create(piDims, 2, &pIT, NULL);
-    for (int i = 0 ; i < getSize() ; i++)
-    {
-        set(i, p);
-    }
 
-    p->killMe();
+    if(_bInit)
+    {
+        SingleStruct *p = new SingleStruct();
+        for (int i = 0 ; i < getSize() ; i++)
+        {
+            set(i, p);
+        }
+
+        p->killMe();
+    }
 #ifndef NDEBUG
     Inspector::addItem(this);
 #endif
 }
 
-Struct::Struct(int _iDims, const int* _piDims)
+Struct::Struct(int _iDims, const int* _piDims, bool _bInit)
 {
     m_bDisableCloneInCopyValue = false;
-    SingleStruct** pIT  = NULL;
-    SingleStruct *p = new SingleStruct();
+    SingleStruct** pIT = NULL;
     create(_piDims, _iDims, &pIT, NULL);
-    for (int i = 0 ; i < getSize() ; i++)
+    if(_bInit)
     {
-        set(i, p);
+        SingleStruct *p = new SingleStruct();
+        for (int i = 0 ; i < getSize() ; i++)
+        {
+            set(i, p);
+        }
+        p->killMe();
     }
-    p->killMe();
 
 #ifndef NDEBUG
     Inspector::addItem(this);
@@ -106,6 +114,25 @@ Struct::Struct(Struct *_oStructCopyMe)
 #endif
 }
 
+bool Struct::getMemory(long long* _piSize, long long* _piSizePlusType)
+{
+    *_piSize = 0;
+    *_piSizePlusType = 0;
+    SingleStruct** p = get();
+    for (int i = 0; i < getSize(); i++)
+    {
+        long long piS, piSPT;
+        if (p[i]->getMemory(&piS, &piSPT))
+        {
+            *_piSize += piS;
+            *_piSizePlusType += piSPT;
+        }
+    }
+
+    *_piSizePlusType += sizeof(Struct);
+    return true;
+}
+
 Struct* Struct::clone()
 {
     return new Struct(this);
@@ -121,17 +148,16 @@ bool Struct::transpose(InternalType *& out)
 
     if (m_iDims == 2)
     {
-        int piDims[2] = {getCols(), getRows()};
-        Struct * pSt = new Struct(2, piDims);
-        out = pSt;
+        // dont fill the Struct, transpose will do it.
+        Struct * pSt = new Struct(getCols(), getRows(), false);
+        Transposition::transpose(getRows(), getCols(), m_pRealData, pSt->get());
         for (int i = 0; i < m_iSize; ++i)
         {
-            pSt->m_pRealData[i]->DecreaseRef();
-            pSt->m_pRealData[i]->killMe();
+            // Transposition::transpose doesn't increase the ref.
+            pSt->get(i)->IncreaseRef();
         }
 
-        Transposition::transpose_clone(getRows(), getCols(), m_pRealData, pSt->m_pRealData);
-
+        out = pSt;
         return true;
     }
 
@@ -165,7 +191,7 @@ bool Struct::invoke(typed_list & in, optional_list & opt, int _iRetCount, typed_
     else if (in.size() == 1)
     {
         InternalType * arg = in[0];
-        std::vector<InternalType *> _out;
+        typed_list _out;
         if (arg->isString())
         {
             std::vector<std::wstring> wstFields;
@@ -180,7 +206,7 @@ bool Struct::invoke(typed_list & in, optional_list & opt, int _iRetCount, typed_
                 else
                 {
                     wchar_t szError[bsiz];
-                    os_swprintf(szError, bsiz, _W("Field \"%ls\" does not exists\n").c_str(), wstField.c_str());
+                    os_swprintf(szError, bsiz, _W("Field \"%ls\" does not exist\n").c_str(), wstField.c_str());
                     throw ast::InternalError(szError, 999, e.getLocation());
                 }
             }
@@ -234,7 +260,7 @@ Struct* Struct::set(int _iIndex, SingleStruct* _pIT)
         m_pRealData[_iIndex] = copyValue(_pIT);
         if (m_bDisableCloneInCopyValue == false)
         {
-            //only in clone mode
+            // only in clone mode
             m_pRealData[_iIndex]->IncreaseRef();
         }
 
@@ -481,6 +507,27 @@ Struct* Struct::removeField(const std::wstring& _sKey)
 
 bool Struct::toString(std::wostringstream& ostr)
 {
+    //call overload %type_p if exists
+    types::typed_list in;
+    types::typed_list out;
+
+    IncreaseRef();
+    in.push_back(this);
+    switch (Overload::generateNameAndCall(L"p", in, 1, out, false, false)) {
+        case Function::OK_NoResult:
+            // unresolved function, fallback to a basic display
+            break;
+        case Function::Error:
+            ConfigVariable::setError();
+            // fallthrough
+        case Function::OK:
+            ostr.str(L"");
+            DecreaseRef();
+            return true;
+    };
+    DecreaseRef();
+
+    // otherwise, display basic information
     if (getSize() == 0)
     {
         ostr << L"0x0 struct array with no field.";
@@ -542,9 +589,9 @@ List* Struct::extractFieldWithoutClone(const std::wstring& _wstField)
     return pL;
 }
 
-std::vector<InternalType*> Struct::extractFields(std::vector<std::wstring> _wstFields)
+typed_list Struct::extractFields(std::vector<std::wstring> _wstFields)
 {
-    std::vector<InternalType*> ResultList;
+    typed_list ResultList;
 
     for (int i = 0 ; i < (int)_wstFields.size() ; i++)
     {
@@ -585,9 +632,9 @@ InternalType * Struct::extractField(const std::wstring & wstField)
     }
 }
 
-std::vector<InternalType*> Struct::extractFields(typed_list* _pArgs)
+typed_list Struct::extractFields(typed_list* _pArgs)
 {
-    std::vector<InternalType*> ResultList;
+    typed_list ResultList;
 
     int iDims           = (int)_pArgs->size();
     typed_list pArg;

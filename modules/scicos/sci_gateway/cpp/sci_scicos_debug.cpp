@@ -51,7 +51,7 @@ types::Function::ReturnValue sci_scicos_debug(types::typed_list &in, int _iRetCo
         return types::Function::Error;
     }
 
-    if (_iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(999, _("%s: Wrong number of output arguments: %d expected.\n"), funname.c_str(), 1);
         return types::Function::Error;
@@ -82,7 +82,7 @@ types::Function::ReturnValue sci_scicos_debug(types::typed_list &in, int _iRetCo
             return types::Function::Error;
         }
 
-        C2F(cosdebug).cosd = pIn->get(0);
+        C2F(cosdebug).cosd = (int) pIn->get(0);
     }
 
     return types::Function::OK;

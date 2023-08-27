@@ -19,24 +19,24 @@
   c(i,j)  is the Input_StringMatrixing  "s[v(1)]...s[v(n)]"  (  s=mp(i,j)  ).
                                                                           */
 /*------------------------------------------------------------------------*/
-#include "string_gw.hxx"
+#include "double.hxx"
 #include "funcmanager.hxx"
 #include "function.hxx"
-#include "string.hxx"
-#include "double.hxx"
 #include "overload.hxx"
+#include "string.hxx"
+#include "string_gw.hxx"
 
 extern "C"
 {
-#include <string.h>
-#include <stdio.h>
 #include "Scierror.h"
-#include "localization.h"
 #include "freeArrayOfString.h"
+#include "localization.h"
 #include "partfunction.h"
+#include <stdio.h>
+#include <string.h>
 }
 /*--------------------------------------------------------------------------*/
-types::Function::ReturnValue sci_part(types::typed_list &in, int _iRetCount, types::typed_list &out)
+types::Function::ReturnValue sci_part(types::typed_list& in, int _iRetCount, types::typed_list& out)
 {
     if (in.size() != 2)
     {
@@ -44,7 +44,7 @@ types::Function::ReturnValue sci_part(types::typed_list &in, int _iRetCount, typ
         return types::Function::Error;
     }
 
-    if (_iRetCount != -1 && _iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(78, _("%s: Wrong number of output argument(s): %d expected.\n"), "part", 1);
         return types::Function::Error;
@@ -67,7 +67,7 @@ types::Function::ReturnValue sci_part(types::typed_list &in, int _iRetCount, typ
 
     if (in[1]->isDouble() == false)
     {
-        std::wstring wstFuncName = L"%"  + in[1]->getShortTypeStr() + L"_part";
+        std::wstring wstFuncName = L"%" + in[1]->getShortTypeStr() + L"_part";
         return Overload::call(wstFuncName, in, _iRetCount, out);
     }
 
@@ -79,23 +79,48 @@ types::Function::ReturnValue sci_part(types::typed_list &in, int _iRetCount, typ
         return types::Function::Error;
     }
 
-    int* piIndex = new int[pD->getSize()];
-    for (int i = 0 ; i < pD->getSize() ; i++)
+    size_t i_len = pD->getSize();
+    std::vector<int> index(i_len);
+    for (int i = 0; i < i_len; i++)
     {
-        piIndex[i] = static_cast<int>(pD->getReal()[i]);
-        if (piIndex[i] < 1)
+        int idx = static_cast<int>(pD->get()[i]);
+        if (idx < 1)
         {
             Scierror(36, _("%s: Wrong values for input argument #%d: Must be >= 1.\n"), "part", 2);
-            delete[] piIndex;
             return types::Function::Error;
+        }
+
+        index[i] = idx;
+    }
+
+    types::String* pOut = new types::String(pS->getRows(), pS->getCols());
+    std::wstring string_in;
+
+    // allocate the output strings
+    std::wstring string_out(i_len, L' ');
+    for (int i = 0; i < pS->getSize(); ++i)
+    {
+        pOut->set(i, string_out.data());
+    }
+
+    // part() algorithm
+    for (int i = 0; i < pS->getSize(); ++i)
+    {
+        wchar_t* wcs_in = pS->get()[i];
+        wchar_t* wcs_out = pOut->get()[i];
+        size_t s_len = wcslen(wcs_in);
+
+        for (int j = 0; j < i_len; ++j)
+        {
+            if (index[j] > s_len)
+            {
+                continue;
+            }
+
+            wcs_out[j] = wcs_in[index[j] - 1];
         }
     }
 
-    wchar_t** pwstOut = partfunctionW(pS->get(), pS->getRows(), pS->getCols(), piIndex, pD->getSize());
-    delete[] piIndex;
-    types::String* pOut = new types::String(pS->getRows(), pS->getCols());
-    pOut->set(pwstOut);
-    freeArrayOfWideString(pwstOut, pOut->getSize());
     out.push_back(pOut);
     return types::Function::OK;
 }

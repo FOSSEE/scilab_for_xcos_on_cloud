@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Revision-Date: 2019-01-23 12:13+0100\n"
+"Revision-Date: 2021-07-09 17:34+0100\n"
 
 # File: modules/cacsd/sci_gateway/c/gw_cacsd.c, line: 34
 # File: modules/cacsd/sci_gateway/c/gw_cacsd.c, line: 61
@@ -72,8 +72,8 @@ msgstr ""
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 89
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 107
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 131
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 82
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 99
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 80
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 97
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 86
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 102
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 117
@@ -801,31 +801,31 @@ msgstr ""
 
 #
 # File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 257
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 369
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 373
 #, c-format
 msgid "%s: Loop on two orders detected.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 262
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 263
 #, c-format
 msgid "%s: Impossible to reach required order.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 267
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 269
 #, c-format
 msgid "%s: Failure when looking for the intersection with domains bounds.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 272
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 275
 #, c-format
 msgid "%s: Too many solutions found.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 373
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 377
 #, c-format
 msgid ""
 "%s: Impossible to reach required order.\n"
@@ -833,7 +833,7 @@ msgid ""
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 377
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 381
 #, c-format
 msgid ""
 "%s: Failure when looking for the intersection with domains boundaries.\n"
@@ -841,7 +841,7 @@ msgid ""
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 381
+# File: modules/cacsd/sci_gateway/cpp/sci_arl2_ius.cpp, line: 385
 #, c-format
 msgid "%s: too many solutions found\n"
 msgstr ""
@@ -867,9 +867,9 @@ msgstr ""
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 81
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 99
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 123
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 64
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 74
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 91
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 62
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 72
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 89
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 78
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 94
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 234
@@ -881,7 +881,7 @@ msgstr ""
 #
 # File: modules/cacsd/sci_gateway/cpp/sci_freq.cpp, line: 50
 # File: modules/cacsd/sci_gateway/cpp/sci_ldiv.cpp, line: 52
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 56
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 54
 # File: modules/cacsd/sci_gateway/cpp/sci_residu.cpp, line: 60
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 68
 #, c-format
@@ -905,7 +905,7 @@ msgstr ""
 # File: modules/cacsd/sci_gateway/cpp/sci_freq.cpp, line: 493
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 146
 # File: modules/cacsd/sci_gateway/cpp/sci_ltitr.cpp, line: 154
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 111
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 109
 # File: modules/cacsd/sci_gateway/cpp/sci_residu.cpp, line: 133
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 259
 # File: modules/cacsd/sci_gateway/cpp/sci_rtitr.cpp, line: 274
@@ -976,7 +976,7 @@ msgid "%s: Wrong size for argument #%d.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 153
+# File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 147
 # File: modules/cacsd/sci_gateway/cpp/sci_ppol.cpp, line: 179
 #, c-format
 msgid "%s: Uncontrollable system.\n"
@@ -1247,8 +1247,8 @@ msgstr ""
 # File: modules/cacsd/macros/arsimul.sci, line: 21
 # File: modules/cacsd/macros/black.sci, line: 72
 # File: modules/cacsd/macros/black.sci, line: 103
-# File: modules/cacsd/macros/bode.sci, line: 62
-# File: modules/cacsd/macros/bode.sci, line: 92
+# File: modules/cacsd/macros/bode.sci, line: 69
+# File: modules/cacsd/macros/bode.sci, line: 99
 # File: modules/cacsd/macros/findABCD.sci, line: 84
 # File: modules/cacsd/macros/findAC.sci, line: 60
 # File: modules/cacsd/macros/findBDK.sci, line: 90
@@ -1257,8 +1257,8 @@ msgstr ""
 # File: modules/cacsd/macros/gainplot.sci, line: 75
 # File: modules/cacsd/macros/narsimul.sci, line: 32
 # File: modules/cacsd/macros/narsimul.sci, line: 47
-# File: modules/cacsd/macros/nyquist.sci, line: 59
-# File: modules/cacsd/macros/nyquist.sci, line: 89
+# File: modules/cacsd/macros/nyquist.sci, line: 64
+# File: modules/cacsd/macros/nyquist.sci, line: 94
 # File: modules/cacsd/macros/phaseplot.sci, line: 37
 # File: modules/cacsd/macros/phaseplot.sci, line: 63
 # File: modules/cacsd/macros/repfreq.sci, line: 58
@@ -1313,12 +1313,12 @@ msgstr ""
 #
 # File: modules/cacsd/macros/black.sci, line: 65
 # File: modules/cacsd/macros/black.sci, line: 83
-# File: modules/cacsd/macros/bode.sci, line: 55
-# File: modules/cacsd/macros/bode.sci, line: 73
+# File: modules/cacsd/macros/bode.sci, line: 62
+# File: modules/cacsd/macros/bode.sci, line: 80
 # File: modules/cacsd/macros/gainplot.sci, line: 42
 # File: modules/cacsd/macros/gainplot.sci, line: 59
-# File: modules/cacsd/macros/nyquist.sci, line: 53
-# File: modules/cacsd/macros/nyquist.sci, line: 72
+# File: modules/cacsd/macros/nyquist.sci, line: 58
+# File: modules/cacsd/macros/nyquist.sci, line: 77
 # File: modules/cacsd/macros/phaseplot.sci, line: 30
 # File: modules/cacsd/macros/phaseplot.sci, line: 47
 #, c-format
@@ -1331,15 +1331,15 @@ msgstr ""
 # File: modules/cacsd/macros/black.sci, line: 87
 # File: modules/cacsd/macros/black.sci, line: 94
 # File: modules/cacsd/macros/black.sci, line: 98
-# File: modules/cacsd/macros/bode.sci, line: 77
 # File: modules/cacsd/macros/bode.sci, line: 84
-# File: modules/cacsd/macros/bode.sci, line: 88
+# File: modules/cacsd/macros/bode.sci, line: 91
+# File: modules/cacsd/macros/bode.sci, line: 95
 # File: modules/cacsd/macros/csim.sci, line: 101
 # File: modules/cacsd/macros/gainplot.sci, line: 63
 # File: modules/cacsd/macros/gainplot.sci, line: 71
-# File: modules/cacsd/macros/nyquist.sci, line: 75
-# File: modules/cacsd/macros/nyquist.sci, line: 81
-# File: modules/cacsd/macros/nyquist.sci, line: 84
+# File: modules/cacsd/macros/nyquist.sci, line: 80
+# File: modules/cacsd/macros/nyquist.sci, line: 86
+# File: modules/cacsd/macros/nyquist.sci, line: 89
 # File: modules/cacsd/macros/phaseplot.sci, line: 51
 # File: modules/cacsd/macros/phaseplot.sci, line: 59
 # File: modules/cacsd/macros/syslin.sci, line: 100
@@ -1354,11 +1354,11 @@ msgstr ""
 
 #
 # File: modules/cacsd/macros/black.sci, line: 108
-# File: modules/cacsd/macros/bode.sci, line: 97
+# File: modules/cacsd/macros/bode.sci, line: 104
 # File: modules/cacsd/macros/bode_asymp.sci, line: 34
 # File: modules/cacsd/macros/calfrq.sci, line: 29
 # File: modules/cacsd/macros/gainplot.sci, line: 80
-# File: modules/cacsd/macros/nyquist.sci, line: 94
+# File: modules/cacsd/macros/nyquist.sci, line: 99
 # File: modules/cacsd/macros/phaseplot.sci, line: 68
 #, c-format
 msgid ""
@@ -1368,9 +1368,9 @@ msgstr ""
 
 #
 # File: modules/cacsd/macros/black.sci, line: 121
-# File: modules/cacsd/macros/bode.sci, line: 110
+# File: modules/cacsd/macros/bode.sci, line: 114
 # File: modules/cacsd/macros/gainplot.sci, line: 89
-# File: modules/cacsd/macros/nyquist.sci, line: 106
+# File: modules/cacsd/macros/nyquist.sci, line: 111
 # File: modules/cacsd/macros/phaseplot.sci, line: 77
 #, c-format
 msgid ""
@@ -1385,8 +1385,8 @@ msgstr ""
 
 #
 # File: modules/cacsd/macros/black.sci, line: 159
-# File: modules/cacsd/macros/bode.sci, line: 149
-# File: modules/cacsd/macros/bode.sci, line: 189
+# File: modules/cacsd/macros/bode.sci, line: 153
+# File: modules/cacsd/macros/bode.sci, line: 216
 # File: modules/cacsd/macros/gainplot.sci, line: 102
 msgid "Magnitude (dB)"
 msgstr ""
@@ -1459,21 +1459,21 @@ msgid "%s: Some input(s) are undefined.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/bode.sci, line: 149
-# File: modules/cacsd/macros/bode.sci, line: 175
+# File: modules/cacsd/macros/bode.sci, line: 153
+# File: modules/cacsd/macros/bode.sci, line: 183
 # File: modules/cacsd/macros/gainplot.sci, line: 101
 # File: modules/cacsd/macros/phaseplot.sci, line: 89
 msgid "Frequency (Hz)"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/bode.sci, line: 175
-# File: modules/cacsd/macros/bode.sci, line: 189
+# File: modules/cacsd/macros/bode.sci, line: 183
+# File: modules/cacsd/macros/bode.sci, line: 216
 msgid "Phase (degree)"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/bode.sci, line: 206
+# File: modules/cacsd/macros/bode.sci, line: 233
 msgid "Frequency (rad/s)"
 msgstr ""
 
@@ -1933,7 +1933,7 @@ msgstr ""
 
 #
 # File: modules/cacsd/macros/evans.sci, line: 140
-# File: modules/cacsd/macros/hallchart.sci, line: 53
+# File: modules/cacsd/macros/hallchart.sci, line: 102
 # File: modules/cacsd/macros/plzr.sci, line: 112
 # File: modules/cacsd/macros/plzr.sci, line: 120
 msgid "Real axis"
@@ -1941,7 +1941,7 @@ msgstr ""
 
 #
 # File: modules/cacsd/macros/evans.sci, line: 141
-# File: modules/cacsd/macros/hallchart.sci, line: 54
+# File: modules/cacsd/macros/hallchart.sci, line: 103
 # File: modules/cacsd/macros/plzr.sci, line: 113
 # File: modules/cacsd/macros/plzr.sci, line: 121
 msgid "Imaginary axis"
@@ -2037,18 +2037,17 @@ msgstr ""
 # File: modules/cacsd/macros/formatGainplotTip.sci, line: 16
 # File: modules/cacsd/macros/formatHallModuleTip.sci, line: 15
 # File: modules/cacsd/macros/formatNicholsGainTip.sci, line: 15
-# File: modules/cacsd/macros/hallchart.sci, line: 91
 msgid "dB"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/formatBodeMagTip.sci, line: 21
-# File: modules/cacsd/macros/formatBodePhaseTip.sci, line: 21
+# File: modules/cacsd/macros/formatBodeMagTip.sci, line: 20
+# File: modules/cacsd/macros/formatBodePhaseTip.sci, line: 20
 msgid "rad/s"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/formatBodeMagTip.sci, line: 25
+# File: modules/cacsd/macros/formatBodeMagTip.sci, line: 26
 msgid " dB"
 msgstr ""
 
@@ -2090,6 +2089,11 @@ msgstr ""
 #, c-format
 msgid ""
 "%s: Wrong value for input argument #%d: infinite gain at zero frequency.\n"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/freson.sci, line: 80
+msgid "freson: Some maxima frequencies may be undetected."
 msgstr ""
 
 #
@@ -2310,7 +2314,22 @@ msgid ""
 msgstr ""
 
 #
+# File: modules/cacsd/macros/hallchart.sci, line: 42
 # File: modules/cacsd/macros/hallchart.sci, line: 55
+#, c-format
+msgid "%s: Argument '%s': type real expected.\n"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/hallchart.sci, line: 77
+# File: modules/cacsd/macros/nicholschart.sci, line: 76
+# File: modules/cacsd/macros/sgrid.sci, line: 84
+#, c-format
+msgid "%s: Argument #%d: Wrong color specification.\n"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/hallchart.sci, line: 104
 msgid "Hall chart"
 msgstr ""
 
@@ -2562,52 +2581,60 @@ msgid ""
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nicholschart.sci, line: 31
+# File: modules/cacsd/macros/nicholschart.sci, line: 34
 msgid "Amplitude and phase contours of y/(1+y)"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nicholschart.sci, line: 32
+# File: modules/cacsd/macros/nicholschart.sci, line: 35
 msgid "phase(y) (degree)"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nicholschart.sci, line: 33
+# File: modules/cacsd/macros/nicholschart.sci, line: 36
 msgid "magnitude(y) (dB)"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nyquist.sci, line: 137
-msgid "Nyquist plot"
-msgstr ""
-
-#
-# File: modules/cacsd/macros/nyquist.sci, line: 139
-msgid "Re(h(2if))"
-msgstr ""
-
-#
-# File: modules/cacsd/macros/nyquist.sci, line: 140
-msgid "Im(h(2if))"
+# File: modules/cacsd/macros/nicholschart.sci, line: 55
+# File: modules/cacsd/macros/nicholschart.sci, line: 64
+#, c-format
+msgid ""
+"%s: Wrong type for input argument %s: real floating point array expected\n"
 msgstr ""
 
 #
 # File: modules/cacsd/macros/nyquist.sci, line: 142
-msgid "Re"
+msgid "Nyquist plot"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nyquist.sci, line: 143
-msgid "Im"
+# File: modules/cacsd/macros/nyquist.sci, line: 144
+msgid "Re(h(2if))"
 msgstr ""
 
 #
 # File: modules/cacsd/macros/nyquist.sci, line: 145
+msgid "Im(h(2if))"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/nyquist.sci, line: 147
+msgid "Re"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/nyquist.sci, line: 148
+msgid "Im"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/nyquist.sci, line: 150
 msgid "Re(h(exp(2if*dt)))"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/nyquist.sci, line: 146
+# File: modules/cacsd/macros/nyquist.sci, line: 151
 msgid "Im(h(exp(2if*dt)))"
 msgstr ""
 
@@ -2674,7 +2701,7 @@ msgstr ""
 #
 # File: modules/cacsd/macros/reduceToCommonDenominator.sci, line: 18
 #, c-format
-msgid "%s: Wrong type for input argument #%d: real matix expected.\n"
+msgid "%s: Wrong type for input argument #%d: real matrix expected.\n"
 msgstr ""
 
 #
@@ -2708,17 +2735,21 @@ msgid ""
 msgstr ""
 
 #
-# File: modules/cacsd/macros/ric_desc.sci, line: 59
+# File: modules/cacsd/macros/ric_desc.sci, line: 60
 #, c-format
 msgid "%s: Stationary Riccati solver failed.\n"
 msgstr ""
 
 #
-# File: modules/cacsd/macros/riccati.sci, line: 37
-# File: modules/cacsd/macros/riccati.sci, line: 45
-# File: modules/cacsd/macros/riccati.sci, line: 53
+# File: modules/cacsd/macros/riccati.sci, line: 33
 #, c-format
-msgid "%s: Wrong dimension (%d) of stable subspace: %d expected.\n"
+msgid "%s: Wrong number of input arguments: %s expected.\n"
+msgstr ""
+
+#
+# File: modules/cacsd/macros/riccati.sci, line: 36
+#, c-format
+msgid "%s: No solution found. Dimension(stable subspace)=%d. %d expected.\n"
 msgstr ""
 
 #
@@ -2767,12 +2798,6 @@ msgstr ""
 # File: modules/cacsd/macros/sgrid.sci, line: 80
 #, c-format
 msgid "%s: Argument #%d: Scalar or vector with %d components expected.\n"
-msgstr ""
-
-#
-# File: modules/cacsd/macros/sgrid.sci, line: 84
-#, c-format
-msgid "%s: Argument #%d: Wrong color specification.\n"
 msgstr ""
 
 #

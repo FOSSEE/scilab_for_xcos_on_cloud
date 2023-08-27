@@ -248,6 +248,7 @@ public :
     */
 
 private :
+    static int m_iUserMode;
     static int m_iPromptMode;
     static bool m_printInput;
     static bool m_printOutput;
@@ -255,6 +256,9 @@ private :
     static bool m_printInteractive;
 
 public :
+    static void setUserMode(int _iPromptMode);
+    static int getUserMode(void);
+
     static void setPromptMode(int _iPromptMode);
     static int getPromptMode(void);
 
@@ -413,32 +417,40 @@ public :
 
     // where
 public :
+    // On macro call, some information are pushed to the call stack
     struct WhereEntry
     {
         int m_line;
         int m_absolute_line;
-        int m_macro_first_line;
-        std::wstring m_name;
-        std::wstring m_file_name;
-        WhereEntry(int line, int absolute_line, const std::wstring& name, int first_line, const std::wstring& file_name) :
-            m_line(line), m_absolute_line(absolute_line), m_macro_first_line(first_line), m_name(name), m_file_name(file_name) {}
+        int m_scope_lvl;
+        types::Callable* call;
+        const std::wstring* m_file_name;
     };
-    typedef std::vector<WhereEntry> WhereVector;
+
+    // On error, every information is copied back as values from the Callable to avoid being freed on call stack return
+    struct WhereErrorEntry
+    {
+        int m_line;
+        int m_absolute_line;
+        int m_first_line;
+        std::wstring m_function_name;
+        std::wstring m_file_name;
+    };
 
     static void where_begin(int _iLineNum, int _iLineLocation, types::Callable* _pCall);
     static void where_end();
-    static const WhereVector& getWhere();
+    static const std::vector<WhereEntry>& getWhere();
     static void fillWhereError(int _iErrorLine);
     static void resetWhereError();
 
     static void macroFirstLine_begin(int _iLine);
     static void macroFirstLine_end();
     static int getMacroFirstLines();
-    static void setFileNameToLastWhere(const std::wstring& _fileName);
+    static void setFileNameToLastWhere(const std::wstring* _fileName);
     static void whereErrorToString(std::wostringstream &ostr);
 private :
-    static WhereVector m_Where;
-    static WhereVector m_WhereError;
+    static std::vector<WhereEntry> m_Where;
+    static std::vector<WhereErrorEntry> m_WhereError;
     static std::vector<int> m_FirstMacroLine;
     //module called with variable by reference
 private :
@@ -473,10 +485,10 @@ public:
 
     // executed file with exec
 private:
-    static int m_iFileID;
+    static std::wstring m_strFile;
 public:
-    static void setExecutedFileID(int _iFileID);
-    static int getExecutedFileID();
+    static void setExecutedFile(const std::wstring& _strFile);
+    static const std::wstring& getExecutedFile();
 
     // string read from console by scilabRead
 private:
@@ -522,6 +534,12 @@ public :
     static void resetRecursionLevel();
     static bool increaseRecursion();
     static void decreaseRecursion();
+private:
+    static bool webMode;
+public:
+    static bool getWebMode();
+    static void setWebMode(bool);
+
 };
 
 #endif /* !__CONFIGVARIABLE_HXX__ */

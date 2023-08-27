@@ -2,7 +2,7 @@
 // Copyright (C) Bruno Pincon
 // Copyright (C) Serge Steer (adaptation to new graphic system)
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
-// Copyright (C) 2017 - 2018 - Samuel GOUGEON
+// Copyright (C) 2017 - 2020 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
 // pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -17,33 +17,25 @@ function colorbar(umin, umax, colminmax, fmt)
     //     Draw a colorbar for a plot3d, fec, Sgrayplot, etc...
     //
     //  PARAMETERS
-    //     umin : min value of the plot
-    //     umax : max value of the plot
-    //     colminmax : (optional) a vector with 2 integer components
-    //                 the first is the color number (of the current
-    //                 colormap) associated with umin
-    //                 the second the max color number ....
-    //                 default : [1 nb_colors] where nb_colors is
-    //                 the number of colors of the current colormap.
+    //     umin : data value corresponding to the colorbar lower bound
+    //     umax : data value corresponding to the colorbar upper bound
+    //     colminmax : a [cmin cmax] vector providing the colors corresponding
+    //                 to the [umin, umax] data bounds.
+    //                 Is a vector of 2 colors indices, where $ stands for the
+    //                 total number of colors in the current colormap.
+    //                 Examples: [1 $]   // the whole colormap
+    //                           [$/2 $] // The second half of the colormap
     //                 May be useful to deal with a part of the colormap
     //                 (for instance using fec or plot3d)
     //     fmt : optional, a C format to display colorbar graduations
-    //
-    //  CAUTION
-    //     this function may be used BEFORE a plot3d, fec, Sgrayplot, ...
-    //     It is important because this function set and change the
-    //     frame for the plot. This way the colorbar is not part of
-    //     the "associated" plot and so is not modified by a zoom or
-    //     a rotation of the plot.
-    //
-    //  EXAMPLES
-    //     see the help page
     //
     //  HISTORY
     // 2017 : http://bugzilla.scilab.org/14711 : in uicontrol frame
     // 2018 : http://bugzilla.scilab.org/15638 : unequal color spans
     //        http://bugzilla.scilab.org/15805 : poor ticking
     //        http://bugzilla.scilab.org/15806 : syntaxes with default umin, umax..
+    // 2019 : http://bugzilla.scilab.org/16232 : Support of $ in colminmax added
+    //        http://bugzilla.scilab.org/10553 : gce() is now the colorbar handle
 
     // Check number of input argument
     [lhs, rhs] = argn();
@@ -58,12 +50,12 @@ function colorbar(umin, umax, colminmax, fmt)
     f = gcf();
     nColorsCM = size(f.color_map,1);
     for h = gca().children'
-        if or(h.type==["Matplot" "Fec" "Fac3d" "Plot3d" "Grayplot"])
+        if or(h.type==["Matplot" "Fec" "Fac3d" "Plot3d" "Grayplot" "Champ"])
             Type = h.type
             break
         end
         for g = h.children'
-            if or(g.type==["Matplot" "Fec" "Fac3d" "Plot3d" "Grayplot"])
+            if or(g.type==["Matplot" "Fec" "Fac3d" "Plot3d" "Grayplot" "Champ"])
                 Type = g.type
                 h = g
                 break
@@ -82,9 +74,14 @@ function colorbar(umin, umax, colminmax, fmt)
     // PARSING INPUT ARGUMENTS
     // =======================
     // colminmax
+    if isdef("colminmax","l") & type(colminmax)==2
+        colminmax = horner(colminmax, nColorsCM)
+        colminmax(colminmax < 1) = 1
+        colminmax(colminmax > nColorsCM) = nColorsCM
+    end
     if isdef("colminmax","l") & type(colminmax)~=0 & colminmax~=[] & colminmax(1)~=-1
         msg = _("%s: Argument #%d: Decimal number(s) expected.\n")
-        if type(colminmax)~=1 | ~isreal(colminmax)
+        if and(type(colminmax)~=[1 2])| ~isreal(colminmax)
             error(msprintf(msg, "colorbar", 3))
         end
         if length(colminmax)~=2
@@ -109,19 +106,30 @@ function colorbar(umin, umax, colminmax, fmt)
     // Default umin, umax, colminmax
     if Type=="Fec"
         u = h.data(:,3);
+
     elseif Type=="Plot3d"
         u = h.data.z
+
     elseif Type=="Fac3d"
         u = h.data.z;
-        c = h.data.color;
-        colorsAreZ = ~isvector(c)
-        //if colorsAreZ
-        //    // c = U*a+b
-        //    c2 = c-mean(c);
-        //    u2 = u-mean(u);
-        //    k = u~=0;
-        //    colorsAreZ = colorsAreZ & stdev(c(k)./u(k))==0 // Improvement to explore
-        //end
+        colorsAreZ = %f;
+        if or(fieldnames(h.data)=="color")
+            c = h.data.color;
+            colorsAreZ = ~isvector(c)
+            if  or(h.color_flag==[2 3 4]) & h.cdata_mapping == "direct"
+                u = h.data.color
+                if colminmax == -1
+                    colminmax = [min(u) max(u)]
+                end
+            end
+            //if colorsAreZ
+            //    // c = U*a+b
+            //    c2 = c-mean(c);
+            //    u2 = u-mean(u);
+            //    k = u~=0;
+            //    colorsAreZ = colorsAreZ & stdev(c(k)./u(k))==0 // Improvement to explore
+            //end
+        end
         if colorsAreZ
             select h.color_flag
             case 0
@@ -144,8 +152,12 @@ function colorbar(umin, umax, colminmax, fmt)
         if h.data_mapping=="direct"
             Type = "Matplot"
         end
+
     elseif Type=="Matplot"
         u = h.data
+
+    elseif Type=="Champ"
+        u = sqrt(h.data.fx .^2 + h.data.fy .^2)
     else
         u = []
     end
@@ -157,7 +169,8 @@ function colorbar(umin, umax, colminmax, fmt)
     if ~isdef("umin","l") | type(umin)==0 | umin==[] then
         if u~=[]
             if colminmax~=[] & (length(colminmax)>1 | colminmax~=-1)
-                if Type=="Matplot"
+                if Type=="Matplot" | Type=="Champ" | ..
+                   Type=="Fac3d" & or(h.color_flag==[2 3 4]) & h.cdata_mapping == "direct"
                     umin = colminmax(1)
                 else
                     if argn(2)<2
@@ -196,7 +209,8 @@ function colorbar(umin, umax, colminmax, fmt)
     if ~isdef("umax","l") | type(umax)==0 | umax==[] then
         if u~=[]
             if colminmax~=[] & colminmax~=-1
-                if Type=="Matplot"
+                if Type=="Matplot" | Type=="Champ" | ..
+                   Type=="Fac3d" & or(h.color_flag==[2 3 4]) & h.cdata_mapping == "direct"
                     umax = colminmax(2)
                 else
                     if argn(2)<2
@@ -289,6 +303,7 @@ function colorbar(umin, umax, colminmax, fmt)
     Matplot((colminmax(2):-1:colminmax(1))')
     a_cb.y_location = "right";
     a_cb.tight_limits = "on";
+
     if Type~="Matplot" then
         du = (umax-umin)
         gce().rect = [0.5 umin 1.5 umax];
@@ -304,4 +319,7 @@ function colorbar(umin, umax, colminmax, fmt)
 
     // Restoring input drawing mode
     f.immediate_drawing = idMem;
+
+    // setting gce()
+    set("current_entity", a_cb)
 endfunction

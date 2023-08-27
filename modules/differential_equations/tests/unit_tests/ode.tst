@@ -3,11 +3,14 @@
 // Copyright (C) 2007-2008 - INRIA
 // Copyright (C) 2011 - DIGITEO - Cedric DELAMARRE
 // Copyright (C) 2013 - Scilab Enterprises - Adeline CARNIS
+// Copyright (C) 2019 - Stéphane MOTTELET
 //
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
 
 // <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
+
 warning("off")
 ilib_verbose(0);
 
@@ -22,6 +25,15 @@ y=ode(y0,t0,t,f);
 assert_checkalmostequal(size(y), [1 32] , %eps, [], "matrix");
 clear y;
 clear t;
+
+// to check that error in rhs is reported without crashing Scilab
+function ydot=f(t,y),ydot=z,endfunction
+y0=0;t0=0;t=0:0.1:%pi;
+message = [msprintf(_("Undefined variable: %s\n"),"z");
+           msprintf(_("%s: An error occurred in ''%s'' subroutine.\n"), "ode", "lsoda")];
+assert_checkerror("y=ode(y0,t0,t,f)",message);
+
+
 //*************************** function F and lsoda ********************************/
 // create functions
 cd TMPDIR;
@@ -135,7 +147,7 @@ tout3 = 0.4*exp((0:12)*log(10));
 yout1 = ode(y, t, tout2, rtol, atol, f, w, iw);
 yout2 = ode(y, t, tout3, rtol, atol, f);
 
-assert_checkalmostequal(yout2(3*12+1:3*13), yout1, %eps, [], "matrix");
+assert_checkalmostequal(yout2(:,$), yout1, %eps, [], "matrix");
 
 //*************************** Polynom ********************************/
 //y(1) = 1;
@@ -376,13 +388,8 @@ rk   = ode("rk",  y0, t0, t, functionF);
 rkf  = ode("rkf", y0, t0, t, functionF);
 fixx = ode("fix", y0, t0, t, functionF);
 
-rkRes = [0.    0.09983341664683527    0.19866933079512300    0.29552020666153711 0.38941834230905709    0.47942553860493514    0.56464247339623352    0.64421768723947215 0.71735609090195429    0.78332690963060869    0.8414709848117728     0.89120736006615475 0.93203908597292051    0.96355818542403104    0.98544972999664104    0.99749498661376];
-rkRes(17:32) = [0.99957360305287668    0.99166481046564392    0.97384763089330029    0.94630008770455387 0.90929742684492987    0.86320936667026738    0.80849640384312127    0.74570521220233155 0.67546318057873300    0.59847214413334937    0.51550137185246248    0.42737988026620155 0.33498815018939587    0.23924932924832210    0.14112000809477554    0.04158066246848785];
+assert_checkalmostequal(rk, sin(t), 1e-7, [], "matrix");
+assert_checkalmostequal(rkf, sin(t), 1e-7, [], "matrix");
+assert_checkalmostequal(fixx, sin(t), 1e-7, [], "matrix");
 
-rkfRes = [0.    0.09983341667063099    0.19866933087782307    0.2955202068043328    0.38941834246046680     0.47942553864900261    0.56464247314940919    0.64421768645637856    0.71735608928892303      0.78332690686480611    0.84147098056308622    0.89120735401875306    0.93203907784361117      0.96355817497519225    0.98544971704249074    0.99749497101988072    0.99957358472991464];
-rkfRes(18:32) = [    0.99166478935902302    0.97384760697150774    0.94630006094857066    0.90929739724116376     0.86320933420871493    0.80849636852157181    0.74570517403636893    0.67546313961625104      0.59847210047141619    0.51550132565379336    0.42737983177229999    0.33498809972769594      0.23924927723128114    0.14111995500988161    0.04158060885936282];
-
-assert_checkalmostequal(rkRes, rk, %eps * 20, [], "matrix");
-assert_checkalmostequal(rkfRes, rkf, %eps, [], "matrix");
-assert_checkalmostequal(rkf, fixx, %eps, [], "matrix");
 warning("on")

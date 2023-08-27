@@ -7,6 +7,7 @@
 
 // <-- CLI SHELL MODE -->
 // <-- ENGLISH IMPOSED -->
+// <-- NO CHECK REF -->
 //
 //
 // <-- Non-regression test for bug 11092 -->

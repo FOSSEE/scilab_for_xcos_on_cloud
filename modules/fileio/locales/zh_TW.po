@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: Scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:09+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "Revision-Date: 2011-04-04 22:09+0100\n"
 
 #, c-format
@@ -148,11 +148,19 @@ msgstr ""
 msgid "%s: Wrong value for input argument #%d.\n"
 msgstr "%s: 第 %d 個輸入參數數值錯誤.\n"
 
-#
-# File: sci_gateway/c/sci_fullpath.c, line: 59
 #, c-format
-msgid "%s: Wrong value for input argument #%d: '%s' is an invalid path.\n"
-msgstr "%s: 第 %d 個輸入參數數值錯誤: '%s' 唯一無效之路徑.\n"
+msgid "%s: Wrong number of input argument(s): at most %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong number of output argument(s): at most %d expected.\n"
+msgstr ""
+
+#
+# File: modules/fileio/sci_gateway/cpp/sci_get_absolute_file_path.cpp, line: 81
+#, c-format
+msgid "%s: Without arguments, this function must be called from a script.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: The file %s is not opened in scilab.\n"
@@ -189,8 +197,16 @@ msgstr ""
 msgid "%s: File not found: '%s'.\n"
 msgstr ""
 
+#
+# File: src/c/mclose.c, line: 56
 #, c-format
-msgid "%s: Wrong input arguments: '%s' expected.\n"
+msgid "%s: Cannot close file %ls: File is not active.\n"
+msgstr ""
+
+#
+# File: sci_gateway/c/sci_findfiles.c, line: 79
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A real matrix expected.\n"
 msgstr ""
 
 #
@@ -274,6 +290,14 @@ msgstr ""
 msgid "%s: Wrong type for input argument #%d: A integer expected.\n"
 msgstr ""
 
+#
+# File: src/c/mget.c, line: 56
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: Incorrect conversion code; c, s, i "
+"or l expected.\n"
+msgstr ""
+
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
 msgstr ""
@@ -329,6 +353,12 @@ msgstr "%s: 第#%d個參數長度有誤: 整數才對.\n"
 #, c-format
 msgid "%s: invalid filename.\n"
 msgstr "%s: 無效的檔名.\n"
+
+#
+# File: src/c/mget.c, line: 172
+#, c-format
+msgid "%s: Argument #%d: a single string expected.\n"
+msgstr ""
 
 #
 # File: sci_gateway/c/sci_mfscanf.c, line: 84

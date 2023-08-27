@@ -117,6 +117,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.scilab.modules.types.ScilabType;
 import org.scilab.modules.xcos.VectorOfBool;
 import org.scilab.modules.xcos.VectorOfScicosID;
 import org.scilab.modules.xcos.block.SuperBlock;
@@ -999,12 +1000,16 @@ public class XcosDiagram extends ScilabGraph {
         }
 
         // snap the center of the split block on the grid
-        mxGeometry geom = splitBlock.getGeometry();
-        double x = snap(splitPoint.getX()) - (SplitBlock.DEFAULT_SIZE / 2.);
-        double y = snap(splitPoint.getY()) - (SplitBlock.DEFAULT_SIZE / 2.);
-        geom.setX(x);
-        geom.setY(y);
-        splitBlock.setGeometry(geom);
+        try {
+            mxGeometry geom = splitBlock.getGeometry();
+            double x = snap(splitPoint.getX()) - (SplitBlock.DEFAULT_SIZE / 2.);
+            double y = snap(splitPoint.getY()) - (SplitBlock.DEFAULT_SIZE / 2.);
+            geom.setX(x);
+            geom.setY(y);
+            splitBlock.setGeometry(geom);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         getModel().beginUpdate();
         try {
@@ -1853,7 +1858,7 @@ public class XcosDiagram extends ScilabGraph {
         final String filename = writeFile.getName();
 
         /*
-         * Look for the user extension if it does not exists, append a default one
+         * Look for the user extension if it does not exist, append a default one
          *
          * if the specified extension is handled, update the save format ; else append a default extension and use the default format
          */
@@ -2071,7 +2076,11 @@ public class XcosDiagram extends ScilabGraph {
                         while (ex instanceof RuntimeException) {
                             ex = ex.getCause();
                         }
-                        instance.setLastError(ex.getMessage());
+                        try {
+                            instance.setLastError(ex.getMessage());
+                        } catch (NullPointerException exp) {
+                            exp.printStackTrace();
+                        }
                     }
                     instance.notify();
                 }
@@ -2242,7 +2251,6 @@ public class XcosDiagram extends ScilabGraph {
     private String getToolTipForCell(final BasicLink o) {
         JavaController controller = new JavaController();
         long[] longValue = {0l};
-        boolean[] boolValue = {false};
         String[] strValue = {""};
         VectorOfInt intVecValue = new VectorOfInt();
 
@@ -2349,7 +2357,7 @@ public class XcosDiagram extends ScilabGraph {
         }
 
         if (GraphicsEnvironment.isHeadless()) {
-            System.err.printf("%s at %s\n    %s: %s\n", "warnCell", getRootDiagram().getTitle(), uid, message);
+            System.err.printf("%s at %s%n    %s: %s%n", "warnCell", getRootDiagram().getTitle(), uid, message);
             return;
         }
 
@@ -2407,8 +2415,8 @@ public class XcosDiagram extends ScilabGraph {
      * @return The resulting data. Keys are variable names and Values are
      * evaluated values.
      */
-    public Map<String, String> evaluateContext() {
-        Map<String, String> result = Collections.emptyMap();
+    public Map<String, ScilabType> evaluateContext() {
+        Map<String, ScilabType> result = Collections.emptyMap();
         final ScilabDirectHandler handler = ScilabDirectHandler.acquire();
         if (handler == null) {
             return result;
@@ -2418,8 +2426,13 @@ public class XcosDiagram extends ScilabGraph {
             // first write the context strings
             handler.writeContext(getContext());
 
-            // evaluate using script2var
-            ScilabInterpreterManagement.synchronousScilabExec(ScilabDirectHandler.CONTEXT + " = script2var(" + ScilabDirectHandler.CONTEXT + ", struct());");
+            // evaluate using script2var and convert to string keys and list of values
+            ScilabInterpreterManagement.synchronousScilabExec(ScilabDirectHandler.CONTEXT + " = script2var(" + ScilabDirectHandler.CONTEXT + ", struct()); "
+                 + ScilabDirectHandler.CONTEXT + "_names = fieldnames("+ScilabDirectHandler.CONTEXT+")'; "
+                 + ScilabDirectHandler.CONTEXT + "_values = list(); "
+                 + "for i=1:size(" + ScilabDirectHandler.CONTEXT + "_names, '*') ;"
+                 + "   " + ScilabDirectHandler.CONTEXT + "_values(i) = " + ScilabDirectHandler.CONTEXT + "(" +  ScilabDirectHandler.CONTEXT + "_names(i));"
+                 + "end");
 
             // read the structure
             result = handler.readContext();

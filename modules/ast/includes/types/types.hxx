@@ -34,7 +34,6 @@ namespace types
 */
 class EXTERN_AST GenericType : public InternalType
 {
-
 protected :
     int                         m_iRows;
     int                         m_iCols;
@@ -62,6 +61,7 @@ public :
     }
 
     bool                        isScalar();
+    virtual bool                isVector();
 
     /*commun functions*/
     virtual int                  getCols()
@@ -74,7 +74,7 @@ public :
         return m_iRows;
     }
 
-    virtual int                  getSize()
+    virtual int                  getSize() const
     {
         return m_iSize;
     }

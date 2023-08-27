@@ -48,7 +48,6 @@
     <module name="windows_tools" activate="yes"/>
     <module name="statistics" activate="yes"/>
     <module name="arnoldi" activate="yes"/>
-    <module name="compatibility_functions" activate="yes"/>
     <module name="javasci" activate="yes"/>
     <module name="m2sci" activate="yes"/>
     <module name="mexlib" activate="yes"/>
@@ -64,8 +63,6 @@
     <module name="fftw" activate="yes"/>
     <module name="umfpack" activate="yes"/>
     <module name="module_skeleton" activate="no"/>
-    <module name="genetic_algorithms" activate="yes"/>
-    <module name="simulated_annealing" activate="yes"/>
     <module name="parameters" activate="yes"/>
     <module name="matio" activate="yes"/>
     <module name="atoms" activate="yes"/>
@@ -78,7 +75,7 @@
     <module name="api_scilab" activate="yes"/>
     <module name="helptools" activate="yes"/>
     <module name="graph" activate="yes"/>
-    <module name="parallel" activate="yes"/>
+    <module name="parallel" activate="no"/>
     <module name="modules_manager" activate="yes"/>
     <module name="history_browser" activate="yes"/>
     <module name="preferences" activate="yes"/>
@@ -89,4 +86,5 @@
     <module name="mpi" activate="no"/>
     <module name="slint" activate="yes"/>
     <module name="coverage" activate="yes"/>
+    <module name="webtools" activate="yes"/>
 </modules>

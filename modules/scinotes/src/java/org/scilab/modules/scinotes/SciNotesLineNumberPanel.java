@@ -22,7 +22,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseMotionListener;
@@ -162,7 +161,9 @@ public class SciNotesLineNumberPanel extends JPanel implements CaretListener, Do
         if (display) {
             if (whereami) {
                 updateLineNumber();
-                ret = lineNumber;
+                synchronized (doc) {
+                    ret = lineNumber;
+                }
             } else {
                 ret = new int[doc.getDefaultRootElement().getElementCount()];
                 for (int i = 0; i < ret.length; i++) {
@@ -208,10 +209,12 @@ public class SciNotesLineNumberPanel extends JPanel implements CaretListener, Do
      * Update the font used in this component
      * @param font the font to use
      */
-    public void updateFont(Font font) {
+    public synchronized void updateFont(Font font) {
         setFont(font);
         metrics = textPane.getFontMetrics(font);
-        ascent = metrics.getAscent();
+        synchronized (doc) {
+            ascent = metrics.getAscent();
+        }
         updateWidth(false);
     }
 
@@ -244,7 +247,6 @@ public class SciNotesLineNumberPanel extends JPanel implements CaretListener, Do
         if (inc) {
             ++numbers;
         }
-        Insets insets = getInsets();
         int width = metrics.charWidth('0') * numbers;
         availableWidth = width;
         Dimension d = getPreferredSize();

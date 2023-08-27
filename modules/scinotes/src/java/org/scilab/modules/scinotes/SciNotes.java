@@ -751,9 +751,9 @@ public class SciNotes extends SwingScilabDockablePanel {
             }
         } else {
             /* restore if it is iconified */
-            if(editor.getParentWindow() != null) {
+            if (editor.getParentWindow() != null) {
                 int state = editor.getParentWindow().getExtendedState();
-                if((state & JFrame.ICONIFIED) == JFrame.ICONIFIED) {
+                if ((state & JFrame.ICONIFIED) == JFrame.ICONIFIED) {
                     editor.getParentWindow().setExtendedState(state - JFrame.ICONIFIED);
                 }
             }
@@ -888,7 +888,7 @@ public class SciNotes extends SwingScilabDockablePanel {
     public String askForClosing() {
         int numberOfTab = getTabPane().getTabCount();
         boolean isContentModified = false;
-        for (int i = 0; i < getTabPane().getTabCount(); i++) {
+        for (int i = 0; i < numberOfTab; i++) {
             ScilabEditorPane textPaneAt = getTextPane(i);
             if (textPaneAt != null && ((ScilabDocument) textPaneAt.getDocument()).isContentModified()) {
                 isContentModified = true;
@@ -1152,6 +1152,8 @@ public class SciNotes extends SwingScilabDockablePanel {
 
         setTitle(textPaneAt.getTitle());
         ConfigSciNotesManager.saveToOpenFiles(fileToSave, this, textPaneAt);
+        ConfigSciNotesManager.saveToRecentOpenedFiles(fileToSave);
+        RecentFileAction.updateRecentOpenedFilesMenu(this);
 
         return true;
     }
@@ -1233,7 +1235,7 @@ public class SciNotes extends SwingScilabDockablePanel {
      * @return the file picked up by the user
      */
     public String chooseFileToSave(String title, String path) {
-        String extension = new String();
+        String extension = "";
 
         String initialDirectoryPath = path;
         if (initialDirectoryPath == null) {
@@ -2595,15 +2597,20 @@ public class SciNotes extends SwingScilabDockablePanel {
         } catch (CharacterCodingException e) {
             throw new IOException(SciNotesMessages.CANNOT_GUESS_ENCODING + ": " + fileName);
         }
-        FileInputStream fis = new FileInputStream(fileName);
-        InputStreamReader isr = new InputStreamReader(fis, charset);
-        BufferedReader reader = new BufferedReader(isr);
+
         ScilabDocument doc = new ScilabDocument();
         ScilabEditorKit kit = new ScilabEditorKit();
-        try {
+
+        try ( FileInputStream fis = new FileInputStream(fileName);
+                    InputStreamReader isr = new InputStreamReader(fis, charset);
+                    BufferedReader reader = new BufferedReader(isr) ) {
+
             kit.read(reader, doc, 0);
+
         } catch (BadLocationException e) {
             System.err.println(e);
+        } catch (IOException ioe) {
+            System.err.println(ioe);
         }
 
         doc.addDocumentListener(doc);
@@ -2611,10 +2618,10 @@ public class SciNotes extends SwingScilabDockablePanel {
             action.actionOn(doc);
         }
 
-        reader.close();
         if (doc.isContentModified()) {
             SaveFile.doSave(doc, new File(fileName), kit);
         }
+
     }
 
     /**
@@ -2668,3 +2675,4 @@ public class SciNotes extends SwingScilabDockablePanel {
         public void actionOn(ScilabDocument doc) throws IOException;
     }
 }
+

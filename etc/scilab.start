@@ -1,8 +1,8 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2007-2008 - INRIA
 // Copyright (C) 2009-2011 - DIGITEO
-//
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2016 - 2020 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
 // pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -29,6 +29,13 @@ global %modalWarning;
 // True  -> Scilab will show a blocking popup.
 %modalWarning = %F;
 clear %modalWarning;
+
+// Add WSCI as environment variable ===================================
+if getos()=="Windows" then
+    setenv("WSCI", WSCI)
+else
+    setenv("WSCI", SCI)    // for code portability
+end
 
 // Create some configuration variables ================================
 PWD = pwd();
@@ -69,6 +76,9 @@ if getos() <> "Windows" then
 end
 setenv("VERSION", getversion());
 
+// Add %chars constant ================================================
+%chars = percentchars()
+
 // ATOMS ===============================================================
 if with_module("atoms") then
   atomsSystemInit();
@@ -79,6 +89,10 @@ if with_module("atoms") then
   clear atomsSystemInit;
 end
 
+// Helpbrowser: ========================================================
+// If the browser is open, restore the page left at last exit
+helpbrowser_update("startup");
+clear helpbrowser_update
 
 // Protect variable previously defined  ================================
 clear = clear          // special case: http://bugzilla.scilab.org/12198

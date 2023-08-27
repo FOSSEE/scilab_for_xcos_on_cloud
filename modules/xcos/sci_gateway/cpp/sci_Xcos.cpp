@@ -182,7 +182,7 @@ static int callXcos(char *fname, char* file, long diagramId)
     {
         Xcos::xcos(getScilabJavaVM(), file, diagramId);
     }
-    catch (GiwsException::JniCallMethodException &exception)
+    catch (const GiwsException::JniCallMethodException& exception)
     {
         std::cerr << exception.getJavaExceptionName() << std::endl;
         std::cerr << exception.getJavaDescription() << std::endl;
@@ -192,7 +192,7 @@ static int callXcos(char *fname, char* file, long diagramId)
                  exception.getJavaDescription().c_str());
         return 1;
     }
-    catch (GiwsException::JniException &exception)
+    catch (const GiwsException::JniException& exception)
     {
         std::cerr << exception.getJavaExceptionName() << std::endl;
         std::cerr << exception.getJavaDescription() << std::endl;

@@ -48,20 +48,20 @@ function demo_gui()
     // =========================================================================
     // We get the user Preferences for the GUI: dockable / not dockable
     File = SCIHOME + "/XConfiguration.xml";
-    r = xmlGetValues("//general/demonstrations/body/demos","demoGUIisDockable", File);
+    r = xmlGetValues("//general/documentation/body/demos","demoGUIisDockable", File);
 
     // We tune accordingly the predefined demo GUI
     File = SCI + "/modules/demo_tools/gui/demo_gui.xml";
     File2 = TMPDIR + "/demo_gui_dockable.xml";
     if r=="checked" then
         if ~isfile(File2) then
-            r = copyfile(File, File2);
+            mputl(mgetl(File), File2); // copyfile() sometimes keeps the no-writable status
             doc = xmlRead(File2);
-            setPreferencesValue("/scilabgui/figure", ..
-                                ["dockable" "on"
-                                 "infobar_visible" "on"
-                                 "menubar" "figure"
-                                 "menubar_visible" "on"]', doc);
+            xmlSetValues("/scilabgui/figure", ..
+                         ["dockable" "on"
+                          "infobar_visible" "on"
+                          "menubar" "figure"
+                          "menubar_visible" "on"]', doc);
             xmlWrite(doc);
             xmlDelete(doc);
         end
@@ -81,7 +81,6 @@ function demo_gui()
 
     lst_vars_locals = ["%h_delete";
     "demo_fig";
-    "get_figure_handle";
     "subdemolist";
     "demolistlock";
     "resize_demo_gui";

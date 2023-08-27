@@ -12,7 +12,6 @@
  * along with this program.
  *
  */
-#include <stdio.h>
 
 #include "doublecomplex.h"
 #include "api_scilab.h"
@@ -21,6 +20,7 @@
 #include "localization.h"
 #include "sci_malloc.h"
 #include "norm.h"
+#include "numericconstants_interface.h"
 
 /*--------------------------------------------------------------------------*/
 int sci_norm(char *fname, void* pvApiCtx)
@@ -47,8 +47,12 @@ int sci_norm(char *fname, void* pvApiCtx)
     int isMat = 0;
     int isComplex = 0;
 
+    // Special cases
+    int _isnan = 0;
+    int _isinf = 0;
+
     CheckInputArgument(pvApiCtx, 1, 2);
-    CheckOutputArgument(pvApiCtx, 1, 1);
+    CheckOutputArgument(pvApiCtx, 0, 1);
 
     // Checking A.
     sciErr = getVarAddressFromPosition(pvApiCtx, 1, &pAAddr); // Retrieving A address.
@@ -77,13 +81,11 @@ int sci_norm(char *fname, void* pvApiCtx)
         }
 
         isComplex = 1;
-        for (i = 0; i < iRows * iCols; ++i) // Checking A for %inf, which is not supported by Lapack.
+
+        for (i = 0 ; (i < iRows * iCols) & !_isnan ; i++) // Checking A for %inf or %nan, which is not supported by Lapack.
         {
-            if (la_isinf(pAC[i].r) != 0 || la_isinf(pAC[i].i) != 0 || ISNAN(pAC[i].r) || ISNAN(pAC[i].i))
-            {
-                Scierror(264, _("%s: Wrong value for argument #%d: Must not contain NaN or Inf.\n"), fname, 1);
-                return 0;
-            }
+            _isnan = isnan(pAC[i].r) | isnan(pAC[i].i);
+            _isinf |= isinf(pAC[i].r) | isinf(pAC[i].i);
         }
     }
     else
@@ -96,15 +98,22 @@ int sci_norm(char *fname, void* pvApiCtx)
             return 0;
         }
 
-        for (i = 0 ; i < iRows * iCols ; i++) // Checking A for %inf, which is not supported by Lapack.
+        for (i = 0 ; (i < iRows * iCols) & !_isnan ; i++) // Checking A for %inf or %nan, which is not supported by Lapack.
         {
-            if (la_isinf(pA[i]) != 0 || ISNAN(pA[i]))
-            {
-                Scierror(264, _("%s: Wrong value for argument #%d: Must not contain NaN or Inf.\n"), fname, 1);
-                return 0;
-            }
+            _isnan = isnan(pA[i]);
+            _isinf |= isinf(pA[i]);
         }
     }
+
+    if (_isnan)
+    {
+        createScalarDouble(pvApiCtx, Rhs + 1, nc_nan());
+        AssignOutputVariable(pvApiCtx, 1) = Rhs + 1;
+        return 0;
+    }
+
+
+
     if (iRows == 0) // A = [] => returning 0.
     {
         createScalarDouble(pvApiCtx, Rhs + 1, 0);
@@ -112,7 +121,7 @@ int sci_norm(char *fname, void* pvApiCtx)
         return 0;
     }
 
-    if (iRows > 1 && iCols > 1) // If A is a matrix, only 1, 2 and %inf are allowed as second argument.
+    if (iRows > 1 && iCols > 1) // If A is a matrix, only 1, 2, %inf and -%inf are allowed as second argument.
     {
         isMat = 1;
     }
@@ -127,7 +136,11 @@ int sci_norm(char *fname, void* pvApiCtx)
     if (Rhs == 1) // One argument => returning norm 2.
     {
         // Call normP() or normPC().
-        if (isComplex)
+        if (_isinf)
+        {
+            ret = nc_inf();
+        }
+        else if (isComplex)
         {
             ret = normPC(pAC, iRows, iCols, 2); // if A is a complex matrix, call the complex function.
         }
@@ -180,7 +193,11 @@ int sci_norm(char *fname, void* pvApiCtx)
             return 0;
         }
 
-        if (isComplex)
+        if (_isinf)
+        {
+            ret = nc_inf();
+        }
+        else if (isComplex)
         {
             ret = normStringC(pAC, iRows, iCols, pflagChar); // if A is a complex matrix, call the complex function.
         }
@@ -232,7 +249,11 @@ int sci_norm(char *fname, void* pvApiCtx)
                 return 0;
             }
 
-            if (isComplex)
+            if (_isinf && la_isinf(flagVal) == 0) // Infs in A and flag != -%inf
+            {
+                ret = nc_inf();
+            }
+            else if (isComplex)
             {
                 ret = normPC(pAC, iRows, iCols, flagVal); // if A is a complex matrix, call the complex function.
             }

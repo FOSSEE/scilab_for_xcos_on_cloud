@@ -5,11 +5,11 @@
           xml:lang="fr" xml:id="backslash">
     <refnamediv>
         <refname>backslash</refname>
-        <refpurpose>(\) division matricielle à gauche</refpurpose>
+        <refpurpose>(\) division matricielle à gauche : solution exacte ou selon moindres carrés</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Séquence d'appel</title>
-        <synopsis>x=A\b</synopsis>
+        <synopsis>X = A \ B</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Description</title>
@@ -67,16 +67,13 @@ mprintf('\ntemps nécessaire à la résolution du système avec l''opérateur ba
                 <link linkend="slash">slash</link>
             </member>
             <member>
+                <link linkend="lsq">lsq</link>
+            </member>
+            <member>
                 <link linkend="inv">inv</link>
             </member>
             <member>
                 <link linkend="pinv">pinv</link>
-            </member>
-            <member>
-                <link linkend="percent">percent</link>
-            </member>
-            <member>
-                <link linkend="ieee">ieee</link>
             </member>
             <member>
                 <link linkend="linsolve">linsolve</link>
@@ -84,13 +81,22 @@ mprintf('\ntemps nécessaire à la résolution du système avec l''opérateur ba
             <member>
                 <link linkend="umfpack">umfpack</link>
             </member>
+            <member>
+                <link linkend="datafit">datafit</link>
+            </member>
+            <member>
+                <link linkend="krondivide">kron .\.</link>
+            </member>
+            <member>
+                <link linkend="overloading">overloading</link>
+            </member>
         </simplelist>
     </refsection>
     <refsection>
         <title>Historique</title>
         <revhistory>
             <revision>
-                <revnumber>5.4.1</revnumber>
+                <revnumber>5.5.0</revnumber>
                 <revremark>
                   The threshold level which switches between Gaussian Elimination with row pivoting
                   and linear least squares when computing A\B is decreased from sqrt(eps) to eps.

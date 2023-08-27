@@ -54,7 +54,8 @@ CONSOLE_CPP_SOURCES = \
 #### console : List of the c files ####
 CONSOLE_C_JNI_SOURCES = \
     src/jni/GuiManagement_wrap.c \
-    src/jni/DropFiles_wrap.c
+    src/jni/DropFiles_wrap.c \
+    src/jni/AdvCLIManagement_wrap.c
 
 GIWS_WRAPPERS = src/jni/CallScilabBridge.giws.xml
 
@@ -166,11 +167,6 @@ libsciconsole_la_CPPFLAGS = \
     $(AM_CPPFLAGS)
 
 
-# FIXME: Plateform specific optimisation flags should be set on configure.ac
-if IS_MACOSX
-libsciconsole_la_CPPFLAGS += -msse2
-endif
-
 # Name of the library
 pkglib_LTLIBRARIES = libsciconsole-minimal.la
 
@@ -189,7 +185,8 @@ INCLUDE_FLAGS = $(libsciconsole_la_CPPFLAGS)
 
 #### SWIG Declaration ####
 SWIG_WRAPPERS = src/jni/GuiManagement.i \
-	src/jni/DropFiles.i
+	src/jni/DropFiles.i \
+    src/jni/AdvCLIManagement.i
 
 # Provides macros compilation, Java compilation, cleaning
 # If you want Makefile to call ant, add USEANT=1

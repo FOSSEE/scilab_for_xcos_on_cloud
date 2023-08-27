@@ -97,13 +97,15 @@ void SetBrowseVarData()
     symbol::Context* ctx = symbol::Context::getInstance();
 
     std::list<symbol::Variable*> lstVars;
+    std::list<symbol::Library*> lstLibs;
 
     iLocalVariablesUsed = ctx->getVarsToVariableBrowser(lstVars);
+    iLocalVariablesUsed += ctx->getLibsToVariableBrowser(lstLibs);
 
     char **pstAllVariableNames = new char*[iLocalVariablesUsed]();
     char **pstAllVariableVisibility = new char*[iLocalVariablesUsed]();
     char **pstAllVariableListTypes = new char*[iLocalVariablesUsed]();
-    int *piAllVariableBytes = new int[iLocalVariablesUsed]();
+    long long *piAllVariableBytes = new long long[iLocalVariablesUsed]();
     char **pstAllVariableSizes = new char*[iLocalVariablesUsed]();
     int *piAllVariableTypes = new int[iLocalVariablesUsed]();
     int *piAllVariableIntegerTypes = new int[iLocalVariablesUsed]();
@@ -146,16 +148,26 @@ void SetBrowseVarData()
 
         // type with Scilab < 6 compatibility (structs and cells have type 17)
         err = getVarType(NULL, (int*)pIT, &piAllVariableTypes[i]);
+        if (err.iErr)
+        {
+            piAllVariableTypes[i] = 0;
+        }
+        err = getVarDimension(NULL, (int*)pIT, &nbRows, &nbCols);
+        if (err.iErr)
+        {
+            nbRows = 0;
+            nbCols = 0;
+        }
 
         if (pIT->isArrayOf() || pIT->isSparse())
         {
             int nbRows = pIT->getAs<types::GenericType>()->getRows();
             int nbCols = pIT->getAs<types::GenericType>()->getCols();
             piAllVariableNbRows[i] = nbRows;
-            piAllVariableNbCols[i] = nbCols;                
-            if (nbRows*nbCols == 0)
+            piAllVariableNbCols[i] = nbCols;
+            if (nbRows * nbCols == 0)
             {
-                pstAllVariableSizes[i] = pIT->isCell() ? os_strdup(EMPTY_CELL) : os_strdup(EMPTY_MATRIX);                
+                pstAllVariableSizes[i] = pIT->isCell() ? os_strdup(EMPTY_CELL) : os_strdup(EMPTY_MATRIX);
             }
             else if (pIT->isArrayOf())
             {
@@ -181,6 +193,10 @@ void SetBrowseVarData()
             // Integer case
             int iPrec       = 0;
             err = getMatrixOfIntegerPrecision(NULL, (int*)pIT, &iPrec);
+            if (err.iErr)
+            {
+                return;
+            }
             switch (iPrec)
             {
                 case SCI_INT8:
@@ -235,6 +251,42 @@ void SetBrowseVarData()
             piAllVariableFromUser[i] = FALSE;
         }
 
+        long long bytesWithoutOverHead;
+        pIT->getMemory(&bytesWithoutOverHead, &piAllVariableBytes[i]);
+
+        ++i;
+    }
+
+    for (auto lib : lstLibs)
+    {
+        //get top level value
+        symbol::ScopedLibrary* sl = lib->top();
+
+        // get name
+        pstAllVariableNames[i] = wide_string_to_UTF8(lib->getSymbol().getName().data());
+
+        // get visibility
+        if (sl->m_iLevel != iLevel)
+        {
+            pstAllVariableVisibility[i] = os_strdup(INHERITED_STR);
+        }
+        else
+        {
+            pstAllVariableVisibility[i] = os_strdup(LOCAL_STR);
+        }
+        //type
+        piAllVariableTypes[i] = sci_lib;
+        pstAllVariableSizes[i] = os_strdup(N_A);
+        piAllVariableIntegerTypes[i] = -1;
+        pstAllVariableListTypes[i] = os_strdup("");
+        piAllVariableFromUser[i] = FALSE;
+        piAllVariableNbRows[i] = 1;
+        piAllVariableNbCols[i] = 1;
+        //get value and bytes
+        types::GenericType* pIT = sl->m_pLib;
+        long long bytesWithoutOverHead;
+        pIT->getMemory(&bytesWithoutOverHead, &piAllVariableBytes[i]);
+
         ++i;
     }
 
@@ -275,47 +327,50 @@ void SetBrowseVarData()
 /*--------------------------------------------------------------------------*/
 static std::set<string> createScilabDefaultVariablesSet()
 {
-    string arr[] = { "home",
-                     "PWD",
-                     "%tk",
-                     "%pvm",
-                     "MSDOS",
-                     "%F",
-                     "%T",
-                     "%f",
-                     "%t",
-                     "%e",
-                     "%pi",
-                     "%modalWarning",
-                     "%nan",
-                     "%inf",
-                     "SCI",
-                     "WSCI",
-                     "SCIHOME",
-                     "TMPDIR",
-                     "%gui",
-                     "%fftw",
-                     "%helps",
-                     "%eps",
-                     "%io",
-                     "%i",
-                     "demolist",
-                     "%z",
-                     "%s",
-                     "$",
-                     "%toolboxes",
-                     "%toolboxes_dir",
-                     "TICTOC",
-                     "%helps_modules",
-                     "%_atoms_cache",
-                     "evoid", // Constant for external object
-                     "jvoid", // Constant for external object Java (jims)
-                     "jnull", // Constant for external object Java (jims)
-                     "enull"  // Constant for external object
-                   };
+    string arr[] =
+    {
+        "$",
+        "%F",
+        "%T",
+        "%_atoms_cache",
+        "%chars", // Unicode characters
+        "%e",
+        "%eps",
+        "%f",
+        "%fftw",
+        "%gui",
+        "%helps",
+        "%helps_modules",
+        "%i",
+        "%inf",
+        "%io",
+        "%modalWarning",
+        "%nan",
+        "%pi",
+        "%pvm",
+        "%s",
+        "%t",
+        "%tk",
+        "%toolboxes",
+        "%toolboxes_dir",
+        "%z",
+        "MSDOS",
+        "PWD",
+        "SCI",
+        "SCIHOME",
+        "TICTOC",
+        "TMPDIR",
+        "WSCI",
+        "demolist",
+        "enull",  // Constant for external object
+        "evoid", // Constant for external object
+        "home",
+        "jnull", // Constant for external object Java (jims)
+        "jvoid" // Constant for external object Java (jims)
+    };
     int i = 0;
 
-#define NBELEMENT 37
+#define NBELEMENT (sizeof(arr)/sizeof(*(arr)))
     std::set<string> ScilabDefaultVariables;
 
     for (i = 0; i < NBELEMENT; i++)
@@ -362,7 +417,8 @@ static char *valueToDisplay(types::InternalType* pIT)
     types::GenericType *pGT = pIT->getAs<types::GenericType>();
     int *piDims = pGT->getDimsArray();
 
-    if (pIT->isDouble() && pGT->getDims() < 3 && pGT->getSize() <= 4) {
+    if (pIT->isDouble() && pGT->getDims() < 3 && pGT->getSize() <= 4)
+    {
         // 4 is the dimension max to which display the content
         types::Double* pD = pIT->getAs<types::Double>();
         // Small double value, display it

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 05:46+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: This feature has not been implemented in this mode.\n"
@@ -713,12 +713,7 @@ msgstr "Зберегти журнал"
 msgid "Save file"
 msgstr "Зберегти файл"
 
-#
-# File: modules/console/src/console_fake_xml.c, line: 794
-# File: modules/console/src/console_fake_xml.c, line: 1061
-# File: modules/console/src/console_fake_xml.c, line: 1372
-# File: modules/console/src/console_fake_xml.c, line: 1694
-msgid "Demos"
+msgid "Help and demos"
 msgstr ""
 
 msgid "Environment"
@@ -735,6 +730,9 @@ msgstr "Ширина: "
 
 msgid "Recursion limit: "
 msgstr "Обмеження на рекурсію: "
+
+msgid "Containers display depth: "
+msgstr "Глибина показу контейнерів: "
 
 msgid "Language setting"
 msgstr "Параметр мови"
@@ -769,8 +767,9 @@ msgstr "Компонування"
 msgid "Select a layout"
 msgstr "Виберіть компонування"
 
-msgid "(Modify the layout requires to restart Scilab)"
-msgstr "(Зміна компонування потребуватиме перезапуску Scilab)"
+msgid "(Modifying the layout requires to restart Scilab)"
+msgstr ""
+"(Для набуття чинності зміненим компонуванням слід перезапустити Scilab)"
 
 msgid "Save layout on exiting"
 msgstr "Зберігати компонування під час виходу з програми"
@@ -802,10 +801,16 @@ msgstr "Назва дії"
 msgid "Key binding"
 msgstr "Прив’язка клавіш"
 
-#
-# File: modules/console/src/console_fake_xml.c, line: 1379
-# File: modules/console/src/console_fake_xml.c, line: 1701
+msgid "Demos"
+msgstr "Демонстрації"
+
 msgid "The demo interface is dockable"
+msgstr "Панель демонстрацій можна швартувати до вікна"
+
+#
+# File: modules/console/src/console_fake_xml.c, line: 1413
+# File: modules/console/src/console_fake_xml.c, line: 1766
+msgid "Redirect Matlab terms to Scilab closest equivalent"
 msgstr ""
 
 #, c-format
@@ -831,3 +836,24 @@ msgstr "Не вдалося змінити шрифт консолі."
 
 msgid "Could not change the Console Foreground."
 msgstr "Не вдалося змінити параметри тексту у консолі."
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
+msgstr ""
+"%s: помилкова кількість вхідних параметрів: слід використовувати від %d до "
+"%d.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: String expected.\n"
+msgstr "%s: помилковий тип параметра №%d: слід використовувати рядок.\n"
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
+msgstr ""
+"%s: помилковий розмір вхідного параметра №%d: слід використовувати рядок.\n"
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: '%s' value expected.\n"
+msgstr ""
+"%s: помилкове значення вхідного параметра %d: мало бути використано значення "
+"«%s».\n"

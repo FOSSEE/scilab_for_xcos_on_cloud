@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2015-08-17 11:20+0100\n"
-"PO-Revision-Date: 2019-02-12 18:57+0000\n"
-"Last-Translator: Scilab.team <Unknown>\n"
+"PO-Revision-Date: 2020-11-11 10:09+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 msgid "Warning :\n"
 msgstr "Attention :\n"
@@ -30,9 +30,12 @@ msgid "computing least squares solution. (see lsq).\n"
 msgstr "calcul de la solution des moindres carrés (voir lsq).\n"
 
 #, c-format
-msgid "debugger stop on breakpoint(%d) in function %ls line %d\n"
-msgstr ""
-"halte du débogger au point d'arrêt (%d) dans la fonction %ls ligne %d\n"
+msgid "debugger stop on breakpoint(%d) in function %s at line %d\n"
+msgstr "halte du débogger au point d'arrêt (%d) dans la fonction %s ligne %d\n"
+
+#, c-format
+msgid "debugger stop on breakpoint(%d) in file %s at line %d\n"
+msgstr "halte du débogger au point d'arrêt (%d) dans le fichier %s ligne %d\n"
 
 msgid "Execution aborted.\n"
 msgstr "Exécution arrêtée.\n"
@@ -47,6 +50,12 @@ msgstr "halte du débogger à l'erreur de la fonction %ls ligne %d\n"
 
 msgid "Leave debugger.\n"
 msgstr "Sortie du débogger.\n"
+
+#
+# File: modules/ast/src/cpp/ast/debuggervisitor.cpp, line: 186
+#, c-format
+msgid "Wrong breakpoint condition: A result expected.\n"
+msgstr ""
 
 #, c-format
 msgid "Undefined variable: %s\n"
@@ -67,6 +76,14 @@ msgstr "Pas encore implémenté dans Scilab.\n"
 msgid "Invalid index.\n"
 msgstr "Indice invalide.\n"
 
+#
+# File: modules/ast/src/cpp/ast/runvisitor.cpp, line: 477
+# File: modules/ast/src/cpp/types/mlist.cpp, line: 154
+# File: modules/ast/src/cpp/types/tlist.cpp, line: 231
+#, c-format
+msgid "%s: Extraction must have at least one output.\n"
+msgstr ""
+
 msgid "Redefining permanent variable.\n"
 msgstr "Redéfinition d'une variable permanente.\n"
 
@@ -75,10 +92,6 @@ msgstr "l'expression 'for' n'accepte que des variables à 1 ou 2 dimensions\n"
 
 msgid "for expression : Wrong type for loop iterator.\n"
 msgstr "Type erroné pour l'itérateur de la boucle for.\n"
-
-#, c-format
-msgid "%s: function is disabled in debug mode.\n"
-msgstr "%s : la fonction est désactivée en mode débogage.\n"
 
 msgid "With input arguments, return / resume expects output arguments.\n"
 msgstr ""
@@ -173,7 +186,7 @@ msgstr ""
 "(op1 est %ls, op2 est %ls).\n"
 
 msgid "With NaN or Inf a division by scalar expected.\n"
-msgstr ""
+msgstr "Avec un NaN ou Inf, une division par un scalaire est attendu\n"
 
 msgid "Division by zero...\n"
 msgstr "Division par zéro...\n"
@@ -188,17 +201,9 @@ msgstr "Erreur de l'opérateur / : %d n'est pas implémenté.\n"
 msgid "Warning : division by zero...\n"
 msgstr "Attention : division par zéro...\n"
 
-msgid "Bad value in the left or right operand.\n"
-msgstr "Valeur erronnée de l'opérande droite ou gauche.\n"
-
-msgid "Bad size for left or right operand.\n"
-msgstr "Taille erronnée de l'opérande droite ou gauche.\n"
-
-msgid "Bad value in the left operand.\n"
-msgstr "Valeur erronnée de l'opérande de gauche.\n"
-
 msgid "With NaN or Inf a left division by scalar expected.\n"
 msgstr ""
+"Avec un NaN ou Inf, une division à gauche par un scalaire est attendu\n"
 
 msgid "Left division by zero...\n"
 msgstr "Division gauche par zéro...\n"
@@ -319,6 +324,9 @@ msgstr "Impossible de charger la librairie %s\n"
 msgid "Impossible to load %s function in %s library: %s\n"
 msgstr "Impossible de charger la fonction %s de la librairie %s : %s\n"
 
+msgid "Cannot allocate memory"
+msgstr "Impossible d'allouer de la mémoire"
+
 #, c-format
 msgid "Functions files location : %s.\n"
 msgstr "Emplacement des fichiers des fonctions : %s.\n"
@@ -386,8 +394,8 @@ msgid "Can not allocate negative size (%d).\n"
 msgstr "Impossible d'allouer une taille négative (%d).\n"
 
 #, c-format
-msgid "Can not allocate %.2f MB memory.\n"
-msgstr "Impossible d'allouer %.2f MB de mémoire.\n"
+msgid "Can not allocate %s memory.\n"
+msgstr "Impossible d'allouer %s mémoire.\n"
 
 msgid "Unable to insert multiple item in a struct.\n"
 msgstr "Impossible d'insérer plusieurs éléments dans une struct.\n"
@@ -399,61 +407,9 @@ msgid "Can not allocate data.\n"
 msgstr "Impossible d'allouer les données.\n"
 
 #, c-format
-msgid "Field \"%ls\" does not exists\n"
-msgstr "Le champ \"\"%ls\"\" n'existe pas\n"
+msgid "Field \"%ls\" does not exist\n"
+msgstr "Le champ « %ls » n'existe pas\n"
 
 #, c-format
 msgid "variable size exceeded : less than %d expected.\n"
 msgstr "taille de variable excédée : moins que %d attendu.\n"
-
-#~ msgid "variables don't have the same formal variable"
-#~ msgstr "les variables n'ont pas la même variable formelle"
-
-#~ msgid "%s: Could not find '%s': Please check that macros have been built.\n"
-#~ msgstr ""
-#~ "%s : Impossible de trouver '%s' : veuillez vérifier que les macros ont "
-#~ "bien été compilées.\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: An integer matrix expected.\n"
-#~ msgstr ""
-#~ "%s : Type erroné de l'argument d'entrée n°%d : une matrice entière "
-#~ "attendue.\n"
-
-#~ msgid "%s: Division by zero..."
-#~ msgstr "%s : Division par zéro..."
-
-#~ msgid "%s: Argument #%d: Square matrix expected.\n"
-#~ msgstr "%s : Argument #%d : matrice carrée attendue.\n"
-
-#~ msgid "%s: Non implemented feature.\n"
-#~ msgstr "%s : Fonction non implémentée\n"
-
-#~ msgid "Invalid exponent: expected real exponents."
-#~ msgstr "Exposant invalide : exposants réels attendus."
-
-#~ msgid "Division by zero"
-#~ msgstr "Division par zéro"
-
-#~ msgid "Not implemented"
-#~ msgstr "Non implémenté"
-
-#~ msgid "Invalid exponent"
-#~ msgstr "Exposant invalide"
-
-#~ msgid "%s: Wrong size for input argument #%d: Square matrix expected.\n"
-#~ msgstr ""
-#~ "%s : Dimension erronée de l'argument d'entrée n°%d : une matrice carrée "
-#~ "attendue.\n"
-
-#~ msgid "%s: Unable to diagonalize.\n"
-#~ msgstr "%s : Impossible de diagonaliser.\n"
-
-#~ msgid "Not implemented in scilab...\n"
-#~ msgstr "Non impiémenté dans Scilab...\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
-#~ msgstr ""
-#~ "%s : Type erroné de l'argument d'entrée n°%d : un scalaire attendu.\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: An integer expected.\n"
-#~ msgstr "%s : Type erroné de l'argument d'entrée n°%d : un entier attendu.\n"

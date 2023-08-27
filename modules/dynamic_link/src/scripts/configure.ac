@@ -35,8 +35,9 @@ LT_INIT([shared disable-static dlopen])
 # Detect C compiler
 AC_PROG_CC
 
-# Detect C++ compiler
+# Detect C++ compiler and enforce c++11
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX_11(noext,mandatory)
 
 # Detect Fortran Compiler (77 and 90)
 AC_PROG_F77

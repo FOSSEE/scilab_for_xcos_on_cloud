@@ -1,8 +1,8 @@
 /*
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2011 - 2011 - DIGITEO - Bruno JOFRET
- *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2019 - Stéphane Mottelet
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
  * pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -30,11 +30,11 @@ types::Function::ReturnValue sci_fullpath(types::typed_list &in, int _iRetCount,
 {
     if (in.size() != 1)
     {
-        Scierror(77, _("%s: Wrong number of input arguments: %d expected.\n"), "fullpath" , 1);
+        Scierror(77, _("%s: Wrong number of input arguments: %d expected.\n"), "fullpath", 1);
         return types::Function::Error;
     }
 
-    if (_iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(78, _("%s: Wrong number of output argument(s): %d expected.\n"), "fullpath", 1);
         return types::Function::Error;
@@ -52,26 +52,14 @@ types::Function::ReturnValue sci_fullpath(types::typed_list &in, int _iRetCount,
         return types::Function::Error;
     }
 
-    char fullpath[PATH_MAX * 4];
     types::String* pIn = in[0]->getAs<types::String>();
     types::String* pOut = new types::String(pIn->getDims(), pIn->getDimsArray());
 
     for (int i = 0 ; i < pIn->getSize() ; i++)
     {
-        char *relPath = wide_string_to_UTF8(pIn->get(i));
-        if ( get_full_path(fullpath, relPath, PATH_MAX * 4 ) != NULL)
-        {
-            pOut->set(i, fullpath);
-            FREE(relPath);
-        }
-        else
-        {
-            Scierror(999, _("%s: Wrong value for input argument #%d: '%s' is an invalid path.\n"), "fullpath", 1, relPath);
-            FREE(relPath);
-            return types::Function::Error;
-        }
-
-        fullpath[0] = L'\0';
+        wchar_t *pwstFullPath = get_full_pathW(pIn->get(i));
+        pOut->set(i,pwstFullPath);
+        FREE (pwstFullPath);
     }
 
     out.push_back(pOut);

@@ -202,7 +202,7 @@ void RunVisitorT<T>::visitprivate(const OpExp &e)
         if (pResult == NULL)
         {
             // We did not have any algorithm matching, so we try to call OverLoad
-            pResult = callOverloadOpExp(e.getOper(), pITL, pITR);
+            pResult = callOverloadOpExp(e.getOper(), pITL, pITR, e.getLocation());
         }
 
         setResult(pResult);
@@ -395,6 +395,10 @@ void RunVisitorT<T>::visitprivate(const LogicalOpExp &e)
         {
             // We did not have any algorithm matching, so we try to call OverLoad
             e.getRight().accept(*this);
+            if (pITR)
+            {
+                pITR->killMe();
+            }
             pITR = getResult();
             if (isSingleResult() == false)
             {
@@ -413,7 +417,7 @@ void RunVisitorT<T>::visitprivate(const LogicalOpExp &e)
                     pITR = pIR->extractFullMatrix();
                 }
             }
-            pResult = callOverloadOpExp(e.getOper(), pITL, pITR);
+            pResult = callOverloadOpExp(e.getOper(), pITL, pITR, e.getLocation());
         }
 
         setResult(pResult);
@@ -455,7 +459,7 @@ void RunVisitorT<T>::visitprivate(const LogicalOpExp &e)
 }
 
 template<class T>
-types::InternalType* RunVisitorT<T>::callOverloadOpExp(OpExp::Oper _oper, types::InternalType* _paramL, types::InternalType* _paramR)
+types::InternalType* RunVisitorT<T>::callOverloadOpExp(OpExp::Oper _oper, types::InternalType* _paramL, types::InternalType* _paramR, const Location& _location)
 {
     types::typed_list in;
     types::typed_list out;
@@ -469,7 +473,7 @@ types::InternalType* RunVisitorT<T>::callOverloadOpExp(OpExp::Oper _oper, types:
         in.push_back(_paramR);
         try
         {
-            types::Callable::ReturnValue ret = Overload::generateNameAndCall(Overload::getNameFromOper(_oper), in, 1, out, true);
+            types::Callable::ReturnValue ret = Overload::generateNameAndCall(Overload::getNameFromOper(_oper), in, 1, out, true, true, _location);
             if(ret == types::Function::Error)
             {
                 throw ast::InternalError(ConfigVariable::getLastErrorMessage());
@@ -483,7 +487,7 @@ types::InternalType* RunVisitorT<T>::callOverloadOpExp(OpExp::Oper _oper, types:
 
         _paramR->DecreaseRef();
         return out[0];
-    } 
+    }
 
     _paramL->IncreaseRef();
     _paramR->IncreaseRef();
@@ -492,7 +496,7 @@ types::InternalType* RunVisitorT<T>::callOverloadOpExp(OpExp::Oper _oper, types:
 
     try
     {
-        types::Callable::ReturnValue ret = Overload::generateNameAndCall(Overload::getNameFromOper(_oper), in, 1, out, true);
+        types::Callable::ReturnValue ret = Overload::generateNameAndCall(Overload::getNameFromOper(_oper), in, 1, out, true, true, _location);
         if(ret == types::Function::Error)
         {
             throw ast::InternalError(ConfigVariable::getLastErrorMessage());

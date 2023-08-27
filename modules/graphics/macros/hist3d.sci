@@ -15,19 +15,19 @@
 
 function hist3d(f,theta,alpha,leg,flags,ebox)
     //!
-    nep=8   // bars half widths = 1/nep
+    nep = 8   // bars half widths = 1/nep
 
     if ~isdef("theta","local") then theta = 35; end;
     if ~isdef("alpha","local") then alpha = 45; end;
     if ~isdef("leg","local") then leg = "X@Y@Z"; end;
     if ~isdef("flags","local") then flags = [2 1 4]; end;
 
-    def=list(theta,alpha,leg,flags);
+    def = list(theta,alpha,leg,flags);
     [lhs,rhs]=argn(0)
     if rhs<=0 then  //demo
         towns = ["Agen" "Bastia" "Chamonix" "Cognac" "Hyères" "Le Mans" "Le Puy" ..
         "Lille" "Lorient" "Mende" ]
-        months = [_("January") _("Febuary") _("March") _("April") _("May") _("June")..
+        months = [_("January") _("February") _("March") _("April") _("May") _("June")..
         _("July") _("August") _("September") _("October") _("November") ..
         _("December") _("Average") ]
         months = "$\scalebox{1.3}{\rotatebox{90}{\mbox{" + months + "}}}$"
@@ -58,6 +58,9 @@ function hist3d(f,theta,alpha,leg,flags,ebox)
         gcf().immediate_drawing = initDrawingMode;
         return
     end
+
+    warnobsolete("bar3d()","6.2.0")
+
     if typeof(f)=="list" then
         [f,x,y]=f(1:3);
         sx=prod(size(x));

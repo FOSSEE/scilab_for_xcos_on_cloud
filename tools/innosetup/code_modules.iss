@@ -78,7 +78,6 @@ begin
     ModulesXmlFileLines[i] := '<module name="windows_tools" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="statistics" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="arnoldi" activate="yes"/>'; i := i + 1;
-    ModulesXmlFileLines[i] := '<module name="compatibility_functions" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="m2sci" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="mexlib" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="sound" activate="yes"/>'; i := i + 1;
@@ -88,8 +87,6 @@ begin
     ModulesXmlFileLines[i] := '<module name="spreadsheet" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="call_scilab" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="umfpack" activate="yes"/>'; i := i + 1;
-    ModulesXmlFileLines[i] := '<module name="genetic_algorithms" activate="yes"/>'; i := i + 1;
-    ModulesXmlFileLines[i] := '<module name="simulated_annealing" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="parameters" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="matio" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="atoms" activate="yes"/>'; i := i + 1;
@@ -100,6 +97,7 @@ begin
     ModulesXmlFileLines[i] := '<module name="fftw" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="slint" activate="yes"/>'; i := i + 1;
     ModulesXmlFileLines[i] := '<module name="coverage" activate="yes"/>'; i := i + 1;
+    ModulesXmlFileLines[i] := '<module name="webtools" activate="yes"/>'; i := i + 1;
 
 #ifndef SCILAB_F2C
     //ModulesXmlFileLines[i] := '<module name="parallel" activate="yes"/>'; i := i + 1;

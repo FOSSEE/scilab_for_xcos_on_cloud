@@ -25,6 +25,7 @@
 #include "core_math.h"
 #include "sci_malloc.h"
 #include "os_string.h"
+#include "numericconstants_interface.h"
 #ifndef _MSC_VER
 #ifndef stricmp
 #define stricmp strcasecmp
@@ -35,6 +36,7 @@
 /* ========================================================================== */
 #define DEFAULT_DOUBLE_MAX_DIGIT_FORMAT "%lg"
 /* ========================================================================== */
+static double returnDoubleInPlace(BOOL bConvertByNAN, wchar_t* pSTR, stringToDoubleError* ierr);
 static double returnINF(BOOL bPositive);
 static double returnNAN(void);
 /* ========================================================================== */
@@ -97,6 +99,22 @@ static wchar_t* replace_D_By_EW(const wchar_t* _pst)
     return pstReturn;
 }
 
+void replace_D_By_E_WInPlace(wchar_t* _pst)
+{
+    //find and replace d and D by E for compatibility with strtod Linux/Mac
+    for (wchar_t* it = _pst; *it != '\0'; it++)
+    {
+        if (*it == L'D')
+        {
+            *it = L'E';
+        }
+        else if (*it == L'd')
+        {
+            *it = L'e';
+        }
+    }
+}
+
 double stringToDouble(const char *pSTR, BOOL bConvertByNAN, stringToDoubleError *ierr)
 {
     double dValue = 0.0;
@@ -107,16 +125,16 @@ double stringToDouble(const char *pSTR, BOOL bConvertByNAN, stringToDoubleError 
                 (stricmp(pSTR, PosNanString) == 0) || (stricmp(pSTR, ScilabPosNanString) == 0) ||
                 (stricmp(pSTR, ScilabNanString) == 0) || (stricmp(pSTR, ScilabNegNanString) == 0))
         {
-            dValue = returnNAN();
+            dValue = nc_nan();
         }
         else if ((stricmp(pSTR, InfString) == 0) || (stricmp(pSTR, PosInfString) == 0) ||
                  (stricmp(pSTR, ScilabInfString) == 0) || (stricmp(pSTR, ScilabPosInfString) == 0))
         {
-            dValue = returnINF(TRUE);
+            dValue = nc_inf();
         }
         else if ((stricmp(pSTR, NegInfString) == 0) || (stricmp(pSTR, ScilabNegInfString) == 0))
         {
-            dValue = returnINF(FALSE);
+            dValue = nc_neginf();
         }
         else if ((stricmp(pSTR, ScilabPiString) == 0) || (stricmp(pSTR, ScilabPosPiString) == 0))
         {
@@ -151,7 +169,7 @@ double stringToDouble(const char *pSTR, BOOL bConvertByNAN, stringToDoubleError 
             {
                 if (bConvertByNAN)
                 {
-                    dValue = returnNAN();
+                    dValue = nc_nan();
                 }
                 else
                 {
@@ -170,7 +188,7 @@ double stringToDouble(const char *pSTR, BOOL bConvertByNAN, stringToDoubleError 
                 {
                     if (bConvertByNAN)
                     {
-                        dValue = returnNAN();
+                        dValue = nc_nan();
                     }
                     else
                     {
@@ -202,16 +220,16 @@ double stringToDoubleW(const wchar_t *pSTR, BOOL bConvertByNAN, stringToDoubleEr
                 (wcsicmp(pSTR, PosNanStringW) == 0) || (wcsicmp(pSTR, ScilabPosNanStringW) == 0) ||
                 (wcsicmp(pSTR, ScilabNanStringW) == 0) || (wcsicmp(pSTR, ScilabNegNanStringW) == 0))
         {
-            dValue = returnNAN();
+            dValue = nc_nan();
         }
         else if ((wcsicmp(pSTR, InfStringW) == 0) || (wcsicmp(pSTR, PosInfStringW) == 0) ||
                  (wcsicmp(pSTR, ScilabInfStringW) == 0) || (wcsicmp(pSTR, ScilabPosInfStringW) == 0))
         {
-            dValue = returnINF(TRUE);
+            dValue = nc_inf();
         }
         else if ((wcsicmp(pSTR, NegInfStringW) == 0) || (wcsicmp(pSTR, ScilabNegInfStringW) == 0))
         {
-            dValue = returnINF(FALSE);
+            dValue = nc_neginf();
         }
         else if ((wcsicmp(pSTR, ScilabPiStringW) == 0) || (wcsicmp(pSTR, ScilabPosPiStringW) == 0))
         {
@@ -246,7 +264,7 @@ double stringToDoubleW(const wchar_t *pSTR, BOOL bConvertByNAN, stringToDoubleEr
             {
                 if (bConvertByNAN)
                 {
-                    dValue = returnNAN();
+                    dValue = nc_nan();
                 }
                 else
                 {
@@ -265,7 +283,7 @@ double stringToDoubleW(const wchar_t *pSTR, BOOL bConvertByNAN, stringToDoubleEr
                 {
                     if (bConvertByNAN)
                     {
-                        dValue = returnNAN();
+                        dValue = nc_nan();
                     }
                     else
                     {
@@ -284,6 +302,122 @@ double stringToDoubleW(const wchar_t *pSTR, BOOL bConvertByNAN, stringToDoubleEr
     {
         *ierr = STRINGTODOUBLE_MEMORY_ALLOCATION;
     }
+    return dValue;
+}
+// =============================================================================
+double stringToDoubleWInPlace(wchar_t* pSTR, BOOL bConvertByNAN, stringToDoubleError* ierr)
+{
+    double dValue = 0.0;
+    *ierr = STRINGTODOUBLE_ERROR;
+    if (pSTR)
+    {
+        if ('0' <= *pSTR && *pSTR <= '9')
+        {
+            // this is a regular number, convert it as fast as possible
+            dValue = returnDoubleInPlace(bConvertByNAN, pSTR, ierr);
+        }
+        else if ((wcsicmp(pSTR, NanStringW) == 0) || (wcsicmp(pSTR, NegNanStringW) == 0) ||
+                 (wcsicmp(pSTR, PosNanStringW) == 0) || (wcsicmp(pSTR, ScilabPosNanStringW) == 0) ||
+                 (wcsicmp(pSTR, ScilabNanStringW) == 0) || (wcsicmp(pSTR, ScilabNegNanStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = returnNAN();
+        }
+        else if ((wcsicmp(pSTR, InfStringW) == 0) || (wcsicmp(pSTR, PosInfStringW) == 0) ||
+                 (wcsicmp(pSTR, ScilabInfStringW) == 0) || (wcsicmp(pSTR, ScilabPosInfStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = returnINF(TRUE);
+        }
+        else if ((wcsicmp(pSTR, NegInfStringW) == 0) || (wcsicmp(pSTR, ScilabNegInfStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = returnINF(FALSE);
+        }
+        else if ((wcsicmp(pSTR, ScilabPiStringW) == 0) || (wcsicmp(pSTR, ScilabPosPiStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = M_PI;
+        }
+        else if (wcsicmp(pSTR, ScilabNegPiStringW) == 0)
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = -M_PI;
+        }
+        else if ((wcsicmp(pSTR, ScilabEpsStringW) == 0) || (wcsicmp(pSTR, ScilabPosEpsStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = EPSILON;
+        }
+        else if (wcsicmp(pSTR, ScilabNegEpsStringW) == 0)
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = -EPSILON;
+        }
+        else if ((wcsicmp(pSTR, ScilabEStringW) == 0) || (wcsicmp(pSTR, ScilabPosEStringW) == 0))
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = exp(1);
+        }
+        else if (wcsicmp(pSTR, ScilabNegEStringW) == 0)
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = -exp(1);
+        }
+        else
+        {
+            dValue = returnDoubleInPlace(bConvertByNAN, pSTR, ierr);
+        }
+    }
+    else
+    {
+        *ierr = STRINGTODOUBLE_MEMORY_ALLOCATION;
+    }
+    return dValue;
+}
+// =============================================================================
+static double returnDoubleInPlace(BOOL bConvertByNAN, wchar_t* pSTR, stringToDoubleError* ierr)
+{
+    double dValue;
+
+    replace_D_By_E_WInPlace(pSTR);
+    wchar_t* pEnd = NULL;
+    double v = wcstod(pSTR, &pEnd);
+    if ((v == 0) && (pEnd == pSTR))
+    {
+        if (bConvertByNAN)
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = returnNAN();
+        }
+        else
+        {
+            *ierr = STRINGTODOUBLE_NOT_A_NUMBER;
+            dValue = 0.0;
+        }
+    }
+    else
+    {
+        if (*pEnd == L'\0')
+        {
+            *ierr = STRINGTODOUBLE_NO_ERROR;
+            dValue = v;
+        }
+        else
+        {
+            if (bConvertByNAN)
+            {
+                *ierr = STRINGTODOUBLE_NO_ERROR;
+                dValue = returnNAN();
+            }
+            else
+            {
+                *ierr = STRINGTODOUBLE_NOT_A_NUMBER;
+                dValue = 0.0;
+            }
+        }
+    }
+
     return dValue;
 }
 // =============================================================================

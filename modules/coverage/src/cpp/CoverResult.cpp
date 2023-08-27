@@ -52,7 +52,7 @@ void CoverResult::populate(const std::vector<Counter>::const_iterator pos, const
             auto j = branches.find(parent->getLocation());
             if (j == branches.end())
             {
-                branches.emplace(parent->getLocation(), std::vector<uint64_t>(1, i->get()));
+                branches.emplace(parent->getLocation(), std::vector<uint64_t>({i->get(), 0}));
             }
             else
             {
@@ -556,7 +556,7 @@ std::wstring CoverResult::getStringTime(const uint64_t time) const
     {
         // between 0 and 10^6 ns
         std::wostringstream out;
-        out << ((double)time / 1000.) << L" µs";
+        out << ((double)time / 1000.) << L" &mu;s";
         return out.str();
     }
     else if (time < 1000000000UL)

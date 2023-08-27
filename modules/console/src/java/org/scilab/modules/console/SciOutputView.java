@@ -3,6 +3,7 @@
  * Copyright (C) 2007-2008 - INRIA - Vincent COUVERT
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2020 - Stéphane Mottelet
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
  * pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -104,8 +105,10 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
             }
         });
 
-        /* A PlainDocument contains only "box" for lines not for all characters (as in a StyledDocument)
-           so there are less boxes to explore in a PlainDocument... */
+        /*
+         * A PlainDocument contains only "box" for lines not for all characters (as in a
+         * StyledDocument) so there are less boxes to explore in a PlainDocument...
+         */
         setDocument(new PlainDocument());
         setMaxSize(10000);
         setBorder(BorderFactory.createEmptyBorder(TOP_BORDER, LEFT_BORDER, BOTTOM_BORDER, RIGHT_BORDER));
@@ -120,6 +123,7 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
         /**
          * Default caret for output view (to handle paste actions using middle button)
+         *
          * @author Vincent COUVERT
          */
         final class FixedCaret extends ScilabCaret {
@@ -135,6 +139,7 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
             /**
              * Manages mouse clicks
+             *
              * @param e the event
              * @see javax.swing.text.DefaultCaret#mouseClicked(java.awt.event.MouseEvent)
              */
@@ -150,7 +155,8 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
                             if (trans.isDataFlavorSupported(DataFlavor.stringFlavor)) {
                                 try {
                                     String pastedText = (String) trans.getTransferData(DataFlavor.stringFlavor);
-                                    ((JTextPane) getConsole().getConfiguration().getInputCommandView()).replaceSelection(pastedText);
+                                    ((JTextPane) getConsole().getConfiguration().getInputCommandView())
+                                            .replaceSelection(pastedText);
                                 } catch (UnsupportedFlavorException e1) {
                                     e1.printStackTrace();
                                 } catch (IOException e1) {
@@ -198,7 +204,8 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
     /**
      * @param styledDocument
      */
-    public void setStyledDocument(StyledDocument styledDocument) { }
+    public void setStyledDocument(StyledDocument styledDocument) {
+    }
 
     public void resetLastEOL() {
         lastEOL = false;
@@ -206,41 +213,37 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
     /**
      * Display a buffer entry in the console
-     * @param buff the string  to write
+     *
+     * @param buff  the string to write
      * @param style the style to use to format the string
      */
     private void displayLineBuffer(String buff, String style) {
         int sDocLength = getDocument().getLength();
+        boolean bEndsWithCR  = false;
 
-        if (buff.equals("\r")) {
-            /* If \r sent by mprintf then display nothing but prepare next display */
-            /* Insertion will be done just after last NEW_LINE */
-            try {
-                String outputTxt = getDocument().getText(0, sDocLength);
-                insertPosition = outputTxt.lastIndexOf(StringConstants.NEW_LINE) + 1;
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-            return;
-        } else {
-            /* Change position for insertion if a previous \r still influence display */
-            if ((insertPosition != 0) && (insertPosition < sDocLength)) {
-                sDocLength = insertPosition;
-                try {
-                    /* Remove chars to be replaced */
-                    if (insertPosition + buff.length() <= getDocument().getLength()) {
-                        getDocument().remove(insertPosition, buff.length());
-                    } else {
-                        /* Remove end of line */
-                        getDocument().remove(insertPosition, getDocument().getLength() - insertPosition);
-                    }
-                } catch (BadLocationException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                /* Reinit insertPosition: 0 is equivalent to insertPosition value ignored */
-                insertPosition = 0;
-            }
+        // replace all CR+LF occurences by a LF
+        buff = buff.replaceAll("\r\n","\n");
+        bEndsWithCR  = buff.endsWith("\r");
+
+        // special case of leading \r but nothing printed yet
+        if (buff.startsWith("\r") & lastEOL == false) {
+          try {
+              String outputTxt = getDocument().getText(0,  getDocument().getLength());
+              insertPosition = outputTxt.lastIndexOf(StringConstants.NEW_LINE) + 1;
+          } catch (BadLocationException e) {
+              e.printStackTrace();
+          }
+        }
+
+        // successively apply carriage returns to the buffer by splitting it with '\r' as a separator
+        // the case buff == "\r" is considered at the end of the method
+        if (buff.contains("\r") & buff.length() > 1) {
+          String tokens[] = buff.split("\r");
+          buff = tokens[0];
+          for (int i=1; i<tokens.length;i++)
+          {
+            buff = tokens[i] + (buff.length() >= tokens[i].length() ? buff.substring(tokens[i].length()) : "");
+          }
         }
 
         boolean slastEOL = lastEOL;
@@ -254,11 +257,32 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
             str = "\n" + str;
         }
 
+        /* Change position for insertion if a previous \r still influence display */
+        if ((insertPosition != 0) && (insertPosition < sDocLength)) {
+            sDocLength = insertPosition;
+            try {
+                /* Remove chars to be replaced */
+                if (!str.equals("\n")) {
+                    if ((insertPosition + str.length() <= getDocument().getLength())) {
+                        getDocument().remove(insertPosition, str.length());
+                    } else {
+                        getDocument().remove(insertPosition, getDocument().getLength() - insertPosition);
+                    }
+                }
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            /* Reinit insertPosition: 0 is equivalent to insertPosition value ignored */
+            insertPosition = 0;
+        }
+
         try {
             getDocument().insertString(sDocLength, str, null);
 
             /* Move insertPosition to the end of last inserted data */
             if (insertPosition != 0) {
+
                 insertPosition += str.length();
             }
         } catch (BadLocationException e) {
@@ -267,18 +291,27 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
         int count = getDocument().getDefaultRootElement().getElementCount();
         if (count > 1.5 * maxNumberOfLines) {
-            /* A removal is costly: array copy and with a gap buffer that leads to two array copies (when remove is followed by an insert).
-               So the idea is to minimize the number of removal: a removal only when 0.5*maxNumberOfLines useless lines are entered.
-            */
+            /*
+             * A removal is costly: array copy and with a gap buffer that leads to two array
+             * copies (when remove is followed by an insert). So the idea is to minimize the
+             * number of removal: a removal only when 0.5*maxNumberOfLines useless lines are
+             * entered.
+             */
             try {
-                getDocument().remove(0, getDocument().getDefaultRootElement().getElement(count - maxNumberOfLines - 1).getEndOffset());
+                getDocument().remove(0,
+                        getDocument().getDefaultRootElement().getElement(count - maxNumberOfLines - 1).getEndOffset());
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
         }
 
-        if (console != null) {
-            console.updateScrollPosition();
+        if (bEndsWithCR) {
+          try {
+              String outputTxt = getDocument().getText(0,  getDocument().getLength());
+              insertPosition = outputTxt.lastIndexOf(StringConstants.NEW_LINE) + 1;
+          } catch (BadLocationException e) {
+              e.printStackTrace();
+          }
         }
     }
 
@@ -286,11 +319,10 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
      * Adds text to the output view and change the size of others components if
      * necessary
      *
-     * @param content
-     *            text to add
+     * @param content text to add
      */
     public void append(String content) {
-        //append(content, activeStyle);
+        // append(content, activeStyle);
         displayLineBuffer(content, activeStyle);
     }
 
@@ -298,10 +330,8 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
      * Adds text to the output view and change the size of others components if
      * necessary
      *
-     * @param content
-     *            text to add
-     * @param styleName
-     *            style to set for content
+     * @param content   text to add
+     * @param styleName style to set for content
      */
     public void append(String content, String styleName) {
         if (styleName.equals(lastAppendedStyle) && bufferQueue.size() > 1) {
@@ -375,8 +405,7 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
     /**
      * Set the style for current text
      *
-     * @param styleName
-     *            the style to set
+     * @param styleName the style to set
      * @see com.artenum.rosetta.interfaces.ui.OutputView#setStyleName(java.lang.String)
      */
     public void setStyleName(String styleName) {
@@ -386,19 +415,17 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
     /**
      * Sets the console object containing this output view
      *
-     * @param c
-     *            the console associated
+     * @param c the console associated
      */
     public void setConsole(SciConsole c) {
         console = c;
 
         // Drag n' Drop handling
-        this.setDropTarget(new DropTarget(this,
-                                          DnDConstants.ACTION_COPY_OR_MOVE, new SciDropTargetListener(console)));
+        this.setDropTarget(new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, new SciDropTargetListener(console)));
 
         // Commented because now done by the caret class
-        //FocusMouseListener focusGrabber = new FocusMouseListener(console);
-        //this.addMouseListener(focusGrabber);
+        // FocusMouseListener focusGrabber = new FocusMouseListener(console);
+        // this.addMouseListener(focusGrabber);
     }
 
     /**
@@ -412,6 +439,7 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
     /**
      * Get the current thread used to display
+     *
      * @return the thread
      */
     public Thread getThread() {
@@ -420,6 +448,7 @@ public class SciOutputView extends JEditorPane implements OutputView, ViewFactor
 
     /**
      * Set the maximum number of lines to keep before deleting the older one
+     *
      * @param number the maximum
      */
     public void setMaxSize(int number) {

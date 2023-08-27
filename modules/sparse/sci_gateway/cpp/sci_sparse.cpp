@@ -24,6 +24,7 @@ extern "C"
 {
 #include "charEncoding.h"
 #include "Scierror.h"
+#include "sciprint.h"
 #include "localization.h"
 }
 
@@ -88,8 +89,8 @@ types::Function::ReturnValue sci_sparse(types::typed_list &in, int _piRetCount, 
             {
                 if (in[0]->getAs<types::Double>()->isEmpty())
                 {
-                    out.push_back(types::Double::Empty());
-                    return types::Function::OK;
+                    pRetVal = new types::Sparse(0,0,false);
+                    break;
                 }
 
                 if (in[0]->getAs<types::Double>()->isIdentity())
@@ -147,18 +148,39 @@ types::Function::ReturnValue sci_sparse(types::typed_list &in, int _piRetCount, 
                 return types::Function::Error;
             }
 
+            if ( pDdims->get(0) > (double) INT_MAX || pDdims->get(1) > (double) INT_MAX)
+            {
+                Scierror(999, _("%s: Wrong values for input argument #%d: Elements must be less than %d.\n"), "sparse", 3,INT_MAX);
+                return types::Function::Error;
+            }
+
             if (pDdims->get(0) != (double) ( (unsigned int) pDdims->get(0) ) || pDdims->get(1) != (double) ( (unsigned int) pDdims->get(1) ))
             {
                 Scierror(999, _("%s: Wrong values for input argument #%d: Positive integers expected.\n"), "sparse", 3);
                 return types::Function::Error;
             }
+
+            if (pDdims->get(0) * pDdims->get(1) > (double) INT_MAX)
+            {
+                // FIXME: should be an error. To fix we need GenericType::m_iSize huger than int
+                if (getWarningMode())
+                {
+                    sciprint(_("%s: Warning: You have created a Sparse of size > %d.\nDue to a Scilab limitation, reading or writing values from/to \nthis sparse using a unique index could lead to unexpected behavior."), "sparse", INT_MAX);
+                }
+            }
+
         }
 
         bool alloc = false;
-        double* i = pDij->get();
-        double* j = i + size;
+        double* pdbli = pDij->get();
+        double* pdblj = pdbli + size;
 
-        if ( (size > 0) && ((*std::min_element(i, i + size) <= 0) || (*std::min_element(j, j + size) <= 0)) )
+        for (int i = 0; i < 2*size; i++)
+        {
+            pdbli[i] = trunc(pdbli[i]);
+        }
+
+        if ( (size > 0) && ((*std::min_element(pdbli, pdbli + size) <= 0) || (*std::min_element(pdblj, pdblj + size) <= 0)) )
         {
             Scierror(999, _("%s: Invalid index.\n"), "sparse");
             return types::Function::Error;
@@ -170,12 +192,13 @@ types::Function::ReturnValue sci_sparse(types::typed_list &in, int _piRetCount, 
             pDdims->setZeros();
             if (size > 0)
             {
-                pDdims->set(0, *std::max_element(i, i + size));
-                pDdims->set(1, *std::max_element(j, j + size));
+                pDdims->set(0, *std::max_element(pdbli, pdbli + size));
+                pDdims->set(1, *std::max_element(pdblj, pdblj + size));
             }
             alloc = true;
         }
-        else if ( (size > 0) && ((pDdims->get(0) < *std::max_element(i, i + size)) || (pDdims->get(1) < *std::max_element(j, j + size))) )
+        else if ( (size > 0) && ((pDdims->get(0) < *std::max_element(pdbli, pdbli + size))
+                  || (pDdims->get(1) < *std::max_element(pdblj, pdblj + size))) )
         {
             Scierror(999, _("%s: Invalid index.\n"),"sparse");
             return types::Function::Error;

@@ -14,16 +14,23 @@
  * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="int2d" xml:lang="en">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns5="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="int2d" xml:lang="en">
     <refnamediv>
         <refname>int2d</refname>
-        <refpurpose>definite 2D integral by quadrature and cubature
-            method
+        <refpurpose>definite 2D integral by quadrature method
         </refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Syntax</title>
-        <synopsis>[I,err]=int2d(X,Y,f [,params])</synopsis>
+        <synopsis>
+          [I, err] = int2d(X, Y, f)
+          [I, err] = int2d(X, Y, f, params)
+          [I, err] = int2d(xmin, xmax, ymin, ymax, f)
+          [I, err] = int2d(xmin, xmax, ymin, ymax, f, params)
+        </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
@@ -43,6 +50,14 @@
                     <para>
                         a 3 by <literal>N</literal> array containing the ordinates of the vertices of the
                         N triangles
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>xmin, xmax, ymin, ymax</term>
+                <listitem>
+                    <para>
+                      real scalars defining a rectangle in the plane
                     </para>
                 </listitem>
             </varlistentry>
@@ -139,7 +154,8 @@
         <para>
             <literal>int2d</literal> computes the two-dimensional integral of a
             function <literal>f</literal> over a region consisting of
-            <literal>n</literal> triangles. A total error estimate is obtained and
+            <literal>N</literal> triangles or over a single rectangle [xmin,xmax]x[ymin,ymax] (internally
+            divided into two triangles). A total error estimate is obtained and
             compared with a tolerance - <literal>tol</literal> - that is provided as
             input to the subroutine. The error tolerance is treated as either relative
             or absolute depending on the input value of <literal>iflag</literal>. A
@@ -164,21 +180,21 @@
     <refsection>
         <title>Examples</title>
         <programlisting role="example"><![CDATA[
-X=[0,0;1,1;1,0];
-Y=[0,0;0,1;1,1];
 deff('z=f(x,y)','z=cos(x+y)')
-[I,e]=int2d(X,Y,f)
-// computes the integrand over the square [0 1]x[0 1]
- ]]></programlisting>
+// computes the integral over the  triangle (0,0),(1 0),(0,1)
+X = [0 1 0]';
+Y = [0 0 1]';
+[I,e] = int2d(X,Y,f)
+
+// computes the integral over the square [0,1]x[0,1]
+[I,e] = int2d(0,1,0,1,f)
+]]></programlisting>
     </refsection>
     <refsection role="see also">
         <title>See also</title>
         <simplelist type="inline">
             <member>
-                <link linkend="intc">intc</link>
-            </member>
-            <member>
-                <link linkend="intl">intl</link>
+                <link linkend="mesh2d">mesh2d</link>
             </member>
             <member>
                 <link linkend="int3d">int3d</link>
@@ -187,7 +203,10 @@ deff('z=f(x,y)','z=cos(x+y)')
                 <link linkend="intg">intg</link>
             </member>
             <member>
-                <link linkend="mesh">mesh</link>
+                <link linkend="intl">intl</link>
+            </member>
+            <member>
+                <link linkend="intc">intc</link>
             </member>
         </simplelist>
     </refsection>

@@ -76,10 +76,7 @@
 #include BinariesSourcePath + "\modules\fftw\fftw.iss"
 #include BinariesSourcePath + "\modules\spreadsheet\spreadsheet.iss"
 #include BinariesSourcePath + "\modules\differential_equations\differential_equations.iss"
-#include BinariesSourcePath + "\modules\compatibility_functions\compatibility_functions.iss"
 #include BinariesSourcePath + "\modules\development_tools\development_tools.iss"
-#include BinariesSourcePath + "\modules\genetic_algorithms\genetic_algorithms.iss"
-#include BinariesSourcePath + "\modules\simulated_annealing\simulated_annealing.iss"
 #include BinariesSourcePath + "\modules\parameters\parameters.iss"
 #include BinariesSourcePath + "\modules\matio\matio.iss"
 #include BinariesSourcePath + "\modules\call_scilab\call_scilab.iss"
@@ -105,4 +102,5 @@
 #include BinariesSourcePath + "\modules\mpi\mpi.iss"
 #include BinariesSourcePath + "\modules\slint\slint.iss"
 #include BinariesSourcePath + "\modules\coverage\coverage.iss"
+#include BinariesSourcePath + "\modules\webtools\webtools.iss"
 ;-------------------------------------------------------------------------------

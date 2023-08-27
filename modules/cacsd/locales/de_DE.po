@@ -8,34 +8,37 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 16:47+0000\n"
-"Last-Translator: Scilab.team <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
 "Language-Team: German <de@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
-msgstr ""
+msgstr "%s: Kann Eingabeargument nicht lesen #%d.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: An integer value expected.\n"
 msgstr ""
+"%s: Falscher Typ für Eingabeargument #%d: Ein Integer-Wert wird erwartet.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A real matrix expected.\n"
 msgstr ""
+"%s: Falscher Typ für Eingabeargument #%d: Eine reale Matrix wird erwartet.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A real scalar expected.\n"
 msgstr ""
+"%s: Falscher Typ für Eingabeargument #%d: Ein realer Skalar wird erwartet.\n"
 
 #, c-format
 msgid "%s: Wrong type for argument %d: A real expected.\n"
-msgstr ""
+msgstr "%s: Falscher Typ für Argument %d: Eine Realzahl wird erwartet.\n"
 
 #, c-format
 msgid "%s: Wrong values for input arguments #%d and #%d.\n"
@@ -48,69 +51,73 @@ msgstr ""
 
 #, c-format
 msgid "%s: Memory allocation error.\n"
-msgstr ""
+msgstr "%s: Speicherzuweisungsfehler.\n"
 
 #, c-format
 msgid "%s: internal error, info=%d.\n"
-msgstr ""
+msgstr "%s: Interner Fehler, Info=%d.\n"
 
 #, c-format
 msgid "%s: Wrong type for argument #%d: A real expected.\n"
-msgstr ""
+msgstr "%s: Falscher Typ für Argument #%d: Realzahl erwartet.\n"
 
 #, c-format
 msgid "%s: A must be a square matrix.\n"
-msgstr ""
+msgstr "%s: A muss eine quadratische Matrix sein.\n"
 
 #, c-format
 msgid "%s: A and B must have equal number of rows.\n"
-msgstr ""
+msgstr "%s: A und B müssen die gleiche Anzahl an Zeilen haben.\n"
 
 #, c-format
 msgid "%s: A and C must have equal number of columns.\n"
-msgstr ""
+msgstr "%s: A und C müssen die gleiche Anzahl an Spalten haben.\n"
 
 #, c-format
 msgid "%s: B and D must have equal number of columns.\n"
-msgstr ""
+msgstr "%s: B und D müssen die gleiche Anzahl an Spalten haben.\n"
 
 #, c-format
 msgid "%s: C and D must have equal number of rows.\n"
-msgstr ""
+msgstr "%s: C und D müssen die gleiche Anzahl an Spalten haben.\n"
 
 #, c-format
 msgid "%s: NCON must be a scalar.\n"
-msgstr ""
+msgstr "%s: NCON muss ein Skalar sein.\n"
 
 #, c-format
 msgid "%s: NMEAS must be a scalar.\n"
-msgstr ""
+msgstr "%s: NMEAS muss ein Skalar sein.\n"
 
 #, c-format
 msgid "%s: GAMMA must be a scalar.\n"
-msgstr ""
+msgstr "%s: GAMMA muss ein Skalar sein.\n"
 
 #, c-format
 msgid "%s: SB10DD exit with info = %d.\n"
-msgstr ""
+msgstr "%s: SB10DD beendet mit Info = %d.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for input argument #%d: A matrix of size %dx%d expected.\n"
 msgstr ""
+"%s: Falsche Größe für Eingabeargument #%d: Eine Matrix der Größe %dx%d "
+"erwartet.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for input argument #%d: A matrix with %d columns expected.\n"
 msgstr ""
+"%s: Falsche Größe für Eingabeargument #%d: Eine Matrix mit %d Spalten "
+"erwartet.\n"
 
 #, c-format
 msgid "%s: The system has no outputs\n"
-msgstr ""
+msgstr "%s: Das System hat keine Ausgaben\n"
 
 #, c-format
 msgid "%s: The number of samples should be at least %d"
-msgstr ""
+msgstr "%s: Die Anzahl an Beispielen sollte mindestens %d sein"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: '%s' or '%s' expected.\n"
@@ -118,7 +125,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: INFO = %d on exit from IB01CD\n"
-msgstr ""
+msgstr "%s: INFO = %d beim Beenden von IB01CD\n"
 
 #, c-format
 msgid "%s: SB10FD exit with info = %d.\n"
@@ -126,15 +133,15 @@ msgstr ""
 
 #, c-format
 msgid "%s: %s must be a scalar.\n"
-msgstr ""
+msgstr "%s: %s muss ein Skalar sein.\n"
 
 #, c-format
 msgid "%s: Wrong value for %s: %d, %d or %d expected.\n"
-msgstr ""
+msgstr "%s: Falscher Wert für %s: %d, %d oder %d erwartet.\n"
 
 #, c-format
 msgid "%s: TASK = 1 : LINMEQ requires at least 4 input arguments.\n"
-msgstr ""
+msgstr "%s: AUFGABE = 1 : LINMEQ benötigt mindestens 4 Eingabeargumente.\n"
 
 #, c-format
 msgid "%s: Wrong value for %s: %d, %d, %d or %d expected.\n"
@@ -142,7 +149,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: Wrong value for %s: %d, or %d expected.\n"
-msgstr ""
+msgstr "%s: Falscher Wert für %s: %d oder %d erwartet.\n"
 
 #, c-format
 msgid "%s: Wrong value for %s: %d or %d expected.\n"
@@ -1087,6 +1094,9 @@ msgid ""
 "%s: Wrong value for input argument #%d: infinite gain at zero frequency.\n"
 msgstr ""
 
+msgid "freson: Some maxima frequencies may be undetected."
+msgstr ""
+
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Linear system expected.\n"
 msgstr ""
@@ -1226,6 +1236,14 @@ msgstr ""
 "1e-3\n"
 "Hinfnorm ist wahrscheinlich exakt maximale sv(D)\n"
 "Das System könnte ein Allpass sein"
+
+#, c-format
+msgid "%s: Argument '%s': type real expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Wrong color specification.\n"
+msgstr ""
 
 msgid "Hall chart"
 msgstr "Hall-Diagramm"
@@ -1387,6 +1405,11 @@ msgstr "Phase (y) (Grad)"
 msgid "magnitude(y) (dB)"
 msgstr "Magnitude(y) (dB)"
 
+#, c-format
+msgid ""
+"%s: Wrong type for input argument %s: real floating point array expected\n"
+msgstr ""
+
 msgid "Nyquist plot"
 msgstr "Nyquist Darstellung"
 
@@ -1452,7 +1475,7 @@ msgid "Transmission zeros and poles"
 msgstr "transmissions Nullen und Pole"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: real matix expected.\n"
+msgid "%s: Wrong type for input argument #%d: real matrix expected.\n"
 msgstr ""
 
 #, c-format
@@ -1476,8 +1499,12 @@ msgid "%s: Stationary Riccati solver failed.\n"
 msgstr "%s: Stationärer Riccati-Löser fehlgeschlagen.\n"
 
 #, c-format
-msgid "%s: Wrong dimension (%d) of stable subspace: %d expected.\n"
-msgstr "%s: falsche Dimension (%d) des stabilen Unterraums: %d erwartet.\n"
+msgid "%s: Wrong number of input arguments: %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: No solution found. Dimension(stable subspace)=%d. %d expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A positive real expected.\n"
@@ -1507,12 +1534,6 @@ msgstr ""
 
 #, c-format
 msgid "%s: Argument #%d: Scalar or vector with %d components expected.\n"
-msgstr ""
-
-#
-# File: modules/cacsd/macros/sgrid.sci, line: 84
-#, c-format
-msgid "%s: Argument #%d: Wrong color specification.\n"
 msgstr ""
 
 #, c-format

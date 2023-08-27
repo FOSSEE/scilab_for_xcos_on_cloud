@@ -2,7 +2,7 @@
 // Copyright (C) 2004-2006 - INRIA - Fabrice Leray
 // Copyright (C) 2008 - INRIA - Jean-Baptiste Silvy
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
-// Copyright (C) 2018 - Samuel GOUGEON
+// Copyright (C) 2018 - 2020 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
 // pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -11,10 +11,17 @@
 // For more information, see the COPYING file which you should have received
 // along with this program.
 
-function plot(varargin)
+function varargout = plot(varargin)
     // Try to build a new better parser that could manage things like:
     // plot(x,y,'X',1:10); // where X stands for Xdata (Matlab recognizes
     //it and treats it well...)
+    // HISTORY:
+    // 2018:
+    //   plot(x, fun) : call to fun() vectorized
+    //   plot(x, list(fun, params)) implemented
+    // 2019:
+    //   logflag implemented.
+    //   y: support to integers added
 
     [lhs,rhs]=argn(0);
 
@@ -22,7 +29,7 @@ function plot(varargin)
         //LineSpec and PropertySpec examples:
         t = 0:%pi/20:2*%pi;
         tt = t';
-        clf('reset');
+        clf("reset");
         drawlater();
         subplot(211);
         plot(tt, sin(tt), "ro-.", tt, cos(tt), "cya+", tt, abs(sin(tt)), "--mo");
@@ -38,8 +45,10 @@ function plot(varargin)
 
 
     ListArg = varargin;
+    nextArgin = 1;
 
     //detect and set the current axes now:
+    // -----------------------------------
     if type(ListArg(1)) == 9
         hdle = ListArg(1);
         if (hdle.type == "Axes")
@@ -50,11 +59,32 @@ function plot(varargin)
             warning(msprintf(msg, "plot", 1, "Axes"))
             return;
         end
+        nextArgin = 2
+    end;
+
+    // Possible log flags
+    // ------------------
+    tmp = ListArg(1);
+    if type(tmp)==10 then
+        if size(tmp,"*")>1
+            msg = _("%s: Argument #%d: log flags: scalar expected.\n")
+            warning(msprintf(msg, "plot", nextArgin))
+            return
+        end
+        tmp = convstr(tmp);
+        tmp2 = strsubst(tmp, "/\s|l|n/", "", "r");
+        if tmp2<>""
+            msg = _("%s: Argument #%d: log flags: wrong value. Ignored.\n")
+            warning(msprintf(msg, "plot", nextArgin))
+            tmp = "nnn"
+        end
+        logflags = part(tmp+"n",1:2);
+        ListArg(1) = null()
+        nextArgin = nextArgin + 1;
+    else
+        logflags = "nn";
     end
-
-
     nv = size(ListArg)
-
 
     argTypes=[];
     couple=[];
@@ -63,25 +93,29 @@ function plot(varargin)
     provided_data = 2;
 
     for curArgIndex=1:nv
-        argTypes(curArgIndex,1) = type(ListArg(curArgIndex))
+        tmp = type(ListArg(curArgIndex))
+        if tmp == 16
+            if typeof(ListArg(curArgIndex))=="rational"
+                tmp = 18
+            end
+        end
+        argTypes(curArgIndex,1) = tmp
     end
 
     Ttmp=argTypes;
 
     for i=1:nv-1
-        acceptedTypes=[];
-        // double, macro function or primitive,
+        acceptedTypes = [];
+        // double, integers, polynomials, rationals (18), macro function or primitive,
         //    or list(macro|primitive, params) accepted as second argument
-        acceptedTypes=find(Ttmp(i,1)==1 & or(Ttmp(i+1,1)==[1,13,130,15]))
+        acceptedTypes = find(Ttmp(i,1)==1 & (or(Ttmp(i+1,1)==[1,2,8,13,130,15,18])))
         if (acceptedTypes<>[]) then
             couple=[couple i];
             Ttmp(i,1)  = 99; // Replace a known type by 99 (no meaning) to count it once only!
             Ttmp(i+1,1)= 99; // to avoid having (x1,y1,x2,y2) ->couple=[1,2,3]
             // With this trick, couple=[1,3];
         end
-
     end
-
 
     if (couple==[]) // No data couple found
         // Search for at least a single data , i.e.: plot(y)
@@ -122,8 +156,6 @@ function plot(varargin)
                 return;
             end
         end
-
-
 
         if (modulo(nv-(couple($)+1),2)<>0) then
             P1 = couple($)+3 // Position of the first PropertyName field
@@ -259,13 +291,41 @@ function plot(varargin)
                     msg1 = gettext("%s: Error : unable to evaluate input function %s.")
                     msg2 = gettext("Error %d at line %d of the function: ''%s''")
                     error(msprintf(msg1 + ascii(10) + msg2, "plot", ..
-                        err_func, err_number, err_line, err_message));
+                    err_func, err_number, err_line, err_message));
                 end
                 // All right: go on plotting:
                 ListArg(xyIndexLineSpec(i,2)) = tmp;
                 // if there is another iteration, we will have error message redefining function.
                 // we need to clear here and not before, because user must see the warning if needed.
                 clear buildFunc secondarg;
+
+            // Polynomials or rationals
+            // ------------------------
+            elseif type(ListArg(xyIndexLineSpec(i,2)))==2 | ..
+                   typeof(ListArg(xyIndexLineSpec(i,2)))=="rational"
+                x = ListArg(xyIndexLineSpec(i,1))
+                p = ListArg(xyIndexLineSpec(i,2))
+                if isvector(x)
+                    ListArg(xyIndexLineSpec(i,1)) = x(:) // without warning..
+                    ListArg(xyIndexLineSpec(i,2)) = horner(matrix(p,1,-1),x(:))
+                else
+                    if size(x,2) <> length(p)
+                        ResetFigureDDM(current_figure, cur_draw_mode);
+                        msg = _("%s: Plot #%d: Numbers of x columns and of %s must match.\n")
+                        if type(p)==2
+                            tmp = _("polynomials")
+                        else
+                            tmp = _("rationals")
+                        end
+                        error(msprintf(msg, "plot", i, tmp))
+                    end
+                    tmp = []
+                    for c = 1:size(x,2)
+                        tmp = [tmp horner(p(c), x(:,c))]
+                    end
+                    ListArg(xyIndexLineSpec(i,2)) = tmp
+                    clear tmp
+                end
             end
             [X,Y] = checkXYPair(typeOfPlot,ListArg(xyIndexLineSpec(i,1)),ListArg(xyIndexLineSpec(i,2)),current_figure,cur_draw_mode)
         else
@@ -350,8 +410,6 @@ function plot(varargin)
             Property = Property+2;
         end
 
-
-
         //Now we have an array xyIndexLineSpec [numplot x 3] containing indices pointing on T for :
         // - x (<>0 if existing)
         // - y
@@ -364,14 +422,12 @@ function plot(varargin)
         //plot3  i4|i5 |i6   <=> plot(x,y,LINESPEC)
         //...
 
-
-
         if (xyIndexLineSpec(i,3)<>0) then // if we have a line spec <=> index <> 0
             [Color,Line,LineStyle,Marker,MarkerStyle,MarkerSize,fail] = getLineSpec(ListArg(xyIndexLineSpec(i,3)),current_figure,cur_draw_mode);
         end
 
         // The plot is made now :
-        err = execstr("plot2d(X,Y)","errcatch","m");
+        err = execstr("plot2d(logflags,X,double(Y))","errcatch","m");
 
         if err <> 0
             mprintf("Error %d : in plot2d called by plot",err);
@@ -472,9 +528,11 @@ function plot(varargin)
     end
 
 
-
     //postponed drawings are done now !
     // smart drawnow
     ResetFigureDDM(current_figure, cur_draw_mode)
 
+    if lhs
+        varargout(1) = Curves;
+    end
 endfunction

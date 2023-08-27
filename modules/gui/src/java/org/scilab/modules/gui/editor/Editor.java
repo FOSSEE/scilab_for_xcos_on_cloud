@@ -598,7 +598,7 @@ public class Editor {
 
         newObject = ScilabClipboard.getInstance().paste(figureUid, lastClick);
         newParent = CommonHandler.getParent(newObject);
-        if (newObject == currentObject) {
+        if (newObject.equals(currentObject)) {
             isDuplicated = false;
         }
         editorHistory.addAction(new ActionPaste(newObject, currentParent, newParent, isDuplicated));

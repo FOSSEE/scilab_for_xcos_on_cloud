@@ -27,7 +27,7 @@
 #include "double.hxx"
 #include "string.hxx"
 #include "list.hxx"
-#include "tlist.hxx"
+#include "mlist.hxx"
 #include "user.hxx"
 
 #include "Controller.hxx"
@@ -56,12 +56,6 @@ namespace view_scilab
 {
 namespace
 {
-
-const std::wstring modelica (L"modelica");
-const std::wstring model (L"model");
-const std::wstring inputs (L"inputs");
-const std::wstring outputs (L"outputs");
-const std::wstring parameters (L"parameters");
 
 types::InternalType* get_with_vec2var(const ModelAdapter& adaptor, const Controller& controller, object_properties_t p)
 {
@@ -345,12 +339,7 @@ struct state
 
         double* data;
         types::Double* o = new types::Double((int)state.size(), 1, &data);
-
-#ifdef _MSC_VER
-        std::copy(state.begin(), state.end(), stdext::checked_array_iterator<double*>(data, state.size()));
-#else
         std::copy(state.begin(), state.end(), data);
-#endif
         return o;
     }
 
@@ -359,7 +348,7 @@ struct state
 
         if (v->getType() != types::InternalType::ScilabDouble)
         {
-            get_or_allocate_logger()->log(LOG_ERROR, _("Wrong type for field %s.%s : Real matrix expected.\n"), "model", "state");
+            get_or_allocate_logger()->log(LOG_ERROR, _("Wrong type for field %s.%s : Real vector expected.\n"), "model", "state");
             return false;
         }
 
@@ -367,7 +356,7 @@ struct state
         // Only allow vectors and empty matrices
         if (!current->isVector() && current->getSize() != 0)
         {
-            get_or_allocate_logger()->log(LOG_ERROR, _("Wrong size for field %s.%s : %d-by-%d expected.\n"), "model", "state");
+            get_or_allocate_logger()->log(LOG_ERROR, _("Wrong size for field %s.%s : Real vector expected.\n"), "model", "state");
             return false;
         }
 
@@ -393,12 +382,7 @@ struct dstate
 
         double* data;
         types::Double* o = new types::Double((int)dstate.size(), 1, &data);
-
-#ifdef _MSC_VER
-        std::copy(dstate.begin(), dstate.end(), stdext::checked_array_iterator<double*>(data, dstate.size()));
-#else
         std::copy(dstate.begin(), dstate.end(), data);
-#endif
         return o;
     }
 
@@ -888,11 +872,7 @@ struct rpar
 
             double *data;
             types::Double* o = new types::Double((int)rpar.size(), 1, &data);
-#ifdef _MSC_VER
-            std::copy(rpar.begin(), rpar.end(), stdext::checked_array_iterator<double*>(data, rpar.size()));
-#else
             std::copy(rpar.begin(), rpar.end(), data);
-#endif
             return o;
         }
         else // SuperBlock, return the contained diagram (allocating it on demand)
@@ -979,12 +959,7 @@ struct ipar
 
         double *data;
         types::Double* o = new types::Double((int)ipar.size(), 1, &data);
-
-#ifdef _MSC_VER
-        std::transform(ipar.begin(), ipar.end(), stdext::checked_array_iterator<double*>(data, ipar.size()), toDouble);
-#else
         std::transform(ipar.begin(), ipar.end(), data, toDouble);
-#endif
         return o;
     }
 
@@ -1227,12 +1202,7 @@ struct nzcross
 
         double *data;
         types::Double* o = new types::Double((int)nzcross.size(), 1, &data);
-
-#ifdef _MSC_VER
-        std::transform(nzcross.begin(), nzcross.end(), stdext::checked_array_iterator<double*>(data, nzcross.size()), toDouble);
-#else
         std::transform(nzcross.begin(), nzcross.end(), data, toDouble);
-#endif
         return o;
     }
 
@@ -1282,12 +1252,7 @@ struct nmode
 
         double *data;
         types::Double* o = new types::Double((int)nmode.size(), 1, &data);
-
-#ifdef _MSC_VER
-        std::transform(nmode.begin(), nmode.end(), stdext::checked_array_iterator<double*>(data, nmode.size()), toDouble);
-#else
         std::transform(nmode.begin(), nmode.end(), data, toDouble);
-#endif
         return o;
     }
 
@@ -1383,7 +1348,10 @@ struct uid
 
 } /* namespace */
 
-template<> property<ModelAdapter>::props_t property<ModelAdapter>::fields = property<ModelAdapter>::props_t();
+#ifndef _MSC_VER
+template<>
+#endif
+property<ModelAdapter>::props_t property<ModelAdapter>::fields = property<ModelAdapter>::props_t();
 static void initialize_fields()
 {
     if (property<ModelAdapter>::properties_have_not_been_set())

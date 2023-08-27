@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 17:52+0000\n"
+"PO-Revision-Date: 2019-02-15 22:07+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
@@ -442,8 +442,8 @@ msgstr "Nombre de la tipografía"
 msgid "Font style"
 msgstr "Estilo de la tipografía"
 
-msgid "Text settings"
-msgstr "Configuración de texto"
+msgid "Block legend"
+msgstr ""
 
 msgid "Image path"
 msgstr "Directorio de imágenes"
@@ -565,11 +565,13 @@ msgstr "Cancelar"
 msgid "Reset to default"
 msgstr ""
 
+#
+# File: modules/xcos/src/java/org/scilab/modules/xcos/utils/XcosMessages.java, line: 183
 msgid ""
 "You may enter here scilab instructions to define symbolic parameters used in "
 "block definitions using Scilab instructions.<br/>These instructions are "
-"evaluated once confirmed (i.e. you click on OK and every time the diagram is "
-"loaded)."
+"evaluated once confirmed (i.e. you click on OK), and every time the diagram "
+"is run."
 msgstr ""
 
 msgid "Failed to load Diagram"
@@ -670,14 +672,14 @@ msgstr "Inferior"
 msgid "Middle"
 msgstr "Medio"
 
-msgid "Border Color"
-msgstr "Color de Borde"
+msgid "Block edge"
+msgstr ""
 
-msgid "Fill Color"
-msgstr "Color de relleno"
+msgid "Block background"
+msgstr ""
 
-msgid "Text Color"
-msgstr "Color de Texto"
+msgid "Legend color"
+msgstr ""
 
 msgid "Link Style"
 msgstr "Estilo del enlace"
@@ -1246,8 +1248,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: Unable to load block from %s: Missing file.\n"
-msgstr ""
-"%s: Imposible cargar el bloque desde %s: Falta el archivo hdf5.\n"
+msgstr "%s: Imposible cargar el bloque desde %s: Falta el archivo hdf5.\n"
 
 #, c-format
 msgid ""

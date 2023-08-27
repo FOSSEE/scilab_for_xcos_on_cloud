@@ -7,7 +7,12 @@ MyHeapAlloc
 StaticRunner_launch
 StaticRunner_isRunnerAvailable
 StaticRunner_isInterruptibleCommand
-StaticRunner_setInterruptibleCommand
+StaticRunner_setCommandOrigin
 StoreConsoleCommand
 StorePrioritaryCommand
+StoreDebuggerCommand
 parseCommand
+checkCommand
+parseFile
+checkFile
+pause

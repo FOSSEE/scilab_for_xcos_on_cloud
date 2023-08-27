@@ -2,7 +2,8 @@
 *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2008-2008 - DIGITEO - Antoine ELIAS
 *  Copyright (C) 2010-2011 - DIGITEO - Bruno JOFRET
-*
+*  Copyright (C) 2018 - Stéphane Mottelet
+ *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -20,6 +21,7 @@
 #include "cpp_gateway_prototype.hxx"
 #include "double.hxx"
 #include "complex"
+#include "function.hxx"
 
 extern "C"
 {
@@ -46,6 +48,8 @@ CPP_GATEWAY_PROTOTYPE(sci_asin);
 CPP_GATEWAY_PROTOTYPE(sci_asinh);
 CPP_GATEWAY_PROTOTYPE(sci_atan);
 CPP_GATEWAY_PROTOTYPE(sci_atanh);
+CPP_GATEWAY_PROTOTYPE(sci_base2dec);
+CPP_GATEWAY_PROTOTYPE(sci_bitstring);
 CPP_GATEWAY_PROTOTYPE(sci_ceil);
 CPP_GATEWAY_PROTOTYPE(sci_clean);
 CPP_GATEWAY_PROTOTYPE(sci_conj);
@@ -53,6 +57,7 @@ CPP_GATEWAY_PROTOTYPE(sci_cos);
 CPP_GATEWAY_PROTOTYPE(sci_cosh);
 CPP_GATEWAY_PROTOTYPE(sci_cumprod);
 CPP_GATEWAY_PROTOTYPE(sci_cumsum);
+CPP_GATEWAY_PROTOTYPE(sci_dec2base);
 CPP_GATEWAY_PROTOTYPE(sci_diag);
 CPP_GATEWAY_PROTOTYPE(sci_dsearch);
 CPP_GATEWAY_PROTOTYPE(sci_exp);
@@ -66,8 +71,12 @@ CPP_GATEWAY_PROTOTYPE(sci_imult);
 CPP_GATEWAY_PROTOTYPE(sci_int);
 CPP_GATEWAY_PROTOTYPE(sci_isequal);
 CPP_GATEWAY_PROTOTYPE(sci_isreal);
+CPP_GATEWAY_PROTOTYPE(sci_issquare);
+CPP_GATEWAY_PROTOTYPE(sci_isvector);
 CPP_GATEWAY_PROTOTYPE(sci_kron);
+CPP_GATEWAY_PROTOTYPE(sci_linspace);
 CPP_GATEWAY_PROTOTYPE(sci_log);
+CPP_GATEWAY_PROTOTYPE(sci_log10);
 CPP_GATEWAY_PROTOTYPE(sci_log1p);
 CPP_GATEWAY_PROTOTYPE(sci_matrix);
 CPP_GATEWAY_PROTOTYPE(sci_max); // Old name sci_maxi
@@ -129,5 +138,6 @@ typedef double(*func_real)(double);
 typedef std::complex<double>(*func_complex)(const std::complex<double>&);
 
 types::Double* trigo(types::Double* in, func_real func_r, func_complex func_c, bool forceComplex = false);
+types::Function::ReturnValue zerosOrOnesFromValue(types::typed_list& in, int _iRetCount, types::typed_list& out, bool value);
 
 #endif /* __ELEM_FUNC_GW_HXX__ */

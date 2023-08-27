@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:43+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d expected.\n"
@@ -38,16 +38,12 @@ msgstr "%s: 入力引数 #%d を読み込めません.\n"
 msgid "%s: Wrong type for input argument #%d: A String expected.\n"
 msgstr "%s: 入力引数 #%d の型が間違っています: 文字列を指定してください.\n"
 
-#, c-format
-msgid "%s: ans cannot be edited.\n"
-msgstr "%s: ans は編集できません.\n"
+msgid "Redefining permanent variable.\n"
+msgstr "永続的変数を再定義しています.\n"
 
 #, c-format
 msgid "%s: Undefined variable: %s.\n"
 msgstr "%s: 変数が未定義です: %s.\n"
-
-msgid "Redefining permanent variable.\n"
-msgstr "永続的変数を再定義しています.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Double expected.\n"
@@ -77,8 +73,8 @@ msgstr "型"
 msgid "Visibility"
 msgstr "可視性"
 
-msgid "Bytes"
-msgstr "バイト数"
+msgid "Memory"
+msgstr ""
 
 msgid "User"
 msgstr "ユーザ"
@@ -362,9 +358,6 @@ msgstr "フィルタを実行"
 msgid "Scilab type:"
 msgstr "Scilab型:"
 
-msgid "Bytes:"
-msgstr "バイト数:"
-
 msgid "Type not supported for this operation"
 msgstr "型がこの処理でサポートされていません"
 
@@ -388,5 +381,108 @@ msgstr "&?"
 msgid "&About Scilab..."
 msgstr "Scilabバージョン情報(&A)..."
 
-#~ msgid "Compiled function"
-#~ msgstr "コンパイル済みの関数"
+# File: modules/ui_data/macros/browsevar_seeSpecial.sci, line: 51
+msgid "Library "
+msgstr ""
+
+#
+# File: modules/ui_data/macros/browsevar_seeSpecial.sci, line: 52
+msgid "Path = "
+msgstr ""
+
+msgid "Functions:"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 56
+msgid "Import data"
+msgstr ""
+
+msgid "Select a file"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 112
+msgid "File has a header"
+msgstr ""
+
+msgid "Show all columns"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 120
+msgid "It can take a long time"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 127
+msgid "Separator"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+msgid "Colon"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 148
+msgid "Comma"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+msgid "Pipe"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+msgid "Semicolon"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+msgid "Space"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 133
+msgid "Tab"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 142
+msgid "Decimal"
+msgstr ""
+
+msgid "Point"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 157
+msgid "Conversion"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 163
+msgid "Convert to double"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 163
+msgid "Keep as strings"
+msgstr ""
+
+msgid "Import as variable"
+msgstr ""
+
+#
+# File: modules/ui_data/macros/uiSpreadsheet.sci, line: 193
+msgid "Quit"
+msgstr ""
+
+msgid "Copy function to clipboard"
+msgstr ""
+
+msgid "Cancel preview"
+msgstr ""

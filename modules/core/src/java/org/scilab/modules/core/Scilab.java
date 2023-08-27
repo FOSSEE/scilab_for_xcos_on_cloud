@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
 import org.flexdock.docking.DockingConstants;
 import org.flexdock.docking.DockingManager;
 import org.scilab.modules.commons.OS;
+import org.scilab.modules.commons.ScilabCommons;
 import org.scilab.modules.commons.ScilabCommonsUtils;
 import org.scilab.modules.commons.ScilabConstants;
 import org.scilab.modules.commons.xml.XConfiguration;
@@ -112,6 +113,13 @@ public class Scilab {
                 /* In this case, we let the calling application to use its own properties */
                 System.setProperty("java.io.tmpdir", ScilabConstants.TMPDIR.getCanonicalPath());
                 System.setProperty("user.home", ScilabConstants.SCIHOME.getCanonicalPath());
+
+                /* build a standard User-Agent string */
+                StringBuilder str = new StringBuilder();
+                str.append("Scilab/").append(ScilabCommons.getScilabVersionMajor()).append('.').append(ScilabCommons.getScilabVersionMinor()).append('.').append(ScilabCommons.getScilabVersionMaintenance());
+                str.append(' ');
+                str.append('(').append(System.getProperty("os.name")).append(' ').append(System.getProperty("os.arch")).append(')');
+                System.setProperty("http.agent", str.toString());
             }
 
         } catch (Exception e) {
@@ -126,7 +134,7 @@ public class Scilab {
          */
         setJOGLFlags();
         /* Mode GUI */
-        if(mode == 2) {
+        if (mode == 2) {
             SwingView.registerSwingView();
         }
 
@@ -137,9 +145,9 @@ public class Scilab {
          * (needed when building the documentation under *ux)
          */
         if (mode != 1 && System.getenv("SCI_JAVA_ENABLE_HEADLESS") == null) {
+
             /* http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html */
             try {
-
                 String scilabLookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel";
 
                 if (OS.get() == OS.WINDOWS) {
@@ -201,6 +209,9 @@ public class Scilab {
 
             mainView = SwingScilabWindow.allScilabWindows.get(consoleTab.getParentWindowId());
         } else {
+            if (mode == 3) { //NW
+                ConfigManager.createUserCopy();
+            }
             GraphicController.getController().askObject(Type.CONSOLE);
         }
     }

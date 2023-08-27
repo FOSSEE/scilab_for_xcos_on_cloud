@@ -4,6 +4,7 @@
 # Copyright (C) DIGITEO - 2009-2011 - Sylvestre Ledru
 # Copyright (C) DIGITEO - 2009 - Pierre MARECHAL <pierre.marechal@scilab.org>
 # Copyright (C) Scilab Enterprises - 2014 - Clement DAVID <clement.david@scilab-enterprises.com>
+# Copyright (C) ESI Group - 2018 - Clement DAVID <clement.david@scilab-enterprises.com>
 #
 # Copyright (C) 2012 - 2016 - Scilab Enterprises
 #
@@ -32,6 +33,7 @@ if test -d "$SCI_SRCDIR_FULL/usr"; then
     DEVTOOLS_BINDIR="$SCI_SRCDIR_FULL/usr/bin"
     DEVTOOLS_INCDIR="$SCI_SRCDIR_FULL/usr/include"
     DEVTOOLS_LIBDIR="$SCI_SRCDIR_FULL/usr/lib"
+    export LD_LIBRARY_PATH="$DEVTOOLS_LIBDIR:$LD_LIBRARY_PATH"
 else
     WITH_DEVTOOLS=false
     DEVTOOLS_BINDIR=
@@ -40,7 +42,7 @@ else
 fi
 
 SCILAB_VERSION_MAJOR=6
-SCILAB_VERSION_MINOR=0
+SCILAB_VERSION_MINOR=1
 SCILAB_VERSION_MAINTENANCE=1
 AC_SUBST(SCILAB_VERSION_MAJOR)
 AC_SUBST(SCILAB_VERSION_MINOR)
@@ -150,11 +152,11 @@ AC_ARG_WITH(gui,
     AS_HELP_STRING([--without-gui],[Disable the Scilab Graphical User Interface (GUI). Intended for embedded/clustering/grid Scilab ]))
 
 AC_ARG_ENABLE(build-swig,
-    AS_HELP_STRING([--enable-build-swig=path],[Regenerate Java => C and Scilab => C wrappers produces by Swig]))
+    AS_HELP_STRING([--enable-build-swig=path],[Regenerate Java => C and Scilab => C wrappers produced by Swig]))
 
 
 AC_ARG_ENABLE(build-giws,
-    AS_HELP_STRING([--enable-build-giws],[Regenerate C/C++ => Java wrappers produces by Giws]))
+    AS_HELP_STRING([--enable-build-giws],[Regenerate C/C++ => Java wrappers produced by Giws]))
 
 AC_ARG_ENABLE(build-parser,
     AS_HELP_STRING([--enable-build-parser],[Regenerate code for the parser (Lex & YACC)]))
@@ -239,6 +241,7 @@ fi
 ######## fortran ########
 
 if test "$with_gfortran" = yes; then
+   : ${FFLAGS=""}
    AC_PROG_F77(gfortran)
    if test -z "$F77"; then
      AC_MSG_ERROR([You asked me to use gfortran but i haven't been able to find it])
@@ -246,6 +249,7 @@ if test "$with_gfortran" = yes; then
 fi
 
 if test "$with_intelcompilers" = yes; then
+   : ${FFLAGS=""}
    AC_PROG_F77(ifc ifort)
    if test -z "$F77"; then
      AC_MSG_ERROR([You asked me to use ifc (intel fortran compiler) but i haven't been able to find it])
@@ -254,9 +258,11 @@ fi
 
 if test -z "$F77"; then
 ## No Fortran compiler specified... Prefer gfortran and intel compilers
+   : ${FFLAGS=""}
    AC_PROG_F77([gfortran ifc ifort])
    if test -z "$F77"; then
         # Best effort to find a compiler (might be g77)
+   : ${FFLAGS=""}
     AC_PROG_F77
    fi
 fi
@@ -298,6 +304,7 @@ AC_LANG_POP([Fortran 77])
 
 
 if test "$with_gcc" = yes; then
+   : ${CFLAGS=""}
    AC_PROG_CC(gcc)
    if test -z "$CC"; then
      AC_MSG_ERROR([You asked me to use gcc but i haven't been able to find it])
@@ -305,6 +312,7 @@ if test "$with_gcc" = yes; then
 fi
 
 if test "$with_intelcompilers" = yes; then
+   : ${CFLAGS=""}
    AC_PROG_CC(icc ecc)
    if test -z "$CC"; then
      AC_MSG_ERROR([You asked me to use icc (intel C compiler) but I haven't been able to find it])
@@ -313,6 +321,7 @@ fi
 
 if test -z "$CC"; then
 # No C compiler specified... We rely on Autoconf to find the best
+   : ${CFLAGS=""}
    AC_PROG_CC
 fi
 
@@ -324,6 +333,7 @@ AC_CHECK_SIZEOF([int])
 AC_CHECK_SIZEOF([long])
 
 ### C++ ###
+: ${CXXFLAGS=""}
 AC_PROG_CXX
 # we can't just do something like
 # AC_CHECK_PROG(cxx_present, $CXX, "yes", "no")
@@ -443,7 +453,7 @@ if test -n "$F77"; then
     done
     AC_LANG_POP([Fortran 77])
    else
-      DEBUG_FFLAGS="-DNDEBUG"
+      DEBUG_FFLAGS="-DNDEBUG -g1 -O2"
    fi
       case "$host" in
          x86_64-*-linux*)
@@ -544,7 +554,7 @@ case "$CXX" in
                 ;;
             esac
         else
-            DEBUG_CXXFLAGS="-DNDEBUG"
+            DEBUG_CXXFLAGS="-DNDEBUG -g1 -O2"
         fi
         COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-stack-protector " # bug 3131
     ;;
@@ -583,7 +593,7 @@ case "$CC" in
           ;;
           esac
    else
-      DEBUG_CFLAGS="-DNDEBUG"
+      DEBUG_CFLAGS="-DNDEBUG -g1 -O2"
    fi
 
    COMPILER_CFLAGS="$COMPILER_CFLAGS -fno-stack-protector " # bug 3131
@@ -638,6 +648,9 @@ case "$CC" in
          gfortran-*|gfortran)
              # Extract from gfortran -v the version it has been built for
                MAC_DETECTED_ARCH="`$F77 -v 2>&1|grep "Target:"|sed -e "s/Target: \([[a-z0-9A-Z_]]*\).*/\1/g"`"
+               if test "$MAC_DETECTED_ARCH" == "aarch64"; then
+                   MAC_DETECTED_ARCH=arm64
+               fi
          ;;
          *)
         AC_MSG_WARN([gfortran not used. Could not detect the architecture. Switch to the default case: x86_64])
@@ -723,11 +736,11 @@ fi
 
 AM_CONDITIONAL(IS_64_BITS_CPU, test $IS_64_BITS_CPU = true)
 
-# check if the compiler supports c++11
+# check if the compiler supports c++17
 saved_cppflags="$CXXFLAGS"
 CXXFLAGS=""
-AX_CXX_COMPILE_STDCXX_11(noext,mandatory)
-STDCXX_11_CXXFLAGS="$CXXFLAGS"
+AX_CXX_COMPILE_STDCXX(17, noext, mandatory)
+STDCXX_CXXFLAGS="$CXXFLAGS"
 CXXFLAGS="$saved_cppflags"
 
 ################
@@ -876,8 +889,16 @@ if test "$with_javasci" != no -o "$with_gui" != no -o "$enable_build_help" != no
         case "$host_os" in
              *Darwin* | *darwin*)
                # Mac OS X does not link against the lib but uses -framework
-               JAVA_JNI_LIBS="-framework JavaVM"
-             ;;
+               macosx_version=`sw_vers -productVersion`
+               case $macosx_version in
+                   11.*)
+                   JAVA_JNI_LIBS="-framework JavaNativeFoundation"
+                   ;;
+                   10.*)
+                   JAVA_JNI_LIBS="-framework JavaVM"
+                   ;;
+               esac
+               ;;
              *)
                AC_JAVA_JNI_LIBS
                JAVA_JNI_LIBS=$ac_java_jvm_jni_lib_flags
@@ -942,11 +963,9 @@ if test "$with_javasci" != no -o "$with_gui" != no -o "$enable_build_help" != no
                 AC_SUBST(SKINLF)
 
                 # JOGL 2
-                AC_JAVA_CHECK_JAR([jogl2],[javax.media.opengl.glu.GLUnurbs],[Scilab 3D rendering - Version 2.0])
+                AC_JAVA_CHECK_JAR([jogl2],[javax.media.opengl.glu.GLUnurbs],[Scilab 3D rendering - Version 2.0], [], [], [2.2])
                 JOGL2=$PACKAGE_JAR_FILE
                 AC_SUBST(JOGL2)
-
-                AC_JAVA_CHECK_VERSION_MANIFEST([jogl2],$JOGL2,[2.2],[Specification-Version])
 
                 if test "$MACOSX" = 1; then
                    echo "Check of the presence of libjogl.jnilib and libjogl_awt.jnilib disabled under Mac OS X"
@@ -1008,12 +1027,12 @@ interface for JOGL2 - or libGL (OpenGL library) are installed and if the version
                 AC_SUBST(LUCENE)
 
                 # Lucene Apache - analyzers-common
-                AC_JAVA_CHECK_JAR([lucene-analyzers-common],[org.apache.lucene.analysis.standard.StandardAnalyzer],[StandardAnalyzer])
+                AC_JAVA_CHECK_JAR([lucene-analyzers-common],[org.apache.lucene.analysis.standard.StandardAnalyzer],[Lucene StandardAnalyzer])
                 LUCENE_ANALYZER=$PACKAGE_JAR_FILE
                 AC_SUBST(LUCENE_ANALYZER)
 
                 # Lucene Apache - lucene-queryparser
-                AC_JAVA_CHECK_JAR([lucene-queryparser],[org.apache.lucene.queryparser.classic.QueryParser],[QueryParser])
+                AC_JAVA_CHECK_JAR([lucene-queryparser],[org.apache.lucene.queryparser.classic.QueryParser],[Lucene QueryParser])
                 LUCENE_PARSER=$PACKAGE_JAR_FILE
                 AC_SUBST(LUCENE_PARSER)
 
@@ -1157,7 +1176,7 @@ Unit tests],"yes")
         fi
         JUNIT4=$PACKAGE_JAR_FILE
         AC_SUBST(JUNIT4)
-        
+
         # hamcrest (junit4 dependency)
         AC_JAVA_CHECK_JAR([hamcrest-all],[org.hamcrest.core.IsNull],[Hamcrest- library matchers],"yes")
         if test -z "$PACKAGE_JAR_FILE"; then
@@ -1258,10 +1277,8 @@ AC_SUBST(GUI_ENABLE)
 ##############################################################
 
 # Provided by unistd.h
-AC_CHECK_FUNCS([sleep] [usleep] [dup2] [getcwd] [getpagesize] [getpass])
+AC_CHECK_FUNCS([dup2] [getcwd] [getpagesize] [getpass])
 AC_CHECK_FUNCS([rmdir])
-
-AC_CHECK_FUNC([getwd],AC_DEFINE([HAVE_GETWD],[1],[Define to 1 if you have the `getwd' function.]),[AC_DEFINE([getwd(x)],[getcwd(x,1024)],[Don't use getwd but getcwd])])
 
 # Provided by <regex.h>
 AC_CHECK_FUNCS([regcomp])
@@ -1282,7 +1299,7 @@ AC_CHECK_FUNCS([endpwent])
 AC_CHECK_FUNCS([gethostbyaddr] [gethostbyname] [gethostname])
 
 # Provided by time.h
-AC_CHECK_FUNCS([gettimeofday])
+AC_CHECK_FUNCS([gettimeofday] [nanosleep])
 
 # Provided by ctype.h
 AC_CHECK_FUNCS([isascii])
@@ -1492,7 +1509,7 @@ if test "$with_openmp" != no; then
 #   AC_OPENMP
     OPENMP_CFLAGS="-fopenmp"
     OPENMP_CXXFLAGS="-fopenmp"
-    OPENMP_LIBS="-lgomp" 
+    OPENMP_LIBS="-lgomp"
 
     AC_CHECK_HEADERS([omp.h], [],
      [AC_MSG_ERROR([Could not find omp.h])])
@@ -1736,6 +1753,7 @@ fi
 AC_SUBST(MATIO_ENABLE)
 AM_CONDITIONAL(MATIO, test "$with_matio" != no)
 
+
 #############################
 ## Documentation management #
 #############################
@@ -1957,10 +1975,10 @@ fi
 
 
 #########
-## Make sure that the libstdc++ libgcc and libgfortran can be compiled as 
-## static if requested
+## Check extra CC / CXX compiler flags to ease runtime behaviors
 #########
 AC_CHECK_STDCPP_STATIC()
+AC_CHECK_ADDRESS_SANTIZER()
 
 #################
 ## stop on warning
@@ -1987,7 +2005,7 @@ SCI_CFLAGS=$(echo                                             \
              $BACKTRACE_CFLAGS                                \
              $WARNING_CFLAGS                                  )
 SCI_CXXFLAGS=$(echo                                           \
-               $STDCXX_11_CXXFLAGS                            \
+               $STDCXX_CXXFLAGS                               \
                $LARGEFILE_CXXFLAGS                            \
                $CODECOVERAGE_CXXFLAGS                         \
                $DEBUG_CXXFLAGS                                \
@@ -2082,13 +2100,10 @@ modules/dynamic_link/Makefile
 modules/overloading/Makefile
 modules/javasci/Makefile
 modules/m2sci/Makefile
-modules/compatibility_functions/Makefile
 modules/development_tools/Makefile
 modules/output_stream/Makefile
 modules/console/Makefile
 modules/demo_tools/Makefile
-modules/genetic_algorithms/Makefile
-modules/simulated_annealing/Makefile
 modules/parameters/Makefile
 modules/matio/Makefile
 modules/atoms/Makefile
@@ -2105,6 +2120,7 @@ modules/external_objects/Makefile
 modules/external_objects_java/Makefile
 modules/slint/Makefile
 modules/coverage/Makefile
+modules/webtools/Makefile
 modules/Makefile
 Makefile
 scilab.pc
@@ -2120,15 +2136,6 @@ modules/core/includes/version.h
 modules/atoms/etc/repositories
 modules/atoms/tests/unit_tests/repositories.orig
 ])
-
-# Detection of the module for the future version of Scilab 6
-# ie we detect module which ends with _yasp
-
-if test "$enable_yasp" = yes; then
-   AC_CONFIG_FILES([
-   modules/development_tools/src/fake/Makefile
-  ])
-fi
 
 # This script is used by Xcos in order to regenerate the function/block list
 AC_CONFIG_COMMANDS_POST([chmod +x $SCI_SRCDIR_FULL/modules/scicos_blocks/src/scripts/GenBlocks.sh $SCI_SRCDIR_FULL/modules/dynamic_link/src/scripts/scicompile.sh $SCI_SRCDIR_FULL/modules/dynamic_link/src/scripts/compilerDetection.sh $SCI_SRCDIR_FULL/modules/dynamic_link/src/scripts/configure])
@@ -2205,7 +2212,9 @@ if test $XCOS_ENABLE = yes; then
    if test "$with_modelica" != no -a "$OCAMLC" != no -a "$OCAMLOPT" != no; then
      echo "Ocaml Configuration (for Modelica compiler):"
      echo "  OCAMLC ............. = $OCAMLC"
+     echo "  OCAMLCFLAGS ........ = $OCAMLCFLAGS"
      echo "  OCAMLOPT ........... = $OCAMLOPT"
+     echo "  OCAMLOPTFLAGS ...... = $OCAMLOPTFLAGS"
      echo "  OCAMLDEP ........... = $OCAMLDEP"
    else
      echo "Will not build Modelica compiler"

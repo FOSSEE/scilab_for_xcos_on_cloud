@@ -3,9 +3,8 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2007 - INRIA - Allan CORNET
  * Copyright (C) 2007 - INRIA - Sylvestre LEDRU
- * Copyright (C) 2018 - Samuel GOUGEON
- *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ * Copyright (C) 2018 - 2021 - Samuel GOUGEON
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
  * pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -47,19 +46,29 @@
                 <term>"The literal reference message"</term>
                 <listitem>
                     <para>
-                        Single literal text of an english message to be indexed or/and
+                        Single case-sensitive literal text of an english message to be indexed or/and
                         translated. A column of literal texts explicitly separated with
-                        semi-colons may also be specified.
+                        semi-colons may also be specified. Messages can include some
+                        <link linkend="printf_conversion">C-like placeholders</link> starting with "%".
                     </para>
+                    <warning>
+                        Only standard ASCII characters can be used. Any other extended ASCII or
+                        UTF-8 characters would make gettext() failing.
+                    </warning>
+                    <para/>
                 </listitem>
             </varlistentry>
             <varlistentry>
                 <term>msgid</term>
                 <listitem>
                     <para>
-                        single or array of messages identifiers (in english) to be translated,
-                        in a variable.
+                        single or array of case-sensitive messages identifiers (in english) to be
+                        translated, in a variable.
                     </para>
+                    <warning>
+                        Only standard ASCII characters can be used.
+                    </warning>
+                    <para/>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -71,6 +80,11 @@
                         version in english is returned. The input and output arrays have
                         the same sizes.
                     </para>
+                    <note>
+                        These messages are labelled <literal>msgstr</literal> and defined in
+                        the ./locales/*.po files. They can include extended ASCII or UTF-8 characters.
+                    </note>
+                    <para/>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -149,9 +163,9 @@
                             </tr>
                             <tr valign="top">
                                 <th>2</th>
-                                <td style="white-space:pre"><literal>
+                                <td style="white-space:pre"><screen><![CDATA[
 msg = "To be translated";
-gettext(msg)</literal>
+gettext(msg)]]></screen>
                                 </td>
                                 <td>NOK</td>
                                 <td>
@@ -176,9 +190,9 @@ gettext(msg)</literal>
                             </tr>
                             <tr valign="top">
                                 <th>4</th>
-                                <td style="white-space:pre"><literal>
+                                <td style="white-space:pre"><screen><![CDATA[
 gettext("To be" + ..
-                  " translated")</literal>
+        " translated")]]></screen>
                                 </td>
                                 <td>NOK</td>
                                 <td>Same as #3</td>
@@ -205,9 +219,9 @@ gettext("To be" + ..
                             </tr>
                             <tr valign="top">
                                 <th>7</th>
-                                <td style="white-space:pre"><literal>
+                                <td style="white-space:pre"><screen><![CDATA[
 gettext(["item#1"
-         "item#2"])</literal>
+         "item#2"])]]></screen>
                                 </td>
                                 <td>NOK</td>
                                 <td>Same as #6</td>
@@ -222,9 +236,9 @@ gettext(["item#1"
                             </tr>
                             <tr valign="top">
                                 <th>9</th>
-                                <td style="white-space:pre"><literal>
+                                <td style="white-space:pre"><screen><![CDATA[
 gettext(["item#1" ;
-         "item#2"])</literal>
+         "item#2"])]]></screen>
                                 </td>
                                 <td>OK</td>
                                 <td>
@@ -246,6 +260,7 @@ gettext(["item#1" ;
                             <literal>addlocalizationdomain()</literal>
                         </para>
                     </important>
+                    <para/>
                 </listitem>
                 <listitem>
                     <para>
@@ -253,6 +268,7 @@ gettext(["item#1" ;
                         contributors. Anyway, by some humans. Good translation tools are also available
                         online.
                     </para>
+                    <para/>
                 </listitem>
                 <listitem>
                     <para>
@@ -261,6 +277,7 @@ gettext(["item#1" ;
                         This is done by running <literal>tbx_generate_pofile()</literal> another
                         time.
                     </para>
+                    <para/>
                 </listitem>
                 <listitem>
                     <para>
@@ -275,8 +292,8 @@ gettext(["item#1" ;
                         <literal>gettext(domain, message)</literal>
                         or <literal>gettext(domain, "The message content")</literal>.
                         In this case, <literal>addlocalizationdomain(domain, path)</literal> must
-                        be run before in order to make <varname>domain</varname> pointing to
-                        the storage directory.
+                        be run before, in order to indicate to Scilab the directory where
+                        the translated messages of the given <varname>domain</varname> are stored.
                     </para>
                 </listitem>
             </orderedlist>
@@ -321,15 +338,10 @@ gettext(["item#1" ;
         </refsect3>
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <refsect3>
-            <title>Messages</title>
+            <title>msgid messages</title>
             <para>
                 To be correctly processed, english messages must comply with a few rules:
                 <itemizedlist>
-                    <listitem>
-                        <para>
-                            Messages identifiers are case-sensitive.
-                        </para>
-                    </listitem>
                     <listitem>
                         <para>
                             Literal harvestable messages may be indifferently delimited with single
@@ -337,10 +349,20 @@ gettext(["item#1" ;
                         </para>
                         <warning>
                             When <literal>gettext()</literal> or <literal>_()</literal> is used in
-                            an XML file such as in the preferences files of an external module, the
-                            literal domain string and the literal message id must no longer be
-                            delimited. For instance, <literal>_(my_domain, My message)</literal>
+                            a XML or XSL file such as in the preferences files of an external module,
+                            the literal domain string and the literal message id must no longer be
+                            delimited.
+                            <para/>
+                            For instance, <literal>_(my_domain, My message)</literal>
                             will be used instead of <literal>_("my_domain", "My message")</literal>.
+                            <para>
+                                In addition, spaces before and after the messageID are then never
+                                taken into account and never belong to the message. For example,
+                                the actual message ID corresponding to
+                                <literal>_(my_domain, My message:  )</literal> is
+                                <literal>"My message:"</literal>, not
+                                <literal>" My message:  "</literal>.
+                            </para>
                         </warning>
                     </listitem>
                     <listitem>
@@ -357,26 +379,71 @@ gettext(["item#1" ;
                     </listitem>
                     <listitem>
                         <para>
-                            Some template messages may often include some "%" C-like directives
-                            aiming to be replaced with some input custom data through
+                            msgid messages often include some "%" C-like placeholders
+                            aiming to be replaced with some custom input data through
                             <literal>msprintf()</literal> at run time.
                             For instance,
                             <literal>msprintf("Hi %s, could you come at %s today?", "John", "12:30")</literal>
                             will return <literal>"Hi John, could you come at 12:30 today?"</literal>.
                         </para>
-                        <warning>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </refsect3>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <refsect3>
+            <title>msgstr translated messages</title>
+            <para>
+                This section will be more useful for translaters than for actual users.
+            </para>
+            <para>
+                When an english msgid message includes some C-like placeholders,
+                this always means that in the code the <varname>translated</varname> message
+                is processed with msprintf() to replace placeholders with actual values.
+                Hence, <emphasis>the order and type of placeholders indicate the order and
+                types of actual input values when calling msprintf</emphasis>.
+                </para>
+                <para>
+                This is of first importance for translaters, when writing the corresponding
+                <varname>translated</varname> message:
+                <itemizedlist>
+                    <listitem>
+                        If placeholders are not numbered: they must be in the same order and
+                        types in the <varname>translated</varname> <literal>msgstr</literal>
+                        message than in the <varname>msgid</varname> message. Example (english to french):
+                        <screen>
+msgid  "%s is %d year old.\n"
+msgstr "%s a %d ans.\n"
+// first %s (a string), second %d (a decimal number), in both strings.
+
+Then, from a Scilab session set to french, we will get
+gettext("%s is %d year old.\n") // => "%s a %d ans.\n"
+// and                                     first v      v second
+t = msprintf(gettext("%s is %d year old.\n"), "Peter", 18)
+// => "Peter a 18 ans."
+</screen>
+                    </listitem>
+                    <listitem>
                         <para>
-                            Now, let's assume that you wish to make the template message translatable:
-                            <literal>msg = _("Hi %s, could you come at %s today?")</literal>
-                            and <literal>msprintf(msg, "John", "12:30")</literal>
-                            will be used. However, the author or/and translaters must be aware that,
-                            in the translated versions, the input data must appear in the same order:
-                            "%s" for "John" before "%s" for "12:30", to comply with the order
-                            imposed by the <literal>msprintf()</literal> input list of values.
-                            This is not always possible, noticeably for languages far from
-                            latin like right-to-left languages.
+                            Otherwise,
+                            <emphasis>All</emphasis> placeholders must be numbered in the
+                            <varname>translated</varname> message. Each numbered placeholder can
+							be used only once in the format (Scilab limitation).
+                            Example (english to japanese):
+                            <screen>
+msgid "%s: Wrong number of input argument: %d to %d expected.\n"
+msgstr "%1$s: 入力引数で不正な数: %3$d への %2$d を想定します。\n"
+
+Then,
+msprintf(gettext("%s: Wrong number of input argument: %d to %d expected.\n"), "myFun", 2, 5)
+
+will return in a Scilab session set to english
+"myFun: Wrong number of input argument: 2 to 5 expected."
+
+while, in a Scilab session set to japanese
+"myFun: 入力引数で不正な数: 5 への 2 を想定します。"
+</screen>
                         </para>
-                        </warning>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -465,6 +532,43 @@ msg = "%s: No more memory.\n";
 !%s : Plus de mémoire disponible.\n    !
 !%s : Overwrite Scilab translation.\n  !
 ]]></screen>
+    <para/>
+    <para>
+        Messages with numbered C-like placeholders:
+    </para>
+        <programlisting role="example"><![CDATA[
+in = getlanguage();
+msg = "%s: Unknown value %s for %s option"; // has already some translations
+setlanguage("en");
+t = gettext(msg)
+msprintf(t, "setdiff", "''f''", "''direction''")
+
+setlanguage("ja");
+t = gettext(msg)
+msprintf(t, "setdiff", "''f''", "''direction''")
+
+setlanguage(in);
+ ]]></programlisting>
+    <screen><![CDATA[
+--> setlanguage("en");
+--> t = gettext(msg)
+ t  =
+  "%s: Unknown value %s for %s option"
+
+--> msprintf(t, "setdiff", "''f''", "''direction''")
+ ans  =
+  "setdiff: Unknown value 'f' for 'direction' option"
+
+
+--> setlanguage("ja");
+--> t = gettext(msg)
+ t  =
+  "%1$s: %3$s オプション の未知の値 %2$s"
+
+--> msprintf(t, "setdiff", "''f''", "''direction''")
+ ans  =
+  "setdiff: 'direction' オプション の未知の値 'f'"
+]]></screen>
     </refsection>
     <refsection role="see also">
         <title>See also</title>
@@ -498,6 +602,12 @@ msg = "%s: No more memory.\n";
             <revision>
                 <revnumber>5.5.0</revnumber>
                 <revdescription>Domain management added.</revdescription>
+            </revision>
+            <revision>
+                <revnumber>6.1.0</revnumber>
+                <revdescription>
+                    C-like placeholders in messages can now be numbered.
+                </revdescription>
             </revision>
         </revhistory>
     </refsection>

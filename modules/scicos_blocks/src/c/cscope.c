@@ -1,7 +1,7 @@
 /*
  *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2011-2012 - Scilab Enterprises - Clement DAVID
- *
+ *  Copyright (C) 2016-2017 - FOSSEE IIT Bombay - Dipti Ghosalkar
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -535,81 +535,88 @@ static void appendData(scicos_block * block, int input, double t, double *data)
 
     sco_data *sco = (sco_data *) * (block->work);
 
-    /*
-     * Handle the case where the t is greater than the data_bounds
-     */
-    if (t > ((sco->scope.periodCounter + 1) * block->rpar[3]))
+    if (sco != NULL)
     {
-        sco->scope.periodCounter++;
 
-        // set the buffer coordinates to the last point
-        for (i = 0; i < block->insz[input]; i++)
+        /*
+         * Handle the case where the t is greater than the data_bounds
+         */
+        if (t > ((sco->scope.periodCounter + 1) * block->rpar[3]))
         {
-            sco->internal.bufferCoordinates[input][i][0] = sco->internal.bufferCoordinates[input][i][sco->internal.numberOfPoints - 1];
-            sco->internal.bufferCoordinates[input][i][block->ipar[2]] = sco->internal.bufferCoordinates[input][i][block->ipar[2] + sco->internal.numberOfPoints - 1];
-        }
-        sco->internal.numberOfPoints = 1;
+            sco->scope.periodCounter++;
 
-        // clear the history coordinates
-        sco->internal.maxNumberOfPoints = 0;
-        for (i = 0; i < block->insz[input]; i++)
-        {
-            if (sco->internal.historyCoordinates[input][i] != NULL)
+            // set the buffer coordinates to the last point
+            for (i = 0; i < block->insz[input]; i++)
             {
-                FREE(sco->internal.historyCoordinates[input][i]);
-                sco->internal.historyCoordinates[input][i] = NULL;
+                sco->internal.bufferCoordinates[input][i][0] = sco->internal.bufferCoordinates[input][i][sco->internal.numberOfPoints - 1];
+                sco->internal.bufferCoordinates[input][i][block->ipar[2]] = sco->internal.bufferCoordinates[input][i][block->ipar[2] + sco->internal.numberOfPoints - 1];
+            }
+            sco->internal.numberOfPoints = 1;
+
+            // clear the history coordinates
+            sco->internal.maxNumberOfPoints = 0;
+            for (i = 0; i < block->insz[input]; i++)
+            {
+                if (sco->internal.historyCoordinates[input][i] != NULL)
+                {
+                    FREE(sco->internal.historyCoordinates[input][i]);
+                    sco->internal.historyCoordinates[input][i] = NULL;
+                }
+            }
+
+            // configure scope setting
+            if (setPolylinesBounds(block, getAxe(getFigure(block), block, input), sco->scope.periodCounter) == FALSE)
+            {
+                set_block_error(-5);
+                freeScoData(block);
+                sco = NULL;
             }
         }
 
-        // configure scope setting
-        if (setPolylinesBounds(block, getAxe(getFigure(block), block, input), sco->scope.periodCounter) == FALSE)
+        /*
+         * Handle the case where the scope has more points than maxNumberOfPoints
+         */
+        if (sco != NULL)
         {
-            set_block_error(-5);
-            freeScoData(block);
-            sco = NULL;
-        }
-    }
+            if (sco->internal.numberOfPoints >= block->ipar[2])
+            {
+                int maxNumberOfPoints = sco->internal.maxNumberOfPoints;
 
-    /*
-     * Handle the case where the scope has more points than maxNumberOfPoints
-     */
-    if (sco != NULL && sco->internal.numberOfPoints >= block->ipar[2])
-    {
-        int maxNumberOfPoints = sco->internal.maxNumberOfPoints;
+                // on a full scope, re-alloc history coordinates
+                maxNumberOfPoints = maxNumberOfPoints + block->ipar[2];
+                sco = reallocHistoryBuffer(block, maxNumberOfPoints);
 
-        // on a full scope, re-alloc history coordinates
-        maxNumberOfPoints = maxNumberOfPoints + block->ipar[2];
-        sco = reallocHistoryBuffer(block, maxNumberOfPoints);
+                // set the buffer coordinates to the last point
+                for (i = 0; i < block->insz[input]; i++)
+                {
+                    sco->internal.bufferCoordinates[input][i][0] = sco->internal.bufferCoordinates[input][i][block->ipar[2] - 1];
+                    sco->internal.bufferCoordinates[input][i][block->ipar[2]] = sco->internal.bufferCoordinates[input][i][2 * block->ipar[2] - 1];
+                }
+                sco->internal.numberOfPoints = 1;
 
-        // set the buffer coordinates to the last point
-        for (i = 0; i < block->insz[input]; i++)
-        {
-            sco->internal.bufferCoordinates[input][i][0] = sco->internal.bufferCoordinates[input][i][block->ipar[2] - 1];
-            sco->internal.bufferCoordinates[input][i][block->ipar[2]] = sco->internal.bufferCoordinates[input][i][2 * block->ipar[2] - 1];
-        }
-        sco->internal.numberOfPoints = 1;
-
-        // reconfigure related graphic objects
-        if (pushHistory(block, input, sco->internal.maxNumberOfPoints) == FALSE)
-        {
-            set_block_error(-5);
-            freeScoData(block);
-            sco = NULL;
-        }
-    }
-
-    /*
-     * Update data
-     */
-    if (sco != NULL)
-    {
-        for (i = 0; i < block->insz[input]; i++)
-        {
-            const double value = data[i];
-            setBuffersCoordinates(block, sco->internal.bufferCoordinates[input][i], sco->internal.numberOfPoints, block->ipar[2], t, value);
+                // reconfigure related graphic objects
+                if (pushHistory(block, input, sco->internal.maxNumberOfPoints) == FALSE)
+                {
+                    set_block_error(-5);
+                    freeScoData(block);
+                    sco = NULL;
+                }
+            }
         }
 
-        sco->internal.numberOfPoints++;
+        /*
+         * Update data
+         */
+        if (sco != NULL)
+        {
+            for (i = 0; i < block->insz[input]; i++)
+            {
+                const double value = data[i];
+                setBuffersCoordinates(block, sco->internal.bufferCoordinates[input][i], sco->internal.numberOfPoints, block->ipar[2], t, value);
+            }
+
+            sco->internal.numberOfPoints++;
+        }
     }
 }
 

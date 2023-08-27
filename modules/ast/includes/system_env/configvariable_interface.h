@@ -81,10 +81,14 @@ EXTERN_AST dynlib_ptr getEntryPointFromPosition(int position);
 
 EXTERN_AST int isEnableDebug();
 EXTERN_AST int isDebugInterrupted();
+EXTERN_AST int debuggerManagerExecute(const char* command, int iWaitForIt);
 
 EXTERN_AST int isExecutionBreak();
 EXTERN_AST void setExecutionBreak();
 EXTERN_AST void resetExecutionBreak();
 
 EXTERN_AST int setRecursionLimit(int);
+
+EXTERN_AST int getWebMode();
 #endif /* !__CONFIGVARIABLE_INTERFACE_H__ */
+

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 11:50+0000\n"
-"Last-Translator: Paul Bignier <Unknown>\n"
+"PO-Revision-Date: 2021-07-09 13:30+0000\n"
+"Last-Translator: davidcl <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -263,12 +263,6 @@ msgstr ""
 "une XMLList ou un XMLSet attendu.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: Matrix of strings expected.\n"
-msgstr ""
-"%s : Type erroné de l'argument d'entrée n°%d : Une matrice de chaîne de "
-"caractères attendue.\n"
-
-#, c-format
 msgid ""
 "%s: Wrong size for input argument #%d: Matrix nx2 or nx3 of strings "
 "expected.\n"
@@ -401,3 +395,51 @@ msgstr "%s : Le champ %s n'est pas modifiable : %s\n"
 
 msgid "CML read"
 msgstr "Lecture de fichier CML (Chemical Markup Language)"
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr "%s : Nombre erroné d'arguments d'entrée : %d ou %d attendus.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: String expected.\n"
+msgstr ""
+"%s : type erroné de l'argument d'entrée n°%d : une chaîne de caractères "
+"attendue.\n"
+
+#, c-format
+msgid "%s: Invalid %s file.\n"
+msgstr "%s : fichier %s invalide.\n"
+
+#, c-format
+msgid "%s: The file %s does not exist.\n"
+msgstr "%s : Le fichier %s n'existe pas.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A XMLDoc expected.\n"
+msgstr "%s : Type erroné de l'argument d'entrée n°%d : Un XMLDoc attendu.\n"
+
+#, c-format
+msgid "%s: Invalid XPath request.\n"
+msgstr "%s : Requête XPath invalide.\n"
+
+#, c-format
+msgid "%s: Invalid XPath request."
+msgstr "%s : Requête XPath invalide."
+
+#, c-format
+msgid "%s: Target node is not a XML_ELEMENT_NODE."
+msgstr "%s : Le nœud cible n'est pas un XML_ELEMENT_NODE."
+
+#, c-format
+msgid "%s: Invalid attribute name: %s."
+msgstr "%s : Nom d'attribut invalide : %s"
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: a 2xN matrix expected.\n"
+msgstr ""
+"%s : Dimension erronée de l'argument d'entrée n°%d : Une matrice 2xN "
+"attendue.\n"
+
+#, c-format
+msgid "%s: Invalid XConfiguration.xml file.\n"
+msgstr "%s : Fichier XConfiguration.xml invalide.\n"

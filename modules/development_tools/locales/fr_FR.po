@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 00:32+0000\n"
-"Last-Translator: Paul Bignier <Unknown>\n"
+"PO-Revision-Date: 2021-07-09 13:22+0000\n"
+"Last-Translator: davidcl <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected."
@@ -66,10 +66,6 @@ msgid "%s: Assertion failed: expected = %s while computed = %s"
 msgstr "%s : Échec de l'assertion : attendu = %s, cependant calculé = %s"
 
 #, c-format
-msgid "%s: Wrong number of input argument: %d expected.\n"
-msgstr "%s : Nombre erroné d'argument d'entrée : %d attendu.\n"
-
-#, c-format
 msgid "%s: Wrong number of input arguments: %d expected.\n"
 msgstr "%s : Nombre erroné d'arguments d'entrée : %d attendus.\n"
 
@@ -89,15 +85,42 @@ msgstr ""
 "%s : L'objet calculé est de type complexe, cependant il aurait dû être réel."
 
 #, c-format
+msgid "%s: Assertion failed: expected= %s  while computed= %s"
+msgstr "%s : Échec de l'assertion : attendu = %s, cependant calculé = %s"
+
+#, c-format
 msgid ""
-"%s: Assertion failed: expected = %s while computed = %s (mean diff = %s)"
+"%s: Assertion failed: expected and computed are two distinct built-in "
+"functions."
 msgstr ""
-"%s : Échec de l'assertion : attendu = %s, cependant calculé = %s (différence "
-"moyenne = %s)"
+"%s : Échec de l'assertion : l'attendu et le calculé sont deux fonctions "
+"distinctes."
+
+#, c-format
+msgid "expected(%d)= "
+msgstr "attendu(%d) = "
+
+#, c-format
+msgid "computed(%d)= "
+msgstr "calculé(%d) = "
+
+msgid "expected= "
+msgstr "attendu = "
+
+msgid "computed= "
+msgstr "calculé = "
+
+#, c-format
+msgid "%s: Assertion failed: %s  while %s (mean diff = %s)"
+msgstr "%s : Échec de l'assertion : %s, alors que %s (différence moyenne = %s)"
+
+#, c-format
+msgid "%s: Assertion failed: %s  while %s"
+msgstr "%s : Échec de l'assertion : %s, alors que %s"
 
 #, c-format
 msgid "%s: Wrong number of input argument: At least %d expected.\n"
-msgstr "%s : Nombre erroné d'arguments d'entrée : Au moins %d attendu.\n"
+msgstr "%s : Nombre erroné d'arguments d'entrée : Au moins %d attendus.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: A string vector expected.\n"
@@ -131,16 +154,15 @@ msgid ""
 "%s: Assertion failed: expected error message = %s while computed error "
 "message = %s."
 msgstr ""
-"%s : Échec de l'assertion : message d'erreur attendu = %s, cependant message "
-"d'erreur calculé = %s."
+"%s : Échec de l'assertion : message d'erreur attendu = %s, alors que message "
+"d'erreur obtenu = %s."
 
 #, c-format
 msgid ""
 "%s: Assertion failed: expected error number = %d while computed error number "
 "= %d."
 msgstr ""
-"%s : Échec de l'assertion : numéro attendu d'erreur = %d, cependant numéro "
-"d'erreur calculé = %d."
+"%s : Échec de l'assertion : numéro d'erreur attendu = %d, mais obtenu = %d."
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Boolean matrix expected.\n"
@@ -150,8 +172,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: Assertion failed: Entry %%T found in condition(%d).\n"
-msgstr ""
-"%s : assertion erronée : Valeur %%T trouvée en condition(%d).\n"
+msgstr "%s : assertion erronée : Valeur %%T trouvée en condition(%d).\n"
 
 #, c-format
 msgid ""
@@ -172,8 +193,9 @@ msgstr "%s : Impossible d'ouvrir le fichier %s.\n"
 msgid ""
 "%s: The content of computed file %s is different from the content of "
 "reference file %s."
-msgstr "%s : Le contenu du fichier calculé %s est différent du contenu "
-"du fichier référence %s."
+msgstr ""
+"%s : Le contenu du fichier calculé %s est différent du contenu du fichier "
+"référence %s."
 
 #, c-format
 msgid "%s: Cannot close file %s.\n"
@@ -181,8 +203,7 @@ msgstr "%s : Impossible de fermer le fichier %s.\n"
 
 #, c-format
 msgid "%s: Assertion failed: Entry %%F found in condition(%d).\n"
-msgstr ""
-"%s : assertion erronée : valeur %%F trouvée en condition(%d).\n"
+msgstr "%s : assertion erronée : valeur %%F trouvée en condition(%d).\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected.\n"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 08:15+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2020-02-18 22:04+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: Japan\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -230,14 +230,16 @@ msgid "%s: Wrong input argument %d.\n"
 msgstr "%s: 入力引数 %d が間違っています.\n"
 
 #, c-format
-msgid "End of file at line %d.\n"
-msgstr "ファイルの終端(%d行目).\n"
+msgid "%s: Input missing from console.\n"
+msgstr ""
 
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d : A real matrix or column vector "
 "expected.\n"
 msgstr ""
+"%s: 入力引数 #%dの型が間違っています : 実数行列または列ベクトルを指定してくだ"
+"さい.\n"
 
 #, c-format
 msgid "Undefined environment variable %s.\n"
@@ -270,17 +272,8 @@ msgid "%s: Legend does not fit with the current context. Skipped\n"
 msgstr "%s: 凡例はカレントのコンテキストに適合しません.　スキップしました.\n"
 
 #, c-format
-msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
-msgstr ""
-"%s: 入力引数の数が間違っています: %d から %d 個の引数を指定してください.\n"
-
-#, c-format
 msgid "%s: Wrong type for input argument #%d: String expected.\n"
 msgstr "%s: 入力引数 #%d の型が間違っています: 文字列を指定してください.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d: '%s' value expected.\n"
-msgstr "%s: 入力引数 #%d の値が間違っています: '%s' 値を指定してください.\n"
 
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"

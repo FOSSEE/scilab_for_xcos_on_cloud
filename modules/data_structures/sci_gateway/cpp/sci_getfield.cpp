@@ -58,6 +58,8 @@ types::Function::ReturnValue sci_getfield(types::typed_list &in, int _iRetCount,
         return sci_getfieldUserType(in, _iRetCount, out);
     }
 
+    _iRetCount = std::max(_iRetCount, 1);
+
     types::InternalType* pIndex = in[0];
     if (in[1]->isList() == false && in[1]->isMList() == false && in[1]->isTList() == false)
     {
@@ -123,7 +125,7 @@ types::Function::ReturnValue sci_getfield(types::typed_list &in, int _iRetCount,
     int iIndex = 0;
     for (int i = 0; i < iListSize; i++)
     {
-        if (pList->get(i)->isListUndefined())
+        if (pList->get(i)->isVoid())
         {
             switch (pIndex->getType())
             {
@@ -205,7 +207,7 @@ static types::Function::ReturnValue sci_getfieldStruct(types::typed_list &in, in
 {
     types::InternalType* pIndex = in[0];
     types::Struct* pSt = in[1]->getAs<types::Struct>();
-    std::vector<types::InternalType*> vectResult;
+    types::typed_list vectResult;
 
     if (pIndex->isString())
     {
@@ -260,7 +262,7 @@ static types::Function::ReturnValue sci_getfieldUserType(types::typed_list &in, 
         // Extract the properties
         types::typed_list one (1, new types::Double(1));
         types::InternalType* properties = pUT->extract(&one);
-        if (!properties->isString())
+        if (!properties || !properties->isString())
         {
             Scierror(999, _("%s: Could not read the argument #%d properties.\n"), "getfield", 2);
             one[0]->killMe();

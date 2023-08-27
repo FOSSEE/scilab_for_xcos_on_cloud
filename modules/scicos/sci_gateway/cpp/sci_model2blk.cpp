@@ -55,11 +55,7 @@ extern "C"
 
 /*--------------------------------------------------------------------------*/
 //extern int *listentry(int *header, int i);
-//extern int C2F(funnum) (char *fname);
 //extern int C2F(namstr)();
-/*--------------------------------------------------------------------------*/
-//extern int ntabsim;
-//extern OpTab tabsim[];
 /*--------------------------------------------------------------------------*/
 /* model2blk Build a scicos_block structure from
 * a scicos model
@@ -199,7 +195,7 @@ types::Function::ReturnValue sci_model2blk(types::typed_list &in, int _iRetCount
         return types::Function::Error;
     }
 
-    if (_iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(78, _("%s: Wrong number of output argument(s): %d expected.\n"), name.data(), 1);
         return types::Function::Error;
@@ -477,10 +473,11 @@ types::Function::ReturnValue sci_model2blk(types::typed_list &in, int _iRetCount
             }
 
             Block.inptr[i] = MALLOC(size);
-            if (Block.inptr == nullptr)
+            if (Block.inptr[i] == nullptr)
             {
                 freeBlock(&Block);
                 Scierror(888, _("%s : Allocation error.\n"), name.data());
+                // FIXME memleak on the previous Block.inptr[i]
                 return types::Function::Error;
             }
 

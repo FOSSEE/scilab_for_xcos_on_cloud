@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2015-08-17 11:20+0100\n"
-"PO-Revision-Date: 2019-02-12 11:21+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2020-02-07 13:12+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 msgid "Warning :\n"
 msgstr "警告:\n"
@@ -28,9 +28,12 @@ msgid "computing least squares solution. (see lsq).\n"
 msgstr "最小二乗解を計算中. (lsq 参照).\n"
 
 #, c-format
-msgid "debugger stop on breakpoint(%d) in function %ls line %d\n"
+msgid "debugger stop on breakpoint(%d) in function %s at line %d\n"
 msgstr ""
-"デバッガがブレークポイント (%d)  で停止しました ( 関数 %ls ,  %d 行目)\n"
+
+#, c-format
+msgid "debugger stop on breakpoint(%d) in file %s at line %d\n"
+msgstr ""
 
 msgid "Execution aborted.\n"
 msgstr "実行をアボートしました.\n"
@@ -45,6 +48,12 @@ msgstr "デバッガがエラーで停止しました (関数 %ls, %d 行目)\n"
 
 msgid "Leave debugger.\n"
 msgstr "デバッガを離れます.\n"
+
+#
+# File: modules/ast/src/cpp/ast/debuggervisitor.cpp, line: 186
+#, c-format
+msgid "Wrong breakpoint condition: A result expected.\n"
+msgstr ""
 
 #, c-format
 msgid "Undefined variable: %s\n"
@@ -65,6 +74,14 @@ msgstr "Scilab では未実装です.\n"
 msgid "Invalid index.\n"
 msgstr "添字が不正です.\n"
 
+#
+# File: modules/ast/src/cpp/ast/runvisitor.cpp, line: 477
+# File: modules/ast/src/cpp/types/mlist.cpp, line: 154
+# File: modules/ast/src/cpp/types/tlist.cpp, line: 231
+#, c-format
+msgid "%s: Extraction must have at least one output.\n"
+msgstr ""
+
 msgid "Redefining permanent variable.\n"
 msgstr "永続的変数を再定義しています.\n"
 
@@ -73,10 +90,6 @@ msgstr "for式は、1または2次元の変数のみを扱えます\n"
 
 msgid "for expression : Wrong type for loop iterator.\n"
 msgstr "for 式: 反復イタレータの型が間違っています.\n"
-
-#, c-format
-msgid "%s: function is disabled in debug mode.\n"
-msgstr "%s: 関数がデバッグモードで無効になりました.\n"
 
 msgid "With input arguments, return / resume expects output arguments.\n"
 msgstr "入力引数を指定した場合, return / resume には出力引数を指定します.\n"
@@ -180,15 +193,6 @@ msgstr "/ 演算子 : エラー %d はまだ管理されていません.\n"
 msgid "Warning : division by zero...\n"
 msgstr "警告: ゼロ割...\n"
 
-msgid "Bad value in the left or right operand.\n"
-msgstr "左または右オペランドの値が不正です.\n"
-
-msgid "Bad size for left or right operand.\n"
-msgstr "左または右オペランドの大きさが不正です.\n"
-
-msgid "Bad value in the left operand.\n"
-msgstr "左オペランドの値が不正です.\n"
-
 msgid "With NaN or Inf a left division by scalar expected.\n"
 msgstr ""
 "NaNまたはInfを指定した場合, スカラーによる左割り算を指定してください.\n"
@@ -204,7 +208,7 @@ msgid "Operator \\ : Error %d not yet managed.\n"
 msgstr "\\ 演算子: エラー %d は未管理です.\n"
 
 msgid "Invalid exponent: expected finite integer exponents.\n"
-msgstr ""
+msgstr "指数部が不正です: 指数部に整数を指定してください.\n"
 
 msgid "Invalid exponent.\n"
 msgstr "指数が間違っています.\n"
@@ -308,6 +312,9 @@ msgstr "%s ライブラリを読み込むことはできません\n"
 msgid "Impossible to load %s function in %s library: %s\n"
 msgstr "%s 関数を読み込めません(ライブラリ %s) : %s\n"
 
+msgid "Cannot allocate memory"
+msgstr ""
+
 #, c-format
 msgid "Functions files location : %s.\n"
 msgstr "関数ファイルの位置: %s.\n"
@@ -373,8 +380,8 @@ msgid "Can not allocate negative size (%d).\n"
 msgstr "負の大きさ (%d) を確保することはできません.\n"
 
 #, c-format
-msgid "Can not allocate %.2f MB memory.\n"
-msgstr "%.2f MBのメモリを確保することはできません.\n"
+msgid "Can not allocate %s memory.\n"
+msgstr ""
 
 msgid "Unable to insert multiple item in a struct.\n"
 msgstr "構造体に複数要素を挿入することはできません.\n"
@@ -386,59 +393,9 @@ msgid "Can not allocate data.\n"
 msgstr "データ保持用のメモリを確保できません.\n"
 
 #, c-format
-msgid "Field \"%ls\" does not exists\n"
-msgstr "フィールド \"%ls\" は存在しません.\n"
+msgid "Field \"%ls\" does not exist\n"
+msgstr ""
 
 #, c-format
 msgid "variable size exceeded : less than %d expected.\n"
 msgstr "変数の大きさを超えました: %d 未満にしてください.\n"
-
-#~ msgid "variables don't have the same formal variable"
-#~ msgstr "変数は同じ形式の変数を有しません."
-
-#~ msgid "%s: Could not find '%s': Please check that macros have been built.\n"
-#~ msgstr ""
-#~ "%s:  '%s' が見つかりませんでした: 構築されたマクロをチェックしてくださ"
-#~ "い.\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: An integer matrix expected.\n"
-#~ msgstr ""
-#~ "%s: 入力引数 #%d の型が間違っています: 整数行列を指定してください.\n"
-
-#~ msgid "%s: Division by zero..."
-#~ msgstr "%s: ゼロ割です..."
-
-#~ msgid "%s: Argument #%d: Square matrix expected.\n"
-#~ msgstr "%s: 引数 #%d: 正方行列を指定してください.\n"
-
-#~ msgid "%s: Non implemented feature.\n"
-#~ msgstr "%s: 機能が未実装です.\n"
-
-#~ msgid "Invalid exponent: expected real exponents."
-#~ msgstr "指数が間違っています: 実数の指数を指定してください."
-
-#~ msgid "Division by zero"
-#~ msgstr "ゼロ割"
-
-#~ msgid "Not implemented"
-#~ msgstr "実装されていません"
-
-#~ msgid "Invalid exponent"
-#~ msgstr "指数が間違っています"
-
-#~ msgid "%s: Wrong size for input argument #%d: Square matrix expected.\n"
-#~ msgstr ""
-#~ "%s: 入力引数 #%d の大きさが間違っています: 正方行列を指定してください.\n"
-
-#~ msgid "%s: Unable to diagonalize.\n"
-#~ msgstr "%s: 対角化できません。\n"
-
-#~ msgid "Not implemented in scilab...\n"
-#~ msgstr "scilabでは実装されていません...\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
-#~ msgstr ""
-#~ "%s: 入力引数 #%d の型が間違っています: スカラーを指定してください.\n"
-
-#~ msgid "%s: Wrong type for input argument #%d: An integer expected.\n"
-#~ msgstr "%s: 入力引数 #%d の型が間違っています: 整数を指定してください.\n"

@@ -134,6 +134,9 @@
     <ClCompile Include="..\cscope.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\scale_cscope.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cscopxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -972,6 +975,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cpp\fromws_c.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scale_cmscope.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:27+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Rui Hirokawa <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: Japan\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -37,6 +37,30 @@ msgstr ""
 
 msgid "Scilab sound module not installed.\n"
 msgstr "Scilab sound モジュールがインストールされていません.\n"
+
+# File: modules/sound/demos/mapsound.dem.sce, line: 29
+msgid "<html><h4>Example #1: Standard</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 42
+msgid "Next example"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 78
+msgid "Next exampleStop"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 91
+msgid "<html><h4>Example #3: chimes.wav sound</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 97
+msgid "End"
+msgstr ""
 
 msgid "Sound file handling"
 msgstr "音声ファイル処理"
@@ -71,6 +95,10 @@ msgstr "%s: ファイル %s がオープンできません。\n"
 msgid "Index range must be specified as a scalar or a 2 elements vector."
 msgstr "添字範囲はスカラーまたは2要素のベクトルで指定する必要があります."
 
+#, c-format
+msgid "%s: File '%s': Unrecognized data format.\n"
+msgstr ""
+
 msgid "Sample limit vector must have 2 elements."
 msgstr "サンプル制限ベクトルは2要素としてください."
 
@@ -82,6 +110,10 @@ msgstr "サンプル制限は昇順で指定してください."
 
 msgid "Error in file format."
 msgstr "ファイル形式エラー:"
+
+#, c-format
+msgid "%s: File '%s' is not a .au sound file.\n"
+msgstr ""
 
 msgid "Error while reading sound file."
 msgstr "サウンドファイル読み込み時にエラー発生:"
@@ -124,6 +156,57 @@ msgstr "%s: 出力引数の数が間違っています.\n"
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"
 msgstr "%s: 出力引数の数が間違っています.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Function expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: A colormap function expected.\n"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 126
+msgid "Time [s]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 127
+msgid "Frequency [Hz]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 137
+msgid "Amplitude"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be >= %d.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: '%s' is a directory. File expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: The file '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Decimal number expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be > %d.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Failed to play the sound with command: %s.\n"
@@ -183,6 +266,10 @@ msgstr ""
 "%s: 入力引数の値が間違っています: インデックスの範囲はスカラーまたは %d-要素"
 "ベクトルで指定してください.\n"
 
+#, c-format
+msgid "%s: The file '%s' does not exist.\n"
+msgstr ""
+
 msgid ".wav file does not contain the RIFF identifier."
 msgstr ".wavファイルにRIFF識別子が含まれていません."
 
@@ -221,8 +308,9 @@ msgstr "不正な .wav ファイル: フォーマット情報の前にデータ�
 msgid "Incorrect chunk size information in RIFF file."
 msgstr "RIFF・ファイルの不正確なチャンクサイズ情報。"
 
-msgid "Invalid wav format."
-msgstr "wavフォーマットが間違っています."
+#, c-format
+msgid "%s: wav format #%d detected. Only wav formats #%s are supported.\n"
+msgstr ""
 
 #
 # File: macros/wavread.sci, line: 189
@@ -237,8 +325,8 @@ msgid "%s: An error occurred: Data compression format %s is not supported.\n"
 msgstr ""
 "%s: エラーが起きました: データ圧縮フォーマット %s サポートされません。\n"
 
-msgid "Cannot read .wav file  with more than 16 bits per sample."
-msgstr "16ビット/サンプルを超える .wav ファイルを読み込むことはできません."
+msgid "Cannot read .wav file  with more than 32 bits per sample."
+msgstr ""
 
 msgid "Sample limit vector must have 2 entries."
 msgstr "サンプル範囲ベクトルは2つのエントリを有する必要があります."

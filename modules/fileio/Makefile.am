@@ -10,7 +10,6 @@ FILEIO_C_SOURCES = \
     src/c/do_xxscanf.c \
     src/c/findfiles.c \
     src/c/Status2Mode.c \
-    src/c/readline.c \
     src/c/getdrives.c \
     src/c/deleteafile.c \
     src/c/getshortpathname.c \
@@ -23,7 +22,6 @@ FILEIO_C_SOURCES = \
     src/c/removedir.c \
     src/c/cluni0.c \
     src/c/scicurdir.c \
-    src/c/fullpath.c \
     src/c/fileinfo.c \
     src/c/getrelativefilename.c \
     src/c/splitpath.c \
@@ -55,6 +53,7 @@ GATEWAY_CPP_SOURCES = \
 	sci_gateway/cpp/sci_mopen.cpp \
 	sci_gateway/cpp/sci_mclose.cpp \
 	sci_gateway/cpp/sci_mget.cpp \
+	sci_gateway/cpp/sci_mgeti.cpp \
 	sci_gateway/cpp/sci_mput.cpp \
 	sci_gateway/cpp/sci_mputl.cpp \
 	sci_gateway/cpp/sci_mgetl.cpp \
@@ -93,6 +92,7 @@ GATEWAY_CPP_SOURCES = \
 FILEIO_CPP_SOURCES = \
 	src/cpp/expandPathVariable.cpp \
 	src/cpp/filemanager_interface.cpp \
+	src/cpp/fullpath.cpp \
 	src/cpp/mopen.cpp \
 	src/cpp/mclose.cpp \
 	src/cpp/mput.cpp \
@@ -177,5 +177,8 @@ libscifileio_la_etc_DATA = etc/fileio.quit etc/fileio.start
 libscifileio_la_includedir=$(pkgincludedir)
 libscifileio_la_include_HEADERS = includes/getFullFilename.h \
 includes/dynlib_fileio.h
+
+#### fileio : CSV import GUI library
+MACROSDIRSEXT= macros/importgui
 
 include $(top_srcdir)/Makefile.incl.am

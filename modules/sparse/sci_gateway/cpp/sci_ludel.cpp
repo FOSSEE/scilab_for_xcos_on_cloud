@@ -37,7 +37,7 @@ types::Function::ReturnValue sci_ludel(types::typed_list &in, int _iRetCount, ty
         return types::Function::Error;
     }
 
-    if (_iRetCount != 1)
+    if (_iRetCount > 1)
     {
         Scierror(999, _("%s: Wrong number of output argument(s): %d expected.\n"), "ludel", 1);
         return types::Function::Error;
@@ -59,6 +59,8 @@ types::Function::ReturnValue sci_ludel(types::typed_list &in, int _iRetCount, ty
         Scierror(999, _("Wrong value for argument #%d: the lu handle is no more valid.\n"), 1);
         return types::Function::Error;
     }
+
+    delete[] fmatindex;
 
     return types::Function::OK;
 }

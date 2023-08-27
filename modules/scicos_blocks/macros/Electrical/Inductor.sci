@@ -32,7 +32,8 @@ function [x,y,typ]=Inductor(job,arg1,arg2)
         exprs=graphics.exprs
         model=arg1.model;
         while %t do
-            [ok,L,exprs]=scicos_getvalue("Set Inductor block parameter",..
+            [ok,L,exprs]=scicos_getvalue(..
+            msprintf(_("Set %s block parameters"), "Inductor"),..
             "L (H)",list("vec",1),exprs)
             if ~ok then
                 break,
@@ -46,7 +47,7 @@ function [x,y,typ]=Inductor(job,arg1,arg2)
             if v>=1e-8 & v<1e-5
                 sv = msprintf("%d\\:n\n",v*1e9)
             elseif v>=1e-5 & v<1e-2
-                sv = msprintf("%d\\:\\mu\n",v*1e6)
+                sv = msprintf("%d\\:\\mu \n",v*1e6)
             elseif v>=1e-2 & v<10
                 sv = msprintf("%d\\:m\n",v*1000)
             elseif v>=10 & v<10000

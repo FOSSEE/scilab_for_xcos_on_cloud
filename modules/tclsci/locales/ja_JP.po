@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 12:55+0000\n"
+"PO-Revision-Date: 2018-07-25 12:55+0000\n"
 "Last-Translator: Rui Hirokawa <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: Japan\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -267,6 +267,23 @@ msgstr "%s: 入力引数 #%d の型が間違っています:論理値を指定�
 #, c-format
 msgid "%s: Slave interpreter already exists.\n"
 msgstr "%s: 従属インタープリタは既にあります。\n"
+
+#
+# File: modules/tclsci/macros/ged_move_entity.sci, line: 38
+msgid "Mouse moving picker ON => Console LOCKED"
+msgstr ""
+
+#
+# File: modules/tclsci/macros/ged_move_entity.sci, line: 39
+msgid "On a figure: Click left to get and set. Click middle to QUIT...\n"
+msgstr ""
+
+#
+# File: modules/tclsci/macros/ged_move_entity.sci, line: 192
+msgid ""
+"\n"
+"--> // Moving picker OFF => Back to the console.\n"
+msgstr ""
 
 #
 # File: macros/gettklib.sci, line: 45

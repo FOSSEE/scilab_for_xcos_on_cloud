@@ -256,13 +256,12 @@ wchar_t *wcssub_reg(const wchar_t* _pwstInput, const wchar_t* _pwstSearch, const
     pcre_error_code iPcreStatus = PCRE_FINISHED_OK;
     int iStart = 0;
     int iEnd = 0;
-    int len = (int)wcslen(_pwstInput);
-    int* arriStart = (int*)MALLOC(sizeof(int) * len);
-    int* arriEnd = (int*)MALLOC(sizeof(int) * len);
+    int len = 0;
+    int* arriStart = NULL;
+    int* arriEnd = NULL;
     int iOccurs = 0;
     int iJump = 0;
 
-    wchar_t* pwstOutput = NULL;
     wchar_t* result = NULL;
 
     if (_pwstInput == NULL)
@@ -270,8 +269,14 @@ wchar_t *wcssub_reg(const wchar_t* _pwstInput, const wchar_t* _pwstSearch, const
         return NULL;
     }
 
+    len = (int)wcslen(_pwstInput);
+    arriStart = (int*)MALLOC(sizeof(int) * len);
+    arriEnd = (int*)MALLOC(sizeof(int) * len);
+
     if (_pwstSearch == NULL || _pwstReplace == NULL)
     {
+        FREE(arriStart);
+        FREE(arriEnd);
         return os_wcsdup(_pwstInput);
     }
 
@@ -297,6 +302,7 @@ wchar_t *wcssub_reg(const wchar_t* _pwstInput, const wchar_t* _pwstSearch, const
             pcre_error("strsubst", iPcreStatus);
             FREE(arriStart);
             FREE(arriEnd);
+            *_piErr = iPcreStatus;
             return NULL;
         }
     }
@@ -452,7 +458,7 @@ wchar_t *wcssub(const wchar_t* _pwstInput, const wchar_t* _pwstSearch, const wch
         {
             piStart[iOccurs++]  = pwstPos - _pwstInput;
             iOffset             += iReplace - iSearch;
-            pwstPos++;
+            pwstPos             += iSearch;
         }
     }
 

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 12:21+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -350,7 +350,7 @@ msgstr "%s: 入力引数 #%d の型が間違っています: スカラーを指�
 
 #, c-format
 msgid "%s: %s is obsolete and will be removed from Scilab %s\n"
-msgstr ""
+msgstr "%s: %s は廃止され, Scilab %s 以降で削除されます\n"
 
 #, c-format
 msgid "%s: Wrong number for input argument: %d or %d expected.\n"
@@ -955,14 +955,17 @@ msgstr "図のプロパティ(&F)"
 msgid "&Axes properties"
 msgstr "軸のプロパティ(&A)"
 
-msgid "&Start entity picker"
-msgstr "エンティティピッカーを開始(&S)"
+msgid "&Move objects"
+msgstr ""
+
+msgid "Start entity &picker"
+msgstr ""
 
 msgid "S&top entity picker"
 msgstr "エンティティピッカーを停止 (&t)"
 
-msgid "&Start datatip manager"
-msgstr "データティップマネージャを開始 (&S)"
+msgid "Start &datatip manager"
+msgstr ""
 
 msgid "Stop datatip manager"
 msgstr "データティップマネージャを停止"
@@ -1023,6 +1026,66 @@ msgstr "フォントを拡大(&c)"
 
 msgid "&Decrease font size"
 msgstr "フォントを小さくする (&D)"
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 81
+# File: modules/gui/src/gui_fake_xml.c, line: 100
+msgid "&Language"
+msgstr ""
+
+msgid "en"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 83
+# File: modules/gui/src/gui_fake_xml.c, line: 102
+msgid "fr"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 84
+# File: modules/gui/src/gui_fake_xml.c, line: 103
+msgid "ja"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 85
+# File: modules/gui/src/gui_fake_xml.c, line: 104
+msgid "pt"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 86
+# File: modules/gui/src/gui_fake_xml.c, line: 105
+msgid "ru"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 87
+# File: modules/gui/src/gui_fake_xml.c, line: 106
+msgid "&Online"
+msgstr ""
+
+msgid "See this page online"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 89
+# File: modules/gui/src/gui_fake_xml.c, line: 108
+msgid "&Issues"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 90
+# File: modules/gui/src/gui_fake_xml.c, line: 109
+msgid "List ALL issues declared for this item (online)"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 91
+# File: modules/gui/src/gui_fake_xml.c, line: 110
+msgid "List only UNRESOLVED issues declared for this item (online)"
+msgstr ""
 
 #
 # File: scilab_fake_localization_file.c, line: 42
@@ -1212,6 +1275,12 @@ msgstr "グラフィックエディタを開く"
 msgid "Toggle curve data modification"
 msgstr "曲線データ修正をトグル"
 
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 226
+# File: modules/gui/src/gui_fake_xml.c, line: 235
+msgid "Move objects (2D view)"
+msgstr ""
+
 msgid "Help Browser"
 msgstr "ヘルプブラウザー"
 
@@ -1271,6 +1340,9 @@ msgstr "ファイルを選択して出力"
 
 msgid "Figure saved.\n"
 msgstr "図を保存しました.\n"
+
+msgid "'Right click and drag to rotate.'"
+msgstr ""
 
 msgid "Colors"
 msgstr "色"
@@ -1600,9 +1672,6 @@ msgstr "選択した曲線のデータティップを全て削除"
 msgid "Delete the nearest datatip"
 msgstr "最も近いデータティップを削除"
 
-msgid "Delete the last datatip"
-msgstr "最後のデータティップを削除"
-
 msgid "Edit curve datatip display function"
 msgstr "曲線データティップ表示関数を編集"
 
@@ -1655,12 +1724,10 @@ msgid "Delete selected object"
 msgstr "選択したオブジェクトを削除"
 
 msgid "Clear axes"
-msgstr ""
+msgstr "軸をクリア"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 312
 msgid "Delete axes contents and labels"
-msgstr ""
+msgstr "軸の内容とラベルを削除"
 
 msgid "Hide"
 msgstr "非表示"
@@ -1680,34 +1747,26 @@ msgstr "クリップボードへコピー"
 msgid "Copy figure to system clipboard"
 msgstr "図をシステムクリップボードにコピー"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 320
 msgid "Set the axes main title"
-msgstr ""
+msgstr "軸のタイトルを指定"
 
 msgid "Label X"
 msgstr "ラベルX"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 322
 msgid "Set the X axis label"
-msgstr ""
+msgstr "X軸ラベルを指定"
 
 msgid "Label Y"
 msgstr "ラベルY"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 324
 msgid "Set the Y axis label"
-msgstr ""
+msgstr "Ｙ軸ラベルを指定"
 
 msgid "Label Z"
 msgstr "ラベルZ"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 326
 msgid "Set the Z axis label"
-msgstr ""
+msgstr "Z軸ラベルを指定"
 
 msgid "Insert a legend into the selected curve"
 msgstr "選択された曲線に判例を挿入"
@@ -1832,8 +1891,8 @@ msgstr "直線"
 msgid "Nurbs"
 msgstr "nurbs"
 
-msgid "Anti-alising"
-msgstr "アンチエイリアス"
+msgid "Anti-aliasing"
+msgstr ""
 
 msgid "Auto Clear"
 msgstr "自動消去"
@@ -2549,6 +2608,9 @@ msgstr "UIコントロールの配置"
 msgid "Uicontrols messagebox-like"
 msgstr "メッセージボックスに似たUIコントロール"
 
+msgid "UIcontrols Game of Dice"
+msgstr ""
+
 msgid "<Enter color name here>"
 msgstr "<色名を入力してください>"
 
@@ -2727,6 +2789,12 @@ msgstr "%s: '%s' プロパティの型が間違っています: 文字列を指�
 msgid "%s: function not available in NWNI mode.\n"
 msgstr "%s: NWNIモードでは利用できない機能です。\n"
 
+#
+# File: modules/gui/macros/close.sci, line: 82
+#, c-format
+msgid "%s: Argument #%d: Unknown GUI name '%s'.\n"
+msgstr ""
+
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d: A graphic handle or a real expected.\n"
@@ -2794,6 +2862,26 @@ msgstr "%s: 入力引数 #%d の型が間違っています: 整数値を指定�
 msgid "%s: Wrong value for input argument #%d: %s or %s expected.\n"
 msgstr ""
 "%s: 入力引数 #%d の値が間違っています: %s または %sを指定してください.\n"
+
+#, c-format
+msgid "%s: Input argument #%d must be a valid handle.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for argument #%d: A string expected.\n"
+msgstr ""
+
+#
+# File: modules/gui/macros/findobj.sci, line: 96
+# File: modules/gui/macros/findobj.sci, line: 101
+#, c-format
+msgid "%s: Argument #%d cannot be a binary operator."
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong type for input argument #%d: A positive integer value expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
@@ -2947,17 +3035,14 @@ msgstr "%s: %s の型が間違っています: 実数を指定してください
 msgid "%s: Wrong size for %s: A real expected.\n"
 msgstr "%s: %sの大きさが間違っています: 実数を指定してください.\n"
 
-#~ msgid "Clears the figure"
-#~ msgstr "図をクリア"
+#, c-format
+msgid "%s: Argument #%d: Booleans, numbers, or text expected.\n"
+msgstr ""
 
-#~ msgid "Insert a title"
-#~ msgstr "タイトルを挿入"
+#
+# File: modules/gui/macros/x_matrix.sci, line: 57
+msgid "<html>(quotes <b> '</b> inside texts must be doubled)"
+msgstr ""
 
-#~ msgid "Insert a label in X axis"
-#~ msgstr "X軸にラベルを挿入"
-
-#~ msgid "Insert a label in Y axis"
-#~ msgstr "Y軸にラベルを挿入"
-
-#~ msgid "Insert a label in Z axis"
-#~ msgstr "Z軸にラベルを挿入"
+#~ msgid "Delete the last datatip"
+#~ msgstr "最後のデータティップを削除"

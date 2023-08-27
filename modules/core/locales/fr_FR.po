@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: Scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 00:31+0000\n"
-"Last-Translator: Paul Bignier <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: davidcl <Unknown>\n"
 "Language-Team: Scilab Localization <localization@scilab.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -91,6 +91,10 @@ msgstr ""
 "%s : Valeur erronée de l'argument d'entrée n°%d : '%s', '%s' ou '%s'.\n"
 
 #, c-format
+msgid "%s: must be call from a function.\n"
+msgstr "%s: doit être un appel d'une fonction.\n"
+
+#, c-format
 msgid "%s: Wrong type for input argument #%d: Matrix of strings expected.\n"
 msgstr ""
 "%s : Type erroné de l'argument d'entrée n°%d : Une matrice de chaîne de "
@@ -110,109 +114,12 @@ msgstr ""
 "attendue.\n"
 
 #, c-format
+msgid "%s: Debugger cannot be activated in pause\n"
+msgstr "%s: Le débogueur ne peux être activé en pause\n"
+
+#, c-format
 msgid "%s: Debugger can be activated only at console scope level\n"
 msgstr "%s : Le débogueur peut seulement être activé au niveau de la console\n"
-
-#, c-format
-msgid "%s: Debugger is not running. Call \"%s\" without parameter first.\n"
-msgstr ""
-"%s : Le débogueur ne fonctionne pas. Appelez \"%s\" sans paramètre en "
-"premier.\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: A string expected.\n"
-msgstr ""
-"%s : Type erroné de l'argument d'entrée n°%d : Une chaîne de caractères "
-"attendue.\n"
-
-#, c-format
-msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
-msgstr "%s : Nombre erroné d'arguments d'entrée : %d à %d attendu(s).\n"
-
-#, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: Scalar positive integer expected.\n"
-msgstr ""
-"%s : Valeur erronée de l'argument d'entrée n°%d : Un scalaire entier positif "
-"attendu.\n"
-
-#, c-format
-msgid "%s: Unable to retrieve information about breakpoint %d.\n"
-msgstr ""
-"%s : Impossible de récupérer des informations au sujet du point d'arrêt %d.\n"
-
-#, c-format
-msgid "%ls"
-msgstr "%ls"
-
-msgid "callstack:"
-msgstr "pile d'appels :"
-
-msgid "debug commands : \n"
-msgstr "commandes de débogage : \n"
-
-msgid "show this help"
-msgstr "afficher cette aide"
-
-msgid "open debug documentation page"
-msgstr "ouvrir la page de documentation de débogage"
-
-msgid "stop debugging"
-msgstr "arrêter le debogage"
-
-msgid "show callstack"
-msgstr "montrer la pile d'appels"
-
-msgid "execute cmd"
-msgstr "exécuter cmd"
-
-msgid "display variable"
-msgstr "afficher la variable"
-
-msgid "continue execution"
-msgstr "continuer l'exécution"
-
-msgid "abort execution"
-msgstr "interrompre l'exécution"
-
-msgid "continue to next statement"
-msgstr "continuer au prochain état"
-
-msgid "step into function"
-msgstr "aller à l'intérieur de la fonction"
-
-msgid "step outside function"
-msgstr "aller en dehors de la fonction"
-
-msgid "add a breakpoint"
-msgstr "ajouter un point d'arrêt"
-
-msgid "delete all breakpoints"
-msgstr "effacer tous les points d'arrêts"
-
-msgid "delete a specific breakpoint"
-msgstr "effacer un point d'arrêt spécifique"
-
-msgid "enable all breakpoints"
-msgstr "activer tous les points d'arrêts"
-
-msgid "enable a specific breakpoint"
-msgstr "activer un point d'arrêt spécifique"
-
-msgid "disable all breakpoints"
-msgstr "désactiver tous les points d'arrêts"
-
-msgid "disable a specific breakpoint"
-msgstr "désactiver un point d'arrêt spécifique"
-
-msgid "show all breakpoints"
-msgstr "montrer tous les points d'arrêts"
-
-msgid "show a specific breakpoint"
-msgstr "montrer un point d'arrêt spécifique"
-
-msgid "  for more details, show help page.\n"
-msgstr "  pour plus de détails, affichez la page d'aide.\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
@@ -329,6 +236,29 @@ msgstr "%s : Nombre erroné d'arguments en sortie : Au moins %d attendus.\n"
 #, c-format
 msgid "%s : Wrong value for argument #%d: %s\n"
 msgstr "%s : Valeur erronée de l'argument d'entrée n°%d : %s\n"
+
+#, c-format
+msgid ""
+"%s: Wrong type of input argument #%d: String or File descriptor expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type of input argument #%d: a single string expected.\n"
+msgstr ""
+
+#
+# File: modules/core/sci_gateway/cpp/sci_hash.cpp, line: 102
+#, c-format
+msgid "%s: algorithm %ls is unknown.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong file descriptor: %d.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: File must be opened for reading.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d : A scalar expected.\n"
@@ -589,6 +519,104 @@ msgstr ""
 "(c)ontinuer ou (a)bandonner l’exécution en cours avant d'exécuter une "
 "nouvelle commande\n"
 
+#, c-format
+msgid "%s: Command missing.\n"
+msgstr "%s: pas de commande.\n"
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
+msgstr "%s : Nombre erroné d'arguments d'entrée : %d à %d attendu(s).\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Integer expected.\n"
+msgstr "%s : Type erroné de l'argument d'entrée n°%d : un entier attendu.\n"
+
+msgid "callstack:"
+msgstr "pile d'appels :"
+
+#, c-format
+msgid "#%-5d%s"
+msgstr "#%-5d%s"
+
+#, c-format
+msgid "#%-5d%s (line %d)"
+msgstr "#%-5d%s (ligne %d)"
+
+#, c-format
+msgid "%s: Unable to retrieve information about breakpoint %d.\n"
+msgstr ""
+"%s : Impossible de récupérer des informations au sujet du point d'arrêt %d.\n"
+
+#, c-format
+msgid "%ls"
+msgstr "%ls"
+
+msgid "debug commands : \n"
+msgstr "commandes de débogage : \n"
+
+msgid "show this help"
+msgstr "afficher cette aide"
+
+msgid "open debug documentation page"
+msgstr "ouvrir la page de documentation de débogage"
+
+msgid "stop debugging"
+msgstr "arrêter le debogage"
+
+msgid "show callstack"
+msgstr "montrer la pile d'appels"
+
+msgid "execute cmd"
+msgstr "exécuter cmd"
+
+msgid "display variable"
+msgstr "afficher la variable"
+
+msgid "continue execution"
+msgstr "continuer l'exécution"
+
+msgid "abort execution"
+msgstr "interrompre l'exécution"
+
+msgid "continue to next statement"
+msgstr "continuer au prochain état"
+
+msgid "step into function"
+msgstr "aller à l'intérieur de la fonction"
+
+msgid "step outside function"
+msgstr "aller en dehors de la fonction"
+
+msgid "add a breakpoint"
+msgstr "ajouter un point d'arrêt"
+
+msgid "delete all breakpoints"
+msgstr "effacer tous les points d'arrêts"
+
+msgid "delete a specific breakpoint"
+msgstr "effacer un point d'arrêt spécifique"
+
+msgid "enable all breakpoints"
+msgstr "activer tous les points d'arrêts"
+
+msgid "enable a specific breakpoint"
+msgstr "activer un point d'arrêt spécifique"
+
+msgid "disable all breakpoints"
+msgstr "désactiver tous les points d'arrêts"
+
+msgid "disable a specific breakpoint"
+msgstr "désactiver un point d'arrêt spécifique"
+
+msgid "show all breakpoints"
+msgstr "montrer tous les points d'arrêts"
+
+msgid "show a specific breakpoint"
+msgstr "montrer un point d'arrêt spécifique"
+
+msgid "  for more details, show help page.\n"
+msgstr "  pour plus de détails, affichez la page d'aide.\n"
+
 msgid ""
 "\n"
 "Call stack:\n"
@@ -606,8 +634,8 @@ msgstr ""
 msgid "ESI Group\n"
 msgstr "ESI Group\n"
 
-msgid "Copyright (c) 2017-2019 (ESI Group)\n"
-msgstr "Copyright (c) 2017-2019 (ESI Group)\n"
+msgid "Copyright (c) 2017-2021 (ESI Group)\n"
+msgstr ""
 
 msgid "Copyright (c) 2011-2017 (Scilab Enterprises)\n"
 msgstr "Copyright (c) 2011-2017 (Scilab Enterprises)\n"
@@ -694,6 +722,9 @@ msgstr "Algèbre linéaire"
 msgid "Call an external routine"
 msgstr "Appeler un programme externe"
 
+msgid "Press &lt;enter> in the console to proceed step by step"
+msgstr "Appuyez sur &lt;Entrée> dans la console pour exécuter ligne à ligne"
+
 #, c-format
 msgid "%s: Could not find '%s': Please check that macros have been built.\n"
 msgstr ""
@@ -772,32 +803,3 @@ msgstr "Dimensions"
 
 msgid "Bytes"
 msgstr "Octets"
-
-#~ msgid "%s: Wrong type for input argument #%d: Double expected.\n"
-#~ msgstr "%s : Type erroné de l'argument d'entrée n°%d : Un double attendu.\n"
-
-#~ msgid "%s: %s is an uneditable hard coded function.\n"
-#~ msgstr "%s : %s est une fonction non modifiable programmée en dur.\n"
-
-#~ msgid "%s: Unable to find Perl file: %s"
-#~ msgstr "%s : Impossible de trouver le fichier Perl : %s"
-
-#~ msgid "%s: Wrong type for input argument #%d: Strings expected.\n"
-#~ msgstr ""
-#~ "%s : Type erroné de l'argument d'entrée n°%d : Des chaînes de caractères "
-#~ "attendues.\n"
-
-#~ msgid "%s: No perl command specified."
-#~ msgstr "%s : Commande perl non fournie."
-
-#~ msgid "%s: Unable to find Perl in '%s"
-#~ msgstr "%s : Impossible de trouver Perl dans '%s"
-
-#~ msgid "%s: Unable to find Perl.\n"
-#~ msgstr "%s : Impossible de trouver Perl.\n"
-
-#~ msgid "%s: System error: Command executed: %s"
-#~ msgstr "%s : Erreur système : Commande exécutée : %s."
-
-#~ msgid " by "
-#~ msgstr " par "

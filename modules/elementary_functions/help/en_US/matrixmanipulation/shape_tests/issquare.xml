@@ -31,7 +31,7 @@
             <varlistentry>
                 <term>x</term>
                 <listitem>
-                    <para>scalar,vector, matrix, hypermatrix, list, array of structures or cells</para>
+                    <para>scalar, vector, matrix, hypermatrix, list, array of structures or cells</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -50,7 +50,7 @@
             </literal>
             returns true if <varname>x</varname>
             is a square matrix (all dimensions of <varname>x</varname> are the same, with eventually singletons
-            if <varname>x</varname> is an hpermatrix).
+            if <varname>x</varname> is an hypermatrix).
         </para>
         <para>
             <note>
@@ -125,6 +125,10 @@ issquare(s) // 3D array of structures (with a singleton dim)
             <revision>
                 <revnumber>5.5.0</revnumber>
                 <revremark>Function issquare introduced.</revremark>
+            </revision>
+            <revision>
+                <revnumber>6.1.1</revnumber>
+                <revremark>issquare() can be overloaded.</revremark>
             </revision>
         </revhistory>
     </refsection>

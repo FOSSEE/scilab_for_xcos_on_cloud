@@ -26,6 +26,7 @@ extern "C"
 #include "elem_common.h"
 #include "os_string.h"
 #include "more.h"
+#include "sciprint.h"
 }
 
 namespace types
@@ -52,7 +53,7 @@ template<typename T>
 Double* convertIndex(T* pI)
 {
     int size = pI->getSize();
-    Double* pCurrentArg = new Double(1, size);
+    Double* pCurrentArg = new Double(pI->getDims(), pI->getDimsArray());
     double* pdbl = pCurrentArg->get();
     for (int l = 0; l < size; l++)
     {
@@ -143,7 +144,7 @@ bool getArgsDims(typed_list* _pArgsIn, std::vector<int>& dims)
                 return false;
             }
 
-            int size = pIL->getSize();
+            int size = (int)pIL->getSize();
             if (size <= 0)
             {
                 return false;
@@ -155,11 +156,11 @@ bool getArgsDims(typed_list* _pArgsIn, std::vector<int>& dims)
             if (step > 0)
             {
                 double real_end = start + step * (size - 1);
-                dims.push_back(real_end);
+                dims.push_back((int)real_end);
             }
             else if (step < 0)
             {
-                dims.push_back(start);
+                dims.push_back((int)start);
             }
             else
             {
@@ -289,7 +290,7 @@ bool getScalarImplicitIndex(GenericType* _pRef, typed_list* _pArgsIn, std::vecto
         double step = evalute(pIL->getStep(), sizeRef);
         double end = evalute(pIL->getEnd(), sizeRef);
 
-        if ((start < 1 && step > 0) || (end < 1 & step < 0))
+        if (start < 1 && step > 0 || end < 1 && step < 0)
         {
             wchar_t szError[bsiz];
             os_swprintf(szError, bsiz, _W("Invalid index.\n").c_str());
@@ -377,7 +378,7 @@ bool getImplicitIndex(GenericType* _pRef, typed_list* _pArgsIn, std::vector<int>
                 double step = evalute(pIL->getStep(), sizeRef);
                 double end = evalute(pIL->getEnd(), sizeRef);
 
-                int size = (end - start) / step + 1;
+                int size = (int)((end - start) / step + 1);
                 if (size <= 0)
                 {
                     //manage implicit that return []
@@ -387,7 +388,7 @@ bool getImplicitIndex(GenericType* _pRef, typed_list* _pArgsIn, std::vector<int>
 
                 std::vector<int> idx(size);
 
-                if ((start < 1 && step > 0) || (end < 1 & step < 0))
+                if (start < 1 && step > 0 || end < 1 && step < 0)
                 {
                     wchar_t szError[bsiz];
                     os_swprintf(szError, bsiz, _W("Invalid index.\n").c_str());
@@ -395,7 +396,7 @@ bool getImplicitIndex(GenericType* _pRef, typed_list* _pArgsIn, std::vector<int>
                 }
 
                 double val = start - 1;
-                std::generate(idx.begin(), idx.end(), [&val, step]{ double s = val; val += step; return (int)s; });
+                std::generate(idx.begin(), idx.end(), [&val, step] { double s = val; val += step; return (int)s; });
 
                 lstIdx.push_back(idx);
                 finalSize *= size;
@@ -529,10 +530,10 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
             {
                 int size = pCurrentArg->getSize();
                 double* dbl = pCurrentArg->get();
-                double minIndex = _pRef==NULL || _pRef->isList()==false ? 1 : 0;
+                double minIndex = _pRef == NULL || _pRef->isList() == false ? 1 : 0;
                 for (int j = 0; j < size; ++j)
                 {
-                    if (dbl[j] < minIndex)
+                    if (dbl[j] < minIndex || isnan(dbl[j]))
                     {
                         if (pCurrentArg->isDeletable())
                         {
@@ -556,8 +557,8 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
                 if (_pRef == NULL)
                 {
                     if (pIL->getStep()->isDouble() &&
-                        ((getIndex(pIL->getStep()) > 0 && pIL->getStart()->isDouble() && getIndex(pIL->getStart()) < 1) ||
-                        (getIndex(pIL->getStep()) < 0 && pIL->getEnd()->isDouble() && getIndex(pIL->getEnd()) < 1)))
+                            ((getIndex(pIL->getStep()) > 0 && pIL->getStart()->isDouble() && getIndex(pIL->getStart()) < 1) ||
+                             (getIndex(pIL->getStep()) < 0 && pIL->getEnd()->isDouble() && getIndex(pIL->getEnd()) < 1)))
                     {
                         pCurrentArg = NULL;
                     }
@@ -571,42 +572,53 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
                     }
                 }
                 else
-                {        //evalute polynom with "MaxDim"
-                    int iMaxDim = _pRef->getAs<GenericType>()->getVarMaxDim(i, iDims);
-    #if defined(_SCILAB_DEBUGREF_)
+                {
+                    //evalute polynom with "MaxDim"
+                    int iMaxDim = 0;
+                    if(_pRef->isImplicitList())
+                    {
+                        ImplicitList* pIL = _pRef->getAs<ImplicitList>();
+                        iMaxDim = pIL->compute() ? pIL->getSize() : 3;
+                    }
+                    else
+                    {
+                        iMaxDim = _pRef->getAs<GenericType>()->getVarMaxDim(i, iDims);
+                    }
+
+#if defined(_SCILAB_DEBUGREF_)
                     Double* pdbl = new Double(iMaxDim);
-    #else
+#else
                     Double dbl(iMaxDim);
-    #endif
+#endif
                     if (pIL->getStart()->isPoly())
                     {
                         Polynom *poPoly = pIL->getStart()->getAs<types::Polynom>();
-    #if defined(_SCILAB_DEBUGREF_)
+#if defined(_SCILAB_DEBUGREF_)
                         pIL->setStart(poPoly->evaluate(pdbl));
-    #else
+#else
                         pIL->setStart(poPoly->evaluate(&dbl));
-    #endif
+#endif
                     }
                     if (pIL->getStep()->isPoly())
                     {
                         Polynom *poPoly = pIL->getStep()->getAs<types::Polynom>();
-    #if defined(_SCILAB_DEBUGREF_)
+#if defined(_SCILAB_DEBUGREF_)
                         pIL->setStep(poPoly->evaluate(pdbl));
-    #else
+#else
                         pIL->setStep(poPoly->evaluate(&dbl));
-    #endif
+#endif
                     }
                     if (pIL->getEnd()->isPoly())
                     {
                         Polynom *poPoly = pIL->getEnd()->getAs<types::Polynom>();
-    #if defined(_SCILAB_DEBUGREF_)
+#if defined(_SCILAB_DEBUGREF_)
                         pIL->setEnd(poPoly->evaluate(pdbl));
-    #else
+#else
                         pIL->setEnd(poPoly->evaluate(&dbl));
-    #endif
+#endif
                     }
 
-    #if defined(_SCILAB_DEBUGREF_)
+#if defined(_SCILAB_DEBUGREF_)
                     pdbl->killMe();
 #endif
                 }
@@ -617,7 +629,7 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
                 double step = getIndex(pIL->getStep());
                 double end = getIndex(pIL->getEnd());
 
-                pCurrentArg = ((start < 1 && step > 0) || (end < 1 & step < 0)) ? NULL : pIL->extractFullMatrix()->getAs<Double>();
+                pCurrentArg = (start < 1 && step > 0 || end < 1 && step < 0) ? NULL : pIL->extractFullMatrix()->getAs<Double>();
             }
 
             pIL->killMe();
@@ -625,7 +637,7 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
         else if (pIT->isString())
         {
             String* pStr = pIT->getAs<String>();
-            if(!_pRef)
+            if (!_pRef)
             {
                 bUndefine = true;
                 continue;
@@ -679,15 +691,21 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
             {
             }
         }
-        else if (pIT->isPoly())
+        else if (pIT->isPoly() && pIT->getAs<types::Polynom>()->getVariableName() == L"$")
         {
             //$
             Polynom* pMP = pIT->getAs<types::Polynom>();
             int iMaxDim = 0;
             //if pRef == NULL, use 0 insteadof, to allow a($+1) on new variable
-            if (_pRef)
+            if (_pRef && _pRef->isGenericType())
             {
                 iMaxDim = _pRef->getAs<GenericType>()->getVarMaxDim(i, iDims);
+            }
+            else if(_pRef && _pRef->isImplicitList())
+            {
+                ImplicitList* pIL = _pRef->getAs<ImplicitList>();
+                // pIL is not computable, iMaxDim = 3 is the implicit list end.
+                iMaxDim = pIL->compute() ? pIL->getSize() : 3;
             }
 
 #ifdef _SCILAB_DEBUGREF_
@@ -748,6 +766,7 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
                 pdbl[i] = pCoord[i] + (pY[i] - 1) * iRows;
             }
 
+            delete[] pCoord;
             pCurrentArg = pDbl;
         }
         else if (pIT->isInt())
@@ -813,6 +832,7 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
                 {
                     wchar_t szError[bsiz];
                     os_swprintf(szError, bsiz, _W("variable size exceeded : less than %d expected.\n").c_str(), INT_MAX);
+
                     throw ast::InternalError(szError);
                 }
 
@@ -835,19 +855,22 @@ int checkIndexesArguments(InternalType* _pRef, typed_list* _pArgsIn, typed_list*
             os_swprintf(szError, bsiz, _W("Invalid index.\n").c_str());
 
             delete[] _piMaxDim;
-            delete[] _piCountDim;
+            if (_piCountDim)
+            {
+                delete[] _piCountDim;
+            }
             cleanIndexesArguments(_pArgsIn, _pArgsOut);
 
-            throw ast::InternalError(szError);
+            // Location(-1,-1,-1,-1): it means the locations are unknown at the throw time,
+            // this can be use to set the locations in the first catch which know them.
+            throw ast::InternalError(szError, 999, Location(-1,-1,-1,-1));
         }
-        _pArgsOut->push_back(pCurrentArg);
 
+        _pArgsOut->push_back(pCurrentArg);
     }
 
-
     //return 0 to force extract to create an empty matrix
-    if (_pRef &&
-            (_pRef->isDouble() && _pRef->getAs<Double>()->isEmpty()))
+    if (_pRef && (_pRef->isDouble() && _pRef->getAs<Double>()->isEmpty()))
     {
         return 0;
     }
@@ -929,7 +952,7 @@ int getIndexWithDims(int* _piIndexes, const int* _piDims, int _iDims)
 
 types::Function::ReturnValue VariableToString(types::InternalType* pIT, const wchar_t* wcsVarName)
 {
-    if (pIT->hasToString() == false || pIT->isStruct())
+    if (pIT->hasToString() == false)
     {
         types::Function::ReturnValue ret = types::Function::Error;
         //call overload %type_p
@@ -983,11 +1006,6 @@ types::Function::ReturnValue VariableToString(types::InternalType* pIT, const wc
             {
                 //show message on prompt
                 bFinish = linesmore() == 1;
-            }
-
-            if (ConfigVariable::isPrintCompact() == false && ConfigVariable::isPrintInput() == false)
-            {
-                ostr << std::endl;
             }
 
             scilabForcedWriteW(ostr.str().c_str());

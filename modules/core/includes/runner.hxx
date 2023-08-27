@@ -58,6 +58,11 @@ public :
         return m_iCommandOrigin;
     }
 
+    void setCommandOrigin(command_origin_t _origin)
+    {
+        m_iCommandOrigin = _origin;
+    }
+
     bool isInterruptible()
     {
         return m_isInterruptible;
@@ -78,25 +83,28 @@ public:
     static void setRunner(Runner* _RunMe);
     static Runner* getRunner(void);
     static bool isRunnerAvailable(void);
+    static bool isRunning(void);
     static bool isInterruptibleCommand(void);
-    static void setInterruptibleCommand(bool _isInterruptible);
     static command_origin_t getCommandOrigin();
     static void execAndWait(ast::Exp* _theProgram, ast::RunVisitor *_visitor,
                             bool _isInterruptible, bool _isPrioritary, command_origin_t _iCommandOrigin);
     static bool exec(ast::Exp* _theProgram, ast::RunVisitor *_visitor);
+    static void sendExecDoneSignal();
+    static void setCommandOrigin(command_origin_t _origin);
 
 private:
     static std::atomic<Runner*> m_RunMe;
-    static std::atomic<bool> m_bInterruptibleCommand;
+    static std::atomic<Runner*> m_CurrentRunner;
 };
 
 extern "C"
 {
     void StaticRunner_launch(void);
     int StaticRunner_isRunnerAvailable(void);
+    int StaticRunner_isRunning(void);
     int StaticRunner_isInterruptibleCommand(void);
-    void StaticRunner_setInterruptibleCommand(int val);
     command_origin_t StaticRunner_getCommandOrigin(void);
+    void StaticRunner_setCommandOrigin(command_origin_t _origin);
 }
 
 #endif /* !__RUNNER_HXX__ */

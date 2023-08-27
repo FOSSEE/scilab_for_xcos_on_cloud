@@ -30,7 +30,7 @@ extern "C"
 int sci_getlookandfeel(char *fname, void* pvApiCtx)
 {
     CheckInputArgument(pvApiCtx, 0, 0);
-    CheckOutputArgument(pvApiCtx, 1, 1);
+    CheckOutputArgument(pvApiCtx, 0, 1);
 
     org_scilab_modules_gui_utils::LookAndFeelManager * lnf = 0;
     try
@@ -55,6 +55,11 @@ int sci_getlookandfeel(char *fname, void* pvApiCtx)
 
             if (createSingleString(pvApiCtx, nbInputArgument(pvApiCtx) + 1, look))
             {
+                if (look)
+                {
+                    delete[] look;
+                    look = NULL;
+                }
                 Scierror(999, _("%s: Memory allocation error.\n"), fname);
                 return 1;
             }

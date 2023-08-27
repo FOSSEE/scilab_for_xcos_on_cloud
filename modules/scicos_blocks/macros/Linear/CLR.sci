@@ -1,7 +1,7 @@
 //  Scicos
 //
 // Copyright (C) INRIA - METALAU Project <scicos@inria.fr>
-// Copyright (C) 2018 - Samuel GOUGEON
+// Copyright (C) 2018 - 2019 - Samuel GOUGEON
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,17 +36,16 @@ function [x,y,typ]=CLR(job,arg1,arg2)
         %scicos_context=%scicos_context; //copy the semi-global variable locally
         %scicos_context.s=%s //add s definition to the context
         while %t do
-            [ok,num,den,exprs]=scicos_getvalue("Set continuous SISO transfer parameters",..
-            ["Numerator (s)";
-            "Denominator (s)"],..
+            [ok,num,den,exprs]=scicos_getvalue(..
+            _("Set continuous SISO transfer parameters"),..
+            _(["Numerator (s)" ; "Denominator (s)"]),..
             list("pol",1,"pol",1),exprs)
-
 
             if ~ok then
                 break,
             end
-            if degree(num)>degree(den) then
-                message("Transfer function must be proper or strictly proper.")
+            if degree(num) > degree(den) then
+                message(_("Transfer function must be proper (degree(numer) ≤ degree(denom))."))
                 ok=%f
             end
             if ok then
@@ -76,27 +75,16 @@ function [x,y,typ]=CLR(job,arg1,arg2)
                 x.graphics=graphics;
                 x.model=model
 
-                // Protecting ^{.} groups for LaTeX after num and den have been generated:
-                //  http://bugzilla.scilab.org/14551
-                // Groups replacement impossible with strsubst(): http://bugzilla.scilab.org/9123
+                // Protecting ^{.} groups for LaTeX after num and den
+                // have been generated: http://bugzilla.scilab.org/14551
+                // and other protections and display improvements:
                 content = exprs;
                 if content~=[]
                     for i = 1:2
-                        txt = content(i);
-                        [s,e,m] = regexp(txt, "/\^\s*\-{0,1}[0-9]+\.{0,1}[0-9]*/")
-                        m = strsubst(m," ","");
-                        if s~=[]
-                            for s = m'
-                                txt = strsubst(txt, s, "^{"+part(s,2:$)+"}");
-                            end
-                        end
-                        txt = strsubst(txt,"*","\,")
-                        txt = strsubst(txt,"+","\!+\!")
-                        txt = strsubst(txt,"-","\!-\!")
-                        txt = strsubst(txt,"%","\%")
-                        content(i) = txt;
+                        content(i) = expr2LaTeX(content(i))
                     end
                 end
+
                 lab = "CLR;displayedLabel=$\small\mathsf\frac{"+content(1)+"}{"+content(2)+"}$"
                 x.graphics.style = lab;
                 break

@@ -8,26 +8,22 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 12:24+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
-
-#, c-format
-msgid "%s: Invalid index.\n"
-msgstr "%s: Neplatný index.\n"
-
-#, c-format
-msgid "%s: Wrong type for input argument #%d: String expected.\n"
-msgstr "%s: Špatný typ vstupního argumentu #%d: Očekáván řetězec.\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d.\n"
 msgstr "%s: Špatný typ vstupního argumentu #%d.\n"
+
+#, c-format
+msgid "%s: Invalid index.\n"
+msgstr "%s: Neplatný index.\n"
 
 #, c-format
 msgid "%s: Multidimensional sparse matrices are not handled.\n"
@@ -63,8 +59,6 @@ msgstr ""
 msgid "%s: Syntax x(j) only allowed for row cblock's.\n"
 msgstr "%s: Syntaxe x(j) je povolena pouze pro cbloky řádku.\n"
 
-#
-# File: modules/overloading/macros/%cblock_p.sci, line: 16
 msgid "  (empty table)\n"
 msgstr ""
 
@@ -149,6 +143,57 @@ msgid "%s: Argument #%d: Scalar (1 element) expected.\n"
 msgstr ""
 
 #, c-format
+msgid "%s struct with no field"
+msgstr ""
+
+msgid "0x0 struct with fields:"
+msgstr ""
+
+#, c-format
+msgid "%s struct with fields:"
+msgstr ""
+
+msgid "(void)"
+msgstr ""
+
+#, c-format
+msgid "(%d lines)"
+msgstr ""
+
+msgid "rational"
+msgstr ""
+
+msgid "complex rational"
+msgstr ""
+
+#, c-format
+msgid "[%s %s] of %s"
+msgstr ""
+
+msgid "cell"
+msgstr ""
+
+#
+# File: modules/overloading/macros/%l_p_inc.sci, line: 121
+msgid "empty list()"
+msgstr ""
+
+#, c-format
+msgid "[%s] %s without field."
+msgstr ""
+
+#, c-format
+msgid "[%s] %s with fields:"
+msgstr ""
+
+msgid "[0x0 struct] with no field"
+msgstr ""
+
+#, c-format
+msgid "[%s struct] with fields:"
+msgstr ""
+
+#, c-format
 msgid "%s: time domains are not compatible.\n"
 msgstr ""
 
@@ -176,7 +221,7 @@ msgid "%s: Wrong value for input argument #%d: %d or %s expected.\n"
 msgstr "%s: Špatná hodnota vstupního argumentu #%d: Očekáváno %d nebo %s.\n"
 
 #, c-format
-msgid "%s: Inconsistent addition.\n"
+msgid "%s: Eye variable undefined in this context.\n"
 msgstr ""
 
 #, c-format
@@ -187,9 +232,6 @@ msgstr ""
 msgid "%s: Division by 0...\n"
 msgstr ""
 
-#
-# File: modules/overloading/macros/%p_p_s.sci, line: 29
-# File: modules/overloading/macros/%p_p_s.sci, line: 61
 #, c-format
 msgid "%s: Division by zero..."
 msgstr ""
@@ -199,16 +241,16 @@ msgid "%s: Argument #%d: Square matrix expected.\n"
 msgstr ""
 
 #, c-format
-msgid "%s: Eye variable undefined in this context.\n"
-msgstr ""
-
-#, c-format
 msgid "%s: Wrong size for input arguments.\n"
 msgstr "%s: Špatná velikost vstupních argumentů.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument(s).\n"
 msgstr "%s: Špatná velikost vstupních argumentů.\n"
+
+#, c-format
+msgid "%s: Inconsistent addition.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
@@ -255,12 +297,18 @@ msgstr ""
 msgid "%s: Inconsistent multiplication.\n"
 msgstr ""
 
+#, c-format
+msgid "column %d"
+msgstr ""
+
+#, c-format
+msgid "columns %d to %d"
+msgstr ""
+
 #
 msgid "Not implemented"
 msgstr "Nezavedeno"
 
-#
-# File: modules/overloading/macros/%r_p_s.sci, line: 68
 msgid "Invalid exponent"
 msgstr ""
 
@@ -310,10 +358,6 @@ msgid "%s: A null assignment can have only one non-colon index.\n"
 msgstr "%s? Prázdné přidělení může mít index pouze bez dvojtečky.\n"
 
 #, c-format
-msgid "%s: Invalid index\n"
-msgstr ""
-
-#, c-format
 msgid "%s: not implemented for argin#1 matrix and argin#2 hypermatrix\n"
 msgstr ""
 
@@ -321,8 +365,6 @@ msgstr ""
 msgid "%s: Wrong size for input argument #%d: Square matrix expected.\n"
 msgstr ""
 
-#
-# File: modules/overloading/macros/%s_pow.sci, line: 66
 #, c-format
 msgid "%s: Unable to diagonalize.\n"
 msgstr ""
@@ -344,6 +386,12 @@ msgstr ""
 msgid "%s: Arguments #%d and #%d: Same numbers of rows expected.\n"
 msgstr ""
 
+#
+# File: modules/overloading/macros/%sp_l_sp.sci, line: 35
+#, c-format
+msgid "sparse  sparse: Deficient rank: rank = %d"
+msgstr ""
+
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
 msgstr "%s: Špatná velikost vstupního argumentu #%d: Očekáván skalár.\n"
@@ -353,6 +401,18 @@ msgid "%s: Wrong type for input argument #%d: An integer expected.\n"
 msgstr ""
 "%s: Špatný txp vstupního argumentu #%d: Očekávány celočíselné hodnoty.\n"
 
+#
+# File: modules/overloading/macros/%sp_r_sp.sci, line: 21
+#, c-format
+msgid "%s: Arguments #%d and #%d: Same numbers of columns expected.\n"
+msgstr ""
+
+#
+# File: modules/overloading/macros/%sp_r_sp.sci, line: 36
+#, c-format
+msgid "sparse / sparse: Deficient rank: rank = %d"
+msgstr ""
+
 #, c-format
 msgid "%s: Concatenated arrays must have the same number of dimensions.\n"
 msgstr ""
@@ -360,30 +420,6 @@ msgstr ""
 #, c-format
 msgid "%s: Field names mismatch.\n"
 msgstr "%s: Neshoda názvů polí.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d: not a valid field name.\n"
-msgstr "%s: Špatný typ vstupního argumentu #%d: Není platný název pole.\n"
-
-#, c-format
-msgid "%s: Wrong type for argument #%d: Real vector expected.\n"
-msgstr "%s: Špatný typ argumentu %d: Očekáván reálný vektor.\n"
-
-#, c-format
-msgid "%s: Wrong type for argument #%d: Real scalar expected.\n"
-msgstr "%s: Špatný typ argumentu %d: Očekáván reálný skalár.\n"
-
-#, c-format
-msgid "%s: input and output matrices  must have the same number of elements.\n"
-msgstr "%s: vstupní a výstupní matice musí mít stejný počet prvků.\n"
-
-#, c-format
-msgid "%s: Wrong size or value for input argument #%d.\n"
-msgstr "%s: Špatná velikost nebo hodnota vstupního argumentu #%d.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d.\n"
-msgstr "%s: Špatná hodnota vstupního argumentu #%d.\n"
 
 msgid "Inconsistent row/column dimensions.\n"
 msgstr ""
@@ -398,6 +434,10 @@ msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of output argument: %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #1(1): string expected.\n"
 msgstr ""
 
 #, c-format
@@ -419,5 +459,9 @@ msgid "%s: Wrong number of input arguments: %d expected.\n"
 msgstr "%s: Špatný počet vstupních argumentů: Očekáváno %d.\n"
 
 #, c-format
-msgid "%s: Incorrect assignment.\n"
-msgstr ""
+#~ msgid "%s: Wrong type for input argument #%d: String expected.\n"
+#~ msgstr "%s: Špatný typ vstupního argumentu #%d: Očekáván řetězec.\n"
+
+#, c-format
+#~ msgid "%s: Wrong value for input argument #%d: not a valid field name.\n"
+#~ msgstr "%s: Špatný typ vstupního argumentu #%d: Není platný název pole.\n"

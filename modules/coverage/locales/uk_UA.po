@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:18+0000\n"
+"PO-Revision-Date: 2020-01-15 18:08+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d expected.\n"
@@ -54,3 +54,22 @@ msgstr "%s: немає активного покриття: запис немо�
 msgid "%s: Wrong value for input argument #%d: html output only.\n"
 msgstr ""
 "%s: помилкове значення вхідного параметра №%d: лише виведення до html.\n"
+
+#, c-format
+msgid "%s: profile is disabled.\n"
+msgstr "%s: профіль вимкнено.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A macro or library expected.\n"
+msgstr ""
+"%s: помилковий тип вхідного параметра %d: мало бути вказано макрос або "
+"бібліотеку.\n"
+
+#, c-format
+msgid "%s: No more memory.\n"
+msgstr "%s: доступну пам’ять вичерпано.\n"
+
+#, c-format
+msgid "%s: Wrong number of output arguments: %d expected.\n"
+msgstr ""
+"%s: помилкова кількість вихідних параметрів: слід використовувати %d.\n"

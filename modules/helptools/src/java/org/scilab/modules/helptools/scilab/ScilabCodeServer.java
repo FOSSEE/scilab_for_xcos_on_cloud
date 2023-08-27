@@ -160,8 +160,6 @@ public final class ScilabCodeServer {
             if (args[i].length() >= 2 && args[i].charAt(0) == '-') {
                 if (option != null) {
                     map.put(option, "");
-                    option = null;
-                    option = args[i];
                 }
                 if (args[i].charAt(1) == '-') {
                     option = args[i].substring(2);
@@ -207,7 +205,7 @@ public final class ScilabCodeServer {
             this.sock = sock;
             this.scs = scs;
             try {
-                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(sock.getInputStream(), Charset.forName("UTF-8")));
                 out = new OutputStreamWriter(sock.getOutputStream(), Charset.forName("UTF-8"));
             } catch (IOException e) {
                 e.printStackTrace();

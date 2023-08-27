@@ -44,8 +44,7 @@ ELEMENTARIES_FUNCTIONS_C_SOURCES = \
     src/c/matrix_generation.c \
     src/c/vmul.c \
     src/c/add_vector.c \
-    src/c/sub_vector.c \
-    src/c/convertbase.c
+    src/c/sub_vector.c
 
 # List of the cpp files
 ELEMENTARIES_FUNCTIONS_CXX_SOURCES = \
@@ -279,10 +278,7 @@ ELEMENTARIES_FUNCTIONS_FORTRAN_SOURCES = \
 GATEWAY_C_SOURCES = \
     sci_gateway/c/sci_number_properties.c \
     sci_gateway/c/sci_testmatrix.c \
-    sci_gateway/c/sci_isequalbitwise.c \
-    sci_gateway/c/sci_base2dec.c \
-    sci_gateway/c/sci_dec2base.c \
-    sci_gateway/c/sci_log10.c
+    sci_gateway/c/sci_isequalbitwise.c
 
 GATEWAY_CXX_SOURCES =  \
     sci_gateway/cpp/sci_isequal.cpp \
@@ -336,9 +332,13 @@ GATEWAY_CXX_SOURCES =  \
     sci_gateway/cpp/sci_sign.cpp \
     sci_gateway/cpp/sci_sqrt.cpp \
     sci_gateway/cpp/sci_issquare.cpp \
-    sci_gateway/cpp/sci_isvector.cpp\
-    sci_gateway/cpp/sci_nearfloat.cpp\
-    sci_gateway/cpp/sci_permute.cpp		
+    sci_gateway/cpp/sci_linspace.cpp \
+    sci_gateway/cpp/sci_isvector.cpp \
+    sci_gateway/cpp/sci_nearfloat.cpp \
+    sci_gateway/cpp/sci_permute.cpp \
+    sci_gateway/cpp/sci_bitstring.cpp \
+    sci_gateway/cpp/sci_base2dec.cpp \
+    sci_gateway/cpp/sci_dec2base.cpp    
 
 EISPACK_SOURCES = src/fortran/eispack/balbak.f
 

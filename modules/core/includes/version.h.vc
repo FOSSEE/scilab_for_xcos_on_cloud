@@ -16,22 +16,21 @@
 #define SCI_VERSION_H
 
 #define SCI_VERSION_MAJOR 6
-#define SCI_VERSION_MINOR 0
-#define SCI_VERSION_MAINTENANCE 2
-#define SCI_VERSION_STRING "scilab-6.0.2"
-#define SCI_VERSION_WIDE_STRING L"scilab-6.0.2"
-/* SCI_VERSION_REVISION --> hash key commit */
-#define SCI_VERSION_SVN_URL "svn://svn.scilab.org/scilab/trunk/"/
-#define SCI_VERSION_GIT_URL "git://git.scilab.org/scilab/"
-#define SCI_VERSION_REVISION origin/6.0
-#define SCI_VERSION_TIMESTAMP 1550134035
+#define SCI_VERSION_MINOR 1
+#define SCI_VERSION_MAINTENANCE 1
+#define SCI_VERSION_STRING "scilab-branch-6.1"
+#define SCI_VERSION_WIDE_STRING L"scilab-branch-6.1"
+
+/* hash key commit and commit date set to the first Scilab commit and will be updated by the Compilation Chain */
+#define SCI_VERSION_REVISION "0cc09d1c9c20db1f7e531e4317d11a4117ce8cf5"
+#define SCI_VERSION_TIMESTAMP 988271013
 
 void disp_scilab_version(void);
 
 /* for compatibility */
 /* Deprecated */
 #define SCI_VERSION SCI_VERSION_STRING
-#define DEFAULT_SCI_VERSION_MESSAGE L"scilab-branch-6.0"
+#define DEFAULT_SCI_VERSION_MESSAGE L"scilab-branch-6.1"
 
 #endif
 /*--------------------------------------------------------------------------*/

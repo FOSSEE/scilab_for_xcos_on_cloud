@@ -19,6 +19,7 @@
 
 #include "macro.hxx"
 #include "list.hxx"
+#include "void.hxx"
 #include "listinsert.hxx"
 #include "string.hxx"
 #include "context.hxx"
@@ -26,12 +27,12 @@
 #include "scilabWrite.hxx"
 #include "configvariable.hxx"
 #include "serializervisitor.hxx"
+#include "filemanager.hxx"
 
 extern "C"
 {
 #include "localization.h"
 #include "Scierror.h"
-#include "sciprint.h"
 #include "sci_malloc.h"
 #include "os_string.h"
 }
@@ -175,6 +176,9 @@ Callable::ReturnValue Macro::call(typed_list &in, optional_list &opt, int _iRetC
 {
     int rhs = (int)in.size();
     bool bVarargout = false;
+
+    int  iRetCount = std::max(0, _iRetCount);
+
     ReturnValue RetVal = Callable::OK;
     symbol::Context *pContext = symbol::Context::getInstance();
 
@@ -280,11 +284,20 @@ Callable::ReturnValue Macro::call(typed_list &in, optional_list &opt, int _iRetC
     // varargout is a list
     // varargout can containt more items than caller need
     // varargout must containt at leat caller needs
+
     if (m_outputArgs->size() >= 1 && m_outputArgs->back()->getSymbol().getName() == L"varargout")
     {
         bVarargout = true;
         List* pL = new List();
         pContext->put(m_Varargout, pL);
+    }
+
+    // iRetCount = 0 is granted to the macro (as argn(0))
+    // when there is no formal output argument
+    // or if varargout is the only formal output argument.
+    if ( m_outputArgs->size() - (bVarargout ? 1 : 0) >= 1 )
+    {
+        iRetCount = std::max(1, iRetCount);
     }
 
     //common part with or without varargin/varargout
@@ -304,7 +317,8 @@ Callable::ReturnValue Macro::call(typed_list &in, optional_list &opt, int _iRetC
         m_pDblArgOut = m_pDblArgOut->clone();
         m_pDblArgOut->IncreaseRef();
     }
-    m_pDblArgOut->set(0, _iRetCount);
+
+    m_pDblArgOut->set(0, iRetCount);
 
     pContext->put(m_Nargin, m_pDblArgIn);
     pContext->put(m_Nargout, m_pDblArgOut);
@@ -318,27 +332,32 @@ Callable::ReturnValue Macro::call(typed_list &in, optional_list &opt, int _iRetC
 
     //save current prompt mode
     int oldVal = ConfigVariable::getPromptMode();
+    std::wstring iExecFile = ConfigVariable::getExecutedFile();
     std::unique_ptr<ast::ConstVisitor> exec (ConfigVariable::getDefaultVisitor());
     try
     {
+        ConfigVariable::setExecutedFile(m_stPath);
         ConfigVariable::setPromptMode(-1);
         m_body->accept(*exec);
         //restore previous prompt mode
         ConfigVariable::setPromptMode(oldVal);
+        ConfigVariable::setExecutedFile(iExecFile);
     }
     catch (const ast::InternalError& ie)
     {
+        ConfigVariable::setExecutedFile(iExecFile);
         cleanCall(pContext, oldVal);
         throw ie;
     }
     catch (const ast::InternalAbort& ia)
     {
+        ConfigVariable::setExecutedFile(iExecFile);
         cleanCall(pContext, oldVal);
         throw ia;
     }
 
     //nb excepted output without varargout
-    int iRet = std::min((int)m_outputArgs->size() - (bVarargout ? 1 : 0), _iRetCount);
+    int iRet = std::min((int)m_outputArgs->size() - (bVarargout ? 1 : 0), std::max(1, iRetCount));
 
     //normal output management
     //for (std::list<symbol::Variable*>::iterator i = m_outputArgs->begin(); i != m_outputArgs->end() && _iRetCount; ++i, --_iRetCount)
@@ -397,11 +416,11 @@ Callable::ReturnValue Macro::call(typed_list &in, optional_list &opt, int _iRetC
         }
 
         List* pVarOut = pOut->getAs<List>();
-        const int size = std::min(pVarOut->getSize(), _iRetCount - (int)out.size());
+        const int size = std::min(pVarOut->getSize(), std::max(1,iRetCount) - (int)out.size());
         for (int i = 0 ; i < size ; ++i)
         {
             InternalType* pIT = pVarOut->get(i);
-            if (pIT->isListUndefined())
+            if (pIT->isVoid())
             {
                 for (int j = 0; j < i; ++j)
                 {
@@ -454,6 +473,17 @@ int Macro::getNbOutputArgument(void)
     }
 
     return (int)m_outputArgs->size();
+}
+
+bool Macro::getMemory(long long* _piSize, long long* _piSizePlusType)
+{
+    ast::SerializeVisitor serialMacro(m_body);
+    unsigned char* macroSerial = serialMacro.serialize(false, false);
+    unsigned int macroSize = *((unsigned int*)macroSerial);
+
+    *_piSize = macroSize;
+    *_piSizePlusType = *_piSize + sizeof(Macro);
+    return true;
 }
 
 bool Macro::operator==(const InternalType& it)

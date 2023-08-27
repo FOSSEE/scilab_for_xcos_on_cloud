@@ -36,6 +36,7 @@ using namespace org_modules_xml;
 int sci_xmlXPath(char* fname, void* pvApiCtx)
 {
     int id;
+    int ret;
     SciErr err;
 
     org_modules_xml::XMLDocument * doc;
@@ -51,7 +52,7 @@ int sci_xmlXPath(char* fname, void* pvApiCtx)
     int isElem = 0;
     bool mustDelete = true;
 
-    CheckLhs(1, 1);
+    CheckLhs(0, 1);
     CheckRhs(2, 3);
 
     err = getVarAddressFromPosition(pvApiCtx, 1, &addr);
@@ -171,11 +172,6 @@ int sci_xmlXPath(char* fname, void* pvApiCtx)
         case XPATH_NODESET:
         {
             const XMLNodeSet *set = xpath->getNodeSet();
-
-            if (set->getSize() == 0)
-            {
-                createMatrixOfDouble(pvApiCtx, Rhs + 1, 0, 0, 0);
-            }
             set->createOnStack(Rhs + 1, pvApiCtx);
             mustDelete = false;
             break;
@@ -198,7 +194,13 @@ int sci_xmlXPath(char* fname, void* pvApiCtx)
         {
             const char *str = xpath->getStringValue();
 
-            createSingleString(pvApiCtx, Rhs + 1, str);
+            ret = createSingleString(pvApiCtx, Rhs + 1, str);
+            if (ret)
+            {
+                Scierror(999, _("%s: Memory allocation error.\n"), fname);
+                delete xpath;
+                return 0;
+            }
             break;
         }
         default:

@@ -13,7 +13,7 @@
 
 CORE_C_SOURCES = \
     src/c/csignal.c \
-    src/c/md5.c \
+    src/c/resizesignal.c \
     src/c/getmodules.c \
     src/c/getmemory.c \
     src/c/isanan.c \
@@ -54,7 +54,17 @@ CORE_CPP_SOURCES = \
     src/cpp/getmacrosname.cpp \
     src/cpp/getfunctionsname.cpp \
     src/cpp/InitScilab.cpp \
+    src/cpp/md5_file.cpp \
+    src/cpp/parsecommand.cpp \
+    src/cpp/pause.cpp \
     src/cpp/setformat.cpp
+
+HASH_CPP_SOURCES = \
+    src/cpp/hash/md5.cpp \
+    src/cpp/hash/crc32.cpp \
+    src/cpp/hash/sha1.cpp \
+    src/cpp/hash/sha256.cpp \
+    src/cpp/hash/sha3.cpp
 
 CORE_FORTRAN_SOURCES = \
     src/fortran/clunit.f \
@@ -124,7 +134,9 @@ GATEWAY_CPP_SOURCES = \
 	sci_gateway/cpp/sci_mlist.cpp \
 	sci_gateway/cpp/sci_isfield.cpp \
 	sci_gateway/cpp/sci_oldEmptyBehaviour.cpp \
-	sci_gateway/cpp/sci_fieldnames.cpp
+	sci_gateway/cpp/sci_fieldnames.cpp \
+	sci_gateway/cpp/sci_checkNamedArguments.cpp \
+	sci_gateway/cpp/sci_hash.cpp
 
 if ENABLE_DEBUG
 GATEWAY_CPP_SOURCES += \
@@ -141,6 +153,7 @@ libscicore_la_CPPFLAGS = \
     -I$(srcdir)/includes/ \
     -I$(srcdir)/src/c/ \
     -I$(srcdir)/src/cpp/ \
+    -I$(srcdir)/src/cpp/hash \
     -I$(top_srcdir)/modules/ast/includes/ast/ \
     -I$(top_srcdir)/modules/ast/includes/exps/ \
     -I$(top_srcdir)/modules/ast/includes/operations/ \
@@ -174,6 +187,7 @@ libscicore_la_CPPFLAGS = \
     -I$(top_srcdir)/modules/hdf5/includes/ \
     -I$(top_srcdir)/modules/fftw/includes/ \
     -I$(top_srcdir)/modules/ui_data/includes/ \
+    $(HDF5_CFLAGS) \
     $(XML_FLAGS) \
     $(AM_CPPFLAGS)
 
@@ -198,7 +212,7 @@ libscicore_la_LDFLAGS = $(AM_LDFLAGS)
 CHECK_SRC= $(CORE_C_SOURCES) $(GATEWAY_C_SOURCES)
 INCLUDE_FLAGS = $(libscicore_la_CPPFLAGS)
 
-libscicore_algo_la_SOURCES = $(CORE_C_SOURCES) $(CORE_CPP_SOURCES) $(CORE_FORTRAN_SOURCES)
+libscicore_algo_la_SOURCES = $(CORE_C_SOURCES) $(CORE_CPP_SOURCES) $(HASH_CPP_SOURCES) $(CORE_FORTRAN_SOURCES)
 libscicore_la_SOURCES = $(GATEWAY_C_SOURCES) $(GATEWAY_CPP_SOURCES)
 libscicore_algo_la_CPPFLAGS = $(libscicore_la_CPPFLAGS)
 

@@ -72,9 +72,17 @@ public class ScilabJarCreator {
                 manifestFilePath = commonPath + File.separator + "META-INF" + File.separator + "MANIFEST.MF";
             }
             if (new File(manifestFilePath).exists()) {
-                FileInputStream fis = new FileInputStream(manifestFilePath);
-                manifest = new Manifest(fis);
-                fis.close();
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(manifestFilePath);
+                    manifest = new Manifest(fis);
+                } catch (IOException e) {
+                    System.err.println(e);
+                } finally {
+                    if (fis != null) {
+                        fis.close();
+                     }
+                }
             } else {
                 manifest = new Manifest();
             }
@@ -240,7 +248,7 @@ public class ScilabJarCreator {
                 jarOutputStream.close();
             }
         } catch (IOException e) {
-            throw new ScilabJavaException(String.format("Cannot close jar stream: %s\n", e.getMessage()));
+            throw new ScilabJavaException(String.format("Cannot close jar stream: %s%n", e.getMessage()));
         }
     }
 
@@ -253,13 +261,13 @@ public class ScilabJarCreator {
         if (f.exists()) {
             if (f.canWrite()) {
                 if (!f.delete()) {
-                    throw new ScilabJavaException(String.format("Cannot delete jar archive %s.\n", jarFilePath));
+                    throw new ScilabJavaException(String.format("Cannot delete jar archive %s.%n", jarFilePath));
                 }
             } else {
-                throw new ScilabJavaException(String.format("Cannot delete jar archive %s: File is write protected.\n", jarFilePath));
+                throw new ScilabJavaException(String.format("Cannot delete jar archive %s: File is write protected.%n", jarFilePath));
             }
         } else {
-            throw new ScilabJavaException(String.format("Cannot delete jar archive %s: No such file.\n", jarFilePath));
+            throw new ScilabJavaException(String.format("Cannot delete jar archive %s: No such file.%n", jarFilePath));
         }
     }
 }

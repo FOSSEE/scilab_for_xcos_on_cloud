@@ -11,7 +11,7 @@
 // For more information, see the COPYING file which you should have received
 // along with this program.
 
-
+// used to manage eye() ./ int
 function r = %s_d_i(a,b)
     if a==[] then
         r = []

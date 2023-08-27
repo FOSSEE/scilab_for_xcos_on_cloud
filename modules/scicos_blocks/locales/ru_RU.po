@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 11:16+0000\n"
-"Last-Translator: Nkolay Parukhin <parukhin@gmail.com>\n"
+"PO-Revision-Date: 2020-06-27 14:22+0000\n"
+"Last-Translator: Stanislav V. Kroter <krotersv@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 msgid "overflow error"
 msgstr "ошибка переполнения"
 
 msgid "Trigger block must have discrete time input."
-msgstr ""
+msgstr "Блок триггера должен иметь дискретное время входа."
 
 #, c-format
 msgid ""
@@ -117,7 +117,7 @@ msgid "The Time vector type is not double.\n"
 msgstr "Тип вектора времени отличен от типа double.\n"
 
 msgid "The Time vector type is complex.\n"
-msgstr ""
+msgstr "Тип вектора Time комплексный.\n"
 
 #, c-format
 msgid ""
@@ -127,21 +127,303 @@ msgstr ""
 "%d].\n"
 
 msgid "Cannot read the time field.\n"
-msgstr ""
+msgstr "Не могу прочитать поле времени.\n"
 
 msgid "The time vector should be an increasing vector.\n"
 msgstr "Значения вектора времени должны возрастать.\n"
-
-msgid "Clear a bit"
-msgstr "Очистить бит"
 
 #, c-format
 msgid "Set %s block parameters"
 msgstr "Установите параметры блока %s"
 
+msgid "Tag"
+msgstr ""
+
+msgid "Tag Visibility must be between 1 and 3"
+msgstr "Тег Visibility должен быть между 1 и 3"
+
+msgid "Goto Tag"
+msgstr "Тег Goto"
+
+msgid "Number of output ports or vector of sizes"
+msgstr "Количество выходных портов или вектор размеров"
+
+msgid "The block must have from 2 to 31 output ports"
+msgstr "Блок должен иметь от 2 до 31 выходных порта"
+
+msgid "The block must have from 2 to 31 output ports.<br>size 0 is not allowed"
+msgstr "Блок должен иметь от 2 до 31 выходного порта.<br>размер 0 не разрешён"
+
+msgid "The block must have from 2 to 8 output ports"
+msgstr "Блок должен иметь от 2 до 8 выходных портов"
+
+msgid "The block must have from 2 to 8 output ports.<br>size 0 is not allowed."
+msgstr "Блок должен иметь от 2 до 8 выходных портов.<br>размер 0 не разрешён."
+
+msgid "Number of output event ports"
+msgstr ""
+
+msgid "The block must have at least two output ports"
+msgstr "Блок должен иметь не менее двух выходных портов"
+
+msgid "Indices to extract"
+msgstr "Индексы для выделения"
+
+msgid "Number of outputs"
+msgstr "Количество выходов"
+
+msgid "The initial connected input is not a valid input port number"
+msgstr ""
+
+msgid "Datatype (1= real double  2=Complex 3=int32 ...)"
+msgstr "Datatype (1= вещественное double  2=комплексное 3=int32 ...)"
+
+msgid "Datatype not supported"
+msgstr "Datatype не поддерживается"
+
+msgid "Number of input ports or vector of sizes"
+msgstr "Количество входных портов или вектор размеров"
+
+msgid "The block must have from 2 to 31 input ports"
+msgstr "Блок должен иметь от 2 до 31 входных портов"
+
+msgid ""
+"The block must have from 2 to 31 input ports.<br>size 0 is not allowed. "
+msgstr "Блок должен иметь от 2 до 31 входных портов.<br>размер 0 не разрешён. "
+
+msgid "Block must have from 2 to 8 input ports"
+msgstr "Блок должен иметь от 2 до 8 входных портов"
+
+msgid "The block must have from 2 to 8 input ports.<br>size 0 is not allowed."
+msgstr "Блок должен иметь от 2 до 8 входных портов.<br>размер 0 не разрешён."
+
+msgid "Number of inputs"
+msgstr "Количество входов"
+
+msgid "Number of inputs >=1 expected"
+msgstr "Ожидалось количесто входов >=1"
+
+msgid "The zero base indexing must be 1 or 0"
+msgstr ""
+
+msgid "Unknown rounding rule"
+msgstr "Неизвестное правило округления"
+
+msgid "number of inputs"
+msgstr "количество входов"
+
+msgid "Size of output (-1: if don't know)"
+msgstr "Размер выхода (-1: если не известно)"
+
+msgid "The size of output must be -1 or > 0"
+msgstr "Размер выхода должен быть -1 или > 0"
+
+msgid "Datatype (1= real double  2=Complex 3=int32 ..)"
+msgstr ""
+
+msgid "Unknown Datatype"
+msgstr ""
+
+msgid "Pass first input if: u2>=a (0), u2>a (1), u2~=a (2)"
+msgstr ""
+
+msgid "Datatype (1=real double  2=complex 3=int32 ...)"
+msgstr ""
+
+msgid "Connected input"
+msgstr ""
+
+msgid "Initial Voltage"
+msgstr "Исходное напряжение"
+
+msgid "Saturation current (A)"
+msgstr "Ток насыщения (A)"
+
+msgid "G1: Gyration conductance"
+msgstr ""
+
 #, c-format
-msgid "Data Type %s"
-msgstr "Тип данных %s"
+msgid "Set %s block parameters\n"
+msgstr "Установить параметры блока %s\n"
+
+msgid "Width [m]"
+msgstr "Ширина [м]"
+
+msgid "Bf  : Forward beta"
+msgstr ""
+
+msgid "Open Loop Gain"
+msgstr ""
+
+msgid "Amplitude (Volt)"
+msgstr "Амплитуда (Вольт)"
+
+msgid "non-ideal electrical switch"
+msgstr "неидеальный электрический переключатель"
+
+msgid "Resistance in On state (Ohm)"
+msgstr "Сопротивление в состоянии Вкл (Ом)"
+
+msgid "Frequency (Hz)"
+msgstr "Частота (Гц)"
+
+msgid "Set final simulation time"
+msgstr ""
+
+msgid "Final simulation time"
+msgstr ""
+
+msgid ""
+"Set Event Delay block parameters<br><br>Delay is the delay between an input "
+"event<br>&nbsp; and the generated output event.<br>Block may initially "
+"generate an output event before <br>&nbsp; any input event.<br>'Date of "
+"initial output event' gives the date of this event.<br>&nbsp; Set a negative "
+"value to mind only the input events.<br><br>"
+msgstr ""
+
+msgid "Delay"
+msgstr "Задержка"
+
+msgid "Delay must be positive"
+msgstr "Задержка должна быть положительной"
+
+msgid ""
+"Set Event Delay block parameters<br><br>Delay is the delay between an input "
+"event<br>and the generated output event.<br>Block may initially generate an "
+"output event<br> before any input event.<br>'Date of initial output event' "
+"gives the date of this event.<br>&nbsp;&nbsp;Set a negative value if no "
+"initial event is required.<br><br>"
+msgstr ""
+
+msgid "Set Event time"
+msgstr ""
+
+msgid "Event Time"
+msgstr ""
+
+msgid "Set parameter of variable event delay"
+msgstr ""
+
+msgid "Initial event firing time (<0 if none)"
+msgstr ""
+
+msgid "State on halt"
+msgstr ""
+
+msgid "Inherit (1: no, 0: yes)"
+msgstr ""
+
+msgid "Basic period (1/f)"
+msgstr ""
+
+msgid "Sample time"
+msgstr ""
+
+msgid "The offset and frequency must have the same size"
+msgstr ""
+
+msgid "The frequency must be a positive number"
+msgstr "Частота должна быть положительным числом"
+
+msgid "The |Offset| must be less than the Frequency"
+msgstr "|Смещение| должно быть меньше частоты"
+
+msgid "Set frequency division block parameters"
+msgstr ""
+
+msgid "Phase (0 to division factor -1)"
+msgstr ""
+
+msgid "RESERVOIR parameters"
+msgstr "параметры RESERVOIR"
+
+msgid "Pressure at the reservoir surface : Patm (Pa)"
+msgstr "Давление на поверхности резервуара: Patm (Па)"
+
+msgid "Reservoir section : A (m2)"
+msgstr ""
+
+msgid "Altitude of input connection #1: ze1 (m)"
+msgstr ""
+
+msgid "Altitude of input connection #2: ze2 (m)"
+msgstr ""
+
+msgid "Altitude of output connection #1: zs1 (m)"
+msgstr ""
+
+msgid "Altitude of output connection #2: zs2 (m)"
+msgstr ""
+
+msgid "Starting fluid Altitude : z0 (m)"
+msgstr ""
+
+msgid "Initial fluid temperature : T0 (K)"
+msgstr ""
+
+msgid "If >0, fixed fluid density : p_rho (kg/m3)"
+msgstr ""
+
+msgid "FLOWMETER parameters:"
+msgstr ""
+
+msgid "PIPE parameters"
+msgstr ""
+
+msgid "Pipe length : L (m)"
+msgstr ""
+
+msgid "Pipe internal diameter : D (m)"
+msgstr ""
+
+msgid "Coefficient of loss of load-friction (S.U): lambda"
+msgstr ""
+
+msgid "Altitude of pipe's inlet: z1 (m)"
+msgstr ""
+
+msgid "Altitude of pipe's outlet: z2 (m)"
+msgstr ""
+
+msgid "Fluid SINK parameters"
+msgstr ""
+
+msgid "Pressure of the source : P0 (Pa)"
+msgstr ""
+
+msgid "Temperature of the source : T0 (K)"
+msgstr ""
+
+msgid "Specific enthalpy of the source : H0 (J/kg)"
+msgstr ""
+
+msgid "Condition: 1=fixed temperature  2=fixed enthalpy"
+msgstr ""
+
+msgid "Fluid SOURCE parameters"
+msgstr ""
+
+msgid "Pressure : P0 (Pa)"
+msgstr ""
+
+msgid "Temperature : T0 (K)"
+msgstr ""
+
+msgid "Specific enthalpy : H0 (J/kg)"
+msgstr ""
+
+msgid "Condition: 1=Fixed temperature | 2=Fixed enthalpy"
+msgstr ""
+
+msgid "REGULATING VALVE parameters"
+msgstr ""
+
+msgid "Clear a bit"
+msgstr "Очистить бит"
+
+#, c-format
+msgid "Data Type %s (3:int32, 4:int16, 5:int8, ...)"
+msgstr ""
 
 msgid "Index of Bit (0 is least significant)"
 msgstr "Индекс битаt (0 является младшим значащим)"
@@ -170,20 +452,23 @@ msgstr "Тип данных"
 msgid "Set a bit"
 msgstr "Установите бит"
 
-msgid "Type conversion"
-msgstr "Преобразование типов"
+msgid "Data Type (3:int32, 4:int16, 5:int8, ...)"
+msgstr ""
 
-msgid "(b) 0:Nothing, 1:Saturate, 2:Error"
+msgid ""
+"Set CONVERT block parameters<br><br>Type conversion<br><br>(a) 1|2:"
+"double&nbsp;  3:int32&nbsp;  4:int16&nbsp;  5:int8&nbsp;  6:uint32&nbsp;  7:"
+"uint16&nbsp;  8:uint8<br>(b) 0:Nothing, 1:Saturate, 2:Error<br><br>"
 msgstr ""
 
 msgid "Input type (a)"
-msgstr ""
+msgstr "Тип входа (a)"
 
 msgid "Output type (a)"
-msgstr ""
+msgstr "Тип выхода (a)"
 
 msgid "Do on overflow (b)"
-msgstr ""
+msgstr "Делать при переполнении (b)"
 
 msgid "Do on Overflow"
 msgstr "Делать при переполнении"
@@ -194,36 +479,15 @@ msgstr "Тип на входе"
 msgid "Output Type"
 msgstr "Тип на выходе"
 
-msgid "Bits Extraction"
-msgstr "Выделение битов"
-
-msgid "&nbsp;- Bits to Extract:"
-msgstr "&nbsp;- Биты для выделения:"
-
-msgid "&nbsp;&nbsp;&nbsp;&nbsp;1 Upper Half"
-msgstr "&nbsp;&nbsp;&nbsp;&nbsp;1 Верхняя половина"
-
-msgid "&nbsp;&nbsp;&nbsp;&nbsp;2 Lower Half"
-msgstr "&nbsp;&nbsp;&nbsp;&nbsp;2 Нижняя половина"
-
-msgid "&nbsp;&nbsp;&nbsp;&nbsp;3 Range from MSB"
-msgstr "&nbsp;&nbsp;&nbsp;&nbsp;3 Диапазон от старшего бита"
-
-msgid "&nbsp;&nbsp;&nbsp;&nbsp;4 Range to LSB"
-msgstr "&nbsp;&nbsp;&nbsp;&nbsp;4 Диапазон до младшего бита"
-
-msgid "&nbsp;&nbsp;&nbsp;&nbsp;5 Range of Bits"
-msgstr "&nbsp;&nbsp;&nbsp;&nbsp;5 Диапазон битов"
-
-msgid "&nbsp;- Number of Bits or Index of bit : Index 0 is LSB"
-msgstr "&nbsp;- Число битов или позиция битов: младший бит в позиции 0"
-
 msgid ""
-"&nbsp;&nbsp;&nbsp;&nbsp;If 'Bits to Extract' is set to 'Range of bits': "
-"[Start, End]"
+"Set EXTRACTBITS block parameters<br><br>Bits Extraction<br><br>&nbsp;- Bits "
+"to Extract:<br>&nbsp;&nbsp;&nbsp;&nbsp;1 Upper Half<br>&nbsp;&nbsp;&nbsp;"
+"&nbsp;2 Lower Half<br>&nbsp;&nbsp;&nbsp;&nbsp;3 Range from MSB<br>&nbsp;"
+"&nbsp;&nbsp;&nbsp;4 Range to LSB<br>&nbsp;&nbsp;&nbsp;&nbsp;5 Range of "
+"Bits<br>&nbsp;- Number of Bits or Index of bit : Index 0 is LSB<br>&nbsp;"
+"&nbsp;&nbsp;&nbsp;If 'Bits to Extract' is set to 'Range of bits': [Start, "
+"End]<br><br>"
 msgstr ""
-"&nbsp;&nbsp;&nbsp;&nbsp;Если 'Биты для выделения' установлены в 'Диапазон "
-"битов': [Начало, Конец]"
 
 msgid "Bits to extract"
 msgstr "Биты для выделения"
@@ -271,38 +535,26 @@ msgstr "Умножение матриц целочисленных значен�
 msgid "Do on Overflow (0:Nothing, 1:Saturate, 2:Error)"
 msgstr "Делать при переполнении (0:Ничего, 1:Ограничение, 2:Ошибка)"
 
-msgid "JK flip-flop"
-msgstr "JK-триггер"
-
-msgid "The 'Initial Value' must be 0 or 1 of type int8"
-msgstr "'Начальное значение' должно быть 0 или 1 типа int8"
-
-msgid "&nbsp;- Negative values are considered as int8(0)"
-msgstr "&nbsp;- Считается, что отрицательные значения имеют тип int8(0)"
-
-msgid "&nbsp;- Positive values are considered as int8(1)"
-msgstr "&nbsp;- Считается, что положительные значения имеют тип int8(1)"
+msgid ""
+"Set JKFLIPFLOP block parameters<br><br>JK flip-flop<br><br>The 'Initial "
+"Value' must be 0 or 1 of type int8<br>&nbsp;- Negative values are considered "
+"as int8(0)<br>&nbsp;- Positive values are considered as int8(1)<br><br>"
+msgstr ""
 
 msgid "Initial Value"
 msgstr "Начальное значение"
 
-msgid "Combinatorial logic"
-msgstr "Комбинаторная логика"
-
-msgid "&nbsp; Number of rows must be a power of two."
-msgstr "&nbsp; Число строк должно быть степенью двух."
-
-msgid "&nbsp; Rows of the matrix are the output values"
-msgstr "&nbsp; Выходными значениями являются строки матрицы"
-
-msgid "&nbsp; Number of columns gives the number of outputs."
-msgstr "&nbsp; Количество столбцов даёт число выходных значений."
-
-msgid "Accepts Inherited Events (0:No, 1:Yes)"
-msgstr "Принимает унаследованные события (0:Нет, 1:Да)"
+msgid ""
+"Set LOGIC block parameters<br><br>Combinatorial logic:<br><br>&nbsp; Rows of "
+"the matrix are the output values.<br>&nbsp; Number of rows must be a power "
+"of two.<br>&nbsp; Number of columns gives the number of outputs.<br><br>"
+msgstr ""
 
 msgid "Truth Table (matrix of outputs)"
 msgstr "Таблица истинности (матрица значений на выходе)"
+
+msgid "Accepts Inherited Events (0:No, 1:Yes)"
+msgstr "Принимает унаследованные события (0:Нет, 1:Да)"
 
 msgid "Truth Table"
 msgstr "Таблица истинности"
@@ -338,13 +590,864 @@ msgstr "Тип сдвига (0:арифметический, 1:круговой)
 msgid "Shift Type"
 msgstr "Тип сдвига"
 
-msgid "SR flip-flop"
-msgstr "SR-триггер"
+msgid ""
+"Set SR flip-flop block parameters<br><br>The 'Initial Value' must be 0 or 1 "
+"of type int8<br>&nbsp;- Negative values are considered as int8(0)<br>&nbsp;- "
+"Positive values are considered as int8(1)<br><br>"
+msgstr ""
 
-msgid "Matrix A is not square or D has wrong dimension"
-msgstr "Матрица A не квадратная либо у D неверная размерность"
+msgid "Inputs ports signs/gain"
+msgstr ""
+
+msgid "Set continuous SISO transfer parameters"
+msgstr ""
+
+msgid "Numerator (s)"
+msgstr ""
+
+msgid "Transfer function must be proper (degree(numer)  degree(denom))."
+msgstr ""
+
+msgid "Transfer must be proper (degree(numer)  degree(denom))"
+msgstr ""
+
+msgid "Set continuous linear system parameters"
+msgstr ""
+
+msgid "A matrix"
+msgstr ""
+
+msgid "The Matrix A must be square"
+msgstr ""
+
+msgid "The matrix D has some wrong size"
+msgstr ""
+
+msgid "The matrix A must be square"
+msgstr ""
+
+msgid "Set delay parameters"
+msgstr ""
+
+msgid "Register's length must be > 1"
+msgstr ""
+
+msgid "Delay must be > 0"
+msgstr ""
+
+msgid ""
+"This block implements a discretized delay.<br>It consists of a shift "
+"register and a clock<br>value of the delay given by the<br>discretization "
+"time step multiplied by the<br>number-1 of state of the register"
+msgstr ""
+
+msgid "Discretization time step"
+msgstr ""
+
+msgid "Register's length must be at least 1"
+msgstr ""
+
+msgid "Discretization time step must be > 0"
+msgstr ""
+
+msgid "Initial state"
+msgstr ""
+
+msgid ""
+"Incompatible sizes: states and their derivatives should have the same size"
+msgstr ""
+
+msgid "Initial state must have a size > 0"
+msgstr ""
+
+msgid "Set discrete SISO transfer parameters"
+msgstr ""
+
+msgid "Numerator (z)"
+msgstr ""
+
+msgid "Transfer function must be proper (degree(numer)  degree(denom))"
+msgstr ""
+
+msgid "Transfer must be proper (degree(numer)   degree(denom))"
+msgstr ""
+
+msgid "Set discrete linear system parameters"
+msgstr ""
+
+msgid "Set 1/z block parameters"
+msgstr ""
+
+msgid "Initial condition"
+msgstr ""
+
+msgid "Initial condition's datatype not supported"
+msgstr ""
+
+msgid "Initial condition: datatype not supported."
+msgstr ""
+
+msgid "Gain"
+msgstr ""
+
+msgid "Gain must have at least one element"
+msgstr ""
+
+msgid "Complex gain not supported"
+msgstr ""
+
+msgid "gain's datatype not supported."
+msgstr ""
+
+msgid "gain's datatype: Encoded integer expected."
+msgstr ""
+
+msgid "Do on Overflow must be 0, 1, or 2"
+msgstr ""
+
+msgid "Initial Condition"
+msgstr ""
+
+msgid "x0 and Upper limit and Lower limit must have the same size"
+msgstr ""
+
+msgid "Upper limits must be > Lower limits"
+msgstr ""
+
+msgid "Initial condition x0 should be within the limits"
+msgstr ""
+
+msgid "Initial condition x0 should be inside the limits"
+msgstr ""
+
+msgid "x0 and Upper limit and Lower limit must have same size"
+msgstr ""
+
+msgid "Proportional"
+msgstr ""
+
+msgid "Register initial condition"
+msgstr ""
+
+msgid "Register's length must be > 0"
+msgstr ""
+
+msgid "Register's initial condition"
+msgstr ""
+
+msgid "Datatype (1=real double 2=Complex 3=int32 ...)"
+msgstr ""
+
+msgid ""
+"This sum block is obsolete<br><br>Parameters cannot be modified. Please "
+"replace it with<br>the new sum and gain blocks in the linear "
+"palette<br><br>Input ports are located at up, side and down positions."
+"<br>Current gains are: "
+msgstr ""
+
+msgid "Datatype (1=real double  2=complex 3=int32 ..)"
+msgstr ""
+
+msgid "Do on overflow: must be 0,1, or 2"
+msgstr ""
+
+msgid "Number of inputs must be > 0"
+msgstr ""
+
+msgid "Signs can only be +1 or -1"
+msgstr ""
+
+msgid "Buffer must be larger than 1"
+msgstr ""
+
+msgid "Max delay"
+msgstr ""
+
+msgid "Datatype (1=real double  2=Complex)"
+msgstr ""
+
+msgid "Unknown summation direction"
+msgstr ""
+
+msgid "Unknown datatype"
+msgstr ""
+
+msgid "Empty field"
+msgstr ""
+
+msgid "Invalid index"
+msgstr ""
+
+msgid "Unknown extraction type"
+msgstr ""
+
+msgid "Unknown decomposition type"
+msgstr ""
+
+msgid "Conversion: 1=Complex->(Mag,Phi), 2=(Mag,Phi)->Complex"
+msgstr ""
+
+msgid "Conversion code (1|2)"
+msgstr ""
+
+msgid "Unknown conversion code"
+msgstr ""
+
+msgid ""
+"Set MATMUL parameter<br><br>For the Multiplication rule:<br>    1= Matrix by "
+"Matrix<br>    2= Matrix by Matrix element wise <br>    3= Matrix by "
+"Scalar<br>In the third case, the second input will be the scalar<br><br>"
+msgstr ""
+
+msgid "Multiplication rule must be 1,2 or 3"
+msgstr ""
+
+msgid "Output size > 0 expected"
+msgstr ""
+
+msgid "Input size > 0 expected"
+msgstr ""
+
+msgid "The first dimension of the output is too big"
+msgstr ""
+
+msgid "The second dimension of the output is too big"
+msgstr ""
+
+msgid "The dimensions of the output are too big"
+msgstr ""
+
+msgid "Datatype (1=real double 2=Complex)"
+msgstr ""
+
+msgid "Conversion type: 1=complex->(Real,Imag), 2=(Real,Imag)->complex"
+msgstr ""
+
+msgid "Conversion direction (1|2)"
+msgstr ""
+
+msgid "Type (1=Cont  2=Disc)"
+msgstr ""
+
+msgid "Datatype(1=real double  2=Complex)"
+msgstr ""
+
+msgid "Ending row index must be greater than starting one"
+msgstr ""
+
+msgid "Ending column index must be greater than starting one"
+msgstr ""
+
+msgid "The index of ending row is out of range"
+msgstr ""
+
+msgid "The index of ending column is out of range"
+msgstr ""
+
+msgid "Jump from Mode "
+msgstr ""
+
+msgid "Set Finite state machine model"
+msgstr ""
+
+msgid "Number of finite-state Modes"
+msgstr ""
+
+#, c-format
+msgid "The size of initial continuous-time states should be NX=%d"
+msgstr ""
+
+#, c-format
+msgid "Xproperty matrix is not valid: It should have one or NMode=%d rows"
+msgstr ""
+
+#, c-format
+msgid "The number of modes should be %d"
+msgstr ""
+
+#, c-format
+msgid "A destination mode in Mode#%d targets is invalid!"
+msgstr ""
+
+#, c-format
+msgid "There is an unused Mode or the Number of Modes should be %d"
+msgstr ""
+
+msgid "Initial output"
+msgstr ""
+
+msgid "Mass"
+msgstr ""
+
+msgid "Radius"
+msgstr ""
+
+msgid "g (gravity)"
+msgstr ""
+
+msgid "C (aerodynamic coeff)"
+msgstr ""
+
+msgid "All vectors must have the same size"
+msgstr ""
+
+msgid "Mass and radius must be > 0"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Radii"
+msgstr ""
+
+msgid "Window number (-1 for automatic)"
+msgstr ""
+
+msgid "Animation mode (0,1)"
+msgstr ""
+
+msgid "Colors and Radii must have the same size (number of balls)"
+msgstr ""
+
+msgid "The window number cannot be &lt; -1"
+msgstr ""
+
+msgid "Ymax > Ymin expected"
+msgstr ""
+
+msgid "Xmax > Xmin expected"
+msgstr ""
+
+msgid "Pendulum length"
+msgstr ""
+
+msgid "Cart size (square side)"
+msgstr ""
+
+msgid "Slope"
+msgstr "Крутизна"
+
+msgid "The pendulum length and cart size must be > 0."
+msgstr ""
+
+msgid "Ymax > Ymin expected."
+msgstr ""
+
+msgid "Xmax > Xmin expected."
+msgstr ""
+
+msgid "Simulation function"
+msgstr ""
+
+msgid "Input/output events ports size must be [] or 1"
+msgstr ""
+
+msgid "Set C-Block4 block parameters"
+msgstr ""
+
+msgid "Set Constraint block parameters"
+msgstr ""
+
+msgid "Initial guess values of states x"
+msgstr ""
+
+msgid "States and their derivatives must have the same size."
+msgstr ""
+
+msgid "States and ID must have the same size."
+msgstr ""
+
+msgid "Number of states (constraints) must be > 0"
+msgstr ""
+
+msgid ""
+"Id(i) must be either:<br> 0 when x'(i) is not present in the feedback<br> 1: "
+"when x'(i) is present in the feedback"
+msgstr ""
+
+msgid "Set solver block parameters"
+msgstr ""
+
+msgid "Initial guess values"
+msgstr ""
+
+msgid "The number of states (constraints) must be > 0 "
+msgstr ""
+
+msgid "Upper limit"
+msgstr ""
+
+msgid "Upper limit must be > Lower limit"
+msgstr ""
+
+msgid "Enter scilab instructions for debugging."
+msgstr ""
+
+msgid "Error in the instructions"
+msgstr ""
 
 msgid "Invalid masked block."
+msgstr "Некорректно маскированный блок."
+
+msgid "rising (1), falling (-1), both (0)"
+msgstr ""
+
+msgid "Switch on at"
+msgstr ""
+
+msgid "switch on value must be >= switch off value"
+msgstr ""
+
+msgid "Operator codes: 0=AND  1=OR  2=NAND  3=NOR  4=XOR  5=NOT"
+msgstr ""
+
+#, c-format
+msgid "Incorrect operator code %d ; must be 0 to 5."
+msgstr ""
+
+msgid "Only one input allowed for NOT operation"
+msgstr ""
+
+msgid "Bitwise rule is only activated when Data type is integer"
+msgstr ""
+
+msgid "Set Modelica generic block parameters"
+msgstr ""
+
+msgid "Error in evaluation of variables."
+msgstr ""
+
+#, c-format
+msgid "Invalid variable name for the input #%d: %s."
+msgstr ""
+
+msgid "Please choose another variable name."
+msgstr ""
+
+#, c-format
+msgid "Invalid variable name for the output #%d: %s."
+msgstr ""
+
+#, c-format
+msgid "Invalid variable name for the parameter #%d: %s."
+msgstr ""
+
+msgid "Input type should be 'E' or 'I'!"
+msgstr ""
+
+msgid "Output type should be 'E' or 'I'!"
+msgstr ""
+
+msgid "Input variables are not well defined!"
+msgstr ""
+
+msgid "Output variables are not well defined!"
+msgstr ""
+
+msgid "The size of param and<br>size of param properties<br>must match"
+msgstr ""
+
+msgid "Parameters properties must be :"
+msgstr ""
+
+msgid "The filename is not defined!"
+msgstr ""
+
+msgid "Set parameters values"
+msgstr ""
+
+msgid "Set memory block parameters"
+msgstr ""
+
+msgid "The initial condition is empty"
+msgstr ""
+
+msgid "Input variables:    "
+msgstr ""
+
+msgid ""
+"Parameters properties must be:<br>0: if it is a parameter,<br>1: if it is an "
+"initial value of state,<br>2: if it is a fixed initial state value."
+msgstr ""
+
+msgid "The model name is not defined."
+msgstr ""
+
+msgid "Invalid model name"
+msgstr ""
+
+msgid "Pendulum length and cart size must be > 0."
+msgstr ""
+
+msgid "Ymax > Ymin required"
+msgstr ""
+
+msgid "Xmax > Xmin required"
+msgstr ""
+
+msgid "Maximal slope (> 0)"
+msgstr ""
+
+msgid "We must have max_slope > 0 > min_slope."
+msgstr ""
+
+msgid "Operator: == (0), ~= (1), < (2), <= (3), > (4), >= (5)"
+msgstr ""
+
+#, c-format
+msgid "Incorrect operator code #%d : must be 0 to 5."
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "The font number must be in [1, 6]"
+msgstr ""
+
+msgid "The font size must be positive"
+msgstr ""
+
+msgid "Input ports sizes"
+msgstr ""
+
+msgid "Set GENERIC block parameters"
+msgstr ""
+
+msgid "The function type cannot be negative"
+msgstr ""
+
+msgid "Input/output events ports sizes must be [] or 1"
+msgstr ""
+
+msgid "Object parameters must be a list"
+msgstr ""
+
+msgid "Initial object state must be a list"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "Only regular blocks are supported"
+msgstr ""
+
+msgid "Use zero_crossing (1:yes) (0:no)"
+msgstr ""
+
+msgid "Set block parameters"
+msgstr ""
+
+msgid "Vector of p mesh points"
+msgstr ""
+
+msgid ""
+"Transfer must be strictly proper, with<br>degree(Numerator) &lt; "
+"degree(Denominator)"
+msgstr ""
+
+msgid "Numerator roots matrix row size's is incorrect"
+msgstr ""
+
+msgid "a^u: raise the value a to the power of the input"
+msgstr ""
+
+msgid "a^u : a must be > 0"
+msgstr ""
+
+msgid ""
+"Set EXPRESSION block parameters<br><br>Give a scalar scilab expression using "
+"inputs u1, u2,...<br>If only one input, input is vector [u1,u2,...] (max "
+"8)<br>ex: (dd*u1+sin(u2)>0)*u3<br>Note that here dd must be defined in the "
+"context<br><br>"
+msgstr ""
+
+msgid "Erroneous expression"
+msgstr ""
+
+#, c-format
+msgid "Variable %s is not scalar."
+msgstr ""
+
+#, c-format
+msgid "Unknown variable %s."
+msgstr ""
+
+#, c-format
+msgid "%s must have %d arguments"
+msgstr ""
+
+#, c-format
+msgid "Function %s not supported."
+msgstr ""
+
+msgid "Set Interpolation block parameters"
+msgstr ""
+
+msgid "X coord."
+msgstr ""
+
+msgid "X, Y, Z: incompatible sizes"
+msgstr ""
+
+msgid "X and Y must be strictly increasing"
+msgstr ""
+
+msgid "X and Y must have the same sizes"
+msgstr ""
+
+msgid "X must be strictly increasing"
+msgstr ""
+
+msgid "Error on divide by zero (1:yes) (0:no)"
+msgstr ""
+
+msgid "Basis (>1)"
+msgstr ""
+
+msgid "Basis must be > 1"
+msgstr ""
+
+msgid "2D Lookup table parameters"
+msgstr ""
+
+msgid "Row index input values"
+msgstr ""
+
+msgid "Input row/column data size should be > 1"
+msgstr ""
+
+msgid "Incompatible size of x and y"
+msgstr ""
+
+msgid "Row input values must be monotonically increasing"
+msgstr ""
+
+msgid "Column input values must be monotonically increasing"
+msgstr ""
+
+#, c-format
+msgid "x contains no data in x(%d)"
+msgstr ""
+
+msgid "Lookup table parameters"
+msgstr ""
+
+msgid "Spline Interpolation method (0..9)"
+msgstr ""
+
+msgid "Extrapolate method (0,1)"
+msgstr ""
+
+msgid "Launch graphic window (y/n)?"
+msgstr ""
+
+msgid "Incompatible sizes of x and y"
+msgstr ""
+
+msgid " No [y] provided"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Autoscale"
+msgstr ""
+
+msgid "Mouse click is offside!"
+msgstr ""
+
+msgid "Data Bounds"
+msgstr ""
+
+msgid "Enter new bounds"
+msgstr ""
+
+msgid "Incorrect bounds"
+msgstr ""
+
+msgid "Extrapolation"
+msgstr ""
+
+msgid "Extrapolation method (only for Method 1)"
+msgstr ""
+
+msgid "0: hold end values, 1: extrapolation"
+msgstr ""
+
+msgid " Sine parameters"
+msgstr ""
+
+msgid "Amplitude"
+msgstr ""
+
+msgid "Sawtooth signal parameters"
+msgstr ""
+
+msgid "Square wave pulse signal"
+msgstr ""
+
+msgid "Normal (Gaussian) random signal"
+msgstr ""
+
+msgid "Mean"
+msgstr ""
+
+msgid "Uniform random signal"
+msgstr ""
+
+msgid "Minimum"
+msgstr "Минимум"
+
+msgid "Save/Exit"
+msgstr ""
+
+msgid "Exit without save"
+msgstr ""
+
+msgid "Edit text data NOT IN USE"
+msgstr ""
+
+msgid "Enter x and y data"
+msgstr ""
+
+msgid "Mouse-left click: adding a new point"
+msgstr ""
+
+msgid "Mouse-right click: remove a point"
+msgstr ""
+
+msgid "Mouse-left double click: edit a point's coordinates"
+msgstr ""
+
+msgid "Mouse-left button press/drag/release: move a  point"
+msgstr ""
+
+msgid "Change the window size: Data menu -> Databounds"
+msgstr ""
+
+msgid "Load from Excel"
+msgstr ""
+
+msgid "Load from text file"
+msgstr ""
+
+msgid "Save to text file"
+msgstr ""
+
+msgid "Replot"
+msgstr ""
+
+msgid "Enter new x and y"
+msgstr ""
+
+#, c-format
+msgid "%d points,  Method: %s,  %s"
+msgstr ""
+
+msgid "Excel data file "
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+#, c-format
+msgid "Scicos cannot find the excel file: %s"
+msgstr ""
+
+#, c-format
+msgid "Bad address in X: %s"
+msgstr ""
+
+#, c-format
+msgid "Bad address in Y: %s"
+msgstr ""
+
+msgid "Error in Row data addresses"
+msgstr ""
+
+msgid "Error in Column data addresses"
+msgstr ""
+
+msgid " Scicos cannot read your Excel file, please verify the parameters"
+msgstr ""
+
+#, c-format
+msgid " x contains no data:x(%d)"
+msgstr ""
+
+#, c-format
+msgid " Y contains no data:y(%d)"
+msgstr ""
+
+msgid "Text data file "
+msgstr ""
+
+msgid "Bad format in reading data file"
+msgstr ""
+
+#, c-format
+msgid "Scicos cannot open the data file: %s"
+msgstr ""
+
+msgid "No data read"
+msgstr ""
+
+msgid "Bad format"
+msgstr ""
+
+msgid "Bad format in writing data file"
+msgstr ""
+
+#, c-format
+msgid "ERROR in SPLINE: %s"
+msgstr ""
+
+msgid "You have not defined a function"
+msgstr ""
+
+msgid "Min (1) or Max (2) "
+msgstr ""
+
+msgid "Wrong number of inputs: Only 1 and 2 allowed"
+msgstr ""
+
+msgid "u^a: raise each element of the input"
+msgstr ""
+
+msgid "to the power of"
+msgstr ""
+
+msgid ""
+"<html>Number of inputs or sign vector<br>(multiplication is set with + 1, "
+"division with -1)"
+msgstr ""
+
+msgid "Set parameters"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Quantization Type must be from 1 to 4"
+msgstr ""
+
+msgid "Set Saturation parameters"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max must be > 0"
+msgstr ""
+
+msgid "Slope must be > 0"
+msgstr ""
+
+#, c-format
+msgid "Choose among %s,<br>%s"
 msgstr ""
 
 msgid "Finite differences"
@@ -363,7 +1466,7 @@ msgid "positive"
 msgstr "положительный"
 
 msgid "PDE block"
-msgstr ""
+msgstr "Блок PDE"
 
 msgid "Domain"
 msgstr "Домен"
@@ -375,7 +1478,7 @@ msgid "PDE Expression:"
 msgstr "Выражение ДРЧП:"
 
 msgid "Display"
-msgstr ""
+msgstr "Экран"
 
 msgid "Discriminant type:"
 msgstr "Тип дискриминанта:"
@@ -396,13 +1499,13 @@ msgid "Automatic"
 msgstr "Автоматически"
 
 msgid "Manual"
-msgstr ""
+msgstr "Руководство"
 
 msgid "Type:"
 msgstr "Тип:"
 
 msgid "Ordering:"
-msgstr ""
+msgstr "Упорядочивание:"
 
 msgid "degree:"
 msgstr "степень:"
@@ -411,7 +1514,7 @@ msgid "Number of nodes:"
 msgstr "Число узлов:"
 
 msgid "Display step value"
-msgstr ""
+msgstr "Значение шага отображения"
 
 msgid "Initial conditions"
 msgstr "Исходные условия"
@@ -444,14 +1547,14 @@ msgid "Cancel"
 msgstr "Отмена"
 
 msgid "Please give the discretization domain values"
-msgstr ""
+msgstr "Пожалуйста, укажите значения области дискретизации"
 
 #, c-format
 msgid "Please give the %s operator coefficients"
 msgstr "Пожалуйста, укажите коэффициенты оператора %s"
 
 msgid "Please give the sign for the variable discriminant"
-msgstr ""
+msgstr "Пожалуйста, укажите знак для переменной дискриминанта"
 
 msgid "Please give the discretization method type"
 msgstr "Пожалуйтса, укажите тип метода дискретизации"
@@ -469,6 +1572,89 @@ msgstr "Пожалуйста, укажите начальное условие %
 msgid "Please give the boundary conditions"
 msgstr "Пожалуйста, укажите граничные условия"
 
+msgid "The chosen point is out of the domain"
+msgstr ""
+
+msgid "Please select the operators"
+msgstr ""
+
+msgid "PLEASE, GIVE US THE BLOCK's NAME. "
+msgstr ""
+
+msgid "New block's name: "
+msgstr ""
+
+msgid "Sorry, undefined C file name."
+msgstr ""
+
+msgid ""
+"The discriminant isn't constant.<br>You must choose its sign in the GUI."
+msgstr ""
+
+msgid "Please provide the values<br>of the domain's discretization"
+msgstr ""
+
+msgid "Please provide the coefficients<br>    of the d2u/dt2 operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>   of the d2u/dx2 operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>   of the du/dt operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>   of the d2u/dtdx operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>    of the du/dx operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>      of the u operator"
+msgstr ""
+
+msgid "Please provide the coefficients<br>      of the f operator."
+msgstr ""
+
+msgid "Please provide the sign of<br>the non-constant discriminant."
+msgstr ""
+
+msgid "Please provide the type of<br>the discretization method."
+msgstr ""
+
+msgid "Please provide the degree of<br>the discretization method."
+msgstr ""
+
+msgid "Please provide the number<br>of discretisation points."
+msgstr ""
+
+msgid "Please provide the<br>initial condition u(x,t0)."
+msgstr ""
+
+msgid "Please provide the<br>initial condition du/dx|t0"
+msgstr ""
+
+msgid "Please provide the boundary conditions."
+msgstr ""
+
+msgid "   /* First output */ "
+msgstr ""
+
+msgid "   /* Second output */ "
+msgstr ""
+
+msgid "   /* Fist output */ "
+msgstr ""
+
+msgid "No decision."
+msgstr ""
+
+msgid "Usage: y = multMatVect(M, x)"
+msgstr ""
+
+#, c-format
+msgid "%s: Arguments #%d and #%d: Incompatible sizes.\n"
+msgstr ""
+
 #, c-format
 msgid "The finite element discretization took %.2f seconds"
 msgstr "Дискретизация конечного элемента заняла %.2f секунды"
@@ -479,14 +1665,134 @@ msgstr "Дискретизация конечных разностей заня�
 
 #, c-format
 msgid "The finite volume discretization took %.2f seconds"
-msgstr ""
+msgstr "Дискретизация конечного объёма заняла %.2f секунды"
 
 #, c-format
 msgid "The code generation, the compilation and link took %.2f seconds"
+msgstr "Генерация кода, компиляция и линковка заняла %.2f секунд"
+
+msgid "Input Size"
+msgstr "Размер ввода"
+
+msgid "The Font number must be > 0"
+msgstr ""
+
+msgid "The Font size must be > 0"
+msgstr ""
+
+msgid "The Total number of digits must be > 3"
+msgstr ""
+
+msgid "The Number of fractional part digits must be >= 0"
+msgstr ""
+
+msgid "Some specified values are inconsistent:"
+msgstr ""
+
+msgid "Accept inherited values are 0 and 1"
+msgstr ""
+
+msgid "Segs Thickness"
+msgstr ""
+
+msgid "Ymax > Ymin is required."
+msgstr ""
+
+msgid "Xmax > Xmin is required."
+msgstr ""
+
+msgid "The lines thickness must be > 0."
+msgstr ""
+
+msgid "Number of Curves"
+msgstr ""
+
+msgid "Curves styles: Colors>0 | marks<0"
+msgstr ""
+
+msgid "Curves thicknesses | marks sizes"
+msgstr ""
+
+msgid "Output window number (-1 for automatic)"
+msgstr ""
+
+msgid "Output window position"
+msgstr ""
+
+msgid "Output window sizes"
+msgstr ""
+
+msgid "Buffer size"
+msgstr "Размер буфера"
+
+msgid "'Window position' must be [] or a 2 vector"
+msgstr ""
+
+msgid "'Window sizes' must be [] or a 2 vector"
+msgstr ""
+
+msgid "The Window number must be >= -1"
+msgstr ""
+
+msgid "The Number of curves must be >= 1"
+msgstr ""
+
+msgid "The Buffer size must be >= 1"
+msgstr ""
+
+msgid "The Buffer size must be >= 2"
+msgstr ""
+
+msgid "Ymax > Ymin is required"
+msgstr ""
+
+msgid "Number of curves"
+msgstr ""
+
+msgid "Curves thicknesses or marks sizes"
+msgstr ""
+
+msgid ""
+"The numbers of curves styles and of<br>curves thickness or marks size must "
+"match."
+msgstr ""
+
+#, c-format
+msgid "Not enough curves styles: At least %d expected."
+msgstr ""
+
+msgid "The Buffer size must be >= 2, or Change a color (must be <0)"
+msgstr ""
+
+msgid "Xmax > Xmin is required"
+msgstr ""
+
+msgid "Zmax > Zmin is required"
+msgstr ""
+
+msgid "Number of event inputs"
+msgstr ""
+
+msgid "The Window position must be [] or a 2 vector"
+msgstr ""
+
+msgid "The block must have at least one input event"
+msgstr ""
+
+msgid "The number of curves styles must match the Number of inputs"
+msgstr ""
+
+msgid "The Refresh period must be > 0"
+msgstr ""
+
+msgid "'Window number' must be >= -1"
+msgstr ""
+
+msgid "Link to view must be positive"
 msgstr ""
 
 msgid "Event output port"
-msgstr ""
+msgstr "Порт вывода события"
 
 msgid "Port number"
 msgstr "Номер порта"
@@ -498,17 +1804,132 @@ msgstr "Неверное значение параметра 'Номер пор�
 msgid "Strictly positive integer expected."
 msgstr "Ожидалось строго положительное целое."
 
-msgid "Implicit output port"
+msgid "Set Event Output block parameters"
+msgstr ""
+
+msgid "Port number must be an integer > 0"
+msgstr ""
+
+msgid "Bounds Vector X (-1 for standard)"
+msgstr ""
+
+msgid "Bounds Vector Y (-1 for standard)"
+msgstr ""
+
+msgid "ColorMap"
+msgstr ""
+
+msgid "Vectors X and Y must have the same size."
+msgstr ""
+
+msgid "Zmax > Zmin is required."
+msgstr ""
+
+msgid "Error with minimum and maximum values"
+msgstr ""
+
+msgid "The block must have at least one input port"
+msgstr ""
+
+msgid "Port sizes must be > 0"
+msgstr ""
+
+#, c-format
+msgid "At least %d curves styles expected."
+msgstr ""
+
+msgid "The size of 'Refresh Periods' must match the Ymin|Ymax's one"
+msgstr ""
+
+msgid "All Refresh Periods must be > 0"
+msgstr ""
+
+msgid "'Accept herited events' must be 0 or 1"
+msgstr ""
+
+msgid "Curve style: Color>0 | mark<0"
+msgstr ""
+
+msgid "Refresh period"
+msgstr ""
+
+msgid "Accept herited events 0/1"
+msgstr ""
+
+msgid "Name of Scope (label&Id)"
+msgstr ""
+
+msgid "The Number of Curves must be > 0"
+msgstr ""
+
+msgid ""
+"<html>The number of Colors or Mark styles<br>and the number of curves "
+"thicknesses or marks sizes<br>must match."
+msgstr ""
+
+msgid "The number of curves must be > 0"
+msgstr ""
+
+msgid "The Window's number must be > -1"
+msgstr ""
+
+msgid "The Buffer size must be at least 1"
+msgstr ""
+
+msgid "The Buffer size must be at least 2 or Change a color (must be >0)"
+msgstr ""
+
+msgid "Implicit output port:"
 msgstr ""
 
 msgid "Regular output port"
+msgstr "Обычный порт вывода"
+
+#, c-format
+msgid "Not enough colors defined: At least %d required."
+msgstr ""
+
+msgid "'Auto scaling' must be 0:No or 1:Yes"
+msgstr ""
+
+msgid "'Window number' can't be  < -1"
+msgstr ""
+
+msgid "Size of Refresh Period must equal size of Ymin/Ymax vector"
+msgstr ""
+
+msgid "Refresh Period must be > 0"
+msgstr ""
+
+msgid "The Buffer size must be at least 2"
+msgstr ""
+
+msgid "Window position must be [] or a 2 vector"
+msgstr ""
+
+msgid "Window sizes must be [] or a 2 vector"
+msgstr ""
+
+msgid "Window number can't be  < -1"
+msgstr ""
+
+msgid "Size of buffer"
+msgstr ""
+
+msgid "Size of buffer must be > 0"
+msgstr ""
+
+msgid "Invalid variable's name.<br>Please choose another name."
+msgstr ""
+
+msgid "Protected variable name.<br>Please choose another name."
 msgstr ""
 
 msgid "Buffer Size"
 msgstr "Размер буфера"
 
 msgid "Swap Mode (0:No, 1:Yes)"
-msgstr ""
+msgstr "Режим переключения (0:Нет, 1:Да)"
 
 msgid "Write '.au' sound file on audio device"
 msgstr "Записать звуковой файл '.au'  на аудио устройстве"
@@ -521,19 +1942,10 @@ msgid "End current simulation first"
 msgstr "Сначала закончите текущее моделирование"
 
 msgid "Swap Mode"
-msgstr ""
-
-msgid "Input Size"
-msgstr ""
-
-msgid "Output File Name"
-msgstr "Имя файла вывода"
+msgstr "Режим переключения"
 
 msgid "Write to C binary file"
 msgstr "Запись в двоичный C файл"
-
-msgid "Output Format"
-msgstr "Выходной формат"
 
 msgid "Input Format"
 msgstr "Формат ввода"
@@ -551,6 +1963,9 @@ msgstr "Сначала закончите текущее моделирован�
 msgid "You cannot modify 'Buffer Size' when running."
 msgstr "Вы не можете изменить 'Размер буфера' во время выполнения."
 
+msgid "Output File Name"
+msgstr "Имя файла вывода"
+
 msgid "You must provide a filename."
 msgstr "Вы должны указать имя файла."
 
@@ -559,14 +1974,23 @@ msgid "Directory '%s' does not exist"
 msgstr "Каталог '%s' не существует"
 
 msgid "Event input port"
+msgstr "Порт ввода события"
+
+msgid "Port Number"
 msgstr ""
 
 #, c-format
 msgid "Wrong values for 'Port Number' parameter: %d."
 msgstr "Неверные значения параметра 'Номер порта': %d."
 
-msgid "Event clock generator"
+msgid "Set Event Input block parameters"
 msgstr ""
+
+msgid "'Port number' must be a positive integer."
+msgstr ""
+
+msgid "Event clock generator"
+msgstr "Генератор тактов события"
 
 msgid "&nbsp; Do not start if 'Initialisation Time' is negative"
 msgstr "&nbsp; Не запускать, если 'Время инициализации' отрицательно"
@@ -575,7 +1999,7 @@ msgid "Initialisation Time"
 msgstr "Время инициализации"
 
 msgid "Period"
-msgstr ""
+msgstr "Период"
 
 msgid "Strictly positive number expected."
 msgstr "Ожидалось строго положительное число."
@@ -584,11 +2008,40 @@ msgstr "Ожидалось строго положительное число."
 msgid "Wrong values for '%s' parameter: %5.1e."
 msgstr "Неверные значения параметра '%s': %5.1e."
 
+msgid "Set Clock  block parameters"
+msgstr ""
+
+msgid "Period must be > 0"
+msgstr ""
+
+msgid "Set Constant value block"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "The value must be non-empty"
+msgstr ""
+
+msgid ""
+"The input value must be scalar.<br>Please use CONST_m to set a<br>constant "
+"input vector or matrix."
+msgstr ""
+
+msgid "Set Constant Block"
+msgstr ""
+
+msgid "Value (scalar | vector | matrix)"
+msgstr ""
+
+msgid "The value must have at least one element."
+msgstr ""
+
+msgid "Provides a CONSTant scalar, vector or Matrix"
+msgstr ""
+
 msgid "Constant Value"
 msgstr "Постоянное значение"
-
-msgid "Constant value generator"
-msgstr "Генератор постоянных значений"
 
 msgid "Constant value must have at least one element."
 msgstr "Постоянное значение должно иметь по крайней мере один элемент"
@@ -601,18 +2054,62 @@ msgstr "Неверный размер параметра '%s'"
 msgid "Wrong type for '%s' parameter"
 msgstr "Неверный тип параметра '%s'"
 
-msgid "Value type must be a numeric type (double, complex, int, int8, ...)."
+msgid "The value must be numeric<br>(double, complex, int, int8, ..uint32)."
 msgstr ""
-"Тип значения должне быть числовым типом (double, complex, int, int8, ...)."
+
+msgid "Spline data"
+msgstr ""
+
+msgid "Spline Method (0..7)"
+msgstr ""
+
+msgid "Periodic signal (y/n)?"
+msgstr ""
+
+msgid "Incompatible sizes of [x] and [y]"
+msgstr ""
+
+msgid " No [y] is provided"
+msgstr ""
+
+msgid "X should be positive"
+msgstr ""
+
+msgid "Generating periodic signal"
+msgstr ""
+
+msgid "Sine parameters"
+msgstr ""
+
+msgid "Excel data file"
+msgstr ""
+
+#, c-format
+msgid "Scicos cannot find the excel file '%s'."
+msgstr ""
+
+msgid "Scicos cannot read your Excel file. Please verify the parameters"
+msgstr ""
+
+#, c-format
+msgid "x contains no data:x(%d)"
+msgstr ""
+
+#, c-format
+msgid "Y contains no data:y(%d)"
+msgstr ""
+
+msgid "Text data file"
+msgstr ""
+
+msgid "Abscissae must be in increasing order"
+msgstr ""
 
 msgid "Integer counter generator"
-msgstr ""
+msgstr "Генератор счётчика целых чисел"
 
 msgid "Maximum"
 msgstr "Максимум"
-
-msgid "Minimum"
-msgstr "Минимум"
 
 msgid "Rule (1:Increment, 2:Decrement)"
 msgstr "Правило (1:увеличивать, 2:уменьшать)"
@@ -628,14 +2125,27 @@ msgstr "'Минимум' должен быть меньше чем 'Максим
 msgid "Wrong value for 'Rule' parameter: %d"
 msgstr "Неверное значение для параметра «Правило»: %d"
 
+msgid "Variable name"
+msgstr ""
+
+msgid "'Interpolation method' should be chosen in [0,1,2,3]"
+msgstr ""
+
+msgid "'Use zero crossing' should be either 0 or 1"
+msgstr ""
+
+msgid "'Output at end' should be either 0 or 1"
+msgstr ""
+
+msgid ""
+"Invalid variable name.<br>Please use another variable<br>or define this one."
+msgstr ""
+
 msgid "Sine wave generator"
 msgstr "Генератор синусоидальных колебаний"
 
 msgid "Frequency (rad/s)"
 msgstr "Частота (рад/с)"
-
-msgid "Magnitude"
-msgstr "Абсолютная величина"
 
 msgid "Phase (rad)"
 msgstr "Фаза (рад)"
@@ -644,29 +2154,30 @@ msgstr "Фаза (рад)"
 msgid "Wrong value for 'Frequency' parameter: %e."
 msgstr "Неверное значение параметра 'Частота': %e."
 
-msgid "Implicit input port"
+msgid "Minimum Value"
 msgstr ""
 
-msgid "Set Input block parameters"
-msgstr ""
+msgid "Implicit input port"
+msgstr "Неявный входной порт"
 
 msgid "Outport size ([-1 -2] for inherit)"
-msgstr ""
+msgstr "Размер порта выдачи ([-1 -2] для наследования)"
 
 msgid "Outport Type (-1 for inherit)"
-msgstr ""
+msgstr "Тип порта вывода (-1 для наследования)"
 
 msgid "Port number must be a positive integer"
 msgstr "Номер порта должен быть положительным целым числом"
 
 msgid "Outport Size must be a 2 elements vector"
-msgstr ""
+msgstr "Размер порта вывода должен быть двухэлементным вектором"
 
 msgid "Outport type must be a number between 1 and 9, or -1 for inheritance."
 msgstr ""
+"Тип порта вывода должен быть числом между 1и 9, либо -1 для наследования."
 
 msgid "Modulo counter (0 to N counter)"
-msgstr ""
+msgstr "Счётчик по модулю (счётчик от 0 до N)"
 
 msgid "Initial State (zero or positive number)"
 msgstr "Исходное состояие (ноль или положительное число)"
@@ -685,11 +2196,20 @@ msgstr "Ожидался ноль или положительное целое"
 msgid "Wrong values for 'Upper Limit' parameter: %d."
 msgstr "Неверные значения параметра 'Верхний предел': %d."
 
-msgid "Ramp function"
+msgid "Set Pulse Generator parameters"
 msgstr ""
 
-msgid "Slope"
+msgid "Phase delay (s)"
 msgstr ""
+
+msgid "The pulse width must be in [0,100]"
+msgstr ""
+
+msgid "Offset must be < Period*(1-Width/100)"
+msgstr ""
+
+msgid "Ramp function"
+msgstr "Функция пилы"
 
 msgid "Start Time"
 msgstr "Время начала"
@@ -698,14 +2218,35 @@ msgstr "Время начала"
 msgid "Wrong value for 'Start Time' parameter: %e."
 msgstr "Неверное значение параметра 'Время начала': %e."
 
-msgid "(Read Audio File)"
-msgstr "(Чтение аудио-файла)"
-
-msgid "Read is done on a binary '.au' file"
+msgid "Set Random generator block parameters"
 msgstr ""
 
-msgid "Buffer size"
-msgstr "Размер буфера"
+msgid ""
+"flag = 0 : Uniform distribution. A is min and A+B max<br>flag = 1 : Normal "
+"distribution. A is mean and B deviation.<br><br>A and B must be vector with "
+"equal sizes.<br>Seed is the seed of random number generator (integer<2**31)"
+msgstr ""
+
+msgid "'flag' must be equal to 0 or 1"
+msgstr ""
+
+msgid ""
+"flag = 0 : Uniform distribution A is min and A+B max.<br>flag = 1 : Normal "
+"distribution A is mean and B deviation<br><br>A and B must be matrix with "
+"equal sizes"
+msgstr ""
+
+msgid "Datatype (1=real double  2=complex)"
+msgstr ""
+
+msgid "Seed"
+msgstr ""
+
+msgid "Read an Audio File"
+msgstr ""
+
+msgid "Read is done on a binary '.au' file"
+msgstr "Выполнено чтение бинарного файла '.au'"
 
 msgid "Input File Name"
 msgstr "Имя входного файла"
@@ -717,26 +2258,20 @@ msgstr "Моделирование запущено !!! Вы не можете �
 msgid "Must be greater than %d."
 msgstr "Должно быть больше чем %d."
 
-msgid "Outputs Record Selection"
-msgstr ""
-
 msgid "Read from C binary file"
-msgstr ""
+msgstr "Чтение бинарного файла C"
 
 msgid "Time Record Selection"
 msgstr "Выбор времени записи"
-
-msgid "Record Size"
-msgstr "Размер записи"
-
-msgid "Initial Record Index"
-msgstr "Исходный индекс записи"
 
 msgid "Must be a scalar or an empty matrix."
 msgstr "Должен быть скаляр или пустая матрица."
 
 msgid "You must provide a file name."
 msgstr "Вы должны указать имя файла."
+
+msgid "Record Size"
+msgstr "Размер записи"
 
 #, c-format
 msgid "Wrong value for  '%s' parameter: %d."
@@ -745,20 +2280,22 @@ msgstr "Неверное значение для параметра '%s': %d."
 msgid "[1, Record Size = "
 msgstr "[1, Размер записи = "
 
+msgid "Outputs Record Selection"
+msgstr "Выбор записи порта вывода"
+
 #, c-format
 msgid "Wrong value for indexes in '%s' parameter: %s."
 msgstr "Неверное значение для индексов в параметре '%s': %s."
 
-msgid "&nbsp; - A binary file if no format given"
-msgstr "&nbsp; - Двоичный файл, если формат не задан"
+msgid "Initial Record Index"
+msgstr "Исходный индекс записи"
 
 msgid "Read from an input file"
-msgstr ""
+msgstr "Чтение входного файла"
 
-msgid "Read is done on:"
-msgstr "Прочитано:"
-
-msgid "&nbsp; - A formatted text file if a  format (fortran type) is given"
+msgid ""
+"Read is done on:<br>&nbsp; - A binary file if no format given.<br>&nbsp; - A "
+"formatted text file if a  format (fortran type) is given.<br>"
 msgstr ""
 
 msgid "Empty matrix or scalar expected."
@@ -772,12 +2309,14 @@ msgid ""
 "Simulation running !!! You cannot switch <br />between formatted and "
 "unformatted"
 msgstr ""
+"Симуляция запущена !!! Вы не можете переключиться <br />между "
+"форматированным и неформатированным"
 
 msgid "Simulation running !!! You cannot modify 'Input File Name"
-msgstr ""
+msgstr "Симуляция запущена!!! Вы не можете изменять 'Имя входного файла"
 
 msgid "Simulation running !!! You cannot modify 'Time Record Selection"
-msgstr ""
+msgstr "Симуляция запущена!!! Вы не можете изменять 'Выбор записи времени"
 
 #, c-format
 msgid "Wrong value for '%s' parameter: %s"
@@ -799,14 +2338,8 @@ msgstr "Вы должны прочитать хотя бы одно поле в 
 msgid "Strictly positive indexes expected."
 msgstr "Ожидались строго положительные индексы."
 
-msgid "Step Function"
-msgstr ""
-
-msgid "Final Value"
-msgstr "Итоговое значение"
-
 msgid "Step Time"
-msgstr ""
+msgstr "Время единичного скачка"
 
 #, c-format
 msgid "'Initial Value' and 'Final Value': incompatible sizes: %d and %d."
@@ -815,6 +2348,33 @@ msgstr ""
 
 msgid "Same sizes expected."
 msgstr "Ожидались одинаковые размеры."
+
+msgid "'Sample time' must be >= 0"
+msgstr ""
+
+msgid "The |Offset| must be less than the Sample time"
+msgstr ""
+
+msgid "Min value"
+msgstr ""
+
+msgid "TK Source: "
+msgstr ""
+
+msgid "Set General Zero-Crossing parameters"
+msgstr ""
+
+msgid "Input size"
+msgstr ""
+
+msgid "Routing matrix"
+msgstr ""
+
+msgid "Set Zero-Crossing parameters<br><br>All surfaces must cross together"
+msgstr ""
+
+msgid "The block must have at least one input"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of input arguments: At most %d expected.\n"

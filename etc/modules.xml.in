@@ -8,7 +8,7 @@
  ===================
  Don't touch if you do not know what you are doing
  Warning "core" module must be always the first module
- activate="yes" module will be launched ( or not "0")
+ activate="yes" module will be launched ( or not "no")
  -->
 <!-- =================== -->
 <modules>
@@ -47,7 +47,6 @@
 <module name="time" activate="yes"/>
 <module name="statistics" activate="yes"/>
 <module name="arnoldi" activate="yes"/>
-<module name="compatibility_functions" activate="yes"/>
 <module name="javasci" activate="@JAVASCI_ENABLE@"/>
 <module name="m2sci" activate="yes"/>
 <module name="mexlib" activate="yes"/>
@@ -66,8 +65,6 @@
 <module name="umfpack" activate="@UMFPACK_ENABLE@"/>
 <module name="module_skeleton" activate="no"/>
 <!-- comments -->
-<module name="genetic_algorithms" activate="yes"/>
-<module name="simulated_annealing" activate="yes"/>
 <module name="parameters" activate="yes"/>
 <module name="atoms" activate="yes"/>
 <module name="matio" activate="@MATIO_ENABLE@"/>
@@ -81,7 +78,7 @@
 <module name="api_scilab" activate="yes"/>
 <module name="helptools" activate="@HELP_ENABLE@"/>
 <module name="graph" activate="@JAVA_ENABLE@"/>
-<module name="parallel" activate="yes"/>
+<module name="parallel" activate="no"/>
 <module name="modules_manager" activate="yes"/>
 <module name="history_browser" activate="@JAVA_ENABLE@"/>
 <module name="preferences" activate="@GUI_ENABLE@"/>
@@ -91,4 +88,5 @@
 <module name="external_objects_java" activate="@JAVA_ENABLE@"/>
 <module name="slint" activate="yes"/>
 <module name="coverage" activate="yes"/>
+<module name="webtools" activate="yes"/>
 </modules>

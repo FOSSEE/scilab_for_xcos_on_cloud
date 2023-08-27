@@ -82,20 +82,6 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="fplot2d">fplot2d</link>
-                </term>
-                <listitem>
-                    <para>関数で定義された曲線をプロット</para>
-                    <para>
-                        <emphasis role="bold">例:</emphasis>
-                    </para>
-                    <para>
-                        <scilab:image>fplot2d();</scilab:image>
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
                     <link linkend="champ">champ</link>
                 </term>
                 <listitem>
@@ -105,20 +91,6 @@
                     </para>
                     <para>
                         <scilab:image>champ();</scilab:image>
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
-                    <link linkend="champ1">champ1</link>
-                </term>
-                <listitem>
-                    <para>カラー矢印で2次元ベクトルフィールド</para>
-                    <para>
-                        <emphasis role="bold">例:</emphasis>
-                    </para>
-                    <para>
-                        <scilab:image>champ1();</scilab:image>
                     </para>
                 </listitem>
             </varlistentry>
@@ -361,15 +333,15 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="hist3d">hist3d</link>
+                    <link linkend="bar3d">bar3d</link>
                 </term>
                 <listitem>
-                    <para>ヒストグラムの3次元表現3</para>
+                    <para>棒グラフの3D表現</para>
                     <para>
                         <emphasis role="bold">例:</emphasis>
                     </para>
                     <para>
-                        <scilab:image>hist3d();</scilab:image>
+                        <scilab:image>bar3d();</scilab:image>
                     </para>
                 </listitem>
             </varlistentry>
@@ -942,7 +914,7 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="xdel">xdel</link>
+                    <link linkend="close">close</link>
                 </term>
                 <listitem>
                     <para>グラフィックウインドウを削除</para>
@@ -954,14 +926,6 @@
                 </term>
                 <listitem>
                     <para>グラフィックウインドウのリストを返す</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
-                    <link linkend="xname">xname</link>
-                </term>
-                <listitem>
-                    <para>カレントのグラフィックウインドウの名前を変更</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -1040,7 +1004,7 @@
                         <emphasis role="bold">例:</emphasis>
                     </para>
                     <para>
-                        <scilab:image>s=poly(0,'s')
+                        <scilab:image localized="true">s=poly(0,'s')
                             h1=syslin('c',(s^2+2*0.9*10*s+100)/(s^2+2*0.3*10.1*s+102.01))
                             h2=syslin('c',(s^2+2*0.1*15.1*s+228.01)/(s^2+2*0.9*15*s+225))
                             clf();gainplot([h1;h2],0.01,100,['h1';'h2'])

@@ -34,8 +34,9 @@ function [x,y,typ]=Resistor(job,arg1,arg2)
         exprs=graphics.exprs
         model=arg1.model;
         while %t do
-            [ok,R,exprs]=scicos_getvalue("Set Resistor block parameter",..
-            "R (ohm)",list("vec",1),exprs)
+            [ok,R,exprs]=scicos_getvalue(..
+            msprintf(_("Set %s block parameters"), "Resistor"),..
+            "R (ohm)", list("vec",1),exprs)
             if ~ok then
                 break,
             end
@@ -45,7 +46,7 @@ function [x,y,typ]=Resistor(job,arg1,arg2)
             // Updating the icon according to the resistance value:
             v = evstr(exprs);
             if v>=1e-5 & v<1e-2
-                sv = msprintf("%d\\:\\mu\n",v*1e6)
+                sv = msprintf("%d\\:\\mu \n",v*1e6)
             elseif v>=1e-2 & v<10
                 sv = msprintf("%d\\:m\n",v*1000)
             elseif v>=10 & v<10000

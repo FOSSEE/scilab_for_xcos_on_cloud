@@ -154,10 +154,12 @@ modulename=optimization
 libscioptimization_la_rootdir = $(mydatadir)
 libscioptimization_la_root_DATA =  license.txt
 
-#### m2sci : Macros ####
-MACROSDIRSEXT =  macros/neldermead \
-	macros/optimbase \
-	macros/optimsimplex
+#### optimization : Macros ####
+MACROSDIRSEXT =  macros/annealing \
+    macros/genetic \
+    macros/neldermead \
+    macros/optimbase \
+    macros/optimsimplex
 
 ####optimization : init scripts ####
 libscioptimization_la_etcdir = $(mydatadir)/etc

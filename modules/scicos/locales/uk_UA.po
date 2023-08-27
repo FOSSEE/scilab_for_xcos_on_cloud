@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 19:21+0000\n"
+"PO-Revision-Date: 2020-02-19 07:11+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d expected.\n"
@@ -296,10 +296,10 @@ msgstr ""
 "%s: помилковий розмір вхідного параметра №%d: слід використовувати рядок.\n"
 
 #, c-format
-msgid "%s: Wrong value for input argument #%d: Must be in the set  {%ls}.\n"
+msgid "%s: Wrong value for input argument #%d: Must be one of %ls.\n"
 msgstr ""
-"%s: помилкове значення вхідного параметра №%d: слід використовувати значення "
-"з набору {%ls}\n"
+"%s: помилкове значення вхідного параметра %d: мало бути використано одне зі "
+"значень %ls.\n"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: unable to set \"%ls\".\n"
@@ -924,13 +924,21 @@ msgid "Wrong value for field %s.%s : Round number expected.\n"
 msgstr "Помилкове значення поля %s.%s: мало бути вказано округлене число.\n"
 
 #, c-format
+msgid "Wrong type for field %s.%s : Real vector expected.\n"
+msgstr ""
+"Помилковий тип для поля %s.%s: мало бути використано вектор із дійсних "
+"значень.\n"
+
+#, c-format
+msgid "Wrong size for field %s.%s : Real vector expected.\n"
+msgstr ""
+"Помилкова розмірність поля %s.%s: мало бути використано вектор із дійсних "
+"значень.\n"
+
+#, c-format
 msgid "Wrong type for field %s.%s : Real matrix expected.\n"
 msgstr ""
 "Помилковий тип поля %s.%s: мало бути вказано матрицю з дійсних чисел.\n"
-
-#, c-format
-msgid "Wrong size for field %s.%s : %d-by-%d expected.\n"
-msgstr "Помилкова розмірність поля %s.%s: мало бути %d x %d.\n"
 
 #, c-format
 msgid "Wrong dimension for field %s.%s : m-by-1 expected.\n"
@@ -1046,10 +1054,6 @@ msgstr "Помилкове значення поля %s.%s: мало бути о
 #, c-format
 msgid "Wrong type for field %s.%s .\n"
 msgstr "Помилковий тип поля %s.%s.\n"
-
-#, c-format
-msgid "Wrong value for field %s.%s: FIXME port has not been updated.\n"
-msgstr "Помилкове значення поля %s.%s: порт FIXME не оновлено.\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): At least %d expected.\n"
@@ -1363,7 +1367,7 @@ msgstr ""
 #, c-format
 msgid ""
 "the dep_ut size of the %s block is not correct.\n"
-"It should be a colon vector of size %d."
+"It should be a column vector of size %d."
 msgstr ""
 "розмірність dep_ut блоку %s є некоректною.\n"
 "Це мав бути вектор-стовпчик розмірності %d."
@@ -1522,12 +1526,8 @@ msgstr "%s: порожня діаграма"
 msgid "%s: Wrong input argument.\n"
 msgstr "%s: помилковий вхідний параметр.\n"
 
-#
-# File: modules/scicos/macros/scicos_scicos/script2var.sci, line: 42
-# File: modules/scicos/macros/scicos_scicos/script2var.sci, line: 68
-# File: modules/scicos/macros/scicos_scicos/script2var.sci, line: 111
 msgid "Set Xcos context"
-msgstr ""
+msgstr "Встановити контекст Xcos"
 
 #, c-format
 msgid "The variable name %s cannot be used as block parameter: ignored\n"

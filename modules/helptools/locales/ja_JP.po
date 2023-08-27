@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 12:21+0000\n"
+"PO-Revision-Date: 2019-12-09 12:53+0000\n"
 "Last-Translator: Rui Hirokawa <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: Japan\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -134,15 +134,35 @@ msgstr ""
 msgid "%s: Wrong type for input argument #%d: a string expected.\n"
 msgstr "%s: 入力引数 #%d の型が間違っています: 文字列を指定してください.\n"
 
+#, c-format
+msgid "%s: Wrong number of input argument(s): %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A character string expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Undefined variable %s.\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: Name of a Scilab function expected.\n"
+msgstr ""
+
+msgid "No comment available."
+msgstr ""
+
+#, c-format
+msgid "%s: help file(.jar) is not installed.\n"
+msgstr "%s: ヘルプファイル(.jar) がインストールされていません.\n"
+
 #
 # File: macros/help.sci, line: 42
 #, c-format
 msgid "%s: The help browser is disabled in %s mode.\n"
 msgstr "%s: %s モードで、ヘルプブラウザは無効にされます。\n"
-
-#, c-format
-msgid "%s: help file(.jar) is not installed.\n"
-msgstr "%s: ヘルプファイル(.jar) がインストールされていません.\n"
 
 #
 # File: macros/help.sci, line: 24
@@ -256,6 +276,26 @@ msgid "         Add here the Scilab, C,... used code references"
 msgstr "         ここにコード参照されている Scilab, C, ... を追加してください."
 
 #
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 42
+msgid "Help browser: Pages of external modules can't be viewed online"
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 47
+msgid "Help browser: Tables of contents can't be targeted online"
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 65
+msgid "Help browser: Bugs of external modules can't be listed."
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 70
+msgid "Help browser: Table of contents can't be targeted in Bugzilla"
+msgstr ""
+
+#
 # File: macros/manedit.sci, line: 16
 #, c-format
 msgid "%s: Wrong number of input argument: %d expected.\n"
@@ -330,11 +370,9 @@ msgstr ""
 "\n"
 "マニュアルファイル　[%s] を構築中.\n"
 
-#
-# File: modules/helptools/macros/xmltoformat.sci, line: 754
 #, c-format
 msgid "Post-processing Right-to-Left pages in %s...\n"
-msgstr ""
+msgstr "%s の右から左の頁を処理中...\n"
 
 #
 # File: macros/xmltoformat.sci, line: 491

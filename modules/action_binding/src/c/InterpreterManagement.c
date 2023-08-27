@@ -19,7 +19,20 @@
 /*--------------------------------------------------------------------------*/
 int putCommandInScilabQueue(char *command)
 {
-    return StoreCommand(command);
+    if(isEnableDebug())
+    {
+        if(isDebugInterrupted())
+        {
+            return 1;
+        }
+
+        // 0 : don't pause the thread
+        return debuggerManagerExecute(command, 0);
+    }
+    else
+    {
+        return StoreCommand(command);
+    }
 }
 /*--------------------------------------------------------------------------*/
 /*
@@ -30,7 +43,20 @@ int putCommandInScilabQueue(char *command)
 */
 int requestScilabExec(char *command)
 {
-    return StorePrioritaryCommand(command);
+    if(isEnableDebug())
+    {
+        if(isDebugInterrupted())
+        {
+            return 1;
+        }
+
+        // 0 : don't pause the thread
+        return debuggerManagerExecute(command, 0);
+    }
+    else
+    {
+        return StorePrioritaryCommand(command);
+    }
 }
 /*--------------------------------------------------------------------------*/
 int interruptScilab(void)

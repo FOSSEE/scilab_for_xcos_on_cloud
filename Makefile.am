@@ -30,11 +30,13 @@ AM_CXXFLAGS = $(SCI_CXXFLAGS)
 AM_FFLAGS   = $(SCI_FFLAGS)
 AM_LDFLAGS  = $(SCI_LDFLAGS)
 
+if GUI
 bin_PROGRAMS		= scilab-bin scilab-cli-bin
-
-bin_SCRIPTS			= bin/scilab bin/scilab-adv-cli bin/scilab-cli \
-bin/scinotes bin/xcos
-
+bin_SCRIPTS		= bin/scilab bin/scilab-adv-cli bin/scilab-cli bin/scinotes bin/xcos
+else
+bin_PROGRAMS		= scilab-cli-bin
+bin_SCRIPTS		= bin/scilab-cli
+endif
 if IS_MACOSX
 bin_SCRIPTS 		+= bin/checkmacosx.applescript
 endif
@@ -130,7 +132,27 @@ scilab_cli_bin_SOURCES	= modules/startup/src/cpp/scilab.cpp
 scilab_cli_bin_CPPFLAGS = -DWITHOUT_GUI $(scilab_bin_CPPFLAGS)
 
 # See the comment about scilab_bin_LDADD (relative to BLAS_LIBS & LAPACK_LIBS)
+
+if IS_MACOSX
+scilab_cli_bin_LDADD 	= $(COMMON_LIBS) $(top_builddir)/modules/libscilab-cli.la \
+    $(top_builddir)/modules/gui/libscigui-disable.la \
+	$(top_builddir)/modules/graphics/libscigraphics-disable.la \
+	$(top_builddir)/modules/graphic_export/libscigraphic_export-disable.la \
+	$(top_builddir)/modules/console/libsciconsole-minimal.la \
+	$(top_builddir)/modules/action_binding/libsciaction_binding-disable.la \
+	$(top_builddir)/modules/jvm/libscijvm-disable.la \
+	$(top_builddir)/modules/xcos/libscixcos-disable.la \
+	$(top_builddir)/modules/graphic_objects/libscigraphic_objects-disable.la \
+	$(top_builddir)/modules/scinotes/libsciscinotes-disable.la \
+	$(top_builddir)/modules/ui_data/libsciui_data-disable.la \
+	$(top_builddir)/modules/history_browser/libscihistory_browser-disable.la \
+	$(top_builddir)/modules/commons/libscicommons-disable.la \
+	$(top_builddir)/modules/preferences/libscipreferences-cli.la \
+	$(top_builddir)/modules/tclsci/libscitclsci-disable.la \
+    $(BLAS_LIBS) $(LAPACK_LIBS) $(FLIBS)
+else
 scilab_cli_bin_LDADD 	= $(COMMON_LIBS) $(top_builddir)/modules/libscilab-cli.la $(BLAS_LIBS) $(LAPACK_LIBS) $(FLIBS)
+endif
 
 if MPI
 CXX = $(OPENMPI_CXX)
@@ -278,8 +300,13 @@ if BUILD_HELP
 		for l in $(ALL_LINGUAS_DOC); do \
 			echo "-- Building documentation ($$l) --"; \
 			COMMAND="try xmltojar([],[],'$$l');catch disp(lasterror()); exit(-1);end;exit(0);"; \
-			echo "LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e \"$$COMMAND\"";\
-			LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e "$$COMMAND" || exit 1;\
+			if test "$(MACOSX)" = "1"; then \
+				echo "LANG=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e \"$$COMMAND\"";\
+				LANG=$$l.UTF-8 SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e "$$COMMAND" || exit 1;\
+			else \
+				echo "LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e \"$$COMMAND\"";\
+				LANG=$$l.UTF-8 LC_ALL=C SCI_DISABLE_TK=1 SCI_JAVA_ENABLE_HEADLESS=1 _JAVA_OPTIONS='-Djava.awt.headless=true' HOME=/tmp $(top_builddir)/bin/scilab-adv-cli -noatomsautoload -nb -l $$l -nouserstartup -e "$$COMMAND" || exit 1;\
+			fi; \
 		done; \
 	else \
 		echo "Cannot find Scilab-adv-cli binary"; \

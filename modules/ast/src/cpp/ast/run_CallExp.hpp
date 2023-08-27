@@ -65,8 +65,23 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
     types::typed_list in;
     types::optional_list opt;
 
+    int iInvokeNbOut = 0;
+    try
+    {
+        // getInvokeNbOut will parse the file in case of macrofile
+        // this could throw an exception
+        iInvokeNbOut = pIT->getInvokeNbOut();
+    }
+    catch (const InternalError& ie)
+    {
+        clearResult();
+        cleanIn(inTmp, outTmp);
+        CoverageInstance::stopChrono((void*)&e);
+        throw ie;
+    }
+
     // manage case [a,b]=foo() where foo is defined as a=foo()
-    if (pIT->getInvokeNbOut() != -1 && pIT->getInvokeNbOut() < iRetCount)
+    if (iInvokeNbOut != -1 && iInvokeNbOut < iRetCount)
     {
         clearResult();
         cleanIn(inTmp, outTmp);
@@ -158,7 +173,16 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
         }
 
         setExpectedSize(iSaveExpectedSize);
-        iRetCount = std::max(1, iRetCount);
+
+        // override iRetCount only in relevant cases
+        if (pIT->isCallable() && e.getParent()->isSeqExp())
+        {
+            iRetCount = std::max(0, iRetCount);
+        }
+        else
+        {
+            iRetCount = std::max(1, iRetCount);
+        }
 
         for (int i = 0; i < iLoopSize; i++)
         {
@@ -201,7 +225,7 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
             if (pIT->isInvokable() == false)
             {
                 // call overload
-                ret = Overload::call(L"%" + pIT->getShortTypeStr() + L"_e", in, iRetCount, out, true);
+                ret = Overload::call(L"%" + pIT->getShortTypeStr() + L"_e", in, iRetCount, out, true, true, e.getLocation());
             }
             else
             {
@@ -209,7 +233,7 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
                 if (ret == false && pIT->isUserType())
                 {
                     // call overload
-                    ret = Overload::call(L"%" + pIT->getShortTypeStr() + L"_e", in, iRetCount, out, true);
+                    ret = Overload::call(L"%" + pIT->getShortTypeStr() + L"_e", in, iRetCount, out, true, true, e.getLocation());
                 }
             }
 
@@ -281,7 +305,7 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
             pListArg->killMe();
         }
     }
-    catch (InternalAbort & ia)
+    catch (const InternalAbort & ia)
     {
         setExpectedSize(iSaveExpectedSize);
         if (pIT != getResult())
@@ -296,8 +320,14 @@ void RunVisitorT<T>::visitprivate(const CallExp &e)
 
         throw ia;
     }
-    catch (const InternalError& ie)
+    catch (InternalError& ie)
     {
+        // set location if the function which thrown this execption was not able to do it
+        if(ie.GetErrorLocation().first_line == -1)
+        {
+            ie.SetErrorLocation(e.getLocation());
+        }
+
         setExpectedSize(iSaveExpectedSize);
         if (pIT != getResult())
         {
@@ -401,7 +431,7 @@ void RunVisitorT<T>::visitprivate(const CellCallExp &e)
     {
         //result == NULL ,variable doesn't exist :(
         // Should never be in this case
-        // In worst case variable pointing to function does not exists
+        // In worst case variable pointing to function does not exist
         // visitprivate(SimpleVar) will throw the right exception.
     }
     CoverageInstance::stopChrono((void*)&e);

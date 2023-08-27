@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 12:35+0000\n"
-"Last-Translator: Webish <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: GuoZhiqiang <763199198@qq.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
@@ -27,7 +27,7 @@ msgstr "%s：输出参数的数目错误：应该为%d个。\n"
 
 #, c-format
 msgid "%s: Wrong type for argument %d: Real vector expected.\n"
-msgstr "%s：参数%d的类型错误：应该为实数向量。\n"
+msgstr "%s：第%d个参数类型错误：应该为实数向量。\n"
 
 #, c-format
 msgid "%s: Wrong type for argument %d: Matrix expected.\n"
@@ -39,7 +39,7 @@ msgstr "%s：输入参数%d的维度错误：应该为%d元素向量。\n"
 
 #, c-format
 msgid "%s: Incompatible input argument.\n"
-msgstr "%s:：输入参数不兼容。\n"
+msgstr "%s：输入参数不兼容。\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d expected.\n"
@@ -65,11 +65,11 @@ msgstr "%s：输出参数的数目错误：应该为%d个。\n"
 #, c-format
 msgid ""
 "%s: Wrong type for argument %d:  Handle to sparse lu factors expected.\n"
-msgstr ""
+msgstr "%s:第%d参数类型错误：应该是稀疏lu因子句柄。\n"
 
 #, c-format
 msgid "Wrong value for argument #%d: the lu handle is no more valid.\n"
-msgstr ""
+msgstr "第%d个参数的值错误：lu句柄无效。\n"
 
 #, c-format
 msgid "%s: Wrong number of output argument(s): At most %d expected.\n"
@@ -85,15 +85,11 @@ msgstr "%s：参数%d的类型错误：应该为实数矩阵。\n"
 
 #, c-format
 msgid "%s not yet implemented for full input parameter.\n"
-msgstr ""
+msgstr "对于完整输入参数的%s还未实现。\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: Incompatible dimensions.\n"
 msgstr "%s：第%d个输入参数的维度错误：不兼容的维数。\n"
-
-#, c-format
-msgid "%s: Wrong type argument %d: Sparse or matrix expected.\n"
-msgstr "%s：参数%d的类型错误：应该为稀疏矩阵或普通矩阵。\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: An integer value expected.\n"
@@ -102,7 +98,7 @@ msgstr "%s：第%d个输入参数的类型错误：应该为整数。\n"
 msgid ""
 " The provided \"n\" does not correspond to the matrix defined by xadj and "
 "iadj\n"
-msgstr ""
+msgstr " 提供的“n”与由xadj和iadj所定义的矩阵不对应\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: sparse matrix expected.\n"
@@ -127,17 +123,30 @@ msgstr "%s：第%d个输入参数的维度错误：应该为%d×%d矩阵。\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: An empty matrix expected.\n"
+msgstr "%s：第%d个输入参数大小错误：应该是一个空矩阵。\n"
+
+#, c-format
+msgid ""
+"%s: Wrong values for input argument #%d: Elements must be less than %d.\n"
 msgstr ""
 
 #, c-format
 msgid "%s: Wrong values for input argument #%d: Positive integers expected.\n"
+msgstr "%s：第%d个输入参数的值错误：应该是正整数。\n"
+
+#
+# File: modules/sparse/sci_gateway/cpp/sci_sparse.cpp, line: 168
+# File: modules/sparse/sci_gateway/cpp/sci_spzeros.cpp, line: 104
+#, c-format
+msgid ""
+"%s: Warning: You have created a Sparse of size > %d.\n"
+"Due to a Scilab limitation, reading or writing values from/to \n"
+"this sparse using a unique index could lead to unexpected behavior."
 msgstr ""
 
-# File: modules/sparse/sci_gateway/cpp/sci_sparse.cpp, line: 163
-# File: modules/sparse/sci_gateway/cpp/sci_sparse.cpp, line: 180
 #, c-format
 msgid "%s: Invalid index.\n"
-msgstr ""
+msgstr "%s：无效的索引值。\n"
 
 #, c-format
 msgid "%s: Wrong type for argument #%d: Sparse matrix expected.\n"
@@ -153,11 +162,11 @@ msgstr "%s：第%d个参数的维度错误：应该为稀疏方阵.\n"
 
 #, c-format
 msgid "%s: The provided data did not satisfy the prerequisites.\n"
-msgstr ""
+msgstr "%s：提供的数据不能满足前提条件。\n"
 
 #, c-format
 msgid "%s: Iterative procedure did not converge.\n"
-msgstr ""
+msgstr "%s：迭代过程并未收敛。\n"
 
 #, c-format
 msgid ""
@@ -180,9 +189,13 @@ msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
 msgstr "%s：第%d个输入参数的类型错误：应该为标量。\n"
 
 #, c-format
+msgid "%s: Wrong value for input argument #%d: Must be less than %d.\n"
+msgstr ""
+
+#, c-format
 msgid ""
 "%s: Wrong value for input argument #%d: Scalar positive integer expected.\n"
-msgstr ""
+msgstr "%s：第%d输入参数错误：应该是一个正整数。\n"
 
 #, c-format
 msgid "%s: A zero was encountered on the diagonal the matrix.\n"
@@ -198,7 +211,7 @@ msgstr "操作数的分解内循环= %d。\n"
 
 #, c-format
 msgid "Pivot found at %1d,%1d using "
-msgstr ""
+msgstr "在%1d,%1d处找到了枢轴 "
 
 #, c-format
 msgid ""
@@ -262,7 +275,7 @@ msgstr ""
 
 #, c-format
 msgid "Smallest pivot element = %-1.4lg.\n"
-msgstr ""
+msgstr "最小的枢轴元素 = %-1.4lg。\n"
 
 #, c-format
 msgid ""
@@ -274,7 +287,7 @@ msgstr ""
 
 #, c-format
 msgid "Number of fill-ins = %1d.\n"
-msgstr ""
+msgstr "被填充的数目 = %1d。\n"
 
 #, c-format
 msgid "Warning : The following matrix is factored in to LU form.\n"
@@ -356,19 +369,19 @@ msgstr "特别处理右侧是零的。\n"
 
 #, c-format
 msgid "  Type of preconditionning #1 : %d\n"
-msgstr ""
+msgstr "  第1个预处理的类型：%d\n"
 
 #, c-format
 msgid "  Type of preconditionning #2 : %d\n"
-msgstr ""
+msgstr "  第2个预处理的类型：%d\n"
 
 #, c-format
 msgid "  New residual = %s < tol = %s => break\n"
-msgstr ""
+msgstr "  新残差 = %s < tol = %s 时，会导致中断\n"
 
 #, c-format
 msgid "  Iteration #%s/%s residual : %s\n"
-msgstr ""
+msgstr "  迭代至%s /%s时，还剩余：%s\n"
 
 #, c-format
 msgid "Final residual = %s > tol =%s\n"
@@ -399,13 +412,13 @@ msgid "Insufficient working storage in blkfct, iwork(*)."
 msgstr "blkfct、iwork(*)中工作存储容量不足。"
 
 msgid " SYMFCT requires PERM to be neqns x 1"
-msgstr ""
+msgstr " SYMFCT要求PERM为neqns x 1"
 
 msgid " SYMFCT requires INVN to be neqns x 1"
-msgstr ""
+msgstr " SYMFCT要求INVN 为neqns x 1"
 
 msgid " SYMFCT requires CACHSZ  to be 1 x 1"
-msgstr ""
+msgstr " SYMFCT要求CACHSZ 为1 x 1"
 
 msgid " Insufficient working storage in sfinit"
 msgstr " sfinit中工作存储容量不足。"
@@ -428,7 +441,7 @@ msgstr "%s：第%d个输入参数的类型错误：应该为方阵。\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Column vector expected.\n"
-msgstr "%s：第%d个输入参数的类型错误：应该为列向量。\n"
+msgstr "%s：第%d个输入参数类型出错：应该为列向量。\n"
 
 #, c-format
 msgid ""
@@ -497,6 +510,7 @@ msgid ""
 "%s : Calling qmr(A,Ap) is deprecated. Please see qmr documentation for more "
 "details.\n"
 msgstr ""
+"%s：不建议再使用qmr(A，Ap)。请参阅qmr函数的相关文档以获取更多详细信息。\n"
 
 #, c-format
 msgid ""
@@ -516,12 +530,14 @@ msgid ""
 "%s : Calling qmr(...,M1,M1p) is deprecated. Please see qmr documentation for "
 "more details.\n"
 msgstr ""
+"%s：不建议再使用qmr(...,M1,M1p)。请参阅qmr函数的相关文档以获取更多详细信"
+"息。\n"
 
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d: A transpose of the function "
 "expected.\n"
-msgstr ""
+msgstr "%s：第%d个输入参数类型错误：应该是一个逆函数。\n"
 
 #, c-format
 msgid ""
@@ -534,6 +550,8 @@ msgid ""
 "%s : Calling qmr(...,M2,M2p) is deprecated. Please see qmr documentation for "
 "more details.\n"
 msgstr ""
+"%s：不建议再使用qmr(...,M2,M2p)。请参阅qmr函数的相关文档以获取更多详细信"
+"息。\n"
 
 #, c-format
 msgid ""
@@ -556,11 +574,3 @@ msgstr "%s：第%d个输入参数的类型错误：应该为字符串。\n"
 #, c-format
 msgid "%s: Wrong value for input argument #%d: '%s' or '%s' expected.\n"
 msgstr "%s：第%d个输入参数的值错误：应该为‘%s’或‘%s’。\n"
-
-#~ msgid ""
-#~ "%s: Wrong type for input argument #%d: Real or Complex matrix expected.\n"
-#~ msgstr "%s：第%d个输入参数的类型错误：应该为实数或矩阵或复数矩阵。\n"
-
-#~ msgid ""
-#~ "%s: Wrong size for input argument #%d: A matrix of size %d expected.\n"
-#~ msgstr "%s：第%d个输入参数的维度错误：应该为%d维矩阵。\n"

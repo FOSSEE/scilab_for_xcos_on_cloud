@@ -64,14 +64,11 @@
         <title>Description</title><para>This block is an integrator. The output y is the integral of the
             input u at the current time step t.
         </para>
-        <informalequation>
-            <mediaobject>
-                <imageobject>
-                    <imagedata align="center" fileref="../../../mml/integral_m.mml"/>
-                </imageobject>
-            </mediaobject>
-        </informalequation>
-
+        <para>
+            <latex style="display" alt="y(t)= y0 + ∫_t0→t u(τ)dτ">
+                y(t)=y_0 + \int_{t_0}^t\! u(\tau)\,d\tau
+            </latex>
+        </para>
       where y<subscript>0</subscript> is an initial condition and t<subscript>0</subscript> is
       its corresponding time.
     </refsection>
@@ -101,8 +98,8 @@
         </itemizedlist>
         <itemizedlist>
             <listitem>
-                <para>The value that the integrator shall initate to, at each trigger
-                    signal on the redly marked trigger port,  shall be connected to the integral
+                <para>The value that the integrator shall initiate to, at each trigger
+                    signal on the red marked trigger port, shall be connected to the integral
                     block port number 2. (the port in the lower left corner of the integral block).
                 </para>
             </listitem>
@@ -274,6 +271,8 @@
                         </imageobject>
                     </inlinemediaobject>
                 </link>
+            </para>
+            <para>
                 <scilab:image><![CDATA[
 importXcosDiagram(SCI + "/modules/xcos/examples/continuous_pal/INTEGRAL_m_1_Example.zcos");
 xcos_simulate(scs_m, 4);
@@ -291,6 +290,8 @@ xcos_simulate(scs_m, 4);
                         </imageobject>
                     </inlinemediaobject>
                 </link>
+            </para>
+            <para>
                 <scilab:image><![CDATA[
 importXcosDiagram(SCI + "/modules/xcos/examples/continuous_pal/INTEGRAL_m_2_Example.zcos");
 xcos_simulate(scs_m, 4);

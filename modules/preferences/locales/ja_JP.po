@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:25+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2020-02-18 21:59+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "Scilab '%s' module disabled in -nogui or -nwni mode.\n"
@@ -97,12 +97,13 @@ msgstr ""
 "%s: 入力引数 #%d の型が間違っています: 文字列の行列を指定してください.\n"
 
 #, c-format
-msgid "%s: Invalid %s file.\n"
-msgstr "%s: %s ファイルが無効です.\n"
+msgid "%s: Wrong size for input argument #%d: a 2xN matrix expected.\n"
+msgstr ""
+"%s: 入力引数 #%d の大きさが間違っています: 2xNの行列を指定してください.\n"
 
 #, c-format
-msgid "%s: The file %s does not exist.\n"
-msgstr "%s: ファイル %s は存在しません。\n"
+msgid "%s: Invalid XConfiguration.xml file.\n"
+msgstr "%s: XConfiguration.xml ファイルが無効です.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A XMLDoc expected.\n"
@@ -123,12 +124,3 @@ msgstr "%s:  ターゲットノードが XML_ELEMENT_NODE ではありません.
 #, c-format
 msgid "%s: Invalid attribute name: %s."
 msgstr "%s: 属性名が無効です: %s."
-
-#, c-format
-msgid "%s: Wrong size for input argument #%d: a 2xN matrix expected.\n"
-msgstr ""
-"%s: 入力引数 #%d の大きさが間違っています: 2xNの行列を指定してください.\n"
-
-#, c-format
-msgid "%s: Invalid XConfiguration.xml file.\n"
-msgstr "%s: XConfiguration.xml ファイルが無効です.\n"

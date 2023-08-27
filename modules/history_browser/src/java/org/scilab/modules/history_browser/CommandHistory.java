@@ -533,7 +533,7 @@ public final class CommandHistory extends SwingScilabDockablePanel implements Si
             return null;
         }
 
-        String selectedEntries = new String();
+        String selectedEntries = "";
 
         for (int i = 0; i < selectedPaths.length; i++) {
             Object obj = ((DefaultMutableTreeNode) selectedPaths[i].getLastPathComponent()).getUserObject();

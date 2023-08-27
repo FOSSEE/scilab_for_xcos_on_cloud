@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:id="backslash" xml:lang="pt">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:ns4="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook"
+          xmlns:scilab="http://www.scilab.org" xml:id="backslash" xml:lang="pt">
     <refnamediv>
         <refname>backslash</refname>
-        <refpurpose>(\) divisão matricial direita-esquerda</refpurpose>
+        <refpurpose>(\) divisão matricial direita-esquerda: exact or least square solution</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Seqüência de Chamamento</title>
-        <synopsis>x=A\b</synopsis>
+        <synopsis>X = A \ B</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Descrição</title>
@@ -76,16 +79,13 @@ mprintf('\ntime needed to solve the system with the backslash operator: %.3f\n',
                 <link linkend="slash">slash</link>
             </member>
             <member>
+                <link linkend="lsq">lsq</link>
+            </member>
+            <member>
                 <link linkend="inv">inv</link>
             </member>
             <member>
                 <link linkend="pinv">pinv</link>
-            </member>
-            <member>
-                <link linkend="percent">percent</link>
-            </member>
-            <member>
-                <link linkend="ieee">ieee</link>
             </member>
             <member>
                 <link linkend="linsolve">linsolve</link>
@@ -93,13 +93,22 @@ mprintf('\ntime needed to solve the system with the backslash operator: %.3f\n',
             <member>
                 <link linkend="umfpack">umfpack</link>
             </member>
+            <member>
+                <link linkend="datafit">datafit</link>
+            </member>
+            <member>
+                <link linkend="krondivide">kron .\.</link>
+            </member>
+            <member>
+                <link linkend="overloading">overloading</link>
+            </member>
         </simplelist>
     </refsection>
     <refsection>
         <title>Histórico</title>
         <revhistory>
             <revision>
-                <revnumber>5.4.1</revnumber>
+                <revnumber>5.5.0</revnumber>
                 <revremark>
                   The threshold level which switches between Gaussian Elimination with row pivoting
                   and linear least squares when computing A\B is decreased from sqrt(eps) to eps.

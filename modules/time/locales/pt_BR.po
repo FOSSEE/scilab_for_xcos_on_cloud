@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:00+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: RodolfoRG <rodolforg@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong type for input arguments: Scalar values expected.\n"
@@ -69,41 +69,29 @@ msgid "%s: Wrong type for input argument #%d: A real scalar expected.\n"
 msgstr ""
 
 #, c-format
-msgid ""
-"%s: Wrong values for input argument #%d: Non-negative integers expected.\n"
+msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
 msgstr ""
-"%s: Valores incorretos para o argumento de entrada #%d: esperava-se números "
-"inteiros não negativos.\n"
+
+#, c-format
+msgid "%s: Argument #%d: the scalar must be positive.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: 's' expected.\n"
 msgstr ""
 
 #, c-format
-msgid ""
-"%s: Feature %s is obsolete and will be permanently removed in Scilab %s\n"
-msgstr ""
-
-msgid "Warning"
+msgid "%s: Argument #%d: Scalar (1 element) expected.\n"
 msgstr ""
 
 #, c-format
-msgid "%s: Please use %s instead.\n"
+msgid "%s: Argument #%d: Must be in the interval [%d, %d].\n"
 msgstr ""
 
 #, c-format
-msgid "%s: Wrong type for input arguments: Must be scalars.\n"
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
 msgstr ""
-"%s: Tipo incorreto para os argumentos de entrada: devem ser escalares.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument: Must be between %d and %d.\n"
-msgstr ""
-"%s: Valor incorreto para o argumento de entrada: deve estar entre %d e %d.\n"
-
-#, c-format
-msgid "%s: Wrong number of input arguments.\n"
-msgstr "%s: Quantidade incorreta de argumentos de entrada.\n"
+"%s: Quantidade incorreta de argumentos de entrada: esperava-se %d ou %d.\n"
 
 msgid "Jan"
 msgstr "Jan"
@@ -141,8 +129,8 @@ msgstr "Nov"
 msgid "Dec"
 msgstr "Dez"
 
-msgid "   M      Tu     W      Th     F     Sat     Sun"
-msgstr "   Seg Ter Qua Qui Sex Sáb Dom"
+msgid "Mon  Tue  Wed  Thu  Fri  Sat  Sun"
+msgstr "Seg  Ter  Qua  Qui  Sex  Sáb  Dom"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Real matrix expected.\n"
@@ -231,43 +219,77 @@ msgstr ""
 "dimensões iguais.\n"
 
 #, c-format
-msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
 msgstr ""
-"%s: Quantidade incorreta de argumentos de entrada: esperava-se %d ou %d.\n"
 
 #, c-format
-msgid ""
-"%s: Wrong type  for input argument #%d: Real constant matrix expected.\n"
+msgid "%s: Argument #%d: Integers in [1,12] expected.\n"
 msgstr ""
-"%s: Tamanho incorreto para o argumento de entrada #%d: esperava-se uma "
-"matriz de números reais constantes.\n"
 
 #, c-format
-msgid "%s: Wrong value for input argument #%d: '%s' or '%s' expected.\n"
+msgid "%s: Argument #%d missing: Integers in [1,31] expected.\n"
 msgstr ""
-"%s: Valor incorreto para o argumento de entrada #%d: esperava-se '%s' ou "
-"'%s'.\n"
 
-msgid "Sat"
-msgstr "Sáb"
+#, c-format
+msgid "%s: Argument #%d: Integers in [1,31] expected.\n"
+msgstr ""
 
-msgid "Sun"
-msgstr "Dom"
+#, c-format
+msgid "%s: Arguments #%d to #%d: Same sizes expected.\n"
+msgstr ""
 
-msgid "Mon"
-msgstr "Seg"
+#, c-format
+msgid "%s: Argument #%d: Numbers or texts expected.\n"
+msgstr ""
 
-msgid "Tue"
-msgstr "Ter"
+#
+# File: modules/time/macros/weekday.sci, line: 99
+# File: modules/time/macros/weekday.sci, line: 117
+# File: modules/time/macros/weekday.sci, line: 138
+# File: modules/time/macros/weekday.sci, line: 159
+#, c-format
+msgid "%s: Argument #%d: All dates must have the same format.\n"
+msgstr ""
 
-msgid "Wed"
-msgstr "Qua"
+#
+# File: modules/time/macros/weekday.sci, line: 165
+#, c-format
+msgid "%s: Argument #%d: Wrong dates format.\n"
+msgstr ""
 
-msgid "Thu"
-msgstr "Qui"
+#
+# File: modules/time/macros/weekday.sci, line: 169
+#, c-format
+msgid "%s: Argument #%d: Month indices expected in [1,12].\n"
+msgstr ""
 
-msgid "Fri"
-msgstr "Sex"
+#
+# File: modules/time/macros/weekday.sci, line: 173
+#, c-format
+msgid "%s: Argument #%d: Day indices expected in [1,31].\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Single text word expected.\n"
+msgstr ""
+
+#
+# File: modules/time/macros/weekday.sci, line: 199
+#, c-format
+msgid "%s: Argument #%d: Wrong langage code.\n"
+msgstr ""
+
+#
+# File: modules/time/macros/weekday.sci, line: 204
+#, c-format
+msgid "%s: Argument #%d: Unknown option.\n"
+msgstr ""
+
+msgid "Friday"
+msgstr "Sexta-feira"
+
+msgid "Monday"
+msgstr "Segunda-feira"
 
 msgid "Saturday"
 msgstr "Sábado"
@@ -275,8 +297,8 @@ msgstr "Sábado"
 msgid "Sunday"
 msgstr "Domingo"
 
-msgid "Monday"
-msgstr "Segunda-feira"
+msgid "Thursday"
+msgstr "Quinta-feira"
 
 msgid "Tuesday"
 msgstr "Terça-feira"
@@ -284,8 +306,36 @@ msgstr "Terça-feira"
 msgid "Wednesday"
 msgstr "Quarta-feira"
 
-msgid "Thursday"
-msgstr "Quinta-feira"
+msgid "Fri"
+msgstr "Sex"
 
-msgid "Friday"
-msgstr "Sexta-feira"
+msgid "Mon"
+msgstr "Seg"
+
+msgid "Sat"
+msgstr "Sáb"
+
+msgid "Sun"
+msgstr "Dom"
+
+msgid "Thu"
+msgstr "Qui"
+
+msgid "Tue"
+msgstr "Ter"
+
+msgid "Wed"
+msgstr "Qua"
+
+#, c-format
+#~ msgid ""
+#~ "%s: Wrong type  for input argument #%d: Real constant matrix expected.\n"
+#~ msgstr ""
+#~ "%s: Tamanho incorreto para o argumento de entrada #%d: esperava-se uma "
+#~ "matriz de números reais constantes.\n"
+
+#, c-format
+#~ msgid "%s: Wrong value for input argument #%d: '%s' or '%s' expected.\n"
+#~ msgstr ""
+#~ "%s: Valor incorreto para o argumento de entrada #%d: esperava-se '%s' ou "
+#~ "'%s'.\n"

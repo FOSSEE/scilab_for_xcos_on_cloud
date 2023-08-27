@@ -556,4 +556,4 @@ assert_checkalmostequal(norm(coeff(dt / dt0 - 1)), 0, [], del);
 qi = [q(2,2) -q(1,2); -q(2,1) q(1,1)] / dt0;
 assert_checkalmostequal(norm(coeff([p 0] * qi - [num den])), 0, [], del);
 assert_checkalmostequal(degree(p), 8, [], 8);
-
+

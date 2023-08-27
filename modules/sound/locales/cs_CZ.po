@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:03+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -34,6 +34,30 @@ msgstr "%s: Špatný vstupní argument očekáván #%d: '%s' nebo '%s'.\n"
 
 msgid "Scilab sound module not installed.\n"
 msgstr "Zvukový modul Scilab není nainstalován\n"
+
+# File: modules/sound/demos/mapsound.dem.sce, line: 29
+msgid "<html><h4>Example #1: Standard</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 42
+msgid "Next example"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 78
+msgid "Next exampleStop"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 91
+msgid "<html><h4>Example #3: chimes.wav sound</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 97
+msgid "End"
+msgstr ""
 
 msgid "Sound file handling"
 msgstr ""
@@ -61,6 +85,10 @@ msgstr "%s: Nelze otevřít soubor %s.\n"
 msgid "Index range must be specified as a scalar or a 2 elements vector."
 msgstr ""
 
+#, c-format
+msgid "%s: File '%s': Unrecognized data format.\n"
+msgstr ""
+
 msgid "Sample limit vector must have 2 elements."
 msgstr "Vektor omezení vzorku musí mít 2 prvky."
 
@@ -72,6 +100,10 @@ msgstr "Omezení prvku musí být zadáno ve vzestupném pořadí."
 
 msgid "Error in file format."
 msgstr "Chyba ve formátu souboru."
+
+#, c-format
+msgid "%s: File '%s' is not a .au sound file.\n"
+msgstr ""
 
 msgid "Error while reading sound file."
 msgstr "Chyba při čtení zvukového souboru."
@@ -112,6 +144,57 @@ msgstr "%s: Špatný počet výstupních argumentů.\n"
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"
 msgstr "%s: Špatný počet výstupních argumentů.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Function expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: A colormap function expected.\n"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 126
+msgid "Time [s]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 127
+msgid "Frequency [Hz]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 137
+msgid "Amplitude"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be >= %d.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: '%s' is a directory. File expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: The file '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Decimal number expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be > %d.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Failed to play the sound with command: %s.\n"
@@ -166,6 +249,10 @@ msgstr ""
 "%s: Špatná hodnota pro vstupní argument: Rozsah ukazatele musí být určen "
 "jako skalár, nebo vektor s %d prvky.\n"
 
+#, c-format
+msgid "%s: The file '%s' does not exist.\n"
+msgstr ""
+
 msgid ".wav file does not contain the RIFF identifier."
 msgstr "soubor .wav neobsahuje identifikátor RIFF."
 
@@ -193,8 +280,9 @@ msgstr "Neplatný soubor .wav: nalezena data před informacemi o formátu."
 msgid "Incorrect chunk size information in RIFF file."
 msgstr "Nesprávná velikost kusu informací v souboru RIFF."
 
-msgid "Invalid wav format."
-msgstr "Neplatný formát wav."
+#, c-format
+msgid "%s: wav format #%d detected. Only wav formats #%s are supported.\n"
+msgstr ""
 
 msgid "Error reading wav file."
 msgstr "Vyba při čtení souboru .wav."
@@ -203,8 +291,8 @@ msgstr "Vyba při čtení souboru .wav."
 msgid "%s: An error occurred: Data compression format %s is not supported.\n"
 msgstr "%s: Vyskytla se chyba: Formát komprese dat %s není podporován.\n"
 
-msgid "Cannot read .wav file  with more than 16 bits per sample."
-msgstr "Nelze číst soubor .wav s více než 16 bity na vzorek."
+msgid "Cannot read .wav file  with more than 32 bits per sample."
+msgstr ""
 
 msgid "Sample limit vector must have 2 entries."
 msgstr "Vektor limitu vzorku musí mít 2 záznamy."

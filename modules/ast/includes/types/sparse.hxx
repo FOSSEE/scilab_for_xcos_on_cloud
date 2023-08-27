@@ -80,6 +80,8 @@ struct EXTERN_AST Sparse : GenericType
         return true;
     }
     void finalize();
+    
+    bool getMemory(long long *_piSize, long long* _piSizePlusType);
 
     /*data management member function defined for compatibility with the Double API*/
     Sparse* set(int _iRows, int _iCols, double _dblReal, bool _bFinalize = true);
@@ -516,6 +518,8 @@ struct EXTERN_AST SparseBool : GenericType
     }
     void finalize();
 
+    bool getMemory(long long *_piSize, long long* _piSizePlusType);
+
     bool toString(std::wostringstream& ostr);
 
     /* Config management and GenericType methods overrides */
@@ -595,7 +599,7 @@ struct EXTERN_AST SparseBool : GenericType
 
     bool isTrue()
     {
-        if (static_cast<int>(nbTrue()) == m_iSize)
+        if (m_iSize > 0 && static_cast<int>(nbTrue()) == m_iSize)
         {
             return true;
         }

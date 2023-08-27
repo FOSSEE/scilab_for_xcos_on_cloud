@@ -17,7 +17,6 @@
 package org.scilab.modules.xcos.palette;
 
 import com.mxgraph.model.mxGeometry;
-import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -50,7 +49,6 @@ import org.scilab.modules.xcos.palette.model.Category;
 import org.scilab.modules.xcos.palette.model.PaletteBlock;
 import org.scilab.modules.xcos.palette.model.PaletteNode;
 import org.scilab.modules.xcos.palette.model.PreLoaded;
-import org.scilab.modules.xcos.palette.view.PaletteManagerPanel;
 import org.scilab.modules.xcos.utils.BlockPositioning;
 import org.scilab.modules.xcos.utils.XcosConstants;
 
@@ -560,8 +558,6 @@ public final class Palette {
         graphComponent.refresh();
 
         final mxRectangle bounds = graph.getPaintBounds(new Object[] {block});
-        final double width = bounds.getWidth();
-        final double height = bounds.getHeight();
 
         final BufferedImage image = mxCellRenderer.createBufferedImage(
                                         graph, null, 2 * XcosConstants.PALETTE_BLOCK_ICON_RATIO, graphComponent.getBackground(),

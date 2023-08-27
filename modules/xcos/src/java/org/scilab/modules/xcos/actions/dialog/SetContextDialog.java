@@ -29,7 +29,11 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.io.FileOutputStream;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -41,6 +45,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import org.scilab.modules.action_binding.highlevel.ScilabInterpreterManagement;
 
@@ -185,11 +190,22 @@ public class SetContextDialog extends JDialog {
          * The ok button parse the contextArea, reconstruct the real context and
          * set the scicosParameters before exiting.
          */
-        okButton.addActionListener(new ActionListenerImpl());
+        
+        ActionImpl action = new ActionImpl();
+        
+        okButton.setAction(action);
+        KeyStroke shiftEnter = KeyStroke.getKeyStroke("shift ENTER");
+        contextArea.getInputMap().put(shiftEnter, "OK");
+        contextArea.getActionMap().put("OK", action);
+        
     }
 
-    private class ActionListenerImpl implements ActionListener {
+    private class ActionImpl extends AbstractAction implements ActionListener {
 
+        public ActionImpl() {
+            super(XcosMessages.OK);
+        }
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -213,7 +229,7 @@ public class SetContextDialog extends JDialog {
                  */
                 try {
                     File f = File.createTempFile(ScilabDirectHandler.CONTEXT, ".sce");
-                    try (FileWriter writer = new FileWriter(f)) {
+                    try (Writer writer =  new OutputStreamWriter(new FileOutputStream(f), "UTF-8")) {
                         writer.write(context, 0, context.length());
                     }
 

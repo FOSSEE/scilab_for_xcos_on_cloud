@@ -2,7 +2,7 @@
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2012 - DIGITEO - Cedric DELAMARRE
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
- * Copyright (C) 2018 - Samuel GOUGEON
+ * Copyright (C) 2018 - 2020 - Samuel GOUGEON
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
  * pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -17,6 +17,7 @@
 #include "function.hxx"
 #include "double.hxx"
 #include "string.hxx"
+#include "polynom.hxx"
 #include "overload.hxx"
 #include "gsort.hxx"
 #include "context.hxx"
@@ -36,19 +37,89 @@ types::Function::ReturnValue sci_gsort(types::typed_list &in, int _iRetCount, ty
         Scierror(77, _("%s: Wrong number of input argument(s): At least %d expected.\n"), "gsort", 1);
         return types::Function::Error;
     }
-    // The maximal number of input args may depend on the input data type, due to specific options
 
     //
-    // Special cases
-    //
+    // Custom typeof
+    // -------------
     if (in[0]->isGenericType() == false)
     {
         // custom types
         std::wstring wstFuncName = L"%" + in[0]->getShortTypeStr() + L"_gsort";
         return Overload::call(wstFuncName, in, _iRetCount, out);
     }
+    // Otherwise: max numbers of inputs / outputs
+    if (in.size() > 4 )
+    {
+        Scierror(77, _("%s: Wrong number of input arguments: %d to %d expected.\n"), "gsort", 1, 4);
+        return types::Function::Error;
+    }
+    if (_iRetCount > 2)
+    {
+        Scierror(78, _("%s: Wrong number of output argument(s): %d to %d expected.\n"), "gsort", 1, 2);
+        return types::Function::Error;
+    }
+
     types::GenericType* pGTIn = in[0]->getAs<types::GenericType>();
-    if (pGTIn->getDims() > 2)
+
+    // Get the sorting method, always as argin#2 for all generic types
+    // ----------------------
+    char* msg = _("%s: Argument #%d: Must be in the set {%s} or integer in range [%d, %d].\n");
+    std::string argSetError = "'g','r','c','lc','lr'";
+    std::wstring wstrProcess = L"g";
+    int iOrientation = 0;
+    int ndims = static_cast<int>(pGTIn->getDims());
+
+    if (in.size() >= 2)
+    {
+        if (in[1]->isDouble())
+        {
+            types::Double* pDbl = in[1]->getAs<types::Double>();
+
+            if (pDbl->isScalar() == false)
+            {
+                Scierror(999, _("%s: Argument #%d: Scalar (1 element) expected.\n"), "gsort", 2);
+                return types::Function::Error;
+            }
+
+            iOrientation = static_cast<int>(pDbl->get(0));
+
+            if (iOrientation <= 0 || iOrientation > ndims)
+            {
+                Scierror(999, msg, "gsort", 2, argSetError.data(), 1, ndims);
+                return types::Function::Error;
+            }
+            if ( iOrientation == 1 )
+            {
+                wstrProcess = L"r";
+            }
+            else if ( iOrientation == 2 )
+            {
+                wstrProcess = L"c";
+            }
+            // else: hypermat: overload called later
+        }
+        else if (in[1]->isString() == false)
+        {
+            Scierror(999, msg, "gsort", 2, argSetError.data(), 1, ndims);
+            return types::Function::Error;
+        }
+        else
+        {
+            wstrProcess = in[1]->getAs<types::String>()->get(0);
+
+            if ( wstrProcess != L"c"  &&
+                 wstrProcess != L"r"  &&
+                 wstrProcess != L"g"  &&
+                 wstrProcess != L"lc" &&
+                 wstrProcess != L"lr")
+            {
+                Scierror(999, msg, "gsort", 2, argSetError.data(), 1, ndims);
+                return types::Function::Error;
+            }
+        }
+    }
+
+    if (ndims > 2)
     {
         // hypermatrix
         return Overload::call(L"%hm_gsort", in, _iRetCount, out);
@@ -59,29 +130,25 @@ types::Function::ReturnValue sci_gsort(types::typed_list &in, int _iRetCount, ty
         std::wstring wstFuncName = L"%" + in[0]->getShortTypeStr() + L"_gsort";
         return Overload::call(wstFuncName, in, _iRetCount, out);
     }
-    if (pGTIn->isComplex() && symbol::Context::getInstance()->getFunction(symbol::Symbol(L"%_gsort")))
+    if (pGTIn->isDouble() && pGTIn->isComplex())
     {
-        // complex is documented as being managed through overloading
-        std::wstring wstFuncName = L"%" + in[0]->getShortTypeStr() + L"_gsort";
-        return Overload::call(wstFuncName, in, _iRetCount, out);
+        // complex numbers
+        return Overload::call(L"%s_gsort", in, _iRetCount, out);
+    }
+    if (in.size() == 4)
+    {
+        // Direct multilevel sorting
+        return Overload::call(L"%gsort_multilevel", in, _iRetCount, out);
+    }
+    if (pGTIn->isPoly())
+    {
+        // real or complex polynomials
+        return Overload::call(L"%p_gsort", in, _iRetCount, out);
     }
 
     //
     // Common case
     //
-
-    if (in.size() > 3)
-    {
-        Scierror(77, _("%s: Wrong number of input argument(s): %d to %d expected.\n"), "gsort", 1, 3);
-        return types::Function::Error;
-    }
-
-    if (_iRetCount > 2)
-    {
-        Scierror(78, _("%s: Wrong number of output argument(s): %d to %d expected.\n"), "gsort", 1, 2);
-        return types::Function::Error;
-    }
-
     // Get the sorting order
     std::wstring wstrWay = L"d";
     if (in.size() > 2)
@@ -96,29 +163,6 @@ types::Function::ReturnValue sci_gsort(types::typed_list &in, int _iRetCount, ty
         if (wstrWay != L"i" && wstrWay != L"d")
         {
             Scierror(999, _("%s: Wrong value for input argument #%d: %s expected.\n"), "gsort", 3, "'i'|'d'");
-            return types::Function::Error;
-        }
-    }
-
-    // Get the sorting method
-    std::wstring wstrProcess = L"g";
-    if (in.size() >= 2)
-    {
-        if (in[1]->isString() == false)
-        {
-            Scierror(999, _("%s: Wrong type for input argument #%d : string expected.\n"), "gsort", 2);
-            return types::Function::Error;
-        }
-
-        wstrProcess = in[1]->getAs<types::String>()->get(0);
-
-        if ( wstrProcess != L"c"  &&
-                wstrProcess != L"r"  &&
-                wstrProcess != L"g"  &&
-                wstrProcess != L"lc" &&
-                wstrProcess != L"lr")
-        {
-            Scierror(999, _("%s: Wrong value for input argument #%d: ['g' 'r' 'c' 'lc' 'lr'] expected.\n"), "gsort", 2);
             return types::Function::Error;
         }
     }

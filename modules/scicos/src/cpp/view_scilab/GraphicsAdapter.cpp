@@ -280,17 +280,10 @@ types::InternalType* cached_ports_get(const GraphicsAdapter& adaptor, const obje
     double* data;
     types::Double* ret = new types::Double(static_cast<int>(ports.size()), 1, &data);
 
-#ifdef _MSC_VER
-    std::transform(ports.begin(), ports.end(), stdext::checked_array_iterator<double*>(data, ports.size()), [](int p)
-    {
-        return p;
-    });
-#else
     std::transform(ports.begin(), ports.end(), data, [](int p)
     {
         return p;
     });
-#endif
 
     return ret;
 }
@@ -664,7 +657,9 @@ struct style
 
 } /* namespace */
 
+#ifndef _MSC_VER
 template<>
+#endif
 property<GraphicsAdapter>::props_t property<GraphicsAdapter>::fields = property<GraphicsAdapter>::props_t();
 static void initialize_fields()
 {

@@ -9,7 +9,6 @@
 // <-- CLI SHELL MODE -->
 // <-- ENGLISH IMPOSED -->
 // <-- NO CHECK REF -->
-// <-- NOT FIXED -->      6.0.1 -> 6.0.2
 //
 // <-- Non-regression test for bug 979 -->
 //
@@ -32,12 +31,6 @@ sleep(200);
 SCIFILECONTENTS=mgetl(SCIFILE);
 
 SCIFILECONTENTSREF = [
-    "";
-    "// Display mode";
-    "mode(0);";
-    "";
-    "// Display warning for floating point exception";
-    "ieee(1);";
     "";
     "comment = 1;";
     "//This line is a comment line"];

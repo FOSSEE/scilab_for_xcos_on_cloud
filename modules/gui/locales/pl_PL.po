@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:12+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Figure number must be given when not in '%s' mode.\n"
@@ -345,8 +345,6 @@ msgstr ""
 msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
 msgstr ""
 
-#
-# File: modules/gui/sci_gateway/cpp/sci_datatip_toggle.cpp, line: 34
 #, c-format
 msgid "%s: %s is obsolete and will be removed from Scilab %s\n"
 msgstr ""
@@ -885,14 +883,17 @@ msgstr "&Parametry okna graficznego"
 msgid "&Axes properties"
 msgstr "&Właściwości osi"
 
-msgid "&Start entity picker"
-msgstr "&Uruchom wybór obiektów"
+msgid "&Move objects"
+msgstr ""
+
+msgid "Start entity &picker"
+msgstr ""
 
 msgid "S&top entity picker"
 msgstr "Zatrzymaj wybór objektów"
 
-msgid "&Start datatip manager"
-msgstr "&Uruchom menedżera datatip"
+msgid "Start &datatip manager"
+msgstr ""
 
 msgid "Stop datatip manager"
 msgstr "Zatrzymaj menedżera datatip"
@@ -944,6 +945,72 @@ msgstr "Zwiększ czcionkę"
 
 msgid "&Decrease font size"
 msgstr "Zmiejsz czcionkę"
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 81
+# File: modules/gui/src/gui_fake_xml.c, line: 100
+msgid "&Language"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 82
+# File: modules/gui/src/gui_fake_xml.c, line: 101
+msgid "en"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 83
+# File: modules/gui/src/gui_fake_xml.c, line: 102
+msgid "fr"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 84
+# File: modules/gui/src/gui_fake_xml.c, line: 103
+msgid "ja"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 85
+# File: modules/gui/src/gui_fake_xml.c, line: 104
+msgid "pt"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 86
+# File: modules/gui/src/gui_fake_xml.c, line: 105
+msgid "ru"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 87
+# File: modules/gui/src/gui_fake_xml.c, line: 106
+msgid "&Online"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 88
+# File: modules/gui/src/gui_fake_xml.c, line: 107
+msgid "See this page online"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 89
+# File: modules/gui/src/gui_fake_xml.c, line: 108
+msgid "&Issues"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 90
+# File: modules/gui/src/gui_fake_xml.c, line: 109
+msgid "List ALL issues declared for this item (online)"
+msgstr ""
+
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 91
+# File: modules/gui/src/gui_fake_xml.c, line: 110
+msgid "List only UNRESOLVED issues declared for this item (online)"
+msgstr ""
 
 msgid "&Execute..."
 msgstr "&Wykonaj..."
@@ -1101,6 +1168,12 @@ msgstr ""
 msgid "Toggle curve data modification"
 msgstr ""
 
+#
+# File: modules/gui/src/gui_fake_xml.c, line: 226
+# File: modules/gui/src/gui_fake_xml.c, line: 235
+msgid "Move objects (2D view)"
+msgstr ""
+
 msgid "Help Browser"
 msgstr "Przeglądarka pomocy"
 
@@ -1148,6 +1221,9 @@ msgstr "Wybierz plik do zapisania"
 
 msgid "Figure saved.\n"
 msgstr "Zawartość okna graficznego zapisana\n"
+
+msgid "'Right click and drag to rotate.'"
+msgstr ""
 
 msgid "Colors"
 msgstr ""
@@ -1261,7 +1337,7 @@ msgid "Console Background..."
 msgstr "Tło konsoli..."
 
 msgid "No print service found."
-msgstr ""
+msgstr "Nie znaleziono usług druku."
 
 #, c-format
 msgid ""
@@ -1467,9 +1543,6 @@ msgstr ""
 msgid "Delete the nearest datatip"
 msgstr ""
 
-msgid "Delete the last datatip"
-msgstr ""
-
 msgid "Edit curve datatip display function"
 msgstr ""
 
@@ -1524,8 +1597,6 @@ msgstr ""
 msgid "Clear axes"
 msgstr "Czyści obszar graficzny"
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 312
 msgid "Delete axes contents and labels"
 msgstr ""
 
@@ -1547,32 +1618,24 @@ msgstr ""
 msgid "Copy figure to system clipboard"
 msgstr ""
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 320
 msgid "Set the axes main title"
 msgstr ""
 
 msgid "Label X"
 msgstr ""
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 322
 msgid "Set the X axis label"
 msgstr ""
 
 msgid "Label Y"
 msgstr ""
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 324
 msgid "Set the Y axis label"
 msgstr ""
 
 msgid "Label Z"
 msgstr ""
 
-#
-# File: modules/gui/src/java/org/scilab/modules/gui/editor/Editor.java, line: 326
 msgid "Set the Z axis label"
 msgstr ""
 
@@ -1699,7 +1762,7 @@ msgstr ""
 msgid "Nurbs"
 msgstr ""
 
-msgid "Anti-alising"
+msgid "Anti-aliasing"
 msgstr ""
 
 msgid "Auto Clear"
@@ -2412,6 +2475,9 @@ msgstr ""
 msgid "Uicontrols messagebox-like"
 msgstr ""
 
+msgid "UIcontrols Game of Dice"
+msgstr ""
+
 msgid "<Enter color name here>"
 msgstr ""
 
@@ -2589,6 +2655,12 @@ msgstr "%s: Nieprawidłowy typ właściwości '%s' : Oczekiwano ciągu znaków.\
 msgid "%s: function not available in NWNI mode.\n"
 msgstr "%s: funkcja nie dostępna w trybie NWNI.\n"
 
+#
+# File: modules/gui/macros/close.sci, line: 82
+#, c-format
+msgid "%s: Argument #%d: Unknown GUI name '%s'.\n"
+msgstr ""
+
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d: A graphic handle or a real expected.\n"
@@ -2647,6 +2719,26 @@ msgstr ""
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: %s or %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Input argument #%d must be a valid handle.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for argument #%d: A string expected.\n"
+msgstr ""
+
+#
+# File: modules/gui/macros/findobj.sci, line: 96
+# File: modules/gui/macros/findobj.sci, line: 101
+#, c-format
+msgid "%s: Argument #%d cannot be a binary operator."
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong type for input argument #%d: A positive integer value expected.\n"
 msgstr ""
 
 #, c-format
@@ -2800,3 +2892,12 @@ msgstr "%s: Nieprawidłowy typ dla %s: Oczekiwano wartości typu real.\n"
 #, c-format
 msgid "%s: Wrong size for %s: A real expected.\n"
 msgstr "%s: Nieprawidłowy rozmiar dla %s: Oczekiwano wartości typu real .\n"
+
+#, c-format
+msgid "%s: Argument #%d: Booleans, numbers, or text expected.\n"
+msgstr ""
+
+#
+# File: modules/gui/macros/x_matrix.sci, line: 57
+msgid "<html>(quotes <b> '</b> inside texts must be doubled)"
+msgstr ""

@@ -2,11 +2,13 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2008 - INRIA
 // Copyright (C) 2013 - Scilab Enterprises - Adeline CARNIS
+// Copyright (C) 2020 - Samuel GOUGEON - Le Mans Université
 //
 //  This file is distributed under the same license as the Scilab package.
 // =============================================================================
 
 // <-- CLI SHELL MODE -->
+// <-- NO CHECK REF -->
 
 // unit tests for msprintf function
 // =============================================================================
@@ -122,6 +124,7 @@ assert_checkequal(msprintf("%10s","text"), "      text");
 assert_checkequal(msprintf("%10.3s","text"), "       tex");
 assert_checkequal(msprintf("%-10s","text"), "text      ");
 assert_checkequal(msprintf("%s","t"), "t");
+assert_checkequal(msprintf("%s","éàöαβδ"), "éàöαβδ");
 
 // format '%x'
 // =============================================================================
@@ -198,3 +201,44 @@ assert_checkfalse(execstr("msprintf(""%s %s"",""plop"");","errcatch")     <> 999
 refMsg = msprintf(_("%s: Wrong number of input arguments: data doesn''t fit with format.\n"), "msprintf");
 assert_checkerror("msprintf(""%s %s"",""plop"");", refMsg);
 
+// parameter field
+// =============================================================================
+
+assert_checkequal(msprintf("%1$d",1), "1");
+assert_checkequal(msprintf("%1$d%2$d", 1, 2), "12");
+assert_checkequal(msprintf("%2$d%1$d", 1, 2), "21");
+
+refMsg = msprintf(_("%s: Wrong number of input arguments: data doesn''t fit with format.\n"), "msprintf");
+assert_checkerror("msprintf(""%2$d"", 1);", refMsg);
+assert_checkerror("msprintf(""%d%1$d"", 1);", refMsg);
+assert_checkerror("msprintf(""%1$d%d"", 1);", refMsg);
+
+// Booleans
+// =============================================================================
+n = [%pi ; %e];
+b = [%T ; %F];
+for f = ["d" "i" "u" "o" "x" "X" "g" "G"]
+    assert_checkequal(msprintf("%"+f+"\n", b), ["1" ; "0"]);
+    assert_checkequal(msprintf("%"+f+" %d\n", b, n), ["1 3" ; "0 2"]);
+    if and(f <> ["u" "o" "x" "X"])  // http://bugzilla.scilab.org/16563
+        assert_checkequal(msprintf("%2$"+f+" %1$d\n", n, b), ["1 3" ; "0 2"]);
+    end
+end
+// %f
+assert_checkequal(msprintf("%f\n", b), ["1.000000" ; "0.000000"]);
+assert_checkequal(msprintf("%f %d\n", b, n), ["1.000000 3" ; "0.000000 2"]);
+assert_checkequal(msprintf("%2$f %1$d\n", n, b), ["1.000000 3" ; "0.000000 2"]);
+// %e
+assert_checkequal(msprintf("%e\n", b), ["1.000000e+00" ; "0.000000e+00"]);
+assert_checkequal(msprintf("%e %d\n", b, n), ["1.000000e+00 3" ; "0.000000e+00 2"]);
+assert_checkequal(msprintf("%2$e %1$d\n", n, b), ["1.000000e+00 3" ; "0.000000e+00 2"]);
+// %E
+assert_checkequal(msprintf("%E\n", b), ["1.000000E+00" ; "0.000000E+00"]);
+assert_checkequal(msprintf("%E %d\n", b, n), ["1.000000E+00 3" ; "0.000000E+00 2"]);
+assert_checkequal(msprintf("%2$E %1$d\n", n, b), ["1.000000E+00 3" ; "0.000000E+00 2"]);
+// %s, %c
+for f = ["s" "c"]
+    assert_checkequal(msprintf("%"+f+"\n", b), ["T" ; "F"]);
+    assert_checkequal(msprintf("%"+f+" %d\n", b, n), ["T 3" ; "F 2"]);
+    assert_checkequal(msprintf("%2$"+f+" %1$d\n", n, b), ["T 3" ; "F 2"]);
+end

@@ -59,7 +59,7 @@ int sci_csvDefault(char *fname, void* pvApiCtx)
 {
     Rhs = Max(0, Rhs);
     CheckRhs(0, 2);
-    CheckLhs(1, 1);
+    CheckLhs(0, 1);
 
     switch (Rhs)
     {
@@ -220,7 +220,7 @@ static int sci_csvDefault_one_rhs(char *fname, void* pvApiCtx)
     {
         freeVar(&fieldname, &fieldvalue);
 
-        setCsvDefaultReset();
+        setCsvDefaultClear();
 
         createEmptyMatrix(pvApiCtx, Rhs + 1);
 
@@ -235,9 +235,12 @@ static int sci_csvDefault_one_rhs(char *fname, void* pvApiCtx)
         return 0;
     }
 
-    createSingleString(pvApiCtx, Rhs + 1, fieldvalue);
-
+    iErr = createSingleString(pvApiCtx, Rhs + 1, fieldvalue);
     freeVar(&fieldname, &fieldvalue);
+    if (iErr)
+    {
+        return 0;
+    }
 
     LhsVar(1) = Rhs + 1;
     PutLhsVar();

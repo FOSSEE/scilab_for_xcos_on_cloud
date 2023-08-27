@@ -40,7 +40,6 @@
 #include "listoperation.hxx"
 #include "listdelete.hxx"
 #include "listinsert.hxx"
-#include "listundefined.hxx"
 #include "tlist.hxx"
 #include "mlist.hxx"
 #include "file.hxx"
@@ -53,5 +52,6 @@
 #include "graphichandle.hxx"
 #include "void.hxx"
 #include "library.hxx"
+#include "user.hxx"
 
 #endif /* !ALL_TYPES_HXX */

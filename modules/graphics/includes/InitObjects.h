@@ -3,7 +3,7 @@
  * Copyright (C) 2001 - 2002 - INRIA - Mathieu Philipe
  * Copyright (C) 2002 - 2004 - INRIA - Djalel Abdemouche
  * Copyright (C) 2004 - 2006 - INRIA - Fabrice Leray
- * Copyright (C) 2012 - 2012 - Scialb Enterprises - Bruno JOFRET
+ * Copyright (C) 2012 - 2012 - Scilab Enterprises - Bruno JOFRET
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
@@ -38,7 +38,7 @@ GRAPHICS_IMPEXP int C2F(graphicsmodels) (void);
 
 GRAPHICS_IMPEXP int sciInitGraphicMode (int iObjUID);
 
-GRAPHICS_IMPEXP int initLabel(int iParentObjUID) ; /* INITOBJECT */
+GRAPHICS_IMPEXP int initLabel(int iParentObjUID, int associatedProperty) ; /* INITOBJECT */
 
 GRAPHICS_IMPEXP void InitFigureModel(int iFiguremdlUID); /* INITOBJECT */
 

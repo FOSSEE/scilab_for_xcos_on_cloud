@@ -249,7 +249,7 @@ public class CallScilabBridge {
      * @param status true to set the menu enabled
      */
     public static void setMenuEnabled(int parentUID, String menuName, boolean status) {
-        SwingScilabDockablePanel parentTab = (SwingScilabDockablePanel) SwingView.getFromId(parentUID);
+        SwingScilabPanel parentTab = (SwingScilabPanel) SwingView.getFromId(parentUID);
         if (parentTab != null) { /** Parent must exist */
             parentTab.getMenuBar().getAsSimpleMenuBar().setMenuEnabled(menuName, status);
         }
@@ -263,7 +263,7 @@ public class CallScilabBridge {
      * @param status true to set the menu enabled
      */
     public static void setSubMenuEnabled(int parentUID, String parentMenuName, int menuItemPosition, boolean status) {
-        SwingScilabDockablePanel parentTab = (SwingScilabDockablePanel) SwingView.getFromId(parentUID);
+        SwingScilabPanel parentTab = (SwingScilabPanel) SwingView.getFromId(parentUID);
         if (parentTab != null) { /** Parent must exist */
             parentTab.getMenuBar().getAsSimpleMenuBar().setSubMenuEnabled(parentMenuName, menuItemPosition, status);
         }
@@ -672,7 +672,7 @@ public class CallScilabBridge {
      * Open a Browser on Mailing List info
      */
     public static void openMailingList() {
-        WebBrowser.openUrl("http://www.scilab.org/communities/developer_zone/tools/mailing_list");
+        WebBrowser.openUrl("https://www.scilab.org/about/community/mailing-lists");
     }
 
     /**
@@ -894,7 +894,7 @@ public class CallScilabBridge {
                 Figure figure = (Figure) GraphicController.getController().getObjectFromId(figID);
                 int figureID = figure.getId();
                 BufferedImage bimage = null;
-                if (figure.getVisible()) {
+                if (figure.getVisible() && SwingView.getFromId(figID) instanceof SwingScilabDockablePanel) {
                     bimage = ((SwingScilabDockablePanel) SwingView.getFromId(figID)).getContentCanvas().dumpAsBufferedImage();
                 } else {
                     try {
@@ -1357,8 +1357,11 @@ public class CallScilabBridge {
     /******************/
 
     public static void fireClosingFinished(int figUID) {
-        SwingScilabDockablePanel parentTab = (SwingScilabDockablePanel) SwingView.getFromId(figUID);
-        ClosingOperationsManager.removeFromDunnoList(parentTab);
+        SwingViewObject view = SwingView.getFromId(figUID);
+        if (view instanceof SwingScilabDockablePanel)
+        {
+            ClosingOperationsManager.removeFromDunnoList((SwingScilabDockablePanel) view);
+        }
     }
     
     public static void registerSwingView() {

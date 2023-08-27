@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:05+0000\n"
+"PO-Revision-Date: 2015-10-08 22:05+0000\n"
 "Last-Translator: Stanislav V. Kroter <krotersv@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 msgid "Invalid variable: cannot retrieve the data"
 msgstr "Недопустимая переменная: невозможно вернуть данные"
@@ -86,6 +86,13 @@ msgid "Invalid name"
 msgstr "Недопустимое имя"
 
 #, c-format
+msgid "Wrong type for input argument #%d: External Object expected."
+msgstr "Неверный тип входного аргумента №%d: ожидался внешний объект."
+
+msgid "Incompatible External Object"
+msgstr "Несовместимый внешний объект"
+
+#, c-format
 msgid "Wrong type for input argument #%d: A String expected."
 msgstr "Неверный тип входного аргумента №%d: ожидалась строка."
 
@@ -108,13 +115,6 @@ msgstr ""
 
 msgid "Invalid variable: cannot create the data"
 msgstr "Недопустимая переменная: невозможно создать данные"
-
-#, c-format
-msgid "Wrong type for input argument #%d: External Object expected."
-msgstr "Неверный тип входного аргумента №%d: ожидался внешний объект."
-
-msgid "Incompatible External Object"
-msgstr "Несовместимый внешний объект"
 
 #, c-format
 msgid "Wrong type for input argument #%d: string expected."

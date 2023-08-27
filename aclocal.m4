@@ -1,6 +1,6 @@
-# generated automatically by aclocal 1.14.1 -*- Autoconf -*-
+# generated automatically by aclocal 1.16.1 -*- Autoconf -*-
 
-# Copyright (C) 1996-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2018 Free Software Foundation, Inc.
 
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -20,19 +20,19 @@ You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
-# gettext.m4 serial 66 (gettext-0.18.2)
-dnl Copyright (C) 1995-2013 Free Software Foundation, Inc.
+# gettext.m4 serial 68 (gettext-0.19.8)
+dnl Copyright (C) 1995-2014, 2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 dnl
-dnl This file can can be used in projects which are not available under
+dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Library General Public
 dnl License but which still want to provide support for the GNU gettext
 dnl functionality.
 dnl Please note that the actual code of the GNU gettext library is covered
 dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
+dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
 dnl Authors:
@@ -183,13 +183,18 @@ changequote([,])dnl
             [AC_LANG_PROGRAM(
                [[
 #include <libintl.h>
-$gt_revision_test_code
+#ifndef __GNU_GETTEXT_SUPPORTED_REVISION
 extern int _nl_msg_cat_cntr;
 extern int *_nl_domain_bindings;
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION (_nl_msg_cat_cntr + *_nl_domain_bindings)
+#else
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION 0
+#endif
+$gt_revision_test_code
                ]],
                [[
 bindtextdomain ("", "");
-return * gettext ("")$gt_expression_test_code + _nl_msg_cat_cntr + *_nl_domain_bindings
+return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                ]])],
             [eval "$gt_func_gnugettext_libc=yes"],
             [eval "$gt_func_gnugettext_libc=no"])])
@@ -215,17 +220,22 @@ return * gettext ("")$gt_expression_test_code + _nl_msg_cat_cntr + *_nl_domain_b
               [AC_LANG_PROGRAM(
                  [[
 #include <libintl.h>
-$gt_revision_test_code
+#ifndef __GNU_GETTEXT_SUPPORTED_REVISION
 extern int _nl_msg_cat_cntr;
 extern
 #ifdef __cplusplus
 "C"
 #endif
 const char *_nl_expand_alias (const char *);
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION (_nl_msg_cat_cntr + *_nl_expand_alias (""))
+#else
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION 0
+#endif
+$gt_revision_test_code
                  ]],
                  [[
 bindtextdomain ("", "");
-return * gettext ("")$gt_expression_test_code + _nl_msg_cat_cntr + *_nl_expand_alias ("")
+return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                  ]])],
               [eval "$gt_func_gnugettext_libintl=yes"],
               [eval "$gt_func_gnugettext_libintl=no"])
@@ -236,17 +246,22 @@ return * gettext ("")$gt_expression_test_code + _nl_msg_cat_cntr + *_nl_expand_a
                 [AC_LANG_PROGRAM(
                    [[
 #include <libintl.h>
-$gt_revision_test_code
+#ifndef __GNU_GETTEXT_SUPPORTED_REVISION
 extern int _nl_msg_cat_cntr;
 extern
 #ifdef __cplusplus
 "C"
 #endif
 const char *_nl_expand_alias (const char *);
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION (_nl_msg_cat_cntr + *_nl_expand_alias (""))
+#else
+#define __GNU_GETTEXT_SYMBOL_EXPRESSION 0
+#endif
+$gt_revision_test_code
                    ]],
                    [[
 bindtextdomain ("", "");
-return * gettext ("")$gt_expression_test_code + _nl_msg_cat_cntr + *_nl_expand_alias ("")
+return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
                    ]])],
                 [LIBINTL="$LIBINTL $LIBICONV"
                  LTLIBINTL="$LTLIBINTL $LTLIBICONV"
@@ -422,8 +437,12 @@ AC_DEFUN([AM_GNU_GETTEXT_NEED],
 dnl Usage: AM_GNU_GETTEXT_VERSION([gettext-version])
 AC_DEFUN([AM_GNU_GETTEXT_VERSION], [])
 
-# iconv.m4 serial 18 (gettext-0.18.2)
-dnl Copyright (C) 2000-2002, 2007-2013 Free Software Foundation, Inc.
+
+dnl Usage: AM_GNU_GETTEXT_REQUIRE_VERSION([gettext-version])
+AC_DEFUN([AM_GNU_GETTEXT_REQUIRE_VERSION], [])
+
+# iconv.m4 serial 19 (gettext-0.18.2)
+dnl Copyright (C) 2000-2002, 2007-2014, 2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -496,27 +515,33 @@ AC_DEFUN([AM_ICONV_LINK],
       if test $am_cv_lib_iconv = yes; then
         LIBS="$LIBS $LIBICONV"
       fi
-      AC_RUN_IFELSE(
-        [AC_LANG_SOURCE([[
+      am_cv_func_iconv_works=no
+      for ac_iconv_const in '' 'const'; do
+        AC_RUN_IFELSE(
+          [AC_LANG_PROGRAM(
+             [[
 #include <iconv.h>
 #include <string.h>
-int main ()
-{
-  int result = 0;
+
+#ifndef ICONV_CONST
+# define ICONV_CONST $ac_iconv_const
+#endif
+             ]],
+             [[int result = 0;
   /* Test against AIX 5.1 bug: Failures are not distinguishable from successful
      returns.  */
   {
     iconv_t cd_utf8_to_88591 = iconv_open ("ISO8859-1", "UTF-8");
     if (cd_utf8_to_88591 != (iconv_t)(-1))
       {
-        static const char input[] = "\342\202\254"; /* EURO SIGN */
+        static ICONV_CONST char input[] = "\342\202\254"; /* EURO SIGN */
         char buf[10];
-        const char *inptr = input;
+        ICONV_CONST char *inptr = input;
         size_t inbytesleft = strlen (input);
         char *outptr = buf;
         size_t outbytesleft = sizeof (buf);
         size_t res = iconv (cd_utf8_to_88591,
-                            (char **) &inptr, &inbytesleft,
+                            &inptr, &inbytesleft,
                             &outptr, &outbytesleft);
         if (res == 0)
           result |= 1;
@@ -529,14 +554,14 @@ int main ()
     iconv_t cd_ascii_to_88591 = iconv_open ("ISO8859-1", "646");
     if (cd_ascii_to_88591 != (iconv_t)(-1))
       {
-        static const char input[] = "\263";
+        static ICONV_CONST char input[] = "\263";
         char buf[10];
-        const char *inptr = input;
+        ICONV_CONST char *inptr = input;
         size_t inbytesleft = strlen (input);
         char *outptr = buf;
         size_t outbytesleft = sizeof (buf);
         size_t res = iconv (cd_ascii_to_88591,
-                            (char **) &inptr, &inbytesleft,
+                            &inptr, &inbytesleft,
                             &outptr, &outbytesleft);
         if (res == 0)
           result |= 2;
@@ -548,14 +573,14 @@ int main ()
     iconv_t cd_88591_to_utf8 = iconv_open ("UTF-8", "ISO-8859-1");
     if (cd_88591_to_utf8 != (iconv_t)(-1))
       {
-        static const char input[] = "\304";
+        static ICONV_CONST char input[] = "\304";
         static char buf[2] = { (char)0xDE, (char)0xAD };
-        const char *inptr = input;
+        ICONV_CONST char *inptr = input;
         size_t inbytesleft = 1;
         char *outptr = buf;
         size_t outbytesleft = 1;
         size_t res = iconv (cd_88591_to_utf8,
-                            (char **) &inptr, &inbytesleft,
+                            &inptr, &inbytesleft,
                             &outptr, &outbytesleft);
         if (res != (size_t)(-1) || outptr - buf > 1 || buf[1] != (char)0xAD)
           result |= 4;
@@ -568,14 +593,14 @@ int main ()
     iconv_t cd_88591_to_utf8 = iconv_open ("utf8", "iso88591");
     if (cd_88591_to_utf8 != (iconv_t)(-1))
       {
-        static const char input[] = "\304rger mit b\366sen B\374bchen ohne Augenma\337";
+        static ICONV_CONST char input[] = "\304rger mit b\366sen B\374bchen ohne Augenma\337";
         char buf[50];
-        const char *inptr = input;
+        ICONV_CONST char *inptr = input;
         size_t inbytesleft = strlen (input);
         char *outptr = buf;
         size_t outbytesleft = sizeof (buf);
         size_t res = iconv (cd_88591_to_utf8,
-                            (char **) &inptr, &inbytesleft,
+                            &inptr, &inbytesleft,
                             &outptr, &outbytesleft);
         if ((int)res > 0)
           result |= 8;
@@ -595,17 +620,14 @@ int main ()
       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
     result |= 16;
   return result;
-}]])],
-        [am_cv_func_iconv_works=yes],
-        [am_cv_func_iconv_works=no],
-        [
-changequote(,)dnl
-         case "$host_os" in
-           aix* | hpux*) am_cv_func_iconv_works="guessing no" ;;
-           *)            am_cv_func_iconv_works="guessing yes" ;;
-         esac
-changequote([,])dnl
-        ])
+]])],
+          [am_cv_func_iconv_works=yes], ,
+          [case "$host_os" in
+             aix* | hpux*) am_cv_func_iconv_works="guessing no" ;;
+             *)            am_cv_func_iconv_works="guessing yes" ;;
+           esac])
+        test "$am_cv_func_iconv_works" = no || break
+      done
       LIBS="$am_save_LIBS"
     ])
     case "$am_cv_func_iconv_works" in
@@ -692,18 +714,18 @@ size_t iconv();
 ])
 
 # intlmacosx.m4 serial 5 (gettext-0.18.2)
-dnl Copyright (C) 2004-2013 Free Software Foundation, Inc.
+dnl Copyright (C) 2004-2014, 2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 dnl
-dnl This file can can be used in projects which are not available under
+dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Library General Public
 dnl License but which still want to provide support for the GNU gettext
 dnl functionality.
 dnl Please note that the actual code of the GNU gettext library is covered
 dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
+dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
 dnl Checks for special options needed on Mac OS X.
@@ -749,7 +771,7 @@ AC_DEFUN([gt_INTL_MACOSX],
 ])
 
 # lib-link.m4 serial 26 (gettext-0.18.2)
-dnl Copyright (C) 2001-2013 Free Software Foundation, Inc.
+dnl Copyright (C) 2001-2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -1527,7 +1549,7 @@ AC_DEFUN([AC_LIB_LINKFLAGS_FROM_LIBS],
 ])
 
 # lib-prefix.m4 serial 7 (gettext-0.18)
-dnl Copyright (C) 2001-2005, 2008-2013 Free Software Foundation, Inc.
+dnl Copyright (C) 2001-2005, 2008-2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -1752,19 +1774,19 @@ sixtyfour bits
 ])
 
 # nls.m4 serial 5 (gettext-0.18)
-dnl Copyright (C) 1995-2003, 2005-2006, 2008-2013 Free Software Foundation,
-dnl Inc.
+dnl Copyright (C) 1995-2003, 2005-2006, 2008-2014, 2016 Free Software
+dnl Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 dnl
-dnl This file can can be used in projects which are not available under
+dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Library General Public
 dnl License but which still want to provide support for the GNU gettext
 dnl functionality.
 dnl Please note that the actual code of the GNU gettext library is covered
 dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
+dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
 dnl Authors:
@@ -1784,19 +1806,19 @@ AC_DEFUN([AM_NLS],
   AC_SUBST([USE_NLS])
 ])
 
-# po.m4 serial 21 (gettext-0.18.3)
-dnl Copyright (C) 1995-2013 Free Software Foundation, Inc.
+# po.m4 serial 24 (gettext-0.19)
+dnl Copyright (C) 1995-2014, 2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 dnl
-dnl This file can can be used in projects which are not available under
+dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Library General Public
 dnl License but which still want to provide support for the GNU gettext
 dnl functionality.
 dnl Please note that the actual code of the GNU gettext library is covered
 dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
+dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
 dnl Authors:
@@ -1816,7 +1838,7 @@ AC_DEFUN([AM_PO_SUBDIRS],
 
   dnl Release version of the gettext macros. This is used to ensure that
   dnl the gettext macros and po/Makefile.in.in are in sync.
-  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
+  AC_SUBST([GETTEXT_MACRO_VERSION], [0.19])
 
   dnl Perform the following tests also if --disable-nls has been given,
   dnl because they are needed for "make dist" to work.
@@ -2239,18 +2261,18 @@ AC_DEFUN([AM_XGETTEXT_OPTION],
 ])
 
 # progtest.m4 serial 7 (gettext-0.18.2)
-dnl Copyright (C) 1996-2003, 2005, 2008-2013 Free Software Foundation, Inc.
+dnl Copyright (C) 1996-2003, 2005, 2008-2016 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 dnl
-dnl This file can can be used in projects which are not available under
+dnl This file can be used in projects which are not available under
 dnl the GNU General Public License or the GNU Library General Public
 dnl License but which still want to provide support for the GNU gettext
 dnl functionality.
 dnl Please note that the actual code of the GNU gettext library is covered
 dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
+dnl gettext package is covered by the GNU General Public License.
 dnl They are *not* in the public domain.
 
 dnl Authors:
@@ -2330,7 +2352,7 @@ fi
 AC_SUBST([$1])dnl
 ])
 
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2342,10 +2364,10 @@ AC_SUBST([$1])dnl
 # generated from the m4 files accompanying Automake X.Y.
 # (This private macro should not be called outside this file.)
 AC_DEFUN([AM_AUTOMAKE_VERSION],
-[am__api_version='1.14'
+[am__api_version='1.16'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.14.1], [],
+m4_if([$1], [1.16.1], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
 
@@ -2361,12 +2383,12 @@ m4_define([_AM_AUTOCONF_VERSION], [])
 # Call AM_AUTOMAKE_VERSION and AM_AUTOMAKE_VERSION so they can be traced.
 # This function is AC_REQUIREd by AM_INIT_AUTOMAKE.
 AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION],
-[AM_AUTOMAKE_VERSION([1.14.1])dnl
+[AM_AUTOMAKE_VERSION([1.16.1])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
 
-# Copyright (C) 2011-2013 Free Software Foundation, Inc.
+# Copyright (C) 2011-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2428,7 +2450,7 @@ AC_SUBST([AR])dnl
 
 # AM_AUX_DIR_EXPAND                                         -*- Autoconf -*-
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2473,15 +2495,14 @@ AC_SUBST([AR])dnl
 # configured tree to be moved without reconfiguration.
 
 AC_DEFUN([AM_AUX_DIR_EXPAND],
-[dnl Rely on autoconf to set up CDPATH properly.
-AC_PREREQ([2.50])dnl
-# expand $ac_aux_dir to an absolute path
-am_aux_dir=`cd $ac_aux_dir && pwd`
+[AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
+# Expand $ac_aux_dir to an absolute path.
+am_aux_dir=`cd "$ac_aux_dir" && pwd`
 ])
 
 # AM_CONDITIONAL                                            -*- Autoconf -*-
 
-# Copyright (C) 1997-2013 Free Software Foundation, Inc.
+# Copyright (C) 1997-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2512,7 +2533,7 @@ AC_CONFIG_COMMANDS_PRE(
 Usually this means the macro was only invoked conditionally.]])
 fi])])
 
-# Copyright (C) 1999-2013 Free Software Foundation, Inc.
+# Copyright (C) 1999-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2703,12 +2724,11 @@ _AM_SUBST_NOTMAKE([am__nodep])dnl
 
 # Generate code to set up dependency tracking.              -*- Autoconf -*-
 
-# Copyright (C) 1999-2013 Free Software Foundation, Inc.
+# Copyright (C) 1999-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
-
 
 # _AM_OUTPUT_DEPENDENCY_COMMANDS
 # ------------------------------
@@ -2717,49 +2737,41 @@ AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS],
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  case $CONFIG_FILES in
-  *\'*) eval set x "$CONFIG_FILES" ;;
-  *)   set x $CONFIG_FILES ;;
-  esac
+  # TODO: see whether this extra hack can be removed once we start
+  # requiring Autoconf 2.70 or later.
+  AS_CASE([$CONFIG_FILES],
+          [*\'*], [eval set x "$CONFIG_FILES"],
+          [*], [set x $CONFIG_FILES])
   shift
-  for mf
+  # Used to flag and report bootstrapping failures.
+  am_rc=0
+  for am_mf
   do
     # Strip MF so we end up with the name of the file.
-    mf=`echo "$mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile or not.
-    # We used to match only the files named 'Makefile.in', but
-    # some people rename them; so instead we look at the file content.
-    # Grep'ing the first line is not enough: some people post-process
-    # each Makefile.in and add a new line on top of each file to say so.
-    # Grep'ing the whole file is not good either: AIX grep has a line
+    am_mf=`AS_ECHO(["$am_mf"]) | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile which includes
+    # dependency-tracking related rules and includes.
+    # Grep'ing the whole file directly is not great: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
-      dirpart=`AS_DIRNAME("$mf")`
-    else
-      continue
-    fi
-    # Extract the definition of DEPDIR, am__include, and am__quote
-    # from the Makefile without running 'make'.
-    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
-    test -z "$DEPDIR" && continue
-    am__include=`sed -n 's/^am__include = //p' < "$mf"`
-    test -z "$am__include" && continue
-    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
-    # Find all dependency output files, they are included files with
-    # $(DEPDIR) in their names.  We invoke sed twice because it is the
-    # simplest approach to changing $(DEPDIR) to its actual value in the
-    # expansion.
-    for file in `sed -n "
-      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
-	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
-      # Make sure the directory exists.
-      test -f "$dirpart/$file" && continue
-      fdir=`AS_DIRNAME(["$file"])`
-      AS_MKDIR_P([$dirpart/$fdir])
-      # echo "creating $dirpart/$file"
-      echo '# dummy' > "$dirpart/$file"
-    done
+    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
+      || continue
+    am_dirpart=`AS_DIRNAME(["$am_mf"])`
+    am_filepart=`AS_BASENAME(["$am_mf"])`
+    AM_RUN_LOG([cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles]) || am_rc=$?
   done
+  if test $am_rc -ne 0; then
+    AC_MSG_FAILURE([Something went wrong bootstrapping makefile fragments
+    for automatic dependency tracking.  Try re-running configure with the
+    '--disable-dependency-tracking' option to at least be able to build
+    the package (albeit without support for automatic dependency tracking).])
+  fi
+  AS_UNSET([am_dirpart])
+  AS_UNSET([am_filepart])
+  AS_UNSET([am_mf])
+  AS_UNSET([am_rc])
+  rm -f conftest-deps.mk
 }
 ])# _AM_OUTPUT_DEPENDENCY_COMMANDS
 
@@ -2768,18 +2780,17 @@ AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS],
 # -----------------------------
 # This macro should only be invoked once -- use via AC_REQUIRE.
 #
-# This code is only required when automatic dependency tracking
-# is enabled.  FIXME.  This creates each '.P' file that we will
-# need in order to bootstrap the dependency handling code.
+# This code is only required when automatic dependency tracking is enabled.
+# This creates each '.Po' and '.Plo' makefile fragment that we'll need in
+# order to bootstrap the dependency handling code.
 AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],
 [AC_CONFIG_COMMANDS([depfiles],
      [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
-     [AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"])
-])
+     [AMDEP_TRUE="$AMDEP_TRUE" MAKE="${MAKE-make}"])])
 
 # Do all the work for Automake.                             -*- Autoconf -*-
 
-# Copyright (C) 1996-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2866,11 +2877,11 @@ AC_REQUIRE([AM_PROG_INSTALL_STRIP])dnl
 AC_REQUIRE([AC_PROG_MKDIR_P])dnl
 # For better backward compatibility.  To be removed once Automake 1.9.x
 # dies out for good.  For more background, see:
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
-# We need awk for the "check" target.  The system "awk" is bad on
-# some platforms.
+# We need awk for the "check" target (and possibly the TAP driver).  The
+# system "awk" is bad on some platforms.
 AC_REQUIRE([AC_PROG_AWK])dnl
 AC_REQUIRE([AC_PROG_MAKE_SET])dnl
 AC_REQUIRE([AM_SET_LEADING_DOT])dnl
@@ -2934,7 +2945,7 @@ END
 Aborting the configuration process, to ensure you take notice of the issue.
 
 You can download and install GNU coreutils to get an 'rm' implementation
-that behaves properly: <http://www.gnu.org/software/coreutils/>.
+that behaves properly: <https://www.gnu.org/software/coreutils/>.
 
 If you want to complete the configuration process using your problematic
 'rm' anyway, export the environment variable ACCEPT_INFERIOR_RM_PROGRAM
@@ -2943,7 +2954,11 @@ to "yes", and re-run configure.
 END
     AC_MSG_ERROR([Your 'rm' program is bad, sorry.])
   fi
-fi])
+fi
+dnl The trailing newline in this macro's definition is deliberate, for
+dnl backward compatibility and to allow trailing 'dnl'-style comments
+dnl after the AM_INIT_AUTOMAKE invocation. See automake bug#16841.
+])
 
 dnl Hook into '_AC_COMPILER_EXEEXT' early to learn its expansion.  Do not
 dnl add the conditional right here, as _AC_COMPILER_EXEEXT may be further
@@ -2972,7 +2987,7 @@ for _am_header in $config_headers :; do
 done
 echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -2983,7 +2998,7 @@ echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_co
 # Define $install_sh.
 AC_DEFUN([AM_PROG_INSTALL_SH],
 [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
-if test x"${install_sh}" != xset; then
+if test x"${install_sh+set}" != xset; then
   case $am_aux_dir in
   *\ * | *\	*)
     install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
@@ -2993,7 +3008,7 @@ if test x"${install_sh}" != xset; then
 fi
 AC_SUBST([install_sh])])
 
-# Copyright (C) 2003-2013 Free Software Foundation, Inc.
+# Copyright (C) 2003-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3015,7 +3030,7 @@ AC_SUBST([am__leading_dot])])
 # Add --enable-maintainer-mode option to configure.         -*- Autoconf -*-
 # From Jim Meyering
 
-# Copyright (C) 1996-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3050,7 +3065,7 @@ AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
 
 # Check to see how 'make' treats includes.	            -*- Autoconf -*-
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3058,49 +3073,42 @@ AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
 
 # AM_MAKE_INCLUDE()
 # -----------------
-# Check to see how make treats includes.
+# Check whether make has an 'include' directive that can support all
+# the idioms we need for our automatic dependency tracking code.
 AC_DEFUN([AM_MAKE_INCLUDE],
-[am_make=${MAKE-make}
-cat > confinc << 'END'
+[AC_MSG_CHECKING([whether ${MAKE-make} supports the include directive])
+cat > confinc.mk << 'END'
 am__doit:
-	@echo this is the am__doit target
+	@echo this is the am__doit target >confinc.out
 .PHONY: am__doit
 END
-# If we don't find an include directive, just comment out the code.
-AC_MSG_CHECKING([for style of include used by $am_make])
 am__include="#"
 am__quote=
-_am_result=none
-# First try GNU make style include.
-echo "include confinc" > confmf
-# Ignore all kinds of additional output from 'make'.
-case `$am_make -s -f confmf 2> /dev/null` in #(
-*the\ am__doit\ target*)
-  am__include=include
-  am__quote=
-  _am_result=GNU
-  ;;
-esac
-# Now try BSD make style include.
-if test "$am__include" = "#"; then
-   echo '.include "confinc"' > confmf
-   case `$am_make -s -f confmf 2> /dev/null` in #(
-   *the\ am__doit\ target*)
-     am__include=.include
-     am__quote="\""
-     _am_result=BSD
-     ;;
-   esac
-fi
-AC_SUBST([am__include])
-AC_SUBST([am__quote])
-AC_MSG_RESULT([$_am_result])
-rm -f confinc confmf
-])
+# BSD make does it like this.
+echo '.include "confinc.mk" # ignored' > confmf.BSD
+# Other make implementations (GNU, Solaris 10, AIX) do it like this.
+echo 'include confinc.mk # ignored' > confmf.GNU
+_am_result=no
+for s in GNU BSD; do
+  AM_RUN_LOG([${MAKE-make} -f confmf.$s && cat confinc.out])
+  AS_CASE([$?:`cat confinc.out 2>/dev/null`],
+      ['0:this is the am__doit target'],
+      [AS_CASE([$s],
+          [BSD], [am__include='.include' am__quote='"'],
+          [am__include='include' am__quote=''])])
+  if test "$am__include" != "#"; then
+    _am_result="yes ($s style)"
+    break
+  fi
+done
+rm -f confinc.* confmf.*
+AC_MSG_RESULT([${_am_result}])
+AC_SUBST([am__include])])
+AC_SUBST([am__quote])])
 
 # Fake the existence of programs that GNU maintainers use.  -*- Autoconf -*-
 
-# Copyright (C) 1997-2013 Free Software Foundation, Inc.
+# Copyright (C) 1997-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3139,7 +3147,7 @@ fi
 
 # Helper functions for option handling.                     -*- Autoconf -*-
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3168,7 +3176,7 @@ AC_DEFUN([_AM_SET_OPTIONS],
 AC_DEFUN([_AM_IF_OPTION],
 [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
 
-# Copyright (C) 1999-2013 Free Software Foundation, Inc.
+# Copyright (C) 1999-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3215,7 +3223,7 @@ AC_LANG_POP([C])])
 # For backward compatibility.
 AC_DEFUN_ONCE([AM_PROG_CC_C_O], [AC_REQUIRE([AC_PROG_CC])])
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3234,7 +3242,7 @@ AC_DEFUN([AM_RUN_LOG],
 
 # Check to make sure that the build environment is sane.    -*- Autoconf -*-
 
-# Copyright (C) 1996-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3315,7 +3323,7 @@ AC_CONFIG_COMMANDS_PRE(
 rm -f conftest.file
 ])
 
-# Copyright (C) 2009-2013 Free Software Foundation, Inc.
+# Copyright (C) 2009-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3375,7 +3383,7 @@ AC_SUBST([AM_BACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
 ])
 
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3403,7 +3411,7 @@ fi
 INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
-# Copyright (C) 2006-2013 Free Software Foundation, Inc.
+# Copyright (C) 2006-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3422,7 +3430,7 @@ AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 
 # Check how to create a tarball.                            -*- Autoconf -*-
 
-# Copyright (C) 2004-2013 Free Software Foundation, Inc.
+# Copyright (C) 2004-2018 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -3553,7 +3561,7 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
-m4_include([m4/ax_cxx_compile_stdcxx_11.m4])
+m4_include([m4/ax_cxx_compile_stdcxx.m4])
 m4_include([m4/backtrace.m4])
 m4_include([m4/compiler.m4])
 m4_include([m4/curl.m4])

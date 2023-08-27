@@ -67,8 +67,11 @@ static int xlfont_no_rhs(char * fname, void* pvApiCtx)
     sciErr = createMatrixOfString(pvApiCtx, nbInputArgument(pvApiCtx) + 1, m1, n1, (const char * const*)fontsname);
     if (sciErr.iErr)
     {
+
+        freeArrayOfString(fontsname, nbElements);
         printError(&sciErr, 0);
         return 1;
+
     }
 
     freeArrayOfString(fontsname, nbElements);
@@ -200,7 +203,7 @@ static int xlfont_n_rhs(char * fname, void* pvApiCtx)
     BOOL isBold = FALSE;
     BOOL isItalic = FALSE;
 
-    if (nbInputArgument(pvApiCtx) == 3)
+    if (nbInputArgument(pvApiCtx) >= 3)
     {
         int m3 = 0, n3 = 0;
         int* piAddrl3 = NULL;
@@ -237,7 +240,7 @@ static int xlfont_n_rhs(char * fname, void* pvApiCtx)
         int* l4 = NULL;
         if ((!checkInputArgumentType(pvApiCtx, 4, sci_boolean)))
         {
-            Scierror(999, _("%s: Wrong type for input argument #%d: A boolean expected.\n"), fname, 3);
+            Scierror(999, _("%s: Wrong type for input argument #%d: A boolean expected.\n"), fname, 4);
             return 0;
         }
         sciErr = getVarAddressFromPosition(pvApiCtx, 4, &piAddrl4);

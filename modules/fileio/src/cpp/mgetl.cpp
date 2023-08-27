@@ -38,10 +38,10 @@ extern "C"
 static const unsigned char UTF8_BOM[] = {0xEF, 0xBB, 0xBF, 0x00};
 
 //remove \r
-inline void rtrim(char* s)
+inline void rtrim(wchar_t* s)
 {
-    size_t n = strlen(s);
-    if (n && s[n - 1] == '\r')
+    size_t n = wcslen(s);
+    if (n && s[n - 1] == L'\r')
     {
         s[n - 1] = 0;
     }
@@ -84,26 +84,47 @@ int mgetl(int iFileID, int iLineCount, wchar_t*** pwstLines)
 
     int orig = ftell(fd);
 
-#ifndef _MSC_VER
-    //must reopen the file
-    std::wstring wname = pFile->getFilename();
-    char* name = wide_string_to_UTF8(wname.data());
-    std::ifstream ifs(name);
-    FREE(name);
-#else
-    std::ifstream ifs(fd);
-#endif
-    //seek to same position
-    ifs.seekg(orig);
+    std::string str;
+    std::vector<std::string> lst;
 
-#define MAX_READ_LEN 262144
-    char str[MAX_READ_LEN];
-    std::vector<wchar_t*> lst;
-
-    while ((iLineCount == -1 || lst.size() < iLineCount) && ifs.getline(str, MAX_READ_LEN))
+    if (iFileID == 5)
     {
-        rtrim(str);
-        lst.push_back(to_wide_string(str));
+        // read from stdin
+        while ((iLineCount == -1 || lst.size() < iLineCount) && std::getline(std::cin, str))
+        {
+            lst.push_back(str);
+        }
+    }
+    else
+    {
+#ifndef _MSC_VER
+        //must reopen the file
+        std::wstring wname = pFile->getFilename();
+        char* name = wide_string_to_UTF8(wname.data());
+        std::ifstream ifs(name);
+        FREE(name);
+        //seek to same position
+        ifs.seekg(orig);
+#else
+        std::ifstream ifs(fd);
+#endif
+        while ((iLineCount == -1 || lst.size() < iLineCount) && std::getline(ifs, str))
+        {
+            lst.push_back(str);
+        }
+#ifndef _MSC_VER
+        auto pos = ifs.tellg();
+        if (pos == -1)
+        {
+            fseek(fd, 0, SEEK_END);
+        }
+        else
+        {
+            fseek(fd, pos, SEEK_SET);
+        }
+
+        ifs.close();
+#endif
     }
 
     int nbLinesOut = (int)lst.size();
@@ -113,7 +134,6 @@ int mgetl(int iFileID, int iLineCount, wchar_t*** pwstLines)
     }
 
     *pwstLines = (wchar_t**)MALLOC(nbLinesOut * sizeof(wchar_t*));
-
     if (*pwstLines == NULL)
     {
         return -1;
@@ -121,22 +141,10 @@ int mgetl(int iFileID, int iLineCount, wchar_t*** pwstLines)
 
     for (int i = 0; i < nbLinesOut; ++i)
     {
-        (*pwstLines)[i] = lst[i];
+        wchar_t* str = to_wide_string(lst[i].data());
+        rtrim(str);
+        (*pwstLines)[i] = str;
     }
-
-#ifndef _MSC_VER
-    auto pos = ifs.tellg();
-    if (pos == -1)
-    {
-        fseek(fd, 0, SEEK_END);
-    }
-    else
-    {
-        fseek(fd, pos, SEEK_SET);
-    }
-
-    ifs.close();
-#endif
 
     return nbLinesOut;
 }

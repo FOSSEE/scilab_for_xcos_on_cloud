@@ -45,11 +45,11 @@ int sci_h5rm(char *fname, int* pvApiCtx)
     int * addr = 0;
     char * str = 0;
     char ** strs = 0;
-    int row, col;
+    int row = 0 , col = 0;
     std::string file;
     const int nbIn = nbInputArgument(pvApiCtx);
 
-    CheckOutputArgument(pvApiCtx, 1, 1);
+    CheckOutputArgument(pvApiCtx, 0, 1);
     CheckInputArgument(pvApiCtx, 1, 2);
 
     err = getVarAddressFromPosition(pvApiCtx, 1, &addr);

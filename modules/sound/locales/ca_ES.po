@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:07+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -34,6 +34,30 @@ msgstr "%s: L'argument d'entrada #%d és incorrecte: Ha de ser '%s' o '%s'.\n"
 
 msgid "Scilab sound module not installed.\n"
 msgstr "El mòdul de so del Scilab no està instal·lat.\n"
+
+# File: modules/sound/demos/mapsound.dem.sce, line: 29
+msgid "<html><h4>Example #1: Standard</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 42
+msgid "Next example"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 78
+msgid "Next exampleStop"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 91
+msgid "<html><h4>Example #3: chimes.wav sound</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 97
+msgid "End"
+msgstr ""
 
 msgid "Sound file handling"
 msgstr ""
@@ -62,6 +86,10 @@ msgstr "%s: No s'ha pogut obrir el fitxer %s.\n"
 msgid "Index range must be specified as a scalar or a 2 elements vector."
 msgstr ""
 
+#, c-format
+msgid "%s: File '%s': Unrecognized data format.\n"
+msgstr ""
+
 msgid "Sample limit vector must have 2 elements."
 msgstr ""
 
@@ -72,6 +100,10 @@ msgid "Sample limits must be given in ascending order."
 msgstr ""
 
 msgid "Error in file format."
+msgstr ""
+
+#, c-format
+msgid "%s: File '%s' is not a .au sound file.\n"
 msgstr ""
 
 msgid "Error while reading sound file."
@@ -114,6 +146,57 @@ msgstr "%s: El nombre d'arguments de sortida és incorrecte.\n"
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"
 msgstr "%s: El nombre d'arguments de sortida és incorrecte.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Function expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: A colormap function expected.\n"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 126
+msgid "Time [s]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 127
+msgid "Frequency [Hz]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 137
+msgid "Amplitude"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be >= %d.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: '%s' is a directory. File expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: The file '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Decimal number expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be > %d.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Failed to play the sound with command: %s.\n"
@@ -169,6 +252,10 @@ msgstr ""
 "%s: L'argument d'entrada té un valor incorrecte: El rang d'índexos s'ha "
 "d'especificar com un escalar o un vector de %d elements.\n"
 
+#, c-format
+msgid "%s: The file '%s' does not exist.\n"
+msgstr ""
+
 msgid ".wav file does not contain the RIFF identifier."
 msgstr "El fitxer .wav no conté l'identificador RIFF."
 
@@ -199,8 +286,9 @@ msgstr ""
 msgid "Incorrect chunk size information in RIFF file."
 msgstr "S'ha trobat informació incorrecta de peça en el fitxer RIFF."
 
-msgid "Invalid wav format."
-msgstr "El format wav no és vàlid."
+#, c-format
+msgid "%s: wav format #%d detected. Only wav formats #%s are supported.\n"
+msgstr ""
 
 msgid "Error reading wav file."
 msgstr "Error llegint el fitxer wav."
@@ -211,8 +299,8 @@ msgstr ""
 "%s: Hi ha hagut un error: El format de compressió de dades %s no està "
 "suportat.\n"
 
-msgid "Cannot read .wav file  with more than 16 bits per sample."
-msgstr "No s'ha pogut llegir el fitxer .wav amb més de 16 bits per mostra."
+msgid "Cannot read .wav file  with more than 32 bits per sample."
+msgstr ""
 
 msgid "Sample limit vector must have 2 entries."
 msgstr "El vector de límit de mostra ha de tenir 2 entrades."

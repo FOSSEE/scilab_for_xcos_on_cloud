@@ -53,19 +53,20 @@ std::wstring Overload::buildOverloadName(const std::wstring& _stFunctionName, ty
     return _stFunctionName;
 }
 
-types::Function::ReturnValue Overload::generateNameAndCall(const std::wstring& _stFunctionName, types::typed_list &in, int _iRetCount, types::typed_list &out, bool _isOperator)
+types::Function::ReturnValue Overload::generateNameAndCall(const std::wstring& _stFunctionName, types::typed_list& in, int _iRetCount, types::typed_list& out, bool _isOperator, bool errorOnUndefined, const Location& _Location)
 {
+    _iRetCount = std::max(1,_iRetCount);
     std::wstring stFunc = buildOverloadName(_stFunctionName, in, _iRetCount, _isOperator);
     if (symbol::Context::getInstance()->get(symbol::Symbol(stFunc)))
     {
-        return call(stFunc, in, _iRetCount, out, _isOperator);
+        return call(stFunc, in, _iRetCount, out, _isOperator, errorOnUndefined, _Location);
     }
 
     // if overload doesn't existe try with short name
     std::wstring stFunc2 = buildOverloadName(_stFunctionName, in, _iRetCount, _isOperator, true);
     if (symbol::Context::getInstance()->get(symbol::Symbol(stFunc)))
     {
-        types::Function::ReturnValue ret = call(stFunc, in, _iRetCount, out, _isOperator);
+        types::Function::ReturnValue ret = call(stFunc, in, _iRetCount, out, _isOperator, errorOnUndefined, _Location);
         if (ret == types::Function::OK && ConfigVariable::getWarningMode())
         {
             char* pstFunc2 = wide_string_to_UTF8(stFunc2.c_str());
@@ -78,21 +79,27 @@ types::Function::ReturnValue Overload::generateNameAndCall(const std::wstring& _
     }
 
     // get exeception with overloading error
-    return call(stFunc, in, _iRetCount, out, _isOperator);
+    return call(stFunc, in, _iRetCount, out, _isOperator, errorOnUndefined, _Location);
 }
 
-types::Function::ReturnValue Overload::call(const std::wstring& _stOverloadingFunctionName, types::typed_list &in, int _iRetCount, types::typed_list &out, bool _isOperator)
+types::Function::ReturnValue Overload::call(const std::wstring& _stOverloadingFunctionName, types::typed_list& in, int _iRetCount, types::typed_list& out, bool _isOperator, bool errorOnUndefined, const Location& _location)
 {
+    _iRetCount = std::max(1,_iRetCount);
     types::InternalType *pIT = symbol::Context::getInstance()->get(symbol::Symbol(_stOverloadingFunctionName));
-    types::Callable *pCall = NULL;
+    types::Callable* pCall = NULL;
     try
     {
         if (pIT == NULL || pIT->isCallable() == false)
         {
+            if (!errorOnUndefined)
+            {
+                // don't report an error if requested
+                return types::Function::ReturnValue::OK_NoResult;
+            }
+
             char pstError1[512];
             char pstError2[512];
             char *pstFuncName = wide_string_to_UTF8(_stOverloadingFunctionName.c_str());
-            wchar_t* pwstError = NULL;
             if (_isOperator)
             {
                 os_sprintf(pstError2, _("check or define function %s for overloading.\n"), pstFuncName);
@@ -103,9 +110,12 @@ types::Function::ReturnValue Overload::call(const std::wstring& _stOverloadingFu
                 os_sprintf(pstError2, _("  check arguments or define function %s for overloading.\n"), pstFuncName);
                 os_sprintf(pstError1, "%s%s", _("Function not defined for given argument type(s),\n"), pstError2);
             }
-
             FREE(pstFuncName);
-            ast::InternalError ie(pstError1);
+
+            wchar_t* pwstError = to_wide_string(pstError1);
+            ast::InternalError ie(pwstError, 999, _location);
+            FREE(pwstError);
+
             ie.SetErrorType(ast::TYPE_EXCEPTION);
             throw ie;
         }
@@ -117,7 +127,12 @@ types::Function::ReturnValue Overload::call(const std::wstring& _stOverloadingFu
             types::optional_list opt;
 
             // add line and function name in where
-            ConfigVariable::where_begin(0, 0, pCall);
+            int iMacroLine = 0;
+            if(_location.first_line)
+            {
+                iMacroLine =  _location.first_line + 1 - ConfigVariable::getMacroFirstLines();
+            }
+            ConfigVariable::where_begin(iMacroLine, _location.first_line, pCall);
 
             types::Function::ReturnValue ret;
             ret = pCall->call(in, opt, _iRetCount, out);
@@ -132,7 +147,7 @@ types::Function::ReturnValue Overload::call(const std::wstring& _stOverloadingFu
             throw ast::RecursionException();
         }
     }
-    catch (ast::InternalError ie)
+    catch (const ast::InternalError& ie)
     {
         ConfigVariable::fillWhereError(ie.GetErrorLocation().first_line);
         if (pCall)

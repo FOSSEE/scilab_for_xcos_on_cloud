@@ -35,7 +35,7 @@ int read_poly(char *fname, void* pvApiCtx)
 
     //check input and output arguments
     CheckInputArgument(pvApiCtx, 1, 1);
-    CheckOutputArgument(pvApiCtx, 1, 1);
+    CheckOutputArgument(pvApiCtx, 0, 1);
 
     sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
     if (sciErr.iErr)
@@ -69,7 +69,7 @@ int read_poly(char *fname, void* pvApiCtx)
         return 0;
     }
 
-    //First call: retrieve dimmension
+    //First call: retrieve dimension
     sciErr = getComplexMatrixOfPoly(pvApiCtx, piAddr, &iRows, &iCols, NULL, NULL, NULL);
     if (sciErr.iErr)
     {

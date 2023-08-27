@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:03+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: This feature has not been implemented in this mode.\n"
@@ -699,12 +699,7 @@ msgstr "Uložit historii"
 msgid "Save file"
 msgstr "Uložit soubor"
 
-#
-# File: modules/console/src/console_fake_xml.c, line: 794
-# File: modules/console/src/console_fake_xml.c, line: 1061
-# File: modules/console/src/console_fake_xml.c, line: 1372
-# File: modules/console/src/console_fake_xml.c, line: 1694
-msgid "Demos"
+msgid "Help and demos"
 msgstr ""
 
 msgid "Environment"
@@ -720,6 +715,9 @@ msgid "Width: "
 msgstr "Šířka: "
 
 msgid "Recursion limit: "
+msgstr ""
+
+msgid "Containers display depth: "
 msgstr ""
 
 msgid "Language setting"
@@ -755,8 +753,8 @@ msgstr "Rozložení plochy"
 msgid "Select a layout"
 msgstr "Zvolit rozložení"
 
-msgid "(Modify the layout requires to restart Scilab)"
-msgstr "(Změna rozvržení vyžaduje retart)"
+msgid "(Modifying the layout requires to restart Scilab)"
+msgstr ""
 
 msgid "Save layout on exiting"
 msgstr "Při ukončení uložit rozvržení"
@@ -788,10 +786,16 @@ msgstr "Název činnosti"
 msgid "Key binding"
 msgstr "Přidělení klávesy"
 
-#
-# File: modules/console/src/console_fake_xml.c, line: 1379
-# File: modules/console/src/console_fake_xml.c, line: 1701
+msgid "Demos"
+msgstr ""
+
 msgid "The demo interface is dockable"
+msgstr ""
+
+#
+# File: modules/console/src/console_fake_xml.c, line: 1413
+# File: modules/console/src/console_fake_xml.c, line: 1766
+msgid "Redirect Matlab terms to Scilab closest equivalent"
 msgstr ""
 
 #, c-format
@@ -816,3 +820,19 @@ msgstr "Nebylo možné změnit písmo konzole."
 
 msgid "Could not change the Console Foreground."
 msgstr "Nebylo možné změnit popředí konzole."
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: String expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: string expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: '%s' value expected.\n"
+msgstr ""

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 21:58+0000\n"
+"PO-Revision-Date: 2020-01-14 20:00+0000\n"
 "Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong size for first input argument: Single double expected.\n"
@@ -159,8 +159,16 @@ msgid "%s: This feature has not been implemented: %s."
 msgstr "%s: Esta función aun no está implementada: %s."
 
 #, c-format
+msgid "%s: The file '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
 msgid "%s: Cannot open file %s.\n"
 msgstr "%s: No se puede abrir el archivo %s.\n"
+
+#, c-format
+msgid "%s: Unsupported input file data type: '%s'.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -169,8 +177,10 @@ msgstr ""
 "%s: No se pudo leer la variable del archivo '%s'. Revise si su archivo no "
 "está corrupto.\n"
 
-#
-# File: modules/matio/macros/matfile2sci.sci, line: 24
+#, c-format
+msgid "loadmatfile: Error in input file at line #%d: '%s' expected.\n"
+msgstr ""
+
 #, c-format
 msgid "%s: %s module is not installed.\n"
 msgstr ""
@@ -193,8 +203,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: Argument #%d: String expected.\n"
-msgstr ""
-"%s: Argumento #%d: Se esperaba strings.\n"
+msgstr "%s: Argumento #%d: Se esperaba strings.\n"
 
 #, c-format
 msgid "Option %s not implemented: IGNORED."
@@ -210,12 +219,10 @@ msgid ""
 msgstr ""
 "%s: Conflicto de nombrado: no es posible guardar la variable %s (ignorada)."
 
-#,
 msgid "Attempt to write an unsupported data type to a binary file."
-msgstr "Se intentó escribir un tipo de datos no soportado en un archivo binario."
+msgstr ""
+"Se intentó escribir un tipo de datos no soportado en un archivo binario."
 
-#
-# File: modules/matio/macros/savematfile.sci, line: 301
 msgid "savematfile: No variable to save => No file written."
 msgstr ""
 
@@ -232,12 +239,5 @@ msgid ""
 "%s: Variable %s can not be saved in MAT-file version %s (type %d "
 "unsupported): IGNORED.\n"
 msgstr ""
-"%s: Variable %s ignorada. No puede ser almacenada en un archivo .mat "
-"de nivel %s (tipo %d não suportado).\n"
-
-#~ msgid "All inputs must be character strings."
-#~ msgstr "Todas las entradas deben ser caracteres string."
-
-#~ msgid "Variable %s can not be saved in ASCII file: IGNORED."
-#~ msgstr ""
-#~ "La variable %s no puede ser almacenada en un archivo ASCII: IGNORADA."
+"%s: Variable %s ignorada. No puede ser almacenada en un archivo .mat de "
+"nivel %s (tipo %d não suportado).\n"

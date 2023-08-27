@@ -23,7 +23,6 @@ function allnames=not_yet_converted()
     "addsubplot";
     "addtodate";
     "airfoil";
-    "airy";
     "align";
     "alim";
     "allchild";
@@ -857,7 +856,6 @@ function allnames=not_yet_converted()
     "peaks";
     "penny";
     "perl";
-    "perms";
     "permute";
     "persistent";
     "pie";

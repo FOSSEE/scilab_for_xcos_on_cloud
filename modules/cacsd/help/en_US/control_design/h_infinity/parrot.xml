@@ -2,7 +2,6 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA -
- *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -13,14 +12,17 @@
  * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="parrot">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="en" xml:id="parrot">
     <refnamediv>
         <refname>parrot</refname>
         <refpurpose>Parrot's problem</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Syntax</title>
-        <synopsis>K=parrot(D,r)</synopsis>
+        <synopsis>K = parrot(D,r)</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Arguments</title>
@@ -44,7 +46,7 @@
     <refsection>
         <title>Description</title>
         <para>
-            Given a matrix <literal>D</literal> partionned as <literal>[D11 D12; D21 D22]</literal>
+            Given a matrix <literal>D</literal> partitioned as <literal>[D11 D12; D21 D22]</literal>
             where <literal>size(D22)=r=[r1,r2]</literal>
             compute a matrix <literal>K</literal> such that
             largest singular value of <literal>[D11 D12; D21 D22+K]</literal>

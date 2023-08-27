@@ -243,7 +243,12 @@ int isEnableDebug()
 
 int isDebugInterrupted()
 {
-    return debugger::DebuggerMagager::getInstance()->isInterrupted() ? 1 : 0;
+    return debugger::DebuggerManager::getInstance()->isInterrupted() ? 1 : 0;
+}
+
+int debuggerManagerExecute(const char* command, int iWaitForIt)
+{
+    return debugger::DebuggerManager::getInstance()->execute(command, iWaitForIt) ? 1 : 0;
 }
 
 int isExecutionBreak()
@@ -265,3 +270,9 @@ int setRecursionLimit(int val)
 {
     return ConfigVariable::setRecursionLimit(val);
 }
+
+int getWebMode()
+{
+    return ConfigVariable::getWebMode() ? 1 : 0;
+}
+

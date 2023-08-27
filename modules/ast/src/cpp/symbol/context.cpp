@@ -89,8 +89,8 @@ void Context::scope_begin()
 
 void Context::clearAll()
 {
-    libraries.clearAll();
     variables.clearAll();
+    libraries.clearAll();
 }
 
 void Context::scope_end()
@@ -217,13 +217,16 @@ types::InternalType* Context::get(const Symbol& _key, int _iLevel)
     types::InternalType* pIT = NULL;
     if (_iLevel == m_iLevel || _iLevel == SCOPE_ALL)
     {
-        //look for in current VarList
-        VarList::iterator it = varStack.top()->find(_key);
-        if (it != varStack.top()->end())
+        if (!varStack.empty())
         {
-            if (it->second->empty() == false)
+            //look for in current VarList
+            VarList::iterator it = varStack.top()->find(_key);
+            if (it != varStack.top()->end())
             {
-                pIT = it->second->get();
+                if (it->second->empty() == false)
+                {
+                    pIT = it->second->get();
+                }
             }
         }
     }
@@ -308,17 +311,17 @@ int Context::getFunctionsName(std::list<std::wstring>& lst)
     return variables.getFunctionsName(lst);
 }
 
-int Context::getVarsNameForWho(std::list<std::wstring>& lst, bool bSorted)
+int Context::getVarsInfoForWho(std::list<std::pair<std::wstring, int>>& lst, bool bSorted)
 {
     int iZero = 0;
-    variables.getVarsNameForWho(lst, &iZero, bSorted);
+    variables.getVarsInfoForWho(lst, &iZero, bSorted);
     return static_cast<int>(lst.size());
 }
 
-int Context::getGlobalNameForWho(std::list<std::wstring>& lst, bool bSorted)
+int Context::getGlobalInfoForWho(std::list<std::pair<std::wstring, int>>& lst, bool bSorted)
 {
     int iZero = 0;
-    variables.getGlobalNameForWho(lst, &iZero, bSorted);
+    variables.getGlobalInfoForWho(lst, &iZero, bSorted);
     return static_cast<int>(lst.size());
 }
 
@@ -499,19 +502,20 @@ void Context::removeGlobalAll()
 
 void Context::print(std::wostream& ostr, bool sorted) const
 {
-    std::list<std::wstring> lstVar;
-    std::list<std::wstring> lstGlobal;
+    std::list<std::pair<std::wstring, int>> lstVar;
+    std::list<std::pair<std::wstring, int>> lstGlobal;
     int iVarLenMax = 10; // initialise to the minimal value of padding
     int iGlobalLenMax = 10; // initialise to the minimal value of padding
-    variables.getVarsNameForWho(lstVar, &iVarLenMax);
-    variables.getGlobalNameForWho(lstGlobal, &iGlobalLenMax);
-    libraries.getVarsNameForWho(&lstVar, &iVarLenMax);
+    variables.getVarsInfoForWho(lstVar, &iVarLenMax);
+    variables.getGlobalInfoForWho(lstGlobal, &iGlobalLenMax);
+    //libraries.getVarsNameForWho(&lstVar, &iVarLenMax);
 
     if (sorted)
     {
         lstVar.sort();
         lstGlobal.sort();
     }
+
 
 #define strSize 64
     wchar_t wcsVarElem[strSize];
@@ -533,7 +537,7 @@ void Context::print(std::wostream& ostr, bool sorted) const
 #endif
 
     ostr << _W("Your variables are:") << std::endl << std::endl;
-    std::list<std::wstring>::const_iterator it = lstVar.begin();
+    std::list<std::pair<std::wstring, int>>::const_iterator it = lstVar.begin();
     int iWidth = ConfigVariable::getConsoleWidth();
     int iCurrentWidth = 0;
     for (int i = 1; it != lstVar.end(); ++it, i++)
@@ -543,7 +547,7 @@ void Context::print(std::wostream& ostr, bool sorted) const
             ostr << std::endl;
             iCurrentWidth = 0;
         }
-        ostr << std::setw(iVarLenMax + 1) << *it;
+        ostr << std::setw(iVarLenMax + 1) << it->first;
         iCurrentWidth += iVarLenMax + 1;
     }
 
@@ -557,7 +561,7 @@ void Context::print(std::wostream& ostr, bool sorted) const
     it = lstGlobal.begin();
     for (int i = 1; it != lstGlobal.end(); ++it, i++)
     {
-        ostr << std::setw(iGlobalLenMax + 1) << *it;
+        ostr << std::setw(iGlobalLenMax + 1) << it->first;
         if (i % 4 == 0)
         {
             ostr << std::endl;
@@ -629,6 +633,11 @@ int Context::getVarsToVariableBrowser(std::list<Variable*>& lst)
 {
     variables.getVarsToVariableBrowser(lst);
     return static_cast<int>(lst.size());
+}
+
+int Context::getCurrentScope(std::list<std::pair<std::wstring, int>>& lst, bool bSorted)
+{
+    return variables.getCurrentScope(lst, m_iLevel, bSorted);
 }
 
 void Context::updateProtection(bool protect)

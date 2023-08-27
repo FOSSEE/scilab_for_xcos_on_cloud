@@ -52,7 +52,6 @@ macros_error_type_1 = ["isscalar"; ..
 "ndims"; ..
 "nextpow2"; ..
 "oct2dec"; ..
-"perms"; ..
 "pertrans"; ..
 "primes"; ..
 "sec"; ..
@@ -75,7 +74,6 @@ macros_error_type_2 = ["base2dec"; ..
 "binomial"; ..
 "bitand"; ..
 "ind2sub"; ..
-"intersect"; ..
 "modulo"; ..
 "permute"; ..
 "pmodulo"; ..

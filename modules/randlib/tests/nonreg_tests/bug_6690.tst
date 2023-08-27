@@ -8,7 +8,6 @@
 // <-- CLI SHELL MODE -->
 //
 // Set the seed to always get the same random numbers
-rand("seed", 0);
 grand("setsd", 0);
 
 //
@@ -145,13 +144,14 @@ assert_checkequal ( members(Ps, string(2:40)), ones(Ps) );
 //
 // Of Booleans.
 //
+rand("seed", 0);
 Xb = floor(10*rand(2, 9, 2));
 Xb = Xb<5;
 Pb = grand(2,"prm",Xb);
 refPb = gsort(Pb+0,"g","i");
 assert_checkequal ( size(Pb) , [size(Xb) 2] );
-assert_checkequal ( refPb(1:36), zeros(36, 1) );
-assert_checkequal ( refPb(37:72), ones(36, 1) );
+assert_checkequal ( refPb(1:36), zeros(1,36) );
+assert_checkequal ( refPb(37:72), ones(1,36) );
 //
 // Of Ploynomials.
 //

@@ -76,6 +76,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
     ast::Exp* pExp      = NULL;
     int iID             = 0;
     types::Macro* pMacro = NULL;
+    bool bSilentError   = ConfigVariable::isSilentError();
     Parser parser;
 
     wchar_t* pwstFile = NULL;
@@ -165,8 +166,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
 
         FREE(pstFile);
 
-        wchar_t* pwstTemp = (wchar_t*)MALLOC(sizeof(wchar_t) * (PATH_MAX * 2));
-        get_full_pathW(pwstTemp, pwstFile, PATH_MAX * 2);
+        wchar_t* pwstTemp = get_full_pathW(pwstFile);
         wstFile = pwstTemp;
 
         FREE(pwstFile);
@@ -180,7 +180,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
         }
 
         // update where to set the name of the executed file.
-        ConfigVariable::setFileNameToLastWhere(wstFile.data());
+        ConfigVariable::setFileNameToLastWhere(&wstFile);
 
         ThreadManagement::LockParser();
         parser.parseFile(pwstTemp, L"exec");
@@ -234,7 +234,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
 
         ThreadManagement::UnlockParser();
 
-        ConfigVariable::setExecutedFileID(iID);
+        ConfigVariable::setExecutedFile(wstFile);
     }
     else if (in[0]->isMacro() || in[0]->isMacroFile())
     {
@@ -294,6 +294,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
     pSeqExp->setExecFrom(ast::SeqExp::EXEC);
     pSeqExp->setReturnable();
     std::unique_ptr<ast::ConstVisitor> exec(ConfigVariable::getDefaultVisitor());
+    ConfigVariable::setSilentError(bErrCatch);
 
     try
     {
@@ -306,6 +307,8 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
         }
         catch (const ast::RecursionException& /* re */)
         {
+            ConfigVariable::setSilentError(bSilentError);
+
             //close opened scope during try
             while (pCtx->getScopeLevel() > scope)
             {
@@ -329,6 +332,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
     {
         closeFile(file, iID, wstFile, pExp);
         ConfigVariable::setPromptMode(oldVal);
+        ConfigVariable::setSilentError(bSilentError);
         throw ia;
     }
     catch (const ast::InternalError& ie)
@@ -342,7 +346,8 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
         {
             closeFile(file, iID, wstFile, pExp);
             ConfigVariable::setPromptMode(oldVal);
-            ConfigVariable::setExecutedFileID(0);
+            ConfigVariable::setExecutedFile(L"");
+            ConfigVariable::setSilentError(bSilentError);
             throw ie;
         }
 
@@ -352,6 +357,7 @@ types::Function::ReturnValue sci_exec(types::typed_list &in, int _iRetCount, typ
 
     //restore previous prompt mode
     ConfigVariable::setPromptMode(oldVal);
+    ConfigVariable::setSilentError(bSilentError);
     if (bErrCatch)
     {
         out.push_back(new types::Double(iErr));

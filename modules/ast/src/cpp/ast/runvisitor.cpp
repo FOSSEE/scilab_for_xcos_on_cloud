@@ -126,7 +126,10 @@ void RunVisitorT<T>::visitprivate(const SimpleVar & e)
             ostr << L"(" << pI->getRef() << L")";
 #endif
             ostr << std::endl;
-            ostr << std::endl;
+            if (ConfigVariable::isPrintCompact() == false)
+            {
+                ostr << std::endl;
+            }
             scilabWriteW(ostr.str().c_str());
             std::wostringstream ostrName;
             ostrName << e.getSymbol().getName();
@@ -423,39 +426,34 @@ void RunVisitorT<T>::visitprivate(const FieldExp &e)
         in.push_back(pValue);
         types::Callable::ReturnValue Ret = types::Callable::Error;
         std::wstring stType = pValue->getShortTypeStr();
+        std::wstring wstrFuncName = L"%" + stType + L"_e";
 
         try
         {
-            Ret = Overload::call(L"%" + stType + L"_e", in, 1, out, true);
+            Ret = Overload::call(wstrFuncName.c_str(), in, 1, out, false, false, e.getLocation());
+            if(Ret == types::Callable::OK_NoResult)
+            {
+                // overload not defined, try with the short name.
+                // to compatibility with scilab 5 code.
+                // tlist/mlist name are truncated to 8 first character
+                wstrFuncName = L"%" + stType.substr(0, 8) + L"_e";
+                Ret = Overload::call(wstrFuncName.c_str(), in, 1, out, false, true, e.getLocation());
+            }
         }
         catch (const InternalError& ie)
         {
-            try
+            // TList or Mlist
+            // last error is not empty when the error have been setted by the overload itself.
+            if (pValue->isList() && ConfigVariable::getLastErrorFunction().empty())
             {
-                //to compatibility with scilab 5 code.
-                //tlist/mlist name are truncated to 8 first character
-                if (stType.size() > 8)
-                {
-                    Ret = Overload::call(L"%" + stType.substr(0, 8) + L"_e", in, 1, out, true);
-                }
-                else
-                {
-                    CoverageInstance::stopChrono((void*)&e);
-                    throw ie;
-                }
+                wstrFuncName = L"%l_e";
+                Ret = Overload::call(wstrFuncName.c_str(), in, 1, out, false, true, e.getLocation());
             }
-            catch (const InternalError& ie)
+            else
             {
-                // TList or Mlist
-                if (pValue->isList())
-                {
-                    Ret = Overload::call(L"%l_e", in, 1, out, true);
-                }
-                else
-                {
-                    CoverageInstance::stopChrono((void*)&e);
-                    throw ie;
-                }
+                CoverageInstance::stopChrono((void*)&e);
+                // throw the exception in case where the overload have not been defined.
+                throw ie;
             }
         }
 
@@ -467,12 +465,27 @@ void RunVisitorT<T>::visitprivate(const FieldExp &e)
             throw InternalError(ConfigVariable::getLastErrorMessage(), ConfigVariable::getLastErrorNumber(), e.getLocation());
         }
 
+        // An extraction have to return something
+        if(out.empty())
+        {
+            setResult(NULL);
+            cleanInOut(in, out);
+            CoverageInstance::stopChrono((void*)&e);
+
+            wchar_t wcstrError[512];
+            char* strFuncName = wide_string_to_UTF8(wstrFuncName.c_str());
+            os_swprintf(wcstrError, 512, _W("%s: Extraction must have at least one output.\n").c_str(), strFuncName);
+            FREE(strFuncName);
+
+            throw InternalError(wcstrError, 999, e.getLocation());
+        }
+
         setResult(out);
         cleanIn(in, out);
     }
     else
     {
-        pValue->killMe();
+        clearResult();
         wchar_t szError[bsiz];
         os_swprintf(szError, bsiz, _W("Attempt to reference field of non-structure array.\n").c_str());
         CoverageInstance::stopChrono((void*)&e);
@@ -659,6 +672,12 @@ void RunVisitorT<T>::visitprivate(const ForExp  &e)
     {
         //get IL
         types::ImplicitList* pVar = pIT->getAs<types::ImplicitList>();
+        if (pVar->isComputable() == false)
+        {
+            std::wostringstream os;
+            os << _W("Invalid index.\n");
+            throw ast::InternalError(os.str(), 999, e.getLocation());
+        }
         //get IL initial Type
         types::InternalType * pIL = pVar->getInitalType();
         //std::cout << "for IL: " << pIL << std::endl;
@@ -754,6 +773,11 @@ void RunVisitorT<T>::visitprivate(const ForExp  &e)
                 const_cast<Exp&>(e.getBody()).resetReturn();
                 break;
             }
+        }
+
+        if (size == 0)
+        {
+            ctx->put(var, types::Double::Empty());
         }
 
         //unlock loop index
@@ -902,17 +926,14 @@ void RunVisitorT<T>::visitprivate(const ReturnExp &e)
     {
         if (ConfigVariable::getPauseLevel() != 0 && symbol::Context::getInstance()->getScopeLevel() == ConfigVariable::getActivePauseLevel())
         {
-            if (ConfigVariable::getEnableDebug() == true)
-            {
-                sciprint(_("%s: function is disabled in debug mode.\n"), "resume");
-                CoverageInstance::stopChrono((void*)&e);
-                return;
-            }
-
             //return or resume
             ConfigVariable::DecreasePauseLevel();
             ConfigVariable::macroFirstLine_end();
             CoverageInstance::stopChrono((void*)&e);
+            // resume will make the execution continue
+            // event if resume is a console command, it must not release the prompt
+            // because the prompt will be release at the and of the original command
+            StaticRunner_setCommandOrigin(NONE);
             return;
         }
         else
@@ -1305,7 +1326,7 @@ void RunVisitorT<T>::visitprivate(const NotExp &e)
         pValue->IncreaseRef();
         in.push_back(pValue);
 
-        types::Callable::ReturnValue Ret = Overload::call(L"%" + pValue->getShortTypeStr() + L"_5", in, 1, out, true);
+        types::Callable::ReturnValue Ret = Overload::call(L"%" + pValue->getShortTypeStr() + L"_5", in, 1, out, true, true, e.getLocation());
 
         if (Ret != types::Callable::OK)
         {
@@ -1371,11 +1392,11 @@ void RunVisitorT<T>::visitprivate(const TransposeExp &e)
         types::Callable::ReturnValue Ret;
         if (bConjug)
         {
-            Ret = Overload::call(L"%" + getResult()->getShortTypeStr() + L"_t", in, 1, out, true);
+            Ret = Overload::call(L"%" + getResult()->getShortTypeStr() + L"_t", in, 1, out, true, true, e.getLocation());
         }
         else
         {
-            Ret = Overload::call(L"%" + getResult()->getShortTypeStr() + L"_0", in, 1, out, true);
+            Ret = Overload::call(L"%" + getResult()->getShortTypeStr() + L"_0", in, 1, out, true, true, e.getLocation());
         }
 
         if (Ret != types::Callable::OK)
@@ -1423,6 +1444,10 @@ void RunVisitorT<T>::visitprivate(const FunctionDec & e)
     types::Macro *pMacro = new types::Macro(e.getSymbol().getName(), *pVarList, *pRetList,
                                             const_cast<SeqExp&>(static_cast<const SeqExp&>(e.getBody())), L"script");
     pMacro->setLines(e.getLocation().first_line, e.getLocation().last_line);
+    if (e.getMacro())
+    {
+        pMacro->setFileName(e.getMacro()->getFileName());
+    }
 
     if (ctx->isprotected(symbol::Symbol(pMacro->getName())))
     {
@@ -1572,7 +1597,19 @@ void RunVisitorT<T>::visitprivate(const ListExp &e)
             (pEnd->isPoly() || pEnd->isDouble()))
     {
         // No need to kill piStart, ... because Implicit list ctor will incref them
-        setResult(new types::ImplicitList(pStart, pStep, pEnd));
+        types::ImplicitList* pIL = new types::ImplicitList(pStart, pStep, pEnd);
+        try
+        {
+            pIL->compute();
+        }
+        catch (const InternalError& ie)
+        {
+            // happends when compute() of ImplicitList cannot allocate memory
+            pIL->killMe();
+            throw ie;
+        }
+
+        setResult(pIL);
         CoverageInstance::stopChrono((void*)&e);
         return;
     }
@@ -1588,7 +1625,19 @@ void RunVisitorT<T>::visitprivate(const ListExp &e)
                  pStep->isDouble()))
         {
             // No need to kill piStart, ... because Implicit list ctor will incref them
-            setResult(new types::ImplicitList(pStart, pStep, pEnd));
+            types::ImplicitList* pIL = new types::ImplicitList(pStart, pStep, pEnd);
+            try
+            {
+                pIL->compute();
+            }
+            catch (const InternalError& ie)
+            {
+                // happends when compute() of ImplicitList cannot allocate memory
+                pIL->killMe();
+                throw ie;
+            }
+
+            setResult(pIL);
             CoverageInstance::stopChrono((void*)&e);
             return;
         }
@@ -1612,7 +1661,7 @@ void RunVisitorT<T>::visitprivate(const ListExp &e)
             in.push_back(pStep);
             pEnd->IncreaseRef();
             in.push_back(pEnd);
-            Ret = Overload::call(L"%" + pStart->getShortTypeStr() + L"_b_" + pStep->getShortTypeStr(), in, 1, out, true);
+            Ret = Overload::call(L"%" + pStart->getShortTypeStr() + L"_b_" + pStep->getShortTypeStr(), in, 1, out, true, true, e.getLocation());
         }
         else
         {
@@ -1621,7 +1670,7 @@ void RunVisitorT<T>::visitprivate(const ListExp &e)
             pStep->killMe();
             pEnd->IncreaseRef();
             in.push_back(pEnd);
-            Ret = Overload::call(L"%" + pStart->getShortTypeStr() + L"_b_" + pEnd->getShortTypeStr(), in, 1, out, true);
+            Ret = Overload::call(L"%" + pStart->getShortTypeStr() + L"_b_" + pEnd->getShortTypeStr(), in, 1, out, true, true, e.getLocation());
         }
     }
     catch (const InternalError& error)

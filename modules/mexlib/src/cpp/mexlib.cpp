@@ -4,7 +4,8 @@
  *  Copyright (C) 2011-2011 - DIGITEO - Bruno JOFRET
  *  Copyright (C) 2011 - DIGITEO - Antoine ELIAS
  *
- * Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *  Copyright (C) 2012 - 2016 - Scilab Enterprises
+ *  Copyright (C) 2017 - Gsoc 2017 - Siddhartha Gairola
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
  * pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -28,26 +29,7 @@
  *    format. If A is a sparse Scilab matrix, it should be converted
  *    by the command A=mtlb_sparse(A) in the syntax of the
  *    mex function.
- *    -Structs and Cells are Scilab mlists:
- *    Struct=mlist(["st","dims","field1",...,"fieldk"],
- *                 int32([d1,d2,...,dn]),
- *                 list(obj1,      objN),
- *                 .....
- *                 list(obj1,      objN))     k such lists
- *           N = d1 x d2    x dn
- *           obj = Scilab variable or pointer to Scilab variable.
- *     Cell = Struct with one field called "entries" and "st" <- "ce"
- *    One dimensional structs or cells are as follows:
- *    Struct=mlist(["st","dims","field1",...,"fieldk"],
- *                 int32([1,1]),
- *                 obj1,...,objk)
- *
- *    -Nd dimensional arrays are Scilab mlists (for Nd > 2):
- *     X = mlist(["hm","dims","entries"],
- *                 int32([d1,d2,...,dn]),
- *                 values)
- *     values = vector of doubles or int8-16-32 or char
- --------------------------------------------------------------------------*/
+  --------------------------------------------------------------------------*/
 #include <stdarg.h>
 
 #include <limits>
@@ -69,6 +51,7 @@
 #include "struct.hxx"
 #include "container.hxx"
 #include "cell.hxx"
+#include "sparse.hxx"
 #include "localization.hxx"
 
 extern "C"
@@ -155,30 +138,39 @@ mxArray *mxCreateNumericArray(int ndim, const int *dims, mxClassID CLASS, mxComp
     {
         case mxDOUBLE_CLASS:
             ptr = new types::Double(ndim, (int *)dims, complexFlag == mxCOMPLEX);
+            ((types::Double *)ptr)->fillDefaultValues();
             break;
         case mxINT8_CLASS:
             ptr = new types::Int8(ndim, (int *)dims);
+            ((types::Int8 *)ptr)->fillDefaultValues();
             break;
         case mxUINT8_CLASS:
             ptr = new types::UInt8(ndim, (int *)dims);
+            ((types::UInt8 *)ptr)->fillDefaultValues();
             break;
         case mxINT16_CLASS:
             ptr = new types::Int16(ndim, (int *)dims);
+            ((types::Int16 *)ptr)->fillDefaultValues();
             break;
         case mxUINT16_CLASS:
             ptr = new types::UInt16(ndim, (int *)dims);
+            ((types::UInt16 *)ptr)->fillDefaultValues();
             break;
         case mxINT32_CLASS:
             ptr = new types::Int32(ndim, (int *)dims);
+            ((types::Int32 *)ptr)->fillDefaultValues();
             break;
         case mxUINT32_CLASS:
             ptr = new types::UInt32(ndim, (int *)dims);
+            ((types::UInt32 *)ptr)->fillDefaultValues();
             break;
         case mxINT64_CLASS:
             ptr = new types::Int64(ndim, (int *)dims);
+            ((types::Int64 *)ptr)->fillDefaultValues();
             break;
         case mxUINT64_CLASS:
             ptr = new types::UInt64(ndim, (int *)dims);
+            ((types::UInt64 *)ptr)->fillDefaultValues();
             break;
         default:
             ptr = NULL;
@@ -196,14 +188,55 @@ mxArray *mxCreateNumericArray(int ndim, const int *dims, mxClassID CLASS, mxComp
 
 mxArray *mxCreateUninitNumericMatrix(size_t m, size_t n, mxClassID classid, mxComplexity ComplexFlag)
 {
-    //TODO
-    return NULL;
+    int dims[2] = {(int)m, (int)n};
+    return mxCreateUninitNumericArray(2, (size_t *)dims, classid, ComplexFlag);
 }
 
 mxArray *mxCreateUninitNumericArray(size_t ndim, size_t *dims, mxClassID classid, mxComplexity ComplexFlag)
 {
-    //TODO
-    return NULL;
+    types::GenericType *ptr;
+
+    switch (classid)
+    {
+        case mxDOUBLE_CLASS:
+            ptr = new types::Double((int)ndim, (int *)dims, ComplexFlag == mxCOMPLEX);
+            break;
+        case mxINT8_CLASS:
+            ptr = new types::Int8((int)ndim, (int *)dims);
+            break;
+        case mxUINT8_CLASS:
+            ptr = new types::UInt8((int)ndim, (int *)dims);
+            break;
+        case mxINT16_CLASS:
+            ptr = new types::Int16((int)ndim, (int *)dims);
+            break;
+        case mxUINT16_CLASS:
+            ptr = new types::UInt16((int)ndim, (int *)dims);
+            break;
+        case mxINT32_CLASS:
+            ptr = new types::Int32((int)ndim, (int *)dims);
+            break;
+        case mxUINT32_CLASS:
+            ptr = new types::UInt32((int)ndim, (int *)dims);
+            break;
+        case mxINT64_CLASS:
+            ptr = new types::Int64((int)ndim, (int *)dims);
+            break;
+        case mxUINT64_CLASS:
+            ptr = new types::UInt64((int)ndim, (int *)dims);
+            break;
+        default:
+            ptr = NULL;
+    }
+
+    if (ptr == NULL)
+    {
+        return NULL;
+    }
+
+    mxArray* ret = new mxArray;
+    ret->ptr = (int*)ptr;
+    return ret;
 }
 
 mxArray *mxCreateString(const char *string)
@@ -275,14 +308,18 @@ mxArray *mxCreateLogicalArray(int ndim, const int *dims)
 
 mxArray *mxCreateSparseLogicalMatrix(mwSize m, mwSize n, mwSize nzmax)
 {
-    //TODO
-    return NULL;
+    types::SparseBool* ptr = new types::SparseBool(m, n);
+    mxArray* ret = new mxArray;
+    ret->ptr = (int*)ptr;
+    return ret;
 }
 
 mxArray *mxCreateSparse(int m, int n, int nzmax, mxComplexity cmplx)
 {
-    //TODO
-    return NULL;
+    types::Sparse* ptr = new types::Sparse(m, n, cmplx == mxCOMPLEX);
+    mxArray* ret = new mxArray;
+    ret->ptr = (int*)ptr;
+    return ret;
 }
 
 mxArray *mxCreateStructMatrix(int m, int n, int nfields, const char **field_names)
@@ -363,7 +400,8 @@ void *mxRealloc(void *ptr, size_t nsize)
 
 void mxFree(void *ptr)
 {
-    //TODO
+    FREE(ptr);
+    ptr = NULL;
 }
 
 //Validate Data
@@ -380,16 +418,12 @@ int mxIsSingle(const mxArray *ptr)
 int mxIsComplex(const mxArray *ptr)
 {
     types::InternalType *pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return 0;
     }
 
     types::GenericType *pGT = pIT->getAs<types::GenericType>();
-    if (pGT == NULL)
-    {
-        return 0;
-    }
 
     return pGT->isComplex() ? 1 : 0;
 }
@@ -443,8 +477,20 @@ int mxIsUint8(const mxArray *ptr)
 
 int mxIsScalar(const mxArray *array_ptr)
 {
-    //TODO
-    return 0;
+
+    types::InternalType *pIT = (types::InternalType *)array_ptr->ptr;
+
+    if (pIT == NULL || pIT->isGenericType() == false)
+    {
+        return 0;
+    }
+
+    types::GenericType *pGT = pIT->getAs<types::GenericType>();
+
+    if( pGT->isScalar() == true)
+        return 1;
+    else
+        return 0;
 }
 
 int mxIsChar(const mxArray *ptr)
@@ -624,8 +670,18 @@ int mxIsEmpty(const mxArray *ptr)
 
 int mxIsSparse(const mxArray *ptr)
 {
-    //TODO
-    return 0;
+    types::InternalType *pIT = (types::InternalType *)ptr->ptr;
+    if (pIT == NULL || pIT->isGenericType() == false)
+    {
+        return 0;
+    }
+
+    types::GenericType *pGT = pIT->getAs<types::GenericType>();
+
+    if (pGT->isSparse() == true || pGT->isSparseBool() == true)
+        return 1;
+    else
+        return 0;
 }
 
 int mxIsFromGlobalWS(const mxArray *pm)
@@ -668,8 +724,7 @@ char *mxArrayToString(const mxArray *ptr)
 
 char *mxArrayToUTF8String(const mxArray *array_ptr)
 {
-    //TODO
-    return NULL;
+    return mxArrayToString(array_ptr);
 }
 
 int mxGetString(const mxArray *ptr, char *str, int strl)
@@ -808,11 +863,12 @@ mwSize *mxGetDimensions(const mxArray *ptr)
         }
         default:
         {
-            types::GenericType *pGT = pIT->getAs<types::GenericType>();
-            if (pGT == NULL)
+            if(pIT->isGenericType() == false)
             {
-                return NULL;
+               return NULL;
             }
+            types::GenericType *pGT = pIT->getAs<types::GenericType>();
+
             return pGT->getDimsArray();
         }
     }
@@ -835,7 +891,15 @@ int mxSetDimensions(mxArray *array_ptr, const int *dims, int ndim)
     }
     else if (mxIsSparse(array_ptr))
     {
-        //TODO
+        int temp_dim = 0;
+
+        for (int i = 0; i < ndim; i++)
+        {
+            temp_dim += dims[i];
+        }
+
+        ((types::Sparse *)array_ptr->ptr)->resize(temp_dim, 1);
+        ((types::Sparse *)array_ptr->ptr)->reshape((int *)dims, ndim);
     }
     else if (mxIsInt8(array_ptr))
     {
@@ -884,16 +948,12 @@ int mxSetDimensions(mxArray *array_ptr, const int *dims, int ndim)
 int mxGetNumberOfElements(const mxArray *ptr)
 {
     types::InternalType *pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return 0;
     }
 
     types::GenericType *pGT = dynamic_cast<types::GenericType *>(pIT);
-    if (pGT == NULL)
-    {
-        return 0;
-    }
 
     return pGT->getSize();
 }
@@ -914,32 +974,24 @@ int mxCalcSingleSubscript(const mxArray *ptr, int nsubs, const int *subs)
 int mxGetM(const mxArray *ptr)
 {
     types::InternalType *pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return 0;
     }
 
     types::GenericType *pGT = pIT->getAs<types::GenericType>();
-    if (pGT == NULL)
-    {
-        return 0;
-    }
     return pGT->getRows();
 }
 
 void mxSetM(mxArray *ptr, int M)
 {
     types::InternalType *pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return;
     }
 
     types::GenericType *pGT = pIT->getAs<types::GenericType>();
-    if (pGT == NULL)
-    {
-        return;
-    }
 
     types::InternalType* res = pGT->resize(M, pGT->getCols());
     ptr->ptr = (int*)res;
@@ -948,32 +1000,24 @@ void mxSetM(mxArray *ptr, int M)
 int mxGetN(const mxArray *ptr)
 {
     types::InternalType * pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return 0;
     }
 
     types::GenericType * pGT = pIT->getAs<types::GenericType>();
-    if (pGT == 0)
-    {
-        return 0;
-    }
     return pGT->getCols();
 }
 
 void mxSetN(mxArray *ptr, int N)
 {
     types::InternalType * pIT = (types::InternalType *)ptr->ptr;
-    if (pIT == NULL)
+    if (pIT == NULL || pIT->isGenericType() == false)
     {
         return;
     }
 
     types::GenericType * pGT = pIT->getAs<types::GenericType>();
-    if (pGT == NULL)
-    {
-        return;
-    }
 
     types::InternalType* res = pGT->resize(pGT->getRows(), N);
     ptr->ptr = (int*)res;
@@ -1388,13 +1432,13 @@ const char *mxGetClassName(const mxArray *ptr)
 
 mxArray *mxGetProperty(const mxArray *pa, mwIndex index, const char *propname)
 {
-    //TODO
+    //TODO : Dummy function as it requires objects which are Matlab class instances and there are no classes in Scilab.
     return NULL;
 }
 
 void mxSetProperty(mxArray *pa, mwIndex index, const char *propname, const mxArray *value)
 {
-    //TODO
+    //TODO : Dummy function as it requires objects which are Matlab class instances and there are no classes in Scilab.
 }
 
 mxArray *mxGetField(const mxArray *ptr, int lindex, const char *string)
@@ -1533,8 +1577,22 @@ void mxSetCell(mxArray *array_ptr, int lindex, mxArray *value)
 
 int mxGetNzmax(const mxArray *ptr)
 {
-    // TODO
-    return 0;
+    if (mxIsSparse(ptr) == 0)
+    {
+        return 0;
+    }
+
+    types::InternalType *pIT = (types::InternalType *)ptr->ptr;
+    if (pIT == NULL || pIT->isGenericType() == false)
+    {
+        return 0;
+    }
+
+    types::GenericType *pGT = pIT->getAs<types::GenericType>();
+
+    int nzmax = ((types::Sparse *)pGT)->nonZeros();
+
+    return nzmax;
 }
 
 void mxSetNzmax(mxArray *array_ptr, int nzmax)
@@ -1544,8 +1602,14 @@ void mxSetNzmax(mxArray *array_ptr, int nzmax)
 
 int *mxGetIr(const mxArray *ptr)
 {
-    // TODO
-    return NULL;
+    if ( mxIsSparse(ptr) == 0)
+    {
+        return NULL;
+    }
+    int innercount = 0;
+    int *ir = ((types::Sparse *)ptr->ptr)->getInnerPtr(&innercount);
+
+    return ir;
 }
 
 void mxSetIr(mxArray *array_ptr, int *ir_data)
@@ -1555,8 +1619,24 @@ void mxSetIr(mxArray *array_ptr, int *ir_data)
 
 int *mxGetJc(const mxArray *ptr)
 {
-    // TODO
-    return NULL;
+    if (mxIsSparse(ptr) == 0)
+    {
+        return NULL;
+    }
+
+    types::InternalType *pIT = (types::InternalType *)ptr->ptr;
+    if (pIT == NULL || pIT->isGenericType() == false)
+    {
+        return NULL;
+    }
+
+    types::GenericType *pGT = pIT->getAs<types::GenericType>();
+
+    int nzmax = ((types::Sparse *)pGT)->nonZeros();
+    int *colPos = new int[nzmax];
+    ((types::Sparse *)pGT)->getColPos(colPos);
+
+    return colPos;
 }
 
 void mxSetJc(mxArray *array_ptr, int *jc_data)
@@ -1614,13 +1694,13 @@ mxArray *mexEvalStringWithTrap(const char *command)
 
 const mxArray *mexGet(double handle, const char *property)
 {
-    //TODO
+    //TODO : Dummy function as it requires objects which are Matlab class instances and there are no classes in Scilab.
     return NULL;
 }
 
 int mexSet(double handle, const char *property, mxArray *value)
 {
-    //TODO
+    //TODO : Dummy function as it requires objects which are Matlab class instances and there are no classes in Scilab.
     return 0;
 }
 
@@ -1700,12 +1780,12 @@ int mexPutVariable(const char *workspace, const char *varname, const mxArray *pm
 int mexIsGlobal(const mxArray *ptr)
 {
     symbol::Context *context = symbol::Context::getInstance();
-    std::list<std::wstring> lst;
-    int size = context->getGlobalNameForWho(lst, false);
+    std::list<std::pair<std::wstring,int>> lst;
+    int size = context->getGlobalInfoForWho(lst, false);
 
     for (auto it : lst)
     {
-        symbol::Symbol s = symbol::Symbol(it);
+        symbol::Symbol s = symbol::Symbol(it.first);
         types::InternalType* value = context->getGlobalValue(s);
         if ((int*)value == ptr->ptr)
         {
@@ -1734,12 +1814,14 @@ void mexSetTrapFlag(int trapflag)
 
 void mexErrMsgIdAndTxt(const char *errorid, const char *errormsg, ...)
 {
-    //TODO
+    //TODO: Have to handle errorid.
+    mexErrMsgTxt(errormsg);
 }
 
 void mexWarnMsgIdAndTxt(const char *warningid, const char *warningmsg, ...)
 {
-    //TODO
+    //TODO: Have to handle warningid.
+    mexWarnMsgTxt(warningmsg);
 }
 
 void mexErrMsgTxt(const char *error_msg)
@@ -1772,12 +1854,12 @@ void mexUnlock(void)
 
 void mexMakeArrayPersistent(void *ptr)
 {
-    //TODO
+    //Dummy Function as in Scilab6 Memory is not tracked.
 }
 
 void mexMakeMemoryPersistent(void *ptr)
 {
-    //TODO
+    //Dummy Function as in Scilab6 Memory is not tracked.
 }
 
 double mxGetInf(void)

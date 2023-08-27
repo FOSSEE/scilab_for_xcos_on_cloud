@@ -103,6 +103,12 @@ function [x,y,typ] = Sigbuilder(job,arg1,arg2)
                 end
                 //parameter or states changed
                 arg1(spath)=xxn// Update
+                label = xxn.graphics.exprs(3);
+                if grep(label, "/[a-zA-Z][a-zA-Z0-9_]*/", 'r') then
+                    arg1.graphics.style = "Sigbuilder;displayedLabel="+label;
+                else
+                    arg1.graphics.style = "Sigbuilder";
+                end
                 newpar(size(newpar)+1)=path// Notify modification
                 y=max(y,needcompile)
             end
@@ -415,7 +421,7 @@ function [X,Y,orpar]=Do_Spline2(N,order,x,y)
             Y = interp(X, x, y, d);
             orpar=d(:);
         catch
-            gcf().info_message = "ERROR in SPLINE: "+METHOD;
+            gcf().info_message = msprintf(_("ERROR in SPLINE: %s"), METHOD);
         end
     end
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -425,7 +431,7 @@ function [X,Y,orpar]=Do_Spline2(N,order,x,y)
             Y = interp(X, x, y, d);
             orpar=d(:);
         catch
-            gcf().info_message = "ERROR in SPLINE: "+METHOD;
+            gcf().info_message = msprintf(_("ERROR in SPLINE: %s"), METHOD);
         end
 
     end
@@ -436,7 +442,7 @@ function [X,Y,orpar]=Do_Spline2(N,order,x,y)
             Y = interp(X, x, y, d);
             orpar=d(:);
         catch
-            gcf().info_message = "ERROR in SPLINE:  "+METHOD;
+            gcf().info_message = msprintf(_("ERROR in SPLINE: %s"), METHOD);
         end
     end
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -446,10 +452,9 @@ function [X,Y,orpar]=Do_Spline2(N,order,x,y)
             Y = interp(X, x, y, d);
             orpar=d(:);
         catch
-            gcf().info_message = "ERROR in SPLINE: "+METHOD;
+            gcf().info_message = msprintf(_("ERROR in SPLINE: %s"), METHOD);
         end
     end
-
 endfunction
 
 function METHOD=getmethod(order)

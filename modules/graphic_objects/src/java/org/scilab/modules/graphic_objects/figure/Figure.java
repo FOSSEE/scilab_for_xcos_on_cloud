@@ -198,7 +198,7 @@ public class Figure extends GraphicObject implements AxesContainer {
     /**
      * FigureDimensions class
      */
-    private class FigureDimensions {
+    private static class FigureDimensions {
         /** Position (x,y) of the upper-left corner in the top-level window */
         private Integer[] position;
 
@@ -236,7 +236,7 @@ public class Figure extends GraphicObject implements AxesContainer {
     /**
      * Canvas class
      */
-    private class Canvas {
+    private static class Canvas {
         /** Specifies whether automatic resizing is used */
         private boolean autoResize;
 
@@ -282,7 +282,7 @@ public class Figure extends GraphicObject implements AxesContainer {
     /**
      * FigureName class
      */
-    public class FigureName implements Cloneable {
+    public static class FigureName implements Cloneable {
         /** Name */
         private String name;
 
@@ -329,7 +329,7 @@ public class Figure extends GraphicObject implements AxesContainer {
     /**
      * RenderingMode class
      */
-    private class RenderingMode {
+    private static class RenderingMode {
 
         /** Specifies the pixel drawing mode used */
         private PixelDrawingMode pixelDrawingMode;
@@ -958,7 +958,7 @@ public class Figure extends GraphicObject implements AxesContainer {
      * @param eventHandlerEnabled the eventHandlerEnabled to set
      */
     public UpdateStatus setEventHandlerEnable(Boolean eventHandlerEnabled) {
-        if (eventHandler.getEventHandlerEnabled() == eventHandlerEnabled) {
+        if (eventHandler.getEventHandlerEnabled().equals(eventHandlerEnabled)) {
             return UpdateStatus.NoChange;
         }
         eventHandler.setEventHandlerEnabled(eventHandlerEnabled);
@@ -1350,7 +1350,7 @@ public class Figure extends GraphicObject implements AxesContainer {
         }
 
         for (int i = 0; i < value.length; i++) {
-            if (borderOptPadding[i] != value[i]) {
+            if (!borderOptPadding[i].equals(value[i])) {
                 borderOptPadding[i] = value[i];
                 status = UpdateStatus.Success;
             }
@@ -1370,7 +1370,7 @@ public class Figure extends GraphicObject implements AxesContainer {
         }
 
         for (int i = 0; i < value.length; i++) {
-            if (gridOptPadding[i] != value[i]) {
+            if (!gridOptPadding[i].equals(value[i])) {
                 gridOptPadding[i] = value[i];
                 status = UpdateStatus.Success;
             }
@@ -1390,7 +1390,7 @@ public class Figure extends GraphicObject implements AxesContainer {
         }
 
         for (int i = 0; i < value.length; i++) {
-            if (gridOptGrid[i] != value[i]) {
+            if (!gridOptGrid[i].equals(value[i])) {
                 gridOptGrid[i] = value[i];
                 status = UpdateStatus.Success;
             }

@@ -8,19 +8,18 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 08:25+0000\n"
-"Last-Translator: Vincent Couvert <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: CARNIS Adeline <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Argument #%d: Must be in the interval [%s, %s].\n"
-msgstr ""
-"%s : Argument n°%d : valeur attendue dans [%s, %s].\n"
+msgstr "%s : Argument n°%d : valeur attendue dans [%s, %s].\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -46,42 +45,40 @@ msgstr "%s : Erreur d'allocation mémoire.\n"
 
 #, c-format
 msgid "%s : Memory allocation error.\n"
-msgstr ""
+msgstr "%s : Erreur d'allocation mémoire.\n"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
-msgstr ""
+msgstr "%s : Nombre erroné d'argument(s) d'entrée : %d à %d attendu(s).\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
 msgstr ""
 
 msgid "fft call : needs power of two!"
-msgstr ""
+msgstr "Appel à fft : nécessite une puissance de deux !"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Matrix expected.\n"
-msgstr ""
+msgstr "%s : Type erroné de l'argument n°%d : Une matrice attendue.\n"
 
 #, c-format
 msgid "%s: Wrong size for argument: Incompatible dimensions.\n"
-msgstr ""
+msgstr "%s : Dimensions erronées de l'argument : Dimensions incompatibles.\n"
 
 #, c-format
 msgid "%s: Too many coefficients are required.\n"
 msgstr ""
 
 #, c-format
-msgid "%s: Wrong type for argument %d: Real matrix expected.\n"
-msgstr ""
-
-#, c-format
 msgid "%s: Wrong type for input argument #%d: Real scalar expected.\n"
 msgstr ""
+"%s : Type erroné pour l'argument d'entrée n°%d : Un scalaire réel attendu.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: Scalar expected.\n"
 msgstr ""
+"%s : Type erroné pour l'argument d'entrée n°%d : Un scalaire attendu.\n"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d: First element must not be %s.\n"
@@ -98,29 +95,39 @@ msgid ""
 "%s: Wrong type for element %d of input argument #%d: A matrix of real "
 "expected.\n"
 msgstr ""
+"%s : Type erroné pour l'élément %d de l'argument d'entrée n°%d : Une matrice "
+"réelle attendue.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for element %d of input argument #%d: A row vector expected.\n"
 msgstr ""
+"%s : Dimension erronée pour l'élément %d de l'argument d'entrée n°%d : Un "
+"vecteur ligne attendu.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for element %d of input argument #%d: Size must be multiple "
 "of %d.\n"
 msgstr ""
+"%s : Dimension erronée pour l'élément %d de l'argument d'entrée n°%d : La "
+"taille doit être multiple de %d.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for element %d of input argument #%d: A square matrix "
 "expected.\n"
 msgstr ""
+"%s : Dimension erronée pour l'élément %d de l'argument d'entrée n°%d : Une "
+"matrice carrée attendue.\n"
 
 #, c-format
 msgid ""
 "%s: Wrong size for element %d of input argument #%d: Same sizes of element "
 "%d expected.\n"
 msgstr ""
+"%s : Dimension erronée pour l'élément %d de l'argument d'entrée n°%d : Mêmes "
+"tailles de l'élément %d attendues.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: A row vector expected.\n"
@@ -352,6 +359,16 @@ msgstr ""
 "%s : Arguments d'entrée n°%d et n°%d incompatibles : un polynôme et une "
 "matrice 1-par-1 ou deux polynômes attendus.\n"
 
+#
+# File: modules/signal_processing/macros/%_unwrap.sci, line: 23
+msgid ": 1-D examples "
+msgstr ""
+
+#
+# File: modules/signal_processing/macros/%_unwrap.sci, line: 103
+msgid ": 2-D examples"
+msgstr ""
+
 #, c-format
 msgid ""
 "%s: Wrong type for input argument #%d: Array of floating point numbers "
@@ -432,8 +449,7 @@ msgstr ""
 
 #, c-format
 msgid "%s: Argument #%d: Must be in the set {%s}.\n"
-msgstr ""
-"%s : Argument n°%d : valeur parmi {%s} attendue.\n"
+msgstr "%s : Argument n°%d : valeur parmi {%s} attendue.\n"
 
 #, c-format
 msgid "%s: Filter order too small.\n"
@@ -558,6 +574,36 @@ msgstr ""
 "attendues.\n"
 
 #, c-format
+msgid "%s: Wrong value for input argument #%d: An integer value expected.\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong type for input argument #%d: a scalar with integer value "
+"expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: Must be odd.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for argument %d: Real vector expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Incompatible input arguments #%d and #%d\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong size for argument %d: At least %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong value for argument %d: At most %d expected.\n"
+msgstr ""
+
+#, c-format
 msgid "%s: Wrong number of input argument(s).\n"
 msgstr "%s : Nombre erroné d'argument(s) d'entrée.\n"
 
@@ -573,6 +619,31 @@ msgid "%s: Wrong size for input argument #%d: A %d elements array expected.\n"
 msgstr ""
 "%s : Dimension erronée de l'argument d'entrée n°%d : Un tableau de %d "
 "éléments attendu.\n"
+
+#
+# File: modules/signal_processing/macros/unwrap.sci, line: 37
+msgid "Press return to display 2D examples"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Real expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: Must be in the set  {%s}.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: String expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: Must have at least 4 rows.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong size for input argument #%d: Must have at least 4 columns.\n"
+msgstr ""
 
 #, c-format
 msgid "%s:  Wrong value for input argument #%d: Must be odd.\n"
@@ -737,3 +808,9 @@ msgstr ""
 msgid "%s: Too abrupt change near end of frequency range.\n"
 msgstr ""
 "%s : Changement trop brusque près de la fin de la bande de fréquence.\n"
+
+#, c-format
+#~ msgid "%s: Wrong type for argument %d: Real matrix expected.\n"
+#~ msgstr ""
+#~ "%s : Type erroné pour l'argument d'entrée n°%d : Une matrice réelle "
+#~ "attendue.\n"

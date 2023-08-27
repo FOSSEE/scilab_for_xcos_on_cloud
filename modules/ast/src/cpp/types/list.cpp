@@ -14,15 +14,18 @@
 */
 
 #include <sstream>
+#include "configvariable.hxx"
 #include "double.hxx"
+#include "overload.hxx"
 #include "list.hxx"
-#include "listundefined.hxx"
+#include "void.hxx"
 #include "listinsert.hxx"
 #include "types_tools.hxx"
 #include "localization.hxx"
 #include "scilabWrite.hxx"
 #include "types_tools.hxx"
 #include "function.hxx"
+#include "scilabWrite.hxx"
 
 #ifndef NDEBUG
 #include "inspector.hxx"
@@ -86,6 +89,24 @@ std::vector<InternalType *> *List::getData()
     return m_plData;
 }
 
+bool List::getMemory(long long* _piSize, long long* _piSizePlusType)
+{
+    *_piSize = 0;
+    *_piSizePlusType = 0;
+    for (auto pData : *m_plData)
+    {
+        long long piS, piSPT;
+        if (pData->getMemory(&piS, &piSPT))
+        {
+            *_piSize += piS;
+            *_piSizePlusType += piSPT;
+        }
+    }
+
+    *_piSizePlusType += sizeof(List);
+    return true;
+}
+
 /**
 ** size_get
 ** Return the number of elements in list
@@ -93,6 +114,11 @@ std::vector<InternalType *> *List::getData()
 int List::getSize() const
 {
     return static_cast<int>(m_plData->size());
+}
+
+bool List::isVector()
+{
+    return false;
 }
 
 /**
@@ -127,6 +153,27 @@ List *List::clone()
 */
 bool List::toString(std::wostringstream& ostr)
 {
+    //call overload %type_p if exists
+    types::typed_list in;
+    types::typed_list out;
+
+    IncreaseRef();
+    in.push_back(this);
+    switch (Overload::generateNameAndCall(L"p", in, 1, out, false, false)) {
+        case Function::OK_NoResult:
+            // unresolved function, fallback to a basic display
+            break;
+        case Function::Error:
+            ConfigVariable::setError();
+            // fallthrough
+        case Function::OK:
+            ostr.str(L"");
+            DecreaseRef();
+            return true;
+    };
+    DecreaseRef();
+
+    // otherwise, display basic information
     if (getSize() == 0)
     {
         ostr.str(L"");
@@ -283,8 +330,8 @@ List* List::insert(typed_list* _pArgs, InternalType* _pSource)
             //try to insert after the last index, increase list size and assign value
             while ((int)m_plData->size() < idx)
             {
-                //incease list size and fill with "Undefined"
-                m_plData->push_back(new ListUndefined());
+                //incease list size and fill with Void type object
+                m_plData->push_back(new types::Void());
             }
             (*m_plData)[idx - 1] = pInsert;
         }
@@ -303,8 +350,8 @@ List* List::insert(typed_list* _pArgs, InternalType* _pSource)
     {
         while ((int)m_plData->size() < idx)
         {
-            //incease list size and fill with "Undefined"
-            InternalType* pLU = new ListUndefined();
+            //incease list size and fill with Void type object
+            InternalType* pLU = new types::Void();
             pLU->IncreaseRef();
             m_plData->push_back(pLU);
         }
@@ -350,8 +397,8 @@ List* List::set(const int _iIndex, InternalType* _pIT)
 
     while ((int)m_plData->size() < _iIndex)
     {
-        //incease list size and fill with "Undefined"
-        m_plData->push_back(new ListUndefined());
+        //incease list size and fill with Void type object
+        m_plData->push_back(new types::Void());
         m_plData->back()->IncreaseRef();
         m_iSize = getSize();
     }

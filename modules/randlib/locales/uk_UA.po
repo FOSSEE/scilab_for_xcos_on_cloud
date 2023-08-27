@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 19:26+0000\n"
+"PO-Revision-Date: 2020-01-15 18:51+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of output argument(s): %d expected.\n"
@@ -78,8 +78,8 @@ msgstr ""
 #, c-format
 msgid "%s: Wrong value for input argument #%d : At least %.0E expected.\n"
 msgstr ""
-"%s: помилкове значення вхідного параметра №%d: "
-"мало бути вказано не менше за %0.E.\n"
+"%s: помилкове значення вхідного параметра №%d: мало бути вказано не менше за "
+"%0.E.\n"
 
 #, c-format
 msgid "%s: Wrong value for input argument #%d : Positive integer expected.\n"
@@ -228,11 +228,12 @@ msgstr ""
 
 #, c-format
 msgid ""
-"%s: Wrong value for input arguments #%d and #%d: Low and High must be "
-"integers and (high - low + 1) <=  2147483561.\n"
+"%s: Wrong value for input arguments #%d and #%d: Low and High must be a 32 "
+"bits integer value and (high - low + 1) <=  2147483561.\n"
 msgstr ""
-"%s: помилкове значення вхідних параметрів №%d і №%d: Low і High мають бути "
-"цілими числами, такими, що (high - low + 1) <=  2147483561.\n"
+"%s: помилкове значення вхідних параметрів %d і %d: Low і High мають бути 32-"
+"бітовими цілими значеннями, а (high - low + 1) має бути не більшим за  "
+"2147483561.\n"
 
 #, c-format
 msgid ""
@@ -266,7 +267,7 @@ msgstr "Параметр %s стосується лише генератора %
 
 #, c-format
 msgid "%s: Argument #%d: Must be in the interval [%d, %d].\n"
-msgstr ""
+msgstr "%s: параметр %d: значення мало потрапляти до проміжку [%d, %d].\n"
 
 #, c-format
 msgid ""
@@ -283,7 +284,7 @@ msgstr ""
 msgid ""
 "\n"
 "Bad seeds for clcg2, must be integers with  s1 in [1, 2147483562]\n"
-"                                       and  s2 in [1, 2147483398]\n"
+"                                        and  s2 in [1, 2147483398]\n"
 msgstr ""
 "\n"
 "Помилкові початкові значення для clcg2, слід використовувати цілі числа для "
@@ -418,9 +419,3 @@ msgstr "випадкова змінна із розподілом Ерланга
 
 msgid "Simulation of a Weibull random variable"
 msgstr "Моделювання випадкової величини із розподілом Вейбулла"
-
-#~ msgid ""
-#~ "%s: Wrong value for input argument #%d : Must be between %lf and %d.\n"
-#~ msgstr ""
-#~ "%s: помилкове значення вхідного параметра №%d: слід використовувати "
-#~ "значення між %lf та %d.\n"

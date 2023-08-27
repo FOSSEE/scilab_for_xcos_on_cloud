@@ -419,7 +419,7 @@ public class Export {
                     axesDrawer.update(id, property);
                     if (property == GraphicObjectProperties.__GO_AXES_SIZE__) {
                         Integer[] size = getFigure().getAxesSize();
-                        if (size[0] != dims[0] || size[1] != dims[1]) {
+                        if (!size[0].equals(dims[0]) || !size[1].equals(dims[1])) {
                             Graphics2D newg2d = exporter.getGraphics2D(size[0], size[1], null, params);
                             params.setParamsOnGraphics(newg2d);
                             canvas.setGraphics(newg2d, size[0], size[1]);
@@ -744,11 +744,13 @@ public class Export {
                 g2d.finish();
             }
             if (buffer != null && file != null) {
-                FileOutputStream fos = new FileOutputStream(file);
-                buffer.writeTo(fos);
-                buffer.close();
-                fos.flush();
-                fos.close();
+                try ( FileOutputStream fos = new FileOutputStream(file) ) {
+                    buffer.writeTo(fos);
+                    buffer.close();
+                    fos.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (out != null) {
                 out.close();
@@ -917,11 +919,15 @@ public class Export {
                 g2d.finish();
             }
             if (buffer != null && file != null) {
-                FileOutputStream fos = new FileOutputStream(file);
-                buffer.writeTo(fos);
-                buffer.close();
-                fos.flush();
-                fos.close();
+                try ( FileOutputStream fos = new FileOutputStream(file) ) {
+
+                    buffer.writeTo(fos);
+                    buffer.close();
+                    fos.flush();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (out != null) {
                 out.close();
@@ -1170,11 +1176,15 @@ public class Export {
                 }
             }
             if (buffer != null && file != null) {
-                FileOutputStream fos = new FileOutputStream(file);
-                buffer.writeTo(fos);
-                buffer.close();
-                fos.flush();
-                fos.close();
+                try ( FileOutputStream fos = new FileOutputStream(file) ) {
+
+                     buffer.writeTo(fos);
+                     buffer.close();
+                     fos.flush();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (out != null) {
                 out.close();

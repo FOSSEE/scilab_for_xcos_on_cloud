@@ -20,12 +20,12 @@
 * See the file ./license.txt
 */
 /*--------------------------------------------------------------------------*/
+#include "double.hxx"
+#include "int.hxx"
 #include "internal.hxx"
 #include "list.hxx"
-#include "tlist.hxx"
-#include "double.hxx"
 #include "string.hxx"
-#include "int.hxx"
+#include "tlist.hxx"
 
 extern "C"
 {
@@ -34,14 +34,70 @@ extern "C"
 
 #include "createblklist.hxx"
 /*--------------------------------------------------------------------------*/
-static types::InternalType* vartosci(void* data, const int rows, const int cols, const int type)
+static types::InternalType* allocsci(void* data, const int rows, const int cols, const int type)
 {
-    const int size = rows * cols;
     switch (type)
     {
         case SCSREAL_N:
         {
             types::Double* var = new types::Double(rows, cols);
+            return var;
+        }
+        case SCSCOMPLEX_N:
+        {
+            types::Double* var = new types::Double(rows, cols, true);
+            return var;
+        }
+        case SCSINT8_N:
+        {
+            types::Int8* var = new types::Int8(rows, cols);
+            return var;
+        }
+        case SCSINT16_N:
+        {
+            types::Int16* var = new types::Int16(rows, cols);
+            return var;
+        }
+        case SCSINT32_N:
+        {
+            types::Int32* var = new types::Int32(rows, cols);
+            return var;
+        }
+        case SCSUINT8_N:
+        {
+            types::UInt8* var = new types::UInt8(rows, cols);
+            return var;
+        }
+        case SCSUINT16_N:
+        {
+            types::UInt16* var = new types::UInt16(rows, cols);
+            return var;
+        }
+        case SCSUINT32_N:
+        {
+            types::UInt32* var = new types::UInt32(rows, cols);
+            return var;
+        }
+        default: // case SCSUNKNOW_N: pass the data by pointers
+        {
+            return (types::InternalType*)data;
+        }
+    }
+}
+/*--------------------------------------------------------------------------*/
+static types::InternalType* vartosci(types::InternalType* pIT, void* data, const int rows, const int cols, const int type)
+{
+    int size = rows * cols;
+    switch (type)
+    {
+        case SCSREAL_N:
+        {
+            if (!pIT->isDouble())
+            {
+                return pIT;
+            }
+            types::Double* var = pIT->getAs<types::Double>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::Double::type*)data)[i];
@@ -50,7 +106,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSCOMPLEX_N:
         {
-            types::Double* var = new types::Double(rows, cols, true);
+            if (!pIT->isDouble())
+            {
+                return pIT;
+            }
+            types::Double* var = pIT->getAs<types::Double>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::Double::type*)data)[i];
@@ -60,7 +121,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSINT8_N:
         {
-            types::Int8* var = new types::Int8(rows, cols);
+            if (!pIT->isInt8())
+            {
+                return pIT;
+            }
+            types::Int8* var = pIT->getAs<types::Int8>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::Int8::type*)data)[i];
@@ -69,7 +135,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSINT16_N:
         {
-            types::Int16* var = new types::Int16(rows, cols);
+            if (!pIT->isInt16())
+            {
+                return pIT;
+            }
+            types::Int16* var = pIT->getAs<types::Int16>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::Int16::type*)data)[i];
@@ -78,7 +149,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSINT32_N:
         {
-            types::Int32* var = new types::Int32(rows, cols);
+            if (!pIT->isInt32())
+            {
+                return pIT;
+            }
+            types::Int32* var = pIT->getAs<types::Int32>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::Int32::type*)data)[i];
@@ -87,7 +163,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSUINT8_N:
         {
-            types::UInt8* var = new types::UInt8(rows, cols);
+            if (!pIT->isUInt8())
+            {
+                return pIT;
+            }
+            types::UInt8* var = pIT->getAs<types::UInt8>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::UInt8::type*)data)[i];
@@ -96,7 +177,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSUINT16_N:
         {
-            types::UInt16* var = new types::UInt16(rows, cols);
+            if (!pIT->isUInt16())
+            {
+                return pIT;
+            }
+            types::UInt16* var = pIT->getAs<types::UInt16>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::UInt16::type*)data)[i];
@@ -105,7 +191,12 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         case SCSUINT32_N:
         {
-            types::UInt32* var = new types::UInt32(rows, cols);
+            if (!pIT->isUInt32())
+            {
+                return pIT;
+            }
+            types::UInt32* var = pIT->getAs<types::UInt32>();
+            size = std::min(var->getSize(), size);
             for (int i = 0; i < size; ++i)
             {
                 var->get()[i] = ((types::UInt32::type*)data)[i];
@@ -114,18 +205,23 @@ static types::InternalType* vartosci(void* data, const int rows, const int cols,
         }
         default: // case SCSUNKNOW_N: pass the data by pointers
         {
-            return (types::InternalType *)data;
+            return (types::InternalType*)data;
         }
     }
 }
-
+/*--------------------------------------------------------------------------*/
+static types::InternalType* vartosci(void* data, const int rows, const int cols, const int type)
+{
+    return vartosci(allocsci(data, rows, cols, type), data, rows, cols, type);
+}
+/*--------------------------------------------------------------------------*/
 types::InternalType* createblklist(const scicos_block* const Blocks, const int flag_imp, const int /*funtyp*/)
 {
     const int fieldCount = 41;
     int size = 0;
 
     /* set string of first element of scilab Blocks tlist */
-    static const char *str_blklst[] = {"scicos_block", "nevprt", "funpt", "type",
+    static const char* str_blklst[] = {"scicos_block", "nevprt", "funpt", "type",
                                        "scsptr", "nz", "z", "noz",
                                        "ozsz", "oztyp", "oz", "nx",
                                        "x", "xd", "res", "nin",
@@ -138,18 +234,18 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
                                        "uid"
                                       };
 
-    int *xptr = nullptr;   /* to retrieve xptr by import and zcptr of scicos_blocks */
-    double *x = nullptr;   /* ptr for x, xd and g for scicos_blocks                 */
-    double *xd = nullptr;
-    int *zcptr = nullptr;
-    double *g = nullptr;
+    int* xptr = nullptr; /* to retrieve xptr by import and zcptr of scicos_blocks */
+    double* x = nullptr; /* ptr for x, xd and g for scicos_blocks                 */
+    double* xd = nullptr;
+    int* zcptr = nullptr;
+    double* g = nullptr;
 
     if (flag_imp >= 0)
     {
-        int nv, mv;         /* length of data                             */
-        int nblk;           /* to store number of blocks                  */
+        int nv, mv; /* length of data                             */
+        int nblk;   /* to store number of blocks                  */
         //int ng;             /* to store number of zero cross              */
-        void *ptr;          /* ptr for data comming from import structure */
+        void* ptr; /* ptr for data comming from import structure */
 
         /*retrieve nblk by import structure*/
         char Nblk[] = "nblk";
@@ -164,23 +260,23 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
         /*retrieve xptr by import structure*/
         char Xptr[] = "xptr";
         getscicosvarsfromimport(Xptr, &ptr, &nv, &mv);
-        xptr = (int *)ptr;
+        xptr = (int*)ptr;
 
         /*retrieve zcptr by import structure*/
         char Zcptr[] = "zcptr";
         getscicosvarsfromimport(Zcptr, &ptr, &nv, &mv);
-        zcptr = (int *)ptr;
+        zcptr = (int*)ptr;
 
         /*retrieve x and xd by import structure*/
         char X[] = "x";
         getscicosvarsfromimport(X, &ptr, &nv, &mv);
-        x = (double *)ptr;
+        x = (double*)ptr;
         xd = &x[xptr[nblk] - 1];
 
         /*retrieve g by import structure*/
         char G[] = "g";
         getscicosvarsfromimport(G, &ptr, &nv, &mv);
-        g = (double *)ptr;
+        g = (double*)ptr;
     }
 
     types::TList* m = new types::TList();
@@ -273,13 +369,24 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
     m->append(oztyp);
 
     /* 11 - ozptr */
-    types::List *ozptr = new types::List();
-    for (int k = 0; k < Blocks->noz; k++)
+    types::List* ozptr;
+
+    // special case, some values are embeded into a Scilab list ; unwrap them
+    if (Blocks->noz == 1 && Blocks->oztyp[0] == SCSUNKNOW_N)
     {
-        const int rows = Blocks->ozsz[k]; /* retrieve number of rows */
-        const int cols = Blocks->ozsz[Blocks->noz + k]; /* retrieve number of cols */
-        const int type = Blocks->oztyp[k]; /* retrieve type */
-        ozptr->append(vartosci(Blocks->ozptr[k], rows, cols, type));
+        ozptr = (types::List*) vartosci(Blocks->ozptr[0], Blocks->ozsz[0], Blocks->ozsz[1], Blocks->oztyp[0]);
+    }
+    else
+    {
+        ozptr = new types::List();
+        for (int k = 0; k < Blocks->noz; k++)
+        {
+            const int rows = Blocks->ozsz[k];               /* retrieve number of rows */
+            const int cols = Blocks->ozsz[Blocks->noz + k]; /* retrieve number of cols */
+            const int type = Blocks->oztyp[k];              /* retrieve type */
+
+            ozptr->append(vartosci(Blocks->ozptr[k], rows, cols, type));
+        }
     }
 
     m->append(ozptr);
@@ -327,8 +434,8 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
     types::List* inptr = new types::List();
     for (int k = 0; k < Blocks->nin; k++)
     {
-        const int rows = Blocks->insz[k]; /* retrieve number of rows */
-        const int cols = Blocks->insz[Blocks->nin + k]; /* retrieve number of cols */
+        const int rows = Blocks->insz[k];                   /* retrieve number of rows */
+        const int cols = Blocks->insz[Blocks->nin + k];     /* retrieve number of cols */
         const int type = Blocks->insz[2 * Blocks->nin + k]; /* retrieve type */
         inptr->append(vartosci(Blocks->inptr[k], rows, cols, type));
     }
@@ -351,8 +458,8 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
     types::List* outptr = new types::List();
     for (int k = 0; k < Blocks->nout; k++)
     {
-        const int rows = Blocks->outsz[k]; /* retrieve number of rows */
-        const int cols = Blocks->outsz[Blocks->nout + k]; /* retrieve number of cols */
+        const int rows = Blocks->outsz[k];                    /* retrieve number of rows */
+        const int cols = Blocks->outsz[Blocks->nout + k];     /* retrieve number of cols */
         const int type = Blocks->outsz[2 * Blocks->nout + k]; /* retrieve type */
         outptr->append(vartosci(Blocks->outptr[k], rows, cols, type));
     }
@@ -408,13 +515,24 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
     m->append(opartyp);
 
     /* 31 - opar */
-    types::List* opar = new types::List();
-    for (int k = 0; k < Blocks->nopar; k++)
+    types::List* opar;
+
+    // special case, some values are embeded into a Scilab list ; unwrap them
+    if (Blocks->nopar == 1 && Blocks->opartyp[0] == SCSUNKNOW_N)
     {
-        const int rows = Blocks->oparsz[k]; /* retrieve number of rows */
-        const int cols = Blocks->oparsz[Blocks->nopar + k]; /* retrieve number of cols */
-        const int type = Blocks->opartyp[k]; /* retrieve type */
-        opar->append(vartosci(Blocks->oparptr[k], rows, cols, type));
+        opar = (types::List*) vartosci(Blocks->oparptr[0], Blocks->oparsz[0], Blocks->oparsz[1], Blocks->opartyp[0]);
+    }
+    else
+    {
+        opar = new types::List();
+        for (int k = 0; k < Blocks->noz; k++)
+        {
+            const int rows = Blocks->oparsz[k];               /* retrieve number of rows */
+            const int cols = Blocks->oparsz[Blocks->noz + k]; /* retrieve number of cols */
+            const int type = Blocks->opartyp[k];              /* retrieve type */
+
+            opar->append(vartosci(Blocks->oparptr[k], rows, cols, type));
+        }
     }
 
     m->append(opar);
@@ -488,4 +606,164 @@ types::InternalType* createblklist(const scicos_block* const Blocks, const int f
     return m;
 }
 /*--------------------------------------------------------------------------*/
+types::InternalType* refreshblklist(types::InternalType* pIT, const scicos_block* const Blocks, const int flag_imp, const int /*funtyp*/)
+{
+    if (!pIT->isTList())
+    {
+        return pIT;
+    }
+    types::TList* m = pIT->getAs<types::TList>();
 
+    // ensure that `m` contains the needed elements; if not discard the sync
+    if (m->getSize() != 41)
+    {
+        return m;
+    }
+
+    int* xptr = nullptr; /* to retrieve xptr by import and zcptr of scicos_blocks */
+    double* x = nullptr; /* ptr for x, xd and g for scicos_blocks                 */
+    double* xd = nullptr;
+    int* zcptr = nullptr;
+    double* g = nullptr;
+
+    if (flag_imp >= 0)
+    {
+        int nv, mv; /* length of data                             */
+        int nblk;   /* to store number of blocks                  */
+        //int ng;             /* to store number of zero cross              */
+        void* ptr; /* ptr for data comming from import structure */
+
+        /*retrieve nblk by import structure*/
+        char Nblk[] = "nblk";
+        getscicosvarsfromimport(Nblk, &ptr, &nv, &mv);
+        nblk = ((int*)ptr)[0];
+
+        /* retrieve ng by import structure */
+        char Ng[] = "ng";
+        getscicosvarsfromimport(Ng, &ptr, &nv, &mv);
+        //ng = ((int*)ptr)[0];
+
+        /*retrieve xptr by import structure*/
+        char Xptr[] = "xptr";
+        getscicosvarsfromimport(Xptr, &ptr, &nv, &mv);
+        xptr = (int*)ptr;
+
+        /*retrieve zcptr by import structure*/
+        char Zcptr[] = "zcptr";
+        getscicosvarsfromimport(Zcptr, &ptr, &nv, &mv);
+        zcptr = (int*)ptr;
+
+        /*retrieve x and xd by import structure*/
+        char X[] = "x";
+        getscicosvarsfromimport(X, &ptr, &nv, &mv);
+        x = (double*)ptr;
+        xd = &x[xptr[nblk] - 1];
+
+        /*retrieve g by import structure*/
+        char G[] = "g";
+        getscicosvarsfromimport(G, &ptr, &nv, &mv);
+        g = (double*)ptr;
+    }
+
+    /* 7 - z */
+    m->set(6, vartosci(m->get(6), Blocks->z, Blocks->nz, 1, SCSREAL_N));
+
+    /* 11 - ozptr */
+    if (m->get(10)->isList())
+    {
+        types::List* ozptr = m->get(10)->getAs<types::List>();
+
+        // special case, some values are embeded into a Scilab list ; wrap them
+        if (Blocks->noz == 1 && Blocks->oztyp[0] == SCSUNKNOW_N)
+        {
+            m->set(10, ozptr);
+        }
+        else
+        {
+            for (int k = 0; k < Blocks->noz; k++)
+            {
+                const int rows = Blocks->ozsz[k];               /* retrieve number of rows */
+                const int cols = Blocks->ozsz[Blocks->noz + k]; /* retrieve number of cols */
+                const int type = Blocks->oztyp[k];              /* retrieve type */
+                ozptr->set(k, vartosci(ozptr->get(k), Blocks->ozptr[k], rows, cols, type));
+            }
+            m->set(10, ozptr);
+        }
+    }
+
+    /* 13 - x */
+    if (flag_imp >= 0)
+    {
+        m->set(12, vartosci(m->get(12), &x[xptr[flag_imp] - 1], Blocks->nx, 1, SCSREAL_N));
+    }
+    else
+    {
+        m->set(12, vartosci(m->get(12), Blocks->x, Blocks->nx, 1, SCSREAL_N));
+    }
+
+    /* 14 - xd */
+    if (flag_imp >= 0)
+    {
+        m->set(13, vartosci(m->get(13), &xd[xptr[flag_imp] - 1], Blocks->nx, 1, SCSREAL_N));
+    }
+    else
+    {
+        m->set(13, vartosci(m->get(13), Blocks->xd, Blocks->nx, 1, SCSREAL_N));
+    }
+
+    /* 15 - res */
+    m->set(14, vartosci(m->get(14), Blocks->res, Blocks->nx, 1, SCSREAL_N));
+
+    /* 18 - inptr */
+    if (m->get(17)->isList())
+    {
+        types::List* inptr = m->get(17)->getAs<types::List>();
+        for (int k = 0; k < Blocks->nin; k++)
+        {
+            const int rows = Blocks->insz[k];                   /* retrieve number of rows */
+            const int cols = Blocks->insz[Blocks->nin + k];     /* retrieve number of cols */
+            const int type = Blocks->insz[2 * Blocks->nin + k]; /* retrieve type */
+            inptr->set(k, vartosci(inptr->get(k), Blocks->inptr[k], rows, cols, type));
+        }
+        m->set(17, inptr);
+    }
+
+    /* 21 - outptr */
+    if (m->get(20)->isList())
+    {
+        types::List* outptr = m->get(20)->getAs<types::List>();
+        for (int k = 0; k < Blocks->nout; k++)
+        {
+            const int rows = Blocks->outsz[k];                    /* retrieve number of rows */
+            const int cols = Blocks->outsz[Blocks->nout + k];     /* retrieve number of cols */
+            const int type = Blocks->outsz[2 * Blocks->nout + k]; /* retrieve type */
+            outptr->set(k, vartosci(outptr->get(k), Blocks->outptr[k], rows, cols, type));
+        }
+        m->set(20, outptr);
+    }
+
+    /* 23 - evout */
+    m->set(22, vartosci(m->get(22), Blocks->evout, Blocks->nevout, 1, SCSREAL_N));
+
+    /* 33 - g */
+    if (flag_imp >= 0)
+    {
+        m->set(32, vartosci(m->get(32), &g[zcptr[flag_imp] - 1], Blocks->ng, 1, SCSREAL_N));
+    }
+    else
+    {
+        m->set(32, vartosci(m->get(32), Blocks->g, Blocks->ng, 1, SCSREAL_N));
+    }
+
+    /* 35 - jroot */
+    m->set(34, vartosci(m->get(34), Blocks->jroot, Blocks->ng, 1, SCSREAL_N));
+
+    /* 39 - mode */
+    m->set(38, vartosci(m->get(38), Blocks->mode, Blocks->nmode, 1, SCSREAL_N));
+
+    /* 40 - xprop */
+    m->set(39, vartosci(m->get(39), Blocks->xprop, Blocks->nx, 1, SCSREAL_N));
+
+    return m;
+}
+/*--------------------------------------------------------------------------*/

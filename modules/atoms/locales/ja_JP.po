@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 11:25+0000\n"
-"Last-Translator: Rui Hirokawa <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: Scilab.team <Unknown>\n"
 "Language-Team: Japanese <z-saito@guitar.ocn.ne.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 "X-Poedit-Country: Japan\n"
 "X-Poedit-Language: Japanese\n"
 
@@ -203,18 +203,11 @@ msgid "%s: The config file ('%s') is not well formatted at line %d\n"
 msgstr "%s: 設定ファイル('%s')の%d行目は整形式ではありません.\n"
 
 #, c-format
-msgid ""
-"%s: Wrong size for input argument #%d: mx2 or mx3 string matrix expected.\n"
+msgid "%s: Argument #%d: Matrix with %s columns expected.\n"
 msgstr ""
-"%s: 入力引数 #%d の大きさが間違っています: mx2 または mx3　の文字列行列を指定"
-"してください.\n"
 
-#, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: All modules version should be set.\n"
+msgid "1 to 3"
 msgstr ""
-"%s: 入力引数 #%d の値が間違っています: 全てのモジュールのバージョンが設定され"
-"る必要があります.\n"
 
 #, c-format
 msgid ""
@@ -223,6 +216,10 @@ msgid ""
 msgstr ""
 "%s: 入力引数 #%d の値が間違っています: 'user' または 'allusers'  または "
 "'all' を指定してください.\n"
+
+#, c-format
+msgid "%s: Argument #%d (:,3): 'user' or 'allusers' or 'all' expected.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -269,13 +266,11 @@ msgstr ""
 
 #, c-format
 msgid "\t%s (%s) will be installed in the '%s' section"
-msgstr ""
+msgstr "\t%s (%s) が '%s' セクションにインストールされます"
 
-#
-# File: modules/atoms/macros/atomsInstall.sci, line: 259
 #, c-format
 msgid "\t%s (%s) is already installed in the '%s' section and up-to-date"
-msgstr ""
+msgstr "\t%s (%s) は'%s' セクションにインストール済みで最新です"
 
 #, c-format
 msgid ""
@@ -297,6 +292,12 @@ msgstr "%s: ディレクトリー '%s' を作成中にエラー\n"
 #, c-format
 msgid "%s: Previously existing file with the same name in '%s'.\n"
 msgstr "%s: '%s' と同じ名前の既存のファイルが存在します.\n"
+
+#
+# File: modules/atoms/macros/atomsInstall.sci, line: 535
+# File: modules/atoms/macros/atomsRemove.sci, line: 365
+msgid "&Toolboxes"
+msgstr ""
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
@@ -385,32 +386,26 @@ msgid ""
 "%s: You have not enough rights to remove any version of the package %s.\n"
 msgstr "%s: パッケージ  %s のどんなバージョンも取り除く権限を持ちません。\n"
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 217
 #, c-format
 msgid ""
 "\t%s (%s) will be removed from the '%s' section and its package fully deleted"
 msgstr ""
+"\t%s (%s)は '%s' セクションから削除され, このパッケージは完全に削除されます"
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 219
 #, c-format
 msgid "\t%s (%s) will be removed from the '%s' section"
-msgstr ""
+msgstr "\t%s (%s) は '%s' セクションから削除されました"
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 222
 #, c-format
 msgid "\t%s (%s) cannot be removed from the '%s' section and will be broken"
-msgstr ""
+msgstr "\t%s (%s) は '%s' セクションから削除できず, 破壊されます"
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 247
 #, c-format
 msgid ""
 "\tthe package %s (%s) is currently loaded, It will be removed at next Scilab "
 "start\n"
 msgstr ""
+"\tパッケージ %s (%s) からロード済みであり, Scilab の再起動時に削除されます\n"
 
 #, c-format
 msgid "\tRemoving %s (%s)(%s)... "
@@ -419,26 +414,23 @@ msgstr "\t%s (%s)(%s) を削除中... "
 #, c-format
 msgid ""
 "%s: The directory of this package (%s-%s) is located neither in SCI nor in "
-"SCIHOME. For security reason, ATOMS refuses to delete this directory.\n"
+"SCIHOME.\n"
+"\tFor security reason, ATOMS refuses to delete this directory.\n"
 msgstr ""
-"%s: このパッケージ(%s-%s)のディレクトリはSCIまたはSCIHOME以下に配置されていま"
-"せん.セキュリティ上の理由により,ATOMSはこのディレクトリ削除しません.\n"
 
 #, c-format
 msgid ""
-"%s: The directory of this package (%s-%s) cannot been deleted, please check "
-"if you have write access on this directory : %s.\n"
+"%s: The package (%s - %s) directory %s cannot be deleted.\n"
+"\tIt may be used and locked. Please also check that you have write "
+"permission on it.\n"
 msgstr ""
-"%s: このパッケージ(%s-%s)のディレクトリを削除できません、このディレクトリーで"
-"書き込みアクセス権を持つかどうか確かめて下さい : %s\n"
 
 #, c-format
 msgid ""
-"%s: The root directory of this package (%s-%s) cannot been deleted, please "
-"check if you have write access on this directory : %s.\n"
+"%s: The package (%s - %s) has been removed from its root directory %s.\n"
+"\tHowever, this empty directory cannot be deleted. It may be used and "
+"locked, or you may have no write permission on it.\n"
 msgstr ""
-"%s: このパッケージ(%s-%s)のルート・ディレクトリを削除できません、このディレク"
-"トリーで書き込みアクセス権を持つかどうか確かめて下さい : %s\n"
 
 #, c-format
 msgid ""
@@ -843,6 +835,16 @@ msgstr ""
 msgid "Download in progress... Please be patient."
 msgstr "ダウンロード中... しばらくお待ちください"
 
+#
+# File: modules/atoms/macros/atoms_internals/atomsDownload.sci, line: 220
+msgid "Couldn't resolve host name"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: The given path does not exist.\n"
+msgstr ""
+
 #, c-format
 msgid "%s: Error: the response status from the URL %s is invalid.\n"
 msgstr "%s: エラー: URL %s からの応答ステータスが不正です.\n"
@@ -957,6 +959,13 @@ msgid "%s: Wrong size for input argument #%d: 1x2 string matrix expected.\n"
 msgstr ""
 "%s: 入力引数 #%d の大きさが間違っています: 1x2　の文字列行列を指定してくださ"
 "い.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong size for input argument #%d: mx2 or mx3 string matrix expected.\n"
+msgstr ""
+"%s: 入力引数 #%d の大きさが間違っています: mx2 または mx3　の文字列行列を指定"
+"してください.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: mx2 string matrix expected.\n"

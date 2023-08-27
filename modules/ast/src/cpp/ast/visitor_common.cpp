@@ -486,6 +486,11 @@ types::InternalType* AddElementToVariable(types::InternalType* _poDest, types::I
                 poResult->getAs<types::Double>()->append(iCurRow, iCurCol, _poSource);
                 break;
             case types::InternalType::ScilabPolynom:
+                if (poResult->getAs<types::Polynom>()->getVariableName() !=  _poSource->getAs<types::Polynom>()->getVariableName())
+                {
+                    // call overload
+                    return NULL;
+                }
                 poResult->getAs<types::Polynom>()->append(iCurRow, iCurCol, _poSource);
                 break;
             case types::InternalType::ScilabBool:
@@ -616,7 +621,7 @@ types::InternalType* callOverload(const ast::Exp& e, const std::wstring& _strTyp
 
     types::InternalType* pFunc = symbol::Context::getInstance()->get(symbol::Symbol(function_name));
     if (pFunc == NULL &&
-        (_source->getShortTypeStr().size() > 8 || _dest && _dest->getShortTypeStr().size() > 8))
+            (_source->getShortTypeStr().size() > 8 || (_dest && _dest->getShortTypeStr().size() > 8)))
     {
         if (_source->getShortTypeStr().size() > 8)
         {
@@ -646,7 +651,7 @@ types::InternalType* callOverload(const ast::Exp& e, const std::wstring& _strTyp
     {
         try
         {
-            ret = Overload::call(function_name, in, 1, out);
+            ret = Overload::call(function_name, in, 1, out, false, true, e.getLocation());
         }
         catch (const ast::InternalError& error)
         {
@@ -756,9 +761,9 @@ bool getFieldsFromExp(ast::Exp* _pExp, std::list<ExpHistory*>& fields)
         // used to manage insertion with list in argument
         // a(list("field", 2)) = 2 as a.field(2)
         if (pCurrentArgs &&  pCurrentArgs->size() > 0 &&
-            (*pCurrentArgs)[0]->isList() &&
-            (*pCurrentArgs)[0]->isTList() == false &&
-            (*pCurrentArgs)[0]->isMList() == false)
+                (*pCurrentArgs)[0]->isList() &&
+                (*pCurrentArgs)[0]->isTList() == false &&
+                (*pCurrentArgs)[0]->isMList() == false)
         {
             bArgList = true;
             pList = (*pCurrentArgs)[0]->getAs<types::List>();
@@ -772,9 +777,9 @@ bool getFieldsFromExp(ast::Exp* _pExp, std::list<ExpHistory*>& fields)
         do
         {
             if (pCurrentArgs &&
-                pCurrentArgs->size() == 1 &&
-                (*pCurrentArgs)[0]->isString() &&
-                (*pCurrentArgs)[0]->getAs<types::String>()->getSize() == 1)
+                    pCurrentArgs->size() == 1 &&
+                    (*pCurrentArgs)[0]->isString() &&
+                    (*pCurrentArgs)[0]->getAs<types::String>()->getSize() == 1)
             {
                 // a("b") => a.b or a(x)("b") => a(x).b
                 ExpHistory * pEHParent = fields.back();
@@ -815,7 +820,8 @@ bool getFieldsFromExp(ast::Exp* _pExp, std::list<ExpHistory*>& fields)
                     pCurrentArgs->push_back(pList->get(iListIncr)->clone());
                 }
             }
-        } while (iListIncr < iListSize);
+        }
+        while (iListIncr < iListSize);
 
         if (bArgList)
         {
@@ -910,11 +916,11 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
         iterFields++;
 
         workFields.push_back(new ExpHistory(NULL,
-            pFirstField->getExp(),
-            pFirstField->getArgs(),
-            pFirstField->getLevel(),
-            pFirstField->isCellExp(),
-            pITMain));
+                                            pFirstField->getExp(),
+                                            pFirstField->getArgs(),
+                                            pFirstField->getLevel(),
+                                            pFirstField->isCellExp(),
+                                            pITMain));
 
         //*** evaluate fields ***//
         while (iterFields != fields.end())
@@ -924,7 +930,6 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
             workFields.pop_front();
 
             types::InternalType* pITCurrent = pEH->getCurrent();
-
             if (pEH->isCellExp() && pITCurrent->isCell() == false)
             {
                 std::wostringstream os;
@@ -932,18 +937,18 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
                 throw ast::InternalError(os.str(), 999, _pExp->getLocation());
             }
 
+            // In the case where pITCurrent is in several scilab variables or containers,
+            // we have to clone it to keep the originals one unchanged.
+            if (pITCurrent->getRef() > 1)
+            {
+                pITCurrent = pITCurrent->clone();
+                pEH->setCurrent(pITCurrent);
+                pEH->setReinsertion();
+            }
+
             if (pITCurrent->isStruct())
             {
                 types::Struct* pStruct = pITCurrent->getAs<types::Struct>();
-                // In case where pStruct is in several scilab variable,
-                // we have to clone it for keep the other variables unchanged.
-                if (pStruct->getRef() > 1)
-                {
-                    pStruct = pStruct->clone();
-                    pEH->setCurrent(pStruct);
-                    pEH->setReinsertion();
-                }
-
                 std::wstring pwcsFieldname = (*iterFields)->getExpAsString();
 
                 if (pEH->needResize())
@@ -1018,11 +1023,11 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
                         }
 
                         ExpHistory* pEHChield = new ExpHistory(pEH,
-                            (*iterFields)->getExp(),
-                            (*iterFields)->getArgs(),
-                            (*iterFields)->getLevel(),
-                            (*iterFields)->isCellExp(),
-                            pIT);
+                                                               (*iterFields)->getExp(),
+                                                               (*iterFields)->getArgs(),
+                                                               (*iterFields)->getLevel(),
+                                                               (*iterFields)->isCellExp(),
+                                                               pIT);
 
                         pEHChield->setWhereReinsert(0);
                         workFields.push_back(pEHChield);
@@ -1062,7 +1067,7 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
                         int iNewSize = pEH->getSizeFromArgs();
                         if (pTL->getSize() < iNewSize)
                         {
-                            pTL = pTL->set(iNewSize - 1, new types::ListUndefined());
+                            pTL = pTL->set(iNewSize - 1, new types::Void());
                             pEH->setCurrent(pTL);
                         }
 
@@ -1218,7 +1223,7 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
                             int iNewSize = pEH->getSizeFromArgs();
                             if (pL->getSize() < iNewSize)
                             {
-                                pL = pL->set(iNewSize - 1, new types::ListUndefined());
+                                pL = pL->set(iNewSize - 1, new types::Void());
                                 pEH->setCurrent(pL);
                             }
 
@@ -1752,7 +1757,7 @@ types::InternalType* evaluateFields(const ast::Exp* _pExp, std::list<ExpHistory*
 
         return pITMain;
     }
-    catch (const ast::InternalError error)
+    catch (const ast::InternalError& error)
     {
         if (bPutInCtx)
         {
@@ -1866,7 +1871,6 @@ types::InternalType* insertionCall(const ast::Exp& e, types::typed_list* _pArgs,
         if ((*_pArgs)[0]->isString())
         {
             types::String *pS = (*_pArgs)[0]->getAs<types::String>();
-            types::Struct* pStr = new types::Struct(1, 1);
 
             if (_pArgs->size() != 1 || pS->isScalar() == false)
             {
@@ -1880,6 +1884,7 @@ types::InternalType* insertionCall(const ast::Exp& e, types::typed_list* _pArgs,
                 throw ast::InternalError(os.str(), 999, e.getLocation());
             }
 
+            types::Struct* pStr = new types::Struct(1, 1);
             pStr->addField(pS->get(0));
             pStr->get(0)->set(pS->get(0), _pInsert);
             pOut = pStr;
@@ -2038,7 +2043,7 @@ types::InternalType* insertionCall(const ast::Exp& e, types::typed_list* _pArgs,
             }
             else // insert something in a struct
             {
-                if (_pInsert->isStruct())
+                if (_pInsert->isStruct() && _pInsert->getAs<types::Struct>()->isEmpty() == false)
                 {
                     types::String* pStrFieldsName = pStruct->getFieldNames();
                     types::Struct* pStructInsert = _pInsert->clone()->getAs<types::Struct>();
@@ -2082,6 +2087,14 @@ types::InternalType* insertionCall(const ast::Exp& e, types::typed_list* _pArgs,
 
                         pStrFieldsName->killMe();
                     }
+                    else if (pStrInsertFieldsName)
+                    {
+                        //insertion of non-empty struct in empty struct
+                        for (int i = pStrInsertFieldsName->getSize(); i > 0; i--)
+                        {
+                            pStruct->addFieldFront(pStrInsertFieldsName->get(i - 1));
+                        }
+                    }
 
                     // insert elements in following pArgs
                     pRet = pStruct->insert(_pArgs, pStructInsert);
@@ -2089,16 +2102,28 @@ types::InternalType* insertionCall(const ast::Exp& e, types::typed_list* _pArgs,
 
                     pStructInsert->killMe();
 
-                    // insert fields of pStructInsert in pRet
-                    for (int i = 0; i < pStrInsertFieldsName->getSize(); i++)
+                    // if not an empty struct
+                    if (pStrFieldsName)
                     {
-                        if (pStructRet->exists(pStrInsertFieldsName->get(i)) == false)
+                        // insert fields of pStructInsert in pRet
+                        for (int i = 0; i < pStrInsertFieldsName->getSize(); i++)
                         {
-                            pStructRet->addField(pStrInsertFieldsName->get(i));
+                            if (pStructRet->exists(pStrInsertFieldsName->get(i)) == false)
+                            {
+                                pStructRet->addField(pStrInsertFieldsName->get(i));
+                            }
                         }
                     }
-
                     pStrInsertFieldsName->killMe();
+                }
+                else if (_pInsert->isStruct())
+                {
+                    // insertion of empty struct in a struct
+                    pRet = pStruct;
+                }
+                else if (_pInsert->isDouble() && _pInsert->getAs<types::Double>()->isEmpty())
+                {
+                    pRet = pStruct->remove(_pArgs);
                 }
                 else
                 {

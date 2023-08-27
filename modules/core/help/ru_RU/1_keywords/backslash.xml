@@ -5,11 +5,11 @@
           xml:lang="ru" xml:id="backslash">
     <refnamediv>
         <refname>обратный слэш (\)</refname>
-        <refpurpose>(\) левое матричное деление.</refpurpose>
+        <refpurpose>(\) левое матричное деление: точное решение или решение по методу наименьших квадратов</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Синтаксис</title>
-        <synopsis>X=A\B</synopsis>
+        <synopsis>X = A \ B</synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Описание</title>
@@ -19,7 +19,8 @@
         </para>
         <para>
             Если <literal>A</literal> - квадратная и невырожденная, то  <code>X=A\B</code>
-            (уникально определённая) эквивалентно <code>X=inv(A)*B</code> в точном арифметическом смысле, однако вычисления гораздо точнее и дешевле в арифметике с плавающей запятой.
+            (уникально определённая) эквивалентно <code>X=inv(A)*B</code> в точном арифметическом смысле,
+            однако вычисления гораздо точнее и дешевле в арифметике с плавающей запятой.
             Следовательно, чтобы вычислить решение линейной системы уравнений <code>A*X=B</code>,
             следует использовать оператор "обратный слэш", а функцию  <function>inv</function> не следует использовать.
         </para>
@@ -56,7 +57,8 @@
         </para>
         <para>
             <literal>A\.B</literal> является оператором без предопределённого значения. Он может использоваться
-            для определения нового оператора (см. <link linkend="overloading">перегрузку</link>) с тем же самым приоритетом что и <literal>*</literal> или <literal>/</literal>.
+            для определения нового оператора (см. <link linkend="overloading">перегрузку</link>) с тем же самым приоритетом
+            что и <literal>*</literal> или <literal>/</literal>.
         </para>
     </refsection>
     <refsection>
@@ -73,7 +75,7 @@ b=[
    30.
 ];
 x=A\b
-A*x-b // close to zero
+A*x-b // близко к нулю
 
 A=rand(3,2);
 b=[1;1;1];
@@ -120,7 +122,10 @@ mprintf('\nвремя, необходимое для решения систем
         <title>Смотрите также</title>
         <simplelist type="inline">
             <member>
-                <link linkend="slash">слэш</link>
+                <link linkend="slash">slash</link>
+            </member>
+            <member>
+                <link linkend="lsq">lsq</link>
             </member>
             <member>
                 <link linkend="inv">inv</link>
@@ -129,26 +134,30 @@ mprintf('\nвремя, необходимое для решения систем
                 <link linkend="pinv">pinv</link>
             </member>
             <member>
-                <link linkend="percent">процент</link>
-            </member>
-            <member>
-                <link linkend="ieee">ieee</link>
-            </member>
-            <member>
                 <link linkend="linsolve">linsolve</link>
             </member>
             <member>
                 <link linkend="umfpack">umfpack</link>
             </member>
+            <member>
+                <link linkend="datafit">datafit</link>
+            </member>
+            <member>
+                <link linkend="krondivide">kron .\.</link>
+            </member>
+            <member>
+                <link linkend="overloading">перегрузка</link>
+            </member>
         </simplelist>
     </refsection>
     <refsection>
-        <title>History</title>
+        <title>История</title>
         <revhistory>
             <revision>
-                <revnumber>5.4.1</revnumber>
+                <revnumber>5.5.0</revnumber>
                 <revremark>
-                    Пороговый уровень для обусловливания в обратном слэше увеличен.
+                  Пороговый уровень, который переключает при вычислении A\B между исключением по
+                  методу Гаусса и перестановкой строк матрицы, уменьшен от sqrt(eps) до eps.
                 </revremark>
             </revision>
         </revhistory>

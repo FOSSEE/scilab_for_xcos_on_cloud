@@ -20,8 +20,8 @@
     <refsynopsisdiv>
         <title>Syntax</title>
         <synopsis>
-          S = zpk(Z,P,K,dt)
-          S = zpk(z,p,k,dt)
+          S = zpk(Z, P, K, dt)
+          S = zpk(z, p, k, dt)
           S = zpk(sys)
          </synopsis>
     </refsynopsisdiv>
@@ -166,7 +166,7 @@
         <para>
             <literal>S=zpk(z,p,k,dt)</literal> forms the single-input,
             single output zero pole gain system representation given the
-            vecteors of the transmission zeros and poles and the scalar
+            vectors of the transmission zeros and poles and the scalar
             gain.
         </para>
         <para>

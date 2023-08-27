@@ -818,6 +818,7 @@ struct UicontrolHandle
         m.emplace_back("position", std::vector<int>({SAVE_LOAD, __GO_POSITION__, jni_double_vector, -1, -4}));
         m.emplace_back("relief", std::vector<int>({SAVE_LOAD, __GO_UI_RELIEF__, jni_string}));
         m.emplace_back("sliderstep", std::vector<int>({SAVE_LOAD, __GO_UI_SLIDERSTEP__, jni_double_vector, -1, -2}));
+        m.emplace_back("snaptoticks", std::vector<int>({SAVE_LOAD, __GO_UI_SNAPTOTICKS__, jni_bool}));
         m.emplace_back("tooltipstring", std::vector<int>({SAVE_LOAD, __GO_UI_TOOLTIPSTRING__, jni_string_vector, -1, __GO_UI_TOOLTIPSTRING_SIZE__}));
         m.emplace_back("units", std::vector<int>({SAVE_LOAD, __GO_UI_UNITS__, jni_string}));
         m.emplace_back("verticalalignment", std::vector<int>({SAVE_LOAD, __GO_UI_VERTICALALIGNMENT__, jni_string}));
@@ -839,6 +840,6 @@ struct UicontrolHandle
 };
 
 void update_link_path(int legend, Links::PathList& paths);
-int import_handle(int dataset, int parent);
-bool export_handle(int parent, const std::string& name, int uid, hid_t xfer_plist_id);
-int add_current_entity(int handle);
+int import_handle(hid_t dataset, int parent);
+bool export_handle(hid_t parent, const std::string& name, int uid, hid_t xfer_plist_id);
+int add_current_entity(hid_t handle);

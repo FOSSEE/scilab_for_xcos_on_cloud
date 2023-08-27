@@ -114,7 +114,6 @@ public class AxisDrawer {
         rulerDrawer.setSpriteFactory(new AxisSpriteFactory(axis, min, max));
         rulerDrawer.draw(drawingTools, rulerModel);
 
-        axis.getFormatn();
         rulerDrawer.disposeResources();
     }
 
@@ -247,7 +246,7 @@ public class AxisDrawer {
         }
     }
 
-    private class AxisGraduation extends AbstractGraduations {
+    private static class AxisGraduation extends AbstractGraduations {
         private final List<Double> subTicksValue;
         private final List<Double> allValues;
         private final Axis axis;

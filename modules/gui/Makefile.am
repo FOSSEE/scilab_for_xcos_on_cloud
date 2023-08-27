@@ -122,6 +122,8 @@ GUI_CXX_SOURCES = \
     src/cpp/GetUicontrolVerticalAlignment.cpp \
     src/cpp/SetUicontrolSliderStep.cpp \
     src/cpp/GetUicontrolSliderStep.cpp \
+    src/cpp/SetUicontrolSnapToTicks.cpp \
+    src/cpp/GetUicontrolSnapToTicks.cpp \
     src/cpp/SetUicontrolIcon.cpp \
     src/cpp/GetUicontrolIcon.cpp \
     src/cpp/SetConsoleShowHiddenHandles.cpp \
@@ -417,6 +419,7 @@ images/icons/64x40/mimetypes/application-x-scilab-Sgrayplot.png \
 images/icons/64x40/mimetypes/application-x-scilab-surf.png \
 images/icons/256x256/apps/accessories-text-editor.png \
 images/icons/256x256/apps/puffin.png \
+images/icons/256x256/apps/scilabMacOS.png \
 images/icons/256x256/apps/rrze_table.png \
 images/icons/256x256/apps/system-search.png \
 images/icons/256x256/apps/utilities-system-monitor.png \
@@ -432,6 +435,12 @@ images/icons/scilab_close_active.png \
 images/icons/scilab_close_default.png \
 images/icons/undock_active.png \
 images/icons/undock_default.png \
+images/icons/openBrace.png \
+images/icons/openBracket.png \
+images/icons/openParen.png \
+images/icons/closeBrace.png \
+images/icons/closeBracket.png \
+images/icons/closeParen.png \
 images/preferences/integrated.png \
 images/preferences/simple.png
 

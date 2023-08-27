@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 19:18+0000\n"
+"PO-Revision-Date: 2020-01-15 18:40+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -110,12 +110,36 @@ msgstr ""
 "«string».\n"
 
 #, c-format
-msgid "%s: The help browser is disabled in %s mode.\n"
-msgstr "%s: у режимі %s перегляд довідки вимкнено.\n"
+msgid "%s: Wrong number of input argument(s): %d expected.\n"
+msgstr "%s: помилкова кількість вхідних параметрів: мало бути %d.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A character string expected.\n"
+msgstr ""
+"%s: помилковий тип вхідного параметра №%d: слід використовувати рядок з "
+"символів.\n"
+
+#, c-format
+msgid "%s: Undefined variable %s.\n"
+msgstr "%s: невизначена змінна %s.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: Name of a Scilab function expected.\n"
+msgstr ""
+"%s: помилкове значення вхідного параметра %d: мало бути вказано назву "
+"функції Scilab.\n"
+
+msgid "No comment available."
+msgstr "Немає коментаря."
 
 #, c-format
 msgid "%s: help file(.jar) is not installed.\n"
 msgstr "%s: не встановлено файл довідки (.jar).\n"
+
+#, c-format
+msgid "%s: The help browser is disabled in %s mode.\n"
+msgstr "%s: у режимі %s перегляд довідки вимкнено.\n"
 
 #, c-format
 msgid ""
@@ -231,6 +255,26 @@ msgstr ""
 "         Додайте посилання на використаний код мовою Scilab, C або іншою "
 "мовою програмування"
 
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 42
+msgid "Help browser: Pages of external modules can't be viewed online"
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 47
+msgid "Help browser: Tables of contents can't be targeted online"
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 65
+msgid "Help browser: Bugs of external modules can't be listed."
+msgstr ""
+
+#
+# File: modules/helptools/macros/helpbrowser_menus_cb.sci, line: 70
+msgid "Help browser: Table of contents can't be targeted in Bugzilla"
+msgstr ""
+
 #, c-format
 msgid "%s: Wrong number of input argument: %d expected.\n"
 msgstr "%s: помилкова кількість вхідних параметрів: мало бути %d.\n"
@@ -287,11 +331,9 @@ msgstr ""
 "\n"
 "Збирання файла підручника [%s].\n"
 
-#
-# File: modules/helptools/macros/xmltoformat.sci, line: 754
 #, c-format
 msgid "Post-processing Right-to-Left pages in %s...\n"
-msgstr ""
+msgstr "Остаточна обробка сторінок із записом справа ліворуч у %s...\n"
 
 #, c-format
 msgid "%s: %s has not been generated."

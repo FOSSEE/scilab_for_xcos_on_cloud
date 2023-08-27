@@ -22,7 +22,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -32,7 +34,9 @@ import org.scilab.modules.graphic_export.FileExporter;
 import org.scilab.modules.graphic_objects.graphicController.GraphicController;
 import org.scilab.modules.graphic_objects.figure.Figure;
 import org.scilab.modules.gui.SwingView;
+import org.scilab.modules.gui.SwingViewObject;
 import org.scilab.modules.gui.bridge.tab.SwingScilabDockablePanel;
+import org.scilab.modules.gui.bridge.window.SwingScilabWindow;
 import org.scilab.modules.gui.tab.SimpleTab;
 import org.scilab.modules.gui.utils.ConfigManager;
 import org.scilab.modules.localization.Messages;
@@ -84,8 +88,8 @@ public class SwingScilabExportFileChooser extends SwingScilabFileChooser {
     public SwingScilabExportFileChooser(Integer figureUID) {
         super();
         this.figureUID = figureUID;
-        SwingScilabDockablePanel tab = (SwingScilabDockablePanel) SwingView.getFromId(figureUID);
-        setParentFrame(tab.getParentWindow());
+        JFrame parentWindow = (JFrame) SwingUtilities.getAncestorOfClass(SwingScilabWindow.class, (JComponent) SwingView.getFromId(figureUID));
+        setParentFrame(parentWindow);
         exportCustomFileChooser(figureUID);
     }
 
@@ -152,8 +156,13 @@ public class SwingScilabExportFileChooser extends SwingScilabFileChooser {
         accessoryPanel.setVisible(true);
         super.setAccessory(accessoryPanel);
 
-        Component c = DrawerVisitor.getVisitor(figureUID).getComponent();
-        Window parentWindow = (Window) SwingUtilities.getAncestorOfClass(Window.class, c);
+        Window parentWindow = null;
+        DrawerVisitor visitor = DrawerVisitor.getVisitor(figureUID);
+        if (visitor != null)
+        {
+            Component c = visitor.getComponent();
+            parentWindow = (Window) SwingUtilities.getAncestorOfClass(Window.class, c);
+        }
 
         int selection = super.showSaveDialog(parentWindow);
         if (selection == JFileChooser.APPROVE_OPTION && super.getSelectedFile() != null) {
@@ -162,7 +171,7 @@ public class SwingScilabExportFileChooser extends SwingScilabFileChooser {
             /* Bug 3849 fix */
             ConfigManager.saveLastOpenedDirectory(new File(exportName).getParentFile().getPath());
 
-            String extensionCombo = new String();
+            String extensionCombo = "";
             try {
                 // The try catch is necessary here when the user input the full
                 // filename (foo.jpg) and press tab. It is going to update
@@ -290,8 +299,16 @@ public class SwingScilabExportFileChooser extends SwingScilabFileChooser {
      * @param userExtension extension caught by the user
      */
     public void vectorialExport(String userExtension) {
-        SwingScilabDockablePanel tab = (SwingScilabDockablePanel) SwingView.getFromId(figureUID);
-        Component c = DrawerVisitor.getVisitor(figureUID).getComponent();
+        SwingViewObject view = SwingView.getFromId(figureUID);
+        SimpleTab tab;
+        if (view instanceof SimpleTab)
+        {
+            tab = (SimpleTab) SwingView.getFromId(figureUID);
+        }
+        else
+        {
+            tab = null;
+        }
         ExportData exportData = new ExportData(figureUID, this.exportName, userExtension, null);
 
         String actualFilename = exportData.getExportName();

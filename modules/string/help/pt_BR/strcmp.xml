@@ -23,7 +23,10 @@
     </refnamediv>
     <refsynopsisdiv>
         <title>Seqüência de Chamamento</title>
-        <synopsis>res = strcmp(string_one,string_two,[,'i'])</synopsis>
+        <synopsis>
+            res = strcmp(string_one, string_two)
+            res = strcmp(string_one, string_two, "i")
+        </synopsis>
     </refsynopsisdiv>
     <refsection>
         <title>Parâmetros</title>
@@ -83,10 +86,10 @@ strcmp(TXT1,TXT2,'i')
         <title>Ver Também</title>
         <simplelist type="inline">
             <member>
-                <link linkend="strcat">strcat</link>
+                <link linkend="convstr">convstr</link>
             </member>
             <member>
-                <link linkend="strcmpi">strcmpi</link>
+                <link linkend="comparison">comparison</link>
             </member>
         </simplelist>
     </refsection>

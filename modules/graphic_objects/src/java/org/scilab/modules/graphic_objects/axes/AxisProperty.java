@@ -101,7 +101,7 @@ public class AxisProperty {
         reverse = false;
         gridColor = 0;
         gridThickness = -1;
-        gridStyle = Line.LineType.DASH_DOT;
+        gridStyle = Line.LineType.DOT;
 
         /* Sets the label to the null object */
         label = 0;
@@ -306,8 +306,8 @@ public class AxisProperty {
      * @param label the label to set
      */
     public UpdateStatus setLabel(Integer label) {
-        if (this.label != label) {
-            this.label = label == null ? 0 : label;
+        if (!this.label.equals(label)) {
+            this.label = label == null ? Integer.valueOf(0) : label;
             return UpdateStatus.Success;
         }
 

@@ -2,7 +2,6 @@
 <!--
  * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - F. Delebecque
- *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -13,7 +12,10 @@
  * along with this program.
  *
  -->
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org" xml:lang="en" xml:id="lqe">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook" xmlns:scilab="http://www.scilab.org"
+          xml:lang="en" xml:id="lqe">
     <refnamediv>
         <refname>lqe</refname>
         <refpurpose>linear quadratic estimator (Kalman Filter)  </refpurpose>
@@ -259,7 +261,7 @@
           to the big one, the deviations from  equilibrium positions
           <emphasis>dy<subscript>1</subscript></emphasis> and
           <emphasis>dy<subscript>2</subscript></emphasis>
-          of the masses are measured. These measures are also subject to an additionnal noise
+          of the masses are measured. These measures are also subject to an additional noise
           <emphasis>v</emphasis>.
         </para>
         <para>
@@ -301,7 +303,7 @@ Q_ww=Pd.B*Q_e*Pd.B'; //input noise adds to regular input u
 Ko=lqe(Pd,Q_ww,R_vv); //observer gain
 
 //----syntax [K,X]=lqe(P21)---
-bigR =sysdiag(Q_ww, R_vv);
+bigR =blockdiag(Q_ww, R_vv);
 [W,Wt]=fullrf(bigR);
 Bw=W(1:size(Pd.B,1),:);
 Dw=W(($+1-size(Pd.C,1)):$,:);
@@ -371,7 +373,7 @@ Q_ww=Pd.B*Q_e*Pd.B'; //input noise adds to regular input u
 Ko=lqe(Pd,Q_ww,R_vv); //observer gain
 
 //----syntax [K,X]=lqe(P21)---
-bigR =sysdiag(Q_ww, R_vv);
+bigR =blockdiag(Q_ww, R_vv);
 [W,Wt]=fullrf(bigR);
 Bw=W(1:size(Pd.B,1),:);
 Dw=W(($+1-size(Pd.C,1)):$,:);

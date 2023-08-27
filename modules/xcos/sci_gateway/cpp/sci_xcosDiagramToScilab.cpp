@@ -15,6 +15,7 @@
  *
  */
 /*--------------------------------------------------------------------------*/
+#include <algorithm>
 #include "Xcos.hxx"
 #include "GiwsException.hxx"
 #include "loadStatus.hxx"
@@ -57,6 +58,8 @@ types::Function::ReturnValue sci_xcosDiagramToScilab(types::typed_list &in, int 
      * xcosDiagramToScilab(["/path/to/a/file", "/path/to/files"], scs_m1, scs_m2)
      */
 
+    _iRetCount = (std::max)(1, _iRetCount);
+
     if (in.size() < 1)
     {
         Scierror(77, _("%s: Wrong number of input arguments: at least %d expected.\n"), funname, 1);
@@ -94,7 +97,7 @@ types::Function::ReturnValue sci_xcosDiagramToScilab(types::typed_list &in, int 
         {
             if (!in[1 + i]->isUserType())
             {
-                Scierror(77, _("%s: Wrong type for input argument #%d: ""%s"" expected.\n"), funname, i+2, "diagram");
+                Scierror(77, _("%s: Wrong type for input argument #%d: ""%s"" expected.\n"), funname, i + 2, "diagram");
                 return types::Function::Error;
             }
         }
@@ -144,13 +147,13 @@ static types::InternalType* importFile(char const* file)
     {
         Xcos::xcosDiagramToScilab(getScilabJavaVM(), file, uid, false);
     }
-    catch (GiwsException::JniCallMethodException &exception)
+    catch (const GiwsException::JniCallMethodException& exception)
     {
         Scierror(999, "%s: %s\n%s\n", funname, exception.getJavaDescription().c_str(), exception.getJavaStackTrace().c_str());
         controller.deleteObject(uid);
         return nullptr;
     }
-    catch (GiwsException::JniException &exception)
+    catch (const GiwsException::JniException& exception)
     {
         Scierror(999, "%s: %s\n", funname, exception.whatStr().c_str());
         controller.deleteObject(uid);
@@ -177,12 +180,12 @@ static bool exportFile(int index, char const* file, types::InternalType* type)
     {
         Xcos::xcosDiagramToScilab(getScilabJavaVM(), file, o->id(), true);
     }
-    catch (GiwsException::JniCallMethodException &exception)
+    catch (const GiwsException::JniCallMethodException& exception)
     {
         Scierror(999, "%s: %s\n%s\n", funname, exception.getJavaDescription().c_str(), exception.getJavaStackTrace().c_str());
         return false;
     }
-    catch (GiwsException::JniException &exception)
+    catch (const GiwsException::JniException& exception)
     {
         Scierror(999, "%s: %s\n", funname, exception.whatStr().c_str());
         return false;

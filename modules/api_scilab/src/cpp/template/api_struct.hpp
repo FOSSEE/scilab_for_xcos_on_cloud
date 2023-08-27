@@ -130,9 +130,20 @@ int API_PROTO(getFields)(scilabEnv env, scilabVar var, wchar_t***  fields)
         return STATUS_ERROR;
     }
 #endif
-    types::String* str = s->getFieldNames();
-    *fields = str->get();
-    return str->getSize();
+
+    if (s->getSize() == 0)
+    {
+        return 0;
+    }
+
+    std::unordered_map<std::wstring, int> fieldsMap = s->get(0)->getFields();
+    *fields = new wchar_t*[fieldsMap.size()];
+    for (const auto & field : fieldsMap)
+    {
+        (*fields)[field.second] = os_wcsdup(field.first.data());
+    }
+
+    return (int)fieldsMap.size();
 }
 
 /*data*/
@@ -193,4 +204,3 @@ scilabStatus API_PROTO(setStructMatrix2dData)(scilabEnv env, scilabVar var, cons
     types::SingleStruct* ss = s->get(s->getIndex(index));
     return ss->set(field, (types::InternalType*)data) ? STATUS_OK : STATUS_ERROR;
 }
-

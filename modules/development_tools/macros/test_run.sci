@@ -795,7 +795,7 @@ function status = test_single(_module, _testPath, _testName)
     tail = [ tail; "diary(0);" ];
 
     if graphic then
-        tail = [ tail; "xdel(winsid());sleep(1000);" ];
+        tail = [ tail; "close(winsid());sleep(1000);" ];
     end
 
     tail = [ tail; "exit(0);" ; "// <-- FOOTER END -->" ];
@@ -808,7 +808,8 @@ function status = test_single(_module, _testPath, _testName)
 
     //scilab path
     if (getos() <> "Windows") & ~isfile(SCI+"/bin/scilab") then
-        SCI_BIN = strsubst(SCI,"share/scilab","");
+        // match a string wich finished by /share/scilab/ or /share/scilab
+        SCI_BIN = strsubst(SCI,"|/share/scilab/?$|","","r");
     else
         SCI_BIN = SCI;
     end
@@ -938,6 +939,12 @@ function status = test_single(_module, _testPath, _testName)
 
                 // Remove messages due to warning message from external
                 // libraries
+
+                if ~isempty(txt) then
+                    // Gtk style on Ubuntu or other Gtk logging
+                    toRemove = grep(txt, "Gtk-Message:");
+                    txt(toRemove) = [];
+                end
 
                 if ~isempty(txt) then
                     // MESA / EGL display some warning on stderr

@@ -75,12 +75,9 @@ sound \
 overloading \
 m2sci \
 development_tools \
-compatibility_functions \
 helptools \
 umfpack \
 demo_tools \
-genetic_algorithms \
-simulated_annealing \
 parameters \
 matio \
 atoms \
@@ -96,7 +93,8 @@ preferences \
 xml \
 external_objects \
 slint \
-coverage
+coverage \
+webtools
 
 if GUI
 SUBDIRS += external_objects_java
@@ -155,6 +153,9 @@ GUI_LIBS = $(top_builddir)/modules/gui/libscigui.la \
 	$(top_builddir)/modules/helptools/libscihelptools.la \
 	$(top_builddir)/modules/tclsci/libscitclsci.la
 
+if IS_MACOSX
+NO_GUI_LIBS = 
+else
 NO_GUI_LIBS = $(top_builddir)/modules/gui/libscigui-disable.la \
 	$(top_builddir)/modules/graphics/libscigraphics-disable.la \
 	$(top_builddir)/modules/graphic_export/libscigraphic_export-disable.la \
@@ -169,7 +170,7 @@ NO_GUI_LIBS = $(top_builddir)/modules/gui/libscigui-disable.la \
 	$(top_builddir)/modules/commons/libscicommons-disable.la \
 	$(top_builddir)/modules/preferences/libscipreferences-cli.la \
 	$(top_builddir)/modules/tclsci/libscitclsci-disable.la
-
+endif
 
 ENGINE_LIBS =	$(top_builddir)/modules/fileio/libscifileio.la \
 	$(top_builddir)/modules/mexlib/libmex.la \
@@ -222,7 +223,8 @@ ENGINE_LIBS_DYNAMIC_LOAD = \
 	$(top_builddir)/modules/spreadsheet/libscispreadsheet.la \
 	$(top_builddir)/modules/umfpack/libsciumfpack.la \
 	$(top_builddir)/modules/matio/libscimatio.la \
-	$(top_builddir)/modules/parallel/libsciparallel.la
+	$(top_builddir)/modules/parallel/libsciparallel.la \
+    $(top_builddir)/modules/webtools/libsciwebtools.la
 
 if MPI
 ENGINE_LIBS += $(top_builddir)/modules/mpi/libscimpi.la
@@ -262,5 +264,8 @@ libscilab_cli_la_LDFLAGS = $(AM_LDFLAGS) $(SCI_LDFLAGS)
 
 # Core modules
 libscilab_cli_la_LIBADD = $(ENGINE_LIBS) $(NO_GUI_LIBS) $(OTHER_LIBS) $(EXTERNAL_LIBS) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS)
+
+# Compiler specific support
+libscilab_cli_la_LIBADD += -lstdc++fs # needed before gcc 9 (Ubuntu 18.04)
 
 .NOTPARALLEL: libscilab-cli.la libscilab.la

@@ -63,7 +63,7 @@ assert_checkalmostequal ( norm(x,"inf") , norm(x,%inf)        , 100*%eps );
 assert_checkalmostequal ( norm(x,"fro") , norm(x,2)           , 100*%eps );
 
 // Matrices
-a = rand(10, 10, "g");
+a = rand(10, 10, "n");
 assert_checkalmostequal ( norm(a,1) , max(sum(abs(a),"r"))               , 100*%eps );
 assert_checkalmostequal ( norm(a,"inf") , max(sum(abs(a),"c"))           , 100*%eps );
 assert_checkalmostequal ( norm(a,%inf) , max(sum(abs(a),"c"))            , 100*%eps );
@@ -133,16 +133,3 @@ for i = 1:1000
 end
 t = toc();
 assert_checktrue( t < 4 );
-
-//
-// IEEE compliance
-//
-refMsg = msprintf(_("%s: Wrong value for argument #%d: Must not contain NaN or Inf.\n"), "norm", 1);
-assert_checkerror("norm(%nan)", refMsg);
-assert_checkerror("norm([%i %nan])", refMsg);
-assert_checkerror("norm([%i %inf])", refMsg);
-assert_checkerror("norm([%i; %nan])", refMsg);
-assert_checkerror("norm([%i; %inf])", refMsg);
-assert_checkerror("norm([1 0; %nan 0])", refMsg);
-assert_checkerror("norm([1 0; %inf 0]);", refMsg);
-assert_checkerror("norm([%inf 0; %nan 0]);", refMsg);

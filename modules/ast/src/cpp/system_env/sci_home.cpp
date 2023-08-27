@@ -172,7 +172,7 @@ static char* computeSCIHOME(const char* path)
         os_sprintf(SCIHOMEPATH, "%s%s%s", USERPATHSCILAB, DIR_SEPARATOR, SCI_VERSION_STRING);
     }
 
-    /* creates directory if it does not exists */
+    /* creates directory if it does not exist */
     if (!isdir(SCIHOMEPATH))
     {
         if (!isdir(USERPATHSCILAB))
@@ -222,7 +222,7 @@ static char* computeSCIHOME(const char* path)
         sprintf(SCIHOMEPATH, "%s%s%s", USERPATHSCILAB, DIR_SEPARATOR, SCI_VERSION_STRING);
     }
 
-    /* creates directory if it does not exists */
+    /* creates directory if it does not exist */
     if (!isdir(SCIHOMEPATH))
     {
         if (!isdir(USERPATHSCILAB))
@@ -349,7 +349,10 @@ static bool createDirectoryRecursively(const std::string& path)
     {
         if (errno != EEXIST)
         {
-            *p = '/';
+            if (p != NULL)
+            { 
+                *p = '/';
+            }
             FREE(file_path);
             return false;
         }

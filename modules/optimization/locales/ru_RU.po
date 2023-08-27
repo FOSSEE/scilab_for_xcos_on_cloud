@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:24+0000\n"
+"PO-Revision-Date: 2020-06-28 11:58+0000\n"
 "Last-Translator: Stanislav V. Kroter <krotersv@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong type for argument #%d: A real expected.\n"
@@ -138,8 +138,14 @@ msgstr ""
 "%s: Неверный тип входного аргумента №%d: ожидалась матрица или функция.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
-msgstr "%s: Неверный тип входного аргумента №%d: ожидался скаляр.\n"
+msgid "%s: Argument #%d: Scalar (1 element) expected.\n"
+msgstr "%s: Аргумент №%d: ожидался скаляр (1 элемент).\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A jacobian or a real expected.\n"
+msgstr ""
+"%s: Неверный тип входного аргумента №%d:  ожидался якобиан или вещественное "
+"число.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A real expected.\n"
@@ -252,6 +258,10 @@ msgid "%s: Wrong type for input argument #%d: Scalar string expected.\n"
 msgstr ""
 "%s: Неверный тип входного аргумента №%d: ожидалось скалярное строковое "
 "значение.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: A scalar expected.\n"
+msgstr "%s: Неверный тип входного аргумента №%d: ожидался скаляр.\n"
 
 #, c-format
 msgid "Can not allocate %.2f MB memory.\n"
@@ -526,14 +536,63 @@ msgstr "%s: Неверный размер выходного аргумента 
 msgid "An error occurred while getting OptimizationFunctions object.\n"
 msgstr "Произошла ошибка при получении объекта OptimizationFunctions.\n"
 
-msgid "Non linear data fitting"
-msgstr "Аппроксимация нелинейных данных"
+msgid "Please wait ..."
+msgstr "Пожалуйста, подождите..."
+
+msgid "Simulated Annealing"
+msgstr "Алгоритм имитации отжига"
+
+msgid "Simulated Annealing and Ising problem"
+msgstr "Алгоритм имитации отжига и проблема Изинга"
+
+msgid "Parabolic model (3 params)"
+msgstr ""
+
+msgid "Sloping gaussian model (5 params)"
+msgstr ""
+
+msgid "Tilted ellipse (5 params)"
+msgstr ""
 
 msgid "Experimental data"
 msgstr "Экспериментальные данные"
 
 msgid "Fitting function"
 msgstr "Функция аппроксимации"
+
+msgid "datafit() random demo : ellipse fitting (unweighted)"
+msgstr ""
+
+msgid "True elliptical law"
+msgstr ""
+
+msgid "Data = true + noise dx|y = +/-7%"
+msgstr "Data = true + noise dx|y = +/-7%"
+
+msgid "Best ellipse fitting Data"
+msgstr ""
+
+msgid "datafit: Fitting on 30 random unweighted data points"
+msgstr ""
+
+#, c-format
+msgid "%s: optimization starting, please wait ...\n"
+msgstr "%s: началась оптимизация, пожалуйста, подождите...\n"
+
+msgid "Genetic algorithms"
+msgstr "Генетические алгоритмы"
+
+msgid "Genetic algorithms and Ising problem"
+msgstr "Генетические алгоритмы и проблема Изинга"
+
+msgid "MultiObjective Genetic Algorithm"
+msgstr "Многокритериальный генетический алгоритм"
+
+msgid "Niched Sharing Genetic Algorithm"
+msgstr "Генетический алгоритм образования ниш"
+
+msgid "Niched Sharing Genetic Algorithm II"
+msgstr "Генетический алгоритм образования ниш  II"
 
 msgid "LQV"
 msgstr ""
@@ -847,6 +906,9 @@ msgstr ""
 msgid "Optimization and Simulation"
 msgstr "Оптимизация и моделирование"
 
+msgid "datafit: Nonlinear fitting"
+msgstr ""
+
 msgid "Optimisation"
 msgstr "Оптимизация"
 
@@ -856,11 +918,24 @@ msgstr ""
 msgid "ICSE"
 msgstr ""
 
-msgid "Genetic algorithms"
-msgstr "Генетические алгоритмы"
+#, c-format
+msgid "%s: cit_f is mandatory"
+msgstr "%s: cit_f является обязательным"
 
-msgid "Simulated Annealing"
-msgstr "Алгоритм имитации отжига"
+#, c-format
+msgid "%s: error - wrong accept type"
+msgstr "%s: ошибка - неверный принимаемый тип"
+
+msgid "optim_sa: sa_f is mandatory"
+msgstr "optim_sa: sa_f является обязательным"
+
+#, c-format
+msgid ""
+"%s: Temperature step %d / %d - T = %f, E(f(T)) = %f var(f(T)) = %f f_best = "
+"%f\n"
+msgstr ""
+"%s: Шаг температуры %d / %d - T = %f, E(f(T)) = %f var(f(T)) = %f f_best = "
+"%f\n"
 
 #, c-format
 msgid "%s: More than 20 equations are not allowed"
@@ -884,22 +959,60 @@ msgstr ""
 "%s: Якобиан не может быть списком, параметры должны быть установлены в G."
 
 #, c-format
-msgid "%s: Wrong measurement matrix."
-msgstr "%s: Неверная матрица измерений."
+msgid "%s: Data points must be real numbers."
+msgstr ""
 
 #, c-format
-msgid "%s: Initial guess must be a column vector."
-msgstr "%s: Начальное предположение должно быть вектор-столбцом."
+msgid "%s: Initial guess p0 is missing."
+msgstr ""
 
 #, c-format
 msgid "%s: Weighting matrix must be square."
 msgstr "%s: Взвешивающая матрица должна быть квадратной."
 
 #, c-format
+msgid "%s: error with parameters bounds or initial guess\n"
+msgstr ""
+
+#, c-format
 msgid "%s: With hard coded function, user must give output size of G."
 msgstr ""
 "%s: Для жёстко запрограммированной функции пользователь должен указывать "
 "выходной размер G."
+
+#, c-format
+msgid "%s: wrong direction"
+msgstr "%s: неверное направление"
+
+#, c-format
+msgid "%s: ga_f is mandatory"
+msgstr "%s: ga_f обязателен"
+
+msgid "optim_moga: ga_f is mandatory"
+msgstr "optim_moga: ga_f обязателен"
+
+#, c-format
+msgid "%s: Initialization of the population\n"
+msgstr "%s: Инициализация популяции\n"
+
+msgid "optim_nsga2: ga_f is mandatory"
+msgstr "optim_nsga2: ga_f обязателен"
+
+#, c-format
+msgid "%s: iteration %d / %d \n"
+msgstr "%s: итерация %d / %d \n"
+
+#, c-format
+msgid "    min / max value found = %f / %f\n"
+msgstr "    найденное мин. / макс. значение = %f / %f\n"
+
+#, c-format
+msgid "%s: iteration %d / %d\n"
+msgstr "%s: итерация %d / %d\n"
+
+#, c-format
+msgid "%s: F_in is mandatory"
+msgstr "%s: F_in обязателен"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
@@ -1285,7 +1398,7 @@ msgstr "Эта функция будет окончательно удалена
 
 #, c-format
 msgid "Calling sequence %s is obsolete."
-msgstr ""
+msgstr "Вызывающая последовательность %s устарела."
 
 #, c-format
 msgid ""
@@ -1786,7 +1899,3 @@ msgid "%s: Wrong value for input argument #%d: An integer value expected.\n"
 msgstr ""
 "%s: Неверное значение входного аргумента №%d: ожидалось целочисленное "
 "значение.\n"
-
-#, c-format
-msgid "%s: Wrong number of input argument(s): %d or %d expected.\n"
-msgstr "%s: Неверное количество аргументов: Ожидалось %d или %d.\n"

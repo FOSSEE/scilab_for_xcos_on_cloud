@@ -225,7 +225,8 @@
                             <listitem>
                                 <para>
                                     An object attached to the Axes entity and returning a graphic
-                                    handle on a Label structure (see <link linkend="label_properties">label_properties</link>).
+                                    handle on a Label structure
+                                    (see <link linkend="label_properties">label_properties</link>).
                                     This field defines a title with options on this label.
                                 </para>
                             </listitem>
@@ -235,7 +236,8 @@
                             <listitem>
                                 <para>
                                     An object attached to the Axes entity and returning a graphic
-                                    handle on a Label structure (see <link linkend="label_properties">label_properties</link>).
+                                    handle on a Label structure
+                                    (see <link linkend="label_properties">label_properties</link>).
                                     This field defines a label on x axis with options on this
                                     label.
                                 </para>
@@ -246,7 +248,8 @@
                             <listitem>
                                 <para>
                                     An object attached to the Axes entity and returning a graphic
-                                    handle on a Label structure (see <link linkend="label_properties">label_properties</link>).
+                                    handle on a Label structure
+                                    (see <link linkend="label_properties">label_properties</link>).
                                     This field defines a label on y axis with options on this
                                     label.
                                 </para>
@@ -257,7 +260,8 @@
                             <listitem>
                                 <para>
                                     An object attached to the Axes entity and returning a graphic
-                                    handle on a Label structure (see <link linkend="label_properties">label_properties</link>).
+                                    handle on a Label structure
+                                    (see <link linkend="label_properties">label_properties</link>).
                                     This field defines a label on z axis with options on this
                                     label.
                                 </para>
@@ -305,10 +309,17 @@
                                         <varlistentry>
                                             <term>Locations</term>
                                             <listitem>
-                                                is a real vector containing the locations of graduations along and according to the data scale of the given x or y or z axis.
-                                                When the number of ticks does not need to be changed, their locations can be set or changed through
-                                                the syntax (e.g. along x) <literal>Haxes.x_ticks.locations = Locations</literal> where <literal>Haxes = gca();</literal>
-                                                and <literal>Locations</literal> is the complete vector of updated ticks positions. To change just the ith location, just use:
+                                                is a real vector containing the locations of
+                                                graduations along and according to the data scale
+                                                of the given x or y or z axis.
+                                                When the number of ticks does not need to be changed,
+                                                their locations can be set or changed through
+                                                the syntax (e.g. along x)
+                                                <literal>Haxes.x_ticks.locations = Locations</literal>
+                                                where <literal>Haxes = gca();</literal> and
+                                                <literal>Locations</literal> is the complete vector
+                                                of updated ticks positions. To change just the ith
+                                                location, just use:
                                                 <literal>Haxes.x_ticks.locations(i) = newLoc</literal>
                                             </listitem>
                                         </varlistentry>
@@ -438,17 +449,33 @@
                                     <literal>"back_half"</literal>, the X, Y and Z axis are also drawn. If
                                     the property is <literal>"on"</literal> the whole box is drawn.
                                 </para>
+                                <scilab:image><![CDATA[
+                                    box = ["on" "back_half" "hidden_axes" "off"];
+                                    for i = 1:4
+                                        subplot(1,4,i)
+                                        plot3d([0 1],[0 1],[0 1])
+                                        a = gca();
+                                        a.box = box(i);
+                                        a.rotation_angles = [235 326];
+                                        title(msprintf("%s", box(i)), "fontsize",3)
+                                    end
+                                    gcf().axes_size = [840 222];
+                                ]]></scilab:image>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
                             <term>filled: </term>
                             <listitem>
                                 <para>
-                                    This property specifies whether the axes background should be drawn or not.
+                                    This property specifies whether the axes background should be
+                                    drawn or not.
                                     Its value can be either <literal>"off"</literal> or
-                                    <literal>"on".</literal> If the property is <literal>"off"</literal>, the background
-                                    is not drawn, the axes box is transparent. If the property is <literal>"on"</literal> the
-                                    background is drawn using the color specified by the <literal>background</literal> property.
+                                    <literal>"on".</literal>
+                                    If the property is <literal>"off"</literal>, the background
+                                    is not drawn, the axes box is transparent. If the property is
+                                    <literal>"on"</literal> the
+                                    background is drawn using the color specified by the
+                                    <literal>background</literal> property.
                                 </para>
                             </listitem>
                         </varlistentry>
@@ -467,8 +494,9 @@
                             <term>font_style: </term>
                             <listitem>
                                 <para>
-                                    Specifies the font used for displaying tics labels. This is a positive integer referecing one of the loaded fonts.
-                                    Its value must be between 0, referecing the first font,
+                                    Specifies the font used for displaying tics labels. This is a
+                                    positive integer referencing one of the loaded fonts.
+                                    Its value must be between 0, referencing the first font,
                                     and the number of loaded fonts minus one, referencing the last font.
                                     For more information see <link linkend="graphics_fonts">graphics_fonts</link>.
                                 </para>
@@ -498,7 +526,8 @@
                                     This property specify whether ticks labels are displayed using fractional font sizes.
                                     Its value must be either <literal>"on"</literal> or <literal>"off"</literal>.
                                     If <literal>"on"</literal> the floating point value of <literal>font_size</literal>
-                                    is used for display and the font is anti-aliased. If <literal>"off"</literal> only the integer part is used
+                                    is used for display and the font is anti-aliased.
+                                    If <literal>"off"</literal> only the integer part is used
                                     and the font is not smoothed.
                                 </para>
                             </listitem>
@@ -511,8 +540,8 @@
                                     z axes (for example to make the display of the curve sin(x) versus
                                     cos(x) be a circle not an ellipse). Its value should be
                                     <literal>"on"</literal> or <literal>"off"</literal>. If the value is
-                                    <literal>"on"</literal>, the axes <literal>data_bounds</literal> automatically
-                                    change according to the corresponding figure
+                                    <literal>"on"</literal>, the axes <literal>data_bounds</literal>
+                                    automatically change according to the corresponding figure
                                     <literal>figure_size</literal> property values.
                                 </para>
                             </listitem>
@@ -549,9 +578,72 @@
                             <term>rotation_angles: </term>
                             <listitem>
                                 <para>
-                                    This field is the vector <literal>[alpha,theta]</literal>. These two
-                                    values give the spherical coordinates of the observation points
-                                    (in degree).
+                                    Spherical coordinates <literal>[alpha, theta]</literal> =
+                                    <literal>[polAngle, azimuth]</literal> of the observation point,
+                                    in degrees:
+                                    <itemizedlist>
+                                        <listitem>
+                                            <emphasis role="bold">theta</emphasis>: azimuth angle
+                                            in the (x,y) plane. Particular angles, for (x,y) seen
+                                            from (O,z):
+                                            <table>
+                                                <tr><td>270 </td><td>: (O,x) to right</td></tr>
+                                                <tr><td>0 </td><td>: (O,x) to bottom</td></tr>
+                                                <tr><td>90 </td><td>: (O,x) to left</td></tr>
+                                                <tr><td>180 </td><td>: (O,x) to top</td></tr>
+                                            </table>
+                                            <scilab:image><![CDATA[
+                                            // gca().rotation_angles:
+                                            // Azimuth:
+                                            // --------
+                                            x = linspace(0,30,100);
+                                            y = exp(-x/7).*sin(x);
+                                            scf(1);
+                                            clf
+                                            i = 1;
+                                            for a = [270 315 0 90 180]
+                                                subplot(1,5,i)
+                                                plot(x, y, "b")
+                                                gca().rotation_angles(2) = a;
+                                                gca().margins = [0.17 0.17 0.25 0.15];
+                                                gca().box = "on";
+                                                gca().cube_scaling = "on";
+                                                title(msprintf("theta = %d\n\r", a), "fontsize",3, "color",color("magenta3"))
+                                                i = i + 1;
+                                            end
+                                            gcf().axes_size = [810 200];
+                                            ]]></scilab:image>
+                                        </listitem>
+                                        <listitem>
+                                            <emphasis role="bold">alpha</emphasis>: polar angle from
+                                            (Oz), in planes orthogonal to (x,y). Particular values:
+                                            <table>
+                                                <tr><td>0</td><td>= North pole (O,z)</td><td> view from above</td></tr>
+                                                <tr><td>90</td><td>= Equator (x,y)</td><td> view from side</td></tr>
+                                                <tr><td>180</td><td>= South pole (O,-z)</td><td> view from below</td></tr>
+                                            </table>
+                                            <scilab:image><![CDATA[
+                                            // gca().rotation_angles:
+                                            // polar angle
+                                            // -----------
+                                            scf(2);
+                                            clf
+                                            i = 1
+                                            for a = [0 30 60 90 120]
+                                                subplot(1,5,i)
+                                                plot3d()
+                                                gce().color_mode = -2;
+                                                gca().rotation_angles = [a 300];
+                                            //    gca().margins = [0.17 0.17 0.25 0.15];
+                                            //    gca().box = "on";
+                                                gca().cube_scaling = "on";
+                                                title(msprintf("alpha = %d\n", a), "fontsize",3, "color",color("magenta3"))
+                                                i = i + 1;
+                                            end
+                                            gcf().axes_size = [810 220];
+                                            ]]></scilab:image>
+                                        </listitem>
+                                    </itemizedlist>
                                 </para>
                             </listitem>
                         </varlistentry>
@@ -561,9 +653,29 @@
                                 <para>
                                     3 character string that sets the scale (linear or logarithmic) along the axes.
                                     Each character specifies the scale for respectively the X, Y and Z axes.
-                                    They should take a value between <literal>'n'</literal> for linear scale or
-                                    <literal>'l'</literal> for logarithmic scale.
+                                    They can be either <literal>'n'</literal> for the
+                                    <emphasis role="bold">n</emphasis>ormal scale, or
+                                    <literal>'l'</literal> for the
+                                    <emphasis role="bold">l</emphasis>ogarithmic one.
                                 </para>
+                                <scilab:image><![CDATA[
+                                    x = linspace(0,10,100)(2:$);
+                                    m = ["nn" "ln" "nl" "ll"];
+                                    clf
+                                    for i = 1:4
+                                        subplot(1,4,i)
+                                        plot2d(m(i), x, x.^2)
+                                        xgrid(color("grey75"),1,7)
+                                        title(msprintf("""%s""",m(i)),"fontsize",3)
+                                        select i
+                                        case 1, gca().sub_ticks = [3 3];
+                                        case 2, gca().sub_ticks = [8 3];
+                                        case 3, gca().sub_ticks = [3 8];
+                                        case 4, gca().sub_ticks = [8 8];
+                                        end
+                                    end
+                                    gcf().axes_size = [800 220];
+                                ]]></scilab:image>
                             </listitem>
                         </varlistentry>
                         <varlistentry>
@@ -657,8 +769,7 @@
                                 </para>
                                 <para>
                                     These numbers are relative to the
-                                    <literal>gca().parent.figure_size(3:4)</literal>
-                                    or to the <literal>gca().parent.position(3:4)</literal>
+                                    <literal>gca().parent.position(3:4)</literal> [width, height]
                                     dimensions of the figure or of the Uicontrol frame
                                     embedding the axes.
                                 </para>
@@ -700,11 +811,26 @@
                             <term>auto_clear: </term>
                             <listitem>
                                 <para>
-                                    If this property value is equal to <literal>"on"</literal>, a call
-                                    to a high level graphic will re-initialize the current axes and
-                                    erase all its children before preforming the drawing (log_flags will be reset).
-                                    If the value is <literal>"off"</literal> the drawings will be added to current axes
-                                    according to <literal>"auto_scale"</literal> property.
+                                    <literal>"on"</literal>: a call to a high level graphic function
+                                    targeting the axes
+                                    <itemizedlist>
+                                        <listitem>
+                                            erases all children of the axes,
+                                        </listitem>
+                                        <listitem>
+                                            resets its <literal>.log_flags</literal> and
+                                            <literal>.data_bounds</literal> properties to their default value
+                                        </listitem>
+                                        <listitem>
+                                            keeps its other properties
+                                        </listitem>
+                                    </itemizedlist>
+                                    before performing the drawing.
+                                </para>
+                                <para>
+                                    <literal>"off"</literal>: the forthcoming drawings are overplotted
+                                    in the axes according to the <literal>"auto_scale"</literal> rule
+                                    and other properties.
                                 </para>
                             </listitem>
                         </varlistentry>
@@ -712,11 +838,12 @@
                             <term>auto_scale: </term>
                             <listitem>
                                 <para>
-                                    A property to update the axes data boundary. If value is
-                                    <literal>"on"</literal>, a new plot will adapt the current axes
-                                    properties to fit with previous and current plots. If its value is
-                                    <literal>"off"</literal> the new plot will be drawn in the current axes
-                                    data boundary.
+                                    Property enabling the auto update of <literal>.data_bounds</literal>.
+                                    <literal>"on"</literal>: Each new plot enlarges
+                                    <literal>.data_bounds</literal> values according to boundaries
+                                    of added data.
+                                    <literal>"off"</literal>: Default or explicitly initialized values
+                                    of <literal>.data_bounds</literal> are not modified.
                                 </para>
                             </listitem>
                         </varlistentry>
@@ -972,8 +1099,7 @@
     </refsection>
     <refsection>
         <title>Examples</title>
-        <programlisting role="example">
-            <![CDATA[
+        <programlisting role="example"><![CDATA[
 lines(0) // disables vertical paging
 a=get("current_axes")//get the handle of the newly created axes
 a.axes_visible="on"; // makes the axes visible
@@ -1102,7 +1228,7 @@ a.ticks_st = [1 1;0 m(2)];
         </para>
         <programlisting role="example" id="axes_properties_vertical_xticks"><![CDATA[
 rain_Nice  = [51  45  39 69 45 34 12 18 73 133 104 93 ];
-months = _(["January" "Febuary" "March" "April" "May" "June" "July" ...
+months = _(["January" "February" "March" "April" "May" "June" "July" ...
             "August" "September" "October" "November" "December"]);
 clf
 bar(rain_Nice,1,"cyan");
@@ -1114,7 +1240,7 @@ gcf().axes_size = [460 320];
 ]]></programlisting>
     <scilab:image localized="true">
 rain_Nice  = [51  45  39 69 45 34 12 18 73 133 104 93 ];
-months = _(["January" "Febuary" "March" "April" "May" "June" "July" ..
+months = _(["January" "February" "March" "April" "May" "June" "July" ..
             "August" "September" "October" "November" "December"]);
 clf
 bar(rain_Nice, 1, "cyan")
@@ -1194,6 +1320,13 @@ gcf().axes_size = [420 320];
             <revision>
                 <revnumber>6.1.0</revnumber>
                 <revremark>Default .grid_style is now [7 7] instead of [3 3].</revremark>
+            </revision>
+            <revision>
+                <revnumber>6.1.1</revnumber>
+                <revremark>
+                    Default .x|y|z_label.font_size=2, instead of 1.
+                    Default .title.font_size=3, instead of 1.
+                </revremark>
             </revision>
         </revhistory>
     </refsection>

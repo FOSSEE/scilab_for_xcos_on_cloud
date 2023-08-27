@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:12+0000\n"
+"PO-Revision-Date: 2020-02-19 07:19+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong size for input arguments: Same sizes expected.\n"
@@ -394,10 +394,10 @@ msgstr ""
 "     або  x = umf_lusolve(lup,b,Ax''=b,A), щоб додати крок ітеративного "
 "уточнення\n"
 
-msgid "  4/ you may also compute the 1-norm condition number quicky with:"
+msgid "  4/ you may also compute the 1-norm condition number quickly with:"
 msgstr ""
-"  4) Також можна швидко обчислити обумовленість 1-норма за допомогою такої "
-"команди:"
+"  4/ крім того, ви можете швидко обчислити значення обумовленості 1-норма "
+"ось так:"
 
 #, c-format
 msgid ""
@@ -432,16 +432,12 @@ msgid "     norm of the residual    = "
 msgstr "     норма нев’язки    = "
 
 #, c-format
-msgid "     same but with refinment = "
+msgid "     same but with refinement = "
 msgstr "     те саме, але з уточненням = "
 
 #, c-format
 msgid "     norm of the residual     = "
 msgstr "     норма нев’язки     = "
-
-#, c-format
-msgid "     same but with refinement = "
-msgstr "     те саме, але з уточненням = "
 
 msgid "Now we will see how to use the taucs snmf stuff on the matrix A2."
 msgstr ""

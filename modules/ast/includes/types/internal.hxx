@@ -30,6 +30,7 @@ extern "C"
 #include "configvariable_interface.h"
 }
 
+#include "scilabexception.hxx"
 #include "localization.hxx"
 #ifndef NDEBUG
 #include "inspector.hxx"
@@ -232,7 +233,17 @@ public :
             // A types:: content in more than one Scilab variable
             // must be cloned before being modified.
             T* pClone = _pIT->clone()->template getAs<T>();
-            T* pIT = (pClone->*f)(a...);
+            T* pIT = NULL;
+            try
+            {
+                pIT = (pClone->*f)(a...);
+            }
+            catch (const ast::InternalError& ie)
+            {
+                pClone->killMe();
+                throw ie;
+            }
+
             if (pIT == NULL)
             {
                 pClone->killMe();
@@ -337,6 +348,14 @@ public :
     virtual bool hasInvokeOption() const;
     virtual int getInvokeNbIn();
     virtual int getInvokeNbOut();
+
+    virtual bool getMemory(long long* _piSize, long long* _piSizePlusType)
+    {
+        *_piSize = 0;
+        *_piSizePlusType = 0;
+        return false;
+    }
+
     /* return type as string ( double, int, cell, list, ... )*/
     virtual std::wstring            getTypeStr() const = 0;
     /* return type as short string ( s, i, ce, l, ... )*/
@@ -395,10 +414,10 @@ public :
     virtual bool isListOperation(void);
     virtual bool isListDelete(void);
     virtual bool isListInsert(void);
-    virtual bool isListUndefined(void);
     virtual bool isPointer(void);
     virtual bool isLibrary(void);
     virtual bool isUserType(void);
+    virtual bool isVoid(void);
 
     void clearPrintState();
 

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:51+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: RodolfoRG <rodolforg@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 msgid "Input file"
 msgstr "Arquivo de entrada"
@@ -44,12 +44,296 @@ msgstr ""
 msgid "About_M2SCI_tools"
 msgstr "About_M2SCI_tools"
 
+#, c-format
+msgid ""
+"%s: Insertion of a sparse matrix in a matrix of numbers is not defined.\n"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong type for input argument: Cell elements must be character arrays.\n"
+msgstr ""
+"%s: Tipo incorreto para o argumento de entrada: elementos das células devem "
+"ser matrizes de caracteres.\n"
+
+#, c-format
+msgid "%s: This feature has not been implemented.\n"
+msgstr "%s: Este recurso não foi implementado.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument: Cell expected.\n"
+msgstr ""
+"%s: Tipo incorreto para o argumento de entrada: esperava-se uma célula.\n"
+
+#, c-format
+msgid "%s: Wrong type for input arguments: String expected.\n"
+msgstr "%s: Tipo incorreto para argumentos de entrada: esperava-se um texto.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: %s, %s, %s, '%s', '%s' or '%s' "
+"expected.\n"
+msgstr ""
+"%s: Valor incorreto para o argumento de entrada #%d: esperava-se %s, %s, %s, "
+"'%s', '%s' ou '%s'.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong input arguments: Dimensions given as first argument do not match "
+"specified cell contents.\n"
+msgstr ""
+"%s: Argumentos de entrada incorretos: as dimensões fornecidas como primeiro "
+"argumento não correspondem ao conteúdo da célula especificada.\n"
+
+#, c-format
+msgid "%s: This feature has not been implemented: Support for hypermatrices.\n"
+msgstr "%s: Este recurso não foi implementado: suporte a hipermatrizes.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Matrix of strings expected.\n"
+msgstr ""
+"%s: Tipo incorreto para o argumento de entrada #%d: esperava-se uma matriz "
+"de textos.\n"
+
+#, c-format
+msgid "%s: Wrong size for '%s': Vector expected.\n"
+msgstr "%s: Tamanho incorreto para '%s': esperava-se um vetor.\n"
+
+#, c-format
+msgid "%s: This feature has not been implemented: %s.\n"
+msgstr "%s: Este recurso não foi implementado: %s.\n"
+
+#, c-format
+msgid "%s: Wrong value for affectation to '%s'.\n"
+msgstr "%s: Valor incorreto para simulação de '%s'.\n"
+
+#, c-format
+msgid "%s: '%s' only used in 3d mode."
+msgstr "%s: '%s' usado apenas em modo 3D."
+
+#, c-format
+msgid "%s: This feature has not been implemented: Argument of type %d.\n"
+msgstr "%s: Este recurso não foi implementado: argumento do tipo %d.\n"
+
+msgid "Close"
+msgstr "Fechar"
+
+#, c-format
+msgid "%s: '%s' ignored.\n"
+msgstr "%s: '%s' ignorado.\n"
+
+#, c-format
+msgid "%s: All windows deleted.\n"
+msgstr "%s: Todas as janelas excluídas.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Square matrix expected.\n"
+msgstr ""
+"%s: Tipo incorreto para o argumento de entrada #%d: esperava-se uma matriz "
+"quadrada.\n"
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: %s, %s,'%s' or '%s' expected.\n"
+msgstr ""
+"%s: Valor incorreto para o argumento de entrada #%d: Esperava-se %s, %s,'%s' "
+"ou '%s'.\n"
+
+msgid "Jan"
+msgstr "Jan"
+
+msgid "Feb"
+msgstr "Fev"
+
+msgid "Mar"
+msgstr "Mar"
+
+msgid "Apr"
+msgstr "Abr"
+
+msgid "May"
+msgstr "Mai"
+
+msgid "Jun"
+msgstr "Jun"
+
+msgid "Jul"
+msgstr "Jul"
+
+msgid "Aug"
+msgstr "Ago"
+
+msgid "Sep"
+msgstr "Set"
+
+msgid "Oct"
+msgstr "Out"
+
+msgid "Nov"
+msgstr "Nov"
+
+msgid "Dec"
+msgstr "Dez"
+
+#, c-format
+msgid "%s: Not yet implemented.\n"
+msgstr "%s: Ainda não foi implementado.\n"
+
+#, c-format
+msgid "%s: Cannot open file '%s'.\n"
+msgstr "%s: Não pode abrir o arquivo '%s'.\n"
+
+#, c-format
+msgid "%s: Unknown type.\n"
+msgstr "%s: Tipo desconhecido.\n"
+
+#, c-format
+msgid "%s: Unknown type '%s': IGNORED.\n"
+msgstr "%s: Tipo desconhecido '%s': IGNORADO.\n"
+
+#, c-format
+msgid "%s: %s is not implemented.\n"
+msgstr "%s: %s não foi implementado.\n"
+
+#, c-format
+msgid ""
+"%s: %s Scilab function does not work with more than one row variables.\n"
+msgstr ""
+"%s: A função %s do Scilab não funciona com variáveis com mais de uma linha.\n"
+
+#, c-format
+msgid "%s: The format '%s' is unknown.\n"
+msgstr "%s: O formato '%s' é desconhecido.\n"
+
+#, c-format
+msgid "%s: The format '%s' is not yet handled.\n"
+msgstr "%s: O formato '%s' ainda não é tratado.\n"
+
+#, c-format
+msgid "%s: End of file reached before all matrix is read.\n"
+msgstr ""
+"%s: Chegou-se ao final do arquivo antes de terminar de ler toda a matriz.\n"
+
+#, c-format
+msgid "%s: No equivalent for '%s' property.\n"
+msgstr "%s: Não há equivalente para a propriedade '%s'.\n"
+
+#, c-format
+msgid "%s: No minor grid in Scilab.\n"
+msgstr "%s: Não há a grade minor (menor) no Scilab.\n"
+
+#, c-format
+msgid "%s: Wrong value for input argument #%d: '%s', '%s' or '%s' expected.\n"
+msgstr ""
+"%s: Valor incorreto para o argumento de entrada #%d: esperava-se '%s', '%s' "
+"ou '%s'.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong size for input argument #%d: Matlab vector of strings expected.\n"
+msgstr ""
+"%s: Tamanho incorreto para o argumento de entrada #%d: esperava-se um vetor "
+"de textos do Matlab.\n"
+
+#, c-format
+msgid "%s: Unhandled class '%s'.\n"
+msgstr "%s: Classe '%s' não tratada.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: A positive integer value expected.\n"
+msgstr ""
+"%s: Valor incorreto para o argumento de entrada #%d: esperava-se um valor "
+"inteiro positivo.\n"
+
+#, c-format
+msgid "%s: Wrong number of output argument(s): %d expected.\n"
+msgstr "%s: Quantidade incorreta de argumento(s) de saída: esperava-se %d.\n"
+
+#, c-format
+msgid "%s: '%s' option ignored.\n"
+msgstr "%s: Opção '%s' ignorada.\n"
+
+#, c-format
+msgid "%s: Unknown line style found in '%s' -> set to 6.\n"
+msgstr ""
+"%s: Encontrado um estilo de linha desconhecido em '%s' -> ajustado para 6.\n"
+
+#, c-format
+msgid "%s: Unknown color found in '%s' -> set to black.\n"
+msgstr ""
+"%s: Encontrou-se uma cor desconhecida em '%s' -> ajustado para preto.\n"
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr "%s: número incorreto de argumentos de entrada: %d ou %d esperados.\n"
+
+#, c-format
+msgid "%s: Wrong number of output arguments: %d to %d expected.\n"
+msgstr "%s: número errado de argumentos de saída: %d a %d esperados.\n"
+
+#, c-format
+msgid "%s: pencil is not diagonalizable.\n"
+msgstr "%s: o lápis não é diagonalizável.\n"
+
+#, c-format
+msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
+msgstr ""
+"%s: Quantidade incorreta de argumento(s) de entrada: esperava-se de %d a "
+"%d.\n"
+
+#, c-format
+msgid "%s: Wrong type for input argument #%d: Column vector expected.\n"
+msgstr ""
+"%s: Tipo incorreto para o argumento de entrada #%d: esperava-se um vetor "
+"coluna.\n"
+
+#, c-format
+msgid "%s: This particular case is not implemented.\n"
+msgstr "%s: Este caso em particular não está implementado.\n"
+
+#, c-format
+msgid "%s: '%s' not implemented.\n"
+msgstr "%s: '%s' não implementado.\n"
+
+#, c-format
+msgid "%s: End of string reached before data has been read.\n"
+msgstr "%s: Chegou-se ao final do texto antes dos dados serem lidos.\n"
+
+#, c-format
+msgid "%s: Could not open neither '%s' nor '%s' nor '%s'.\n"
+msgstr "%s: Não foi possível abrir '%s' nem '%s' nem '%s'.\n"
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
+msgstr ""
+"%s: Quantidade incorreta de argumentos de entrada: esperava-se de %d a %d.\n"
+
+#, c-format
+msgid "%s: The normalization m - 1 factor is zero.\n"
+msgstr "%s: O fator m - 1 de normalização é zero.\n"
+
+#, c-format
+msgid "%s: The normalization n - 1 factor is zero.\n"
+msgstr "%s: O fator n - 1 de normalização é zero.\n"
+
 msgid "Not yet implemented."
 msgstr "Ainda não implementado."
 
 #, c-format
 msgid "Extraction of %s from '%s' tlist is not yet implemented."
 msgstr "Estração de %s a partir de tlist '%s' ainda não implementada."
+
+#, c-format
+msgid "Extraction of '%s' from '%s' tlist is not yet implemented.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: The field '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
+msgid "Extraction of '%s' from '%s' tlist is not yet implemented."
+msgstr ""
 
 #, c-format
 msgid "index must be a list instead of a: %s."
@@ -111,31 +395,46 @@ msgid "infer must be an 'infer' tlist instead of a: %s."
 msgstr "infer deve ser um tlist 'infer', ao invés de: %s."
 
 #, c-format
-msgid "operator must be a string instead of a: %s."
-msgstr "operator deve ser um string, ao invés de: %s."
+msgid "%s: operator as Argument #%d must be a string instead of a '%s'.\n"
+msgstr ""
 
 #, c-format
-msgid "operands must be a list instead of a: %s."
-msgstr "operands deve ser uma lista, ao invés de: %s."
+msgid "%s: operands as Argument #%d must be a list instead of a '%s'.\n"
+msgstr ""
 
 #, c-format
-msgid "out must be a list instead of a: %s."
-msgstr "out deve ser uma lista, ao invés de: %s."
+msgid "%s: out as Argument #%d must be a list instead of a '%s'.\n"
+msgstr ""
+
+#, c-format
+msgid "vtype '%s' is not yet implemented.\n"
+msgstr ""
+
+msgid "List of properties is not yet implemented.\n"
+msgstr ""
+
+#, c-format
+msgid "Wrong property '%s' for vtype '%s'.\n"
+msgstr ""
+
+#, c-format
+msgid "m2sci.convert2double(): Type %s not yet implemented."
+msgstr ""
+
+#, c-format
+msgid "recursive extraction with one index of type %s is not yet implemented."
+msgstr "Extração recursiva com um índice de tipo %s ainda não implementada."
 
 #, c-format
 msgid "%s is not yet implemented."
 msgstr "%s ainda não foi implementado."
 
-msgid "list of properties is not yet implemented."
-msgstr "A lista de propriedades ainda não foi implementada."
-
 #, c-format
-msgid "wrong property %s."
-msgstr "Propriedade %s errada."
+msgid "Error while executing : [sci_equiv] = sci_%s(mtlb_expr)."
+msgstr ""
 
-#, c-format
-msgid "unknown clause type: %s."
-msgstr "Tipo de cláusula desconhecido: %s."
+msgid "not matlab path"
+msgstr "Não é um endereço Matlab"
 
 #, c-format
 msgid "Matlab function %s not yet converted, original calling sequence used."
@@ -171,34 +470,6 @@ msgstr ""
 "Função desconhecida %s não convertida, a seqüência de chamamento original é "
 "utilizada."
 
-#, c-format
-msgid "lhs cannot be a %s operation."
-msgstr "lhs não pode ser uma operação %s."
-
-#, c-format
-msgid "lhs cannot be a %s."
-msgstr "lhs não pode ser %s."
-
-#, c-format
-msgid "recursive extraction with one index of type %s is not yet implemented."
-msgstr "Extração recursiva com um índice de tipo %s ainda não implementada."
-
-#, c-format
-msgid "Error while executing : [sci_equiv]=sci_%s(mtlb_expr)."
-msgstr "Erro durante a execução : [sci_equiv]=sci_%s(mtlb_expr)."
-
-msgid ": The 24 first characters of the files names are equal: "
-msgstr ": Os primeiros 24 caracteres dos nomes de arquivos são iguais a: "
-
-#, c-format
-msgid "Matlab function %s not yet converted."
-msgstr "Função do Matlab %s ainda não convertida."
-
-#, c-format
-msgid "mtlb(%s) can be replaced by %s() or %s whether %s is an M-file or not."
-msgstr ""
-"mtlb(%s) pode ser substituído por %s() ou %s de %s for um M-file, ou não."
-
 msgid "input argument must be an 'operation' tlist."
 msgstr "O argumento de entrada deve ser um tlist 'operation'."
 
@@ -222,8 +493,29 @@ msgid "L.%d: Unknown variable %s."
 msgstr "L.%d: Variável desconhecida %s."
 
 #, c-format
+msgid "Matlab function %s not yet converted."
+msgstr "Função do Matlab %s ainda não convertida."
+
+#, c-format
+msgid "mtlb(%s) can be replaced by %s() or %s whether %s is an M-file or not."
+msgstr ""
+"mtlb(%s) pode ser substituído por %s() ou %s de %s for um M-file, ou não."
+
+#, c-format
 msgid "unknown instruction type %s."
 msgstr "Tipo de instrução desconhecido %s."
+
+#, c-format
+msgid "Wrong LHS '%s' operation: Insertion expected.\n"
+msgstr ""
+
+#, c-format
+msgid "lhs cannot be a %s."
+msgstr "lhs não pode ser %s."
+
+#, c-format
+msgid "unknown clause type: %s."
+msgstr "Tipo de cláusula desconhecido: %s."
 
 #, c-format
 msgid "Bad use of isdefinedvar() with input: %s."
@@ -241,14 +533,11 @@ msgstr " -- Cada função é convertida separadamente: %s -- "
 msgid " -- Temporary files put in: %s -- "
 msgstr " -- Arquivos temporários colocados em: %s -- "
 
+msgid ": The 24 first characters of the files names are equal: "
+msgstr ": Os primeiros 24 caracteres dos nomes de arquivos são iguais a: "
+
 msgid "// Number of arguments in function call"
 msgstr "// Número de argumentos na chamada da função"
-
-msgid "// Display mode"
-msgstr "// Modo de exibição"
-
-msgid "// Display warning for floating point exception"
-msgstr "// Exibir aviso para a exceção de ponto flutuante"
 
 msgid "// Output variables initialisation (not found in input variables)"
 msgstr ""
@@ -301,8 +590,49 @@ msgstr ""
 msgid "m2sciassume is obsolete, used m2scideclare instead."
 msgstr "m2sciassume está obsoleto, utilize m2scideclare ao invés."
 
-msgid "not matlab path"
-msgstr "Não é um endereço Matlab"
+msgid ""
+"not enough data, you should give at least variable_name|dimensions|datatype."
+msgstr ""
+"Não há dados suficientes, você deveria fornecer pelo menos variable_name|"
+"dimensions|datatype."
+
+msgid "too much data."
+msgstr "Muitos dados."
+
+#
+# File: modules/m2sci/macros/kernel/m2scideclare.sci, line: 93
+#, c-format
+msgid "'%s' current size %s <> %s in m2scideclare:  m2scideclare IGNORED.\n"
+msgstr ""
+
+#, c-format
+msgid "Unknown datatype '%s'.\n"
+msgstr ""
+
+#
+# File: modules/m2sci/macros/kernel/m2scideclare.sci, line: 106
+#, c-format
+msgid ""
+"'%s' current type '%s' <> '%s' in m2scideclare:  m2scideclare IGNORED.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Unknown property '%s' for the type '%s'.\n"
+msgstr ""
+
+#
+# File: modules/m2sci/macros/kernel/m2scideclare.sci, line: 139
+#, c-format
+msgid ""
+"'%s' current property '%s' <> '%s' in m2scideclare:  m2scideclare IGNORED.\n"
+msgstr ""
+
+msgid "Wrong dimensions user data."
+msgstr "Dados do usuário de dimensões erradas."
+
+#, c-format
+msgid "%graphicswindow set to default value Handle."
+msgstr "%graphicswindow ajustado para o valor padrão Handle."
 
 msgid "wrong type of input."
 msgstr "Tipo errado de entrada."
@@ -331,80 +661,11 @@ msgstr " pode ser substituído por:"
 msgid "if"
 msgstr "se"
 
-msgid ""
-"not enough data, you should give at least variable_name|dimensions|datatype."
-msgstr ""
-"Não há dados suficientes, você deveria fornecer pelo menos variable_name|"
-"dimensions|datatype."
-
-msgid "too much data."
-msgstr "Muitos dados."
-
-#, c-format
-msgid "Unknown datatype %s."
-msgstr "Tipo de dados desconhecido %s."
-
-#, c-format
-msgid "Unknown property %s."
-msgstr "Propriedade desconhecida %s."
-
-msgid "Wrong dimensions user data."
-msgstr "Dados do usuário de dimensões erradas."
-
-#, c-format
-msgid ""
-"Dimensions current value and m2scideclare statements conflict for: %s\n"
-"   m2scideclare given dimension: %s\n"
-"   Current dimension: %s\n"
-"   m2scideclare IGNORED"
-msgstr ""
-"O valor corrente das dimensões e as declarações m2scideclare conflitam por: "
-"%s\n"
-"   dada dimensão de m2scideclare: %s\n"
-"   Dimensão corrente: %s\n"
-"   m2scideclare IGNORADO"
-
-#, c-format
-msgid ""
-"Type current value and m2scideclare statements conflict for: %s\n"
-"   m2scideclare given type: %s\n"
-"   current type: %s\n"
-"   m2scideclare IGNORED"
-msgstr ""
-"O valor corrente de tipo e as declarações m2scideclare conflitam por: %s\n"
-"   dado tipo de m2scideclare: %s\n"
-"   tipo corrente: %s\n"
-"   m2scideclare IGNORADO"
-
-#, c-format
-msgid ""
-"Property current value and m2scideclare statements conflict for: %s\n"
-"   m2scideclare given type: %s\n"
-"   current type: %s\n"
-"   m2scideclare IGNORED"
-msgstr ""
-"O valor corrente de propriedade e as declarações m2scideclare conflitam por: "
-"%s\n"
-"   dado tipo de m2scideclare: %s\n"
-"   tipo corrente: %s\n"
-"   m2scideclare IGNORADO"
-
-#, c-format
-msgid "%graphicswindow set to default value Handle."
-msgstr "%graphicswindow ajustado para o valor padrão Handle."
-
-#, c-format
-msgid "type %d is not implemented."
-msgstr "O tipo %d não é implementado."
-
 msgid "Matlab to Scilab conversion tool"
 msgstr "Ferramenta de conversão Matlab para Scilab"
 
 msgid "File"
 msgstr "Arquivo"
-
-msgid "Close"
-msgstr "Fechar"
 
 msgid "?"
 msgstr "?"
@@ -530,8 +791,6 @@ msgstr "Modificação de sintaxe..."
 msgid "Syntax modification: Done"
 msgstr "Modificação de sintaxe: Feita"
 
-#
-# File: modules/m2sci/macros/mfile2sci.sci, line: 212
 #, c-format
 msgid "%s: %s does not exist or is not the macro name.\n"
 msgstr ""
@@ -599,11 +858,6 @@ msgid "****** End of mfile2sci() session ******"
 msgstr "****** Fim da sessão de mfile2sci()******"
 
 #, c-format
-msgid "At least one operand of %s is an empty matrix, Scilab equivalent is []."
-msgstr ""
-"Pelo menos um operando de %s é uma matriz vazia, o equivalente Scilab é []."
-
-#, c-format
 msgid "recursive extraction from a variable %s of type %s."
 msgstr "Extração recursiva de uma variável %s do tipo %s."
 
@@ -629,11 +883,21 @@ msgstr ""
 "Um dos operandos é uma matriz vazia em: %s, resultado ajustado para []."
 
 #, c-format
-msgid ""
-"At least one operand is an empty matrix for operator: %s, result set to []."
+msgid "At least one operand of %s is an empty matrix, Scilab equivalent is []."
 msgstr ""
-"Pelo menos um operando é uma matriz vazia para o operador: %s, resultado "
-"ajustado para []."
+"Pelo menos um operando de %s é uma matriz vazia, o equivalente Scilab é []."
+
+#, c-format
+msgid ""
+"If %s is imaginary and its module is > 1\n"
+"      the real part of %s is -pi/2 in Scilab instead of +pi/2 in Matlab."
+msgstr ""
+
+#, c-format
+msgid ""
+"If %s is in [0,1)\n"
+"  imag(%s) is -pi/2 in Scilab instead of +pi/2 in Matlab."
+msgstr ""
 
 #, c-format
 msgid ""
@@ -643,16 +907,13 @@ msgstr ""
 "Se %s está fora de [-1,1]\n"
 "   a parte complexa da saída de %s será o oposto da do Matlab."
 
-msgid "is Real."
-msgstr "É real."
-
 #, c-format
 msgid ""
-"If %s is outside [-1,1]\n"
-"   real part of output of %s will be the opposite of Matlab one."
+"If %s < -1, complex part of output of %s will be the opposite of Matlab one."
 msgstr ""
-"se %s está fora de [-1,1]\n"
-"   parte real de saída de %s será oposta à da do Matlab."
+
+msgid "is Real."
+msgstr "É real."
 
 msgid "cube_scaling only used in 3d mode."
 msgstr "cube_scaling utilizado apenas no modo 3D."
@@ -875,5 +1136,62 @@ msgstr "%s: Valor de saída ajustado para 'on'."
 msgid "unitfile.dat"
 msgstr "unitfile.dat"
 
-#~ msgid "%s: %s module is not installed.\n"
-#~ msgstr "%s: Módulo %s não instalado.\n"
+#, c-format
+#~ msgid "lhs cannot be a %s operation."
+#~ msgstr "lhs não pode ser uma operação %s."
+
+#~ msgid "// Display mode"
+#~ msgstr "// Modo de exibição"
+
+#~ msgid "// Display warning for floating point exception"
+#~ msgstr "// Exibir aviso para a exceção de ponto flutuante"
+
+#, c-format
+#~ msgid ""
+#~ "Dimensions current value and m2scideclare statements conflict for: %s\n"
+#~ "   m2scideclare given dimension: %s\n"
+#~ "   Current dimension: %s\n"
+#~ "   m2scideclare IGNORED"
+#~ msgstr ""
+#~ "O valor corrente das dimensões e as declarações m2scideclare conflitam "
+#~ "por: %s\n"
+#~ "   dada dimensão de m2scideclare: %s\n"
+#~ "   Dimensão corrente: %s\n"
+#~ "   m2scideclare IGNORADO"
+
+#, c-format
+#~ msgid ""
+#~ "Type current value and m2scideclare statements conflict for: %s\n"
+#~ "   m2scideclare given type: %s\n"
+#~ "   current type: %s\n"
+#~ "   m2scideclare IGNORED"
+#~ msgstr ""
+#~ "O valor corrente de tipo e as declarações m2scideclare conflitam por: %s\n"
+#~ "   dado tipo de m2scideclare: %s\n"
+#~ "   tipo corrente: %s\n"
+#~ "   m2scideclare IGNORADO"
+
+#, c-format
+#~ msgid ""
+#~ "Property current value and m2scideclare statements conflict for: %s\n"
+#~ "   m2scideclare given type: %s\n"
+#~ "   current type: %s\n"
+#~ "   m2scideclare IGNORED"
+#~ msgstr ""
+#~ "O valor corrente de propriedade e as declarações m2scideclare conflitam "
+#~ "por: %s\n"
+#~ "   dado tipo de m2scideclare: %s\n"
+#~ "   tipo corrente: %s\n"
+#~ "   m2scideclare IGNORADO"
+
+#, c-format
+#~ msgid "type %d is not implemented."
+#~ msgstr "O tipo %d não é implementado."
+
+#, c-format
+#~ msgid ""
+#~ "At least one operand is an empty matrix for operator: %s, result set to "
+#~ "[]."
+#~ msgstr ""
+#~ "Pelo menos um operando é uma matriz vazia para o operador: %s, resultado "
+#~ "ajustado para []."

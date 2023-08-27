@@ -3,7 +3,7 @@
 // Copyright (C) 2008 - INRIA - Allan CORNET
 // Copyright (C) 2010 - DIGITEO - Allan CORNET
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
-// Copyright (C) 2018 - Samuel GOUGEON
+// Copyright (C) 2018 - 2020 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
 // pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -14,19 +14,25 @@
 
 function edit(macroname, linenumber)
     // macroname : character string giving a macroname
-    // linenumber : line number
+    // linenumber : line number (as decimal number or literal one)
 
     [lhs,rhs] = argn(0);
     if (rhs > 2) then
-        error(sprintf(gettext("%s: Wrong number of input argument(s): At least %d expected.\n"), "edit", 1));
+        msg = _("%s: Wrong number of input argument(s): At least %d expected.\n")
+        error(msprintf(msg, "edit", 1));
     end
 
     if (rhs >= 1 & type(macroname) ~= 10) then
-        error(sprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"edit",1));
+        msg = _("%s: Wrong type for input argument #%d: String expected.\n")
+        error(msprintf(msg, "edit", 1));
     end
 
-    if (rhs == 2 & type(linenumber) ~= 1) then
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: Double expected.\n"),"edit",2));
+    if rhs == 2 then
+        if and(type(linenumber)~=[1 10]) | (type(linenumber)==10 & isnan(strtod(linenumber(1)))) then
+            msg = _("%s: Wrong type for input argument #%d: Number expected.\n")
+            error(msprintf(msg, "edit", 2));
+        end
+        linenumber = strtod(linenumber(1))
     end
 
     found = %f;
@@ -61,7 +67,25 @@ function edit(macroname, linenumber)
                             // priority = from library:
                             fname = pathconvert(path) + macroname + ".sci"
                         else
-                            txt = tree2code(tree, %t);
+                            // txt = tree2code(tree, %t);
+                            // http://bugzilla.scilab.org/16565 : no actual workaround
+                            // http://bugzilla.scilab.org/16576 : workaround
+                            // http://bugzilla.scilab.org/16595 : no workaround
+                            [o,i,txt] = string(object)
+                            if size(o,"*")==1
+                                o = o + " = "
+                            elseif size(o,"*") > 1
+                                o = "[" + strcat(o,", ") + "] = "
+                            else
+                                o = ""
+                            end
+                            if txt(1)==" ", txt(1)=[], end
+                            if txt($)==" ", txt($)=[], end
+                            if i<>[], i = strcat(i, ", "), else i = "", end
+                            txt = ["function " + o + macroname + "(" + i + ")"
+                                  "    " + txt
+                                  "endfunction"
+                                  ];
                             fname = tmpdir + macroname + ".sci";
                             mputl(txt, fname);
                         end

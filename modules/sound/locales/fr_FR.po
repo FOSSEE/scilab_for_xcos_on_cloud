@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 16:16+0000\n"
-"Last-Translator: Mickael Albertus <Unknown>\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
+"Last-Translator: CARNIS Adeline <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -34,6 +34,30 @@ msgstr "%s : Argument d'entrée n°%d faux : '%s' ou '%s' attendu.\n"
 
 msgid "Scilab sound module not installed.\n"
 msgstr "Le module sound de Scilab n'est pas installé.\n"
+
+# File: modules/sound/demos/mapsound.dem.sce, line: 29
+msgid "<html><h4>Example #1: Standard</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 42
+msgid "Next example"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 78
+msgid "Next exampleStop"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 91
+msgid "<html><h4>Example #3: chimes.wav sound</h4>"
+msgstr ""
+
+#
+# File: modules/sound/demos/mapsound.dem.sce, line: 97
+msgid "End"
+msgstr ""
 
 msgid "Sound file handling"
 msgstr "Gestion des fichiers audio"
@@ -63,6 +87,10 @@ msgstr ""
 "La gamme des index doit être spécifiée comme un scalaire ou un vecteur à 2 "
 "éléments."
 
+#, c-format
+msgid "%s: File '%s': Unrecognized data format.\n"
+msgstr "%s : Fichier '%s' : Format de données non reconnu.\n"
+
 msgid "Sample limit vector must have 2 elements."
 msgstr "Le vecteur des limites de l'échantillon doit avoir 2 éléments."
 
@@ -74,6 +102,10 @@ msgstr "Les limites de l'échantillon doivent être données par ordre croissant
 
 msgid "Error in file format."
 msgstr "Erreur de format de fichier."
+
+#, c-format
+msgid "%s: File '%s' is not a .au sound file.\n"
+msgstr "%s : Fichier '%s' n'est pas un fichier son .au\n"
 
 msgid "Error while reading sound file."
 msgstr "Erreur à la lecture du fichier son."
@@ -115,6 +147,57 @@ msgstr "%s : Nombre erroné d'arguments de sortie.\n"
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"
 msgstr "%s : Nombre erroné d'argument(s) de sortie.\n"
+
+#, c-format
+msgid "%s: Argument #%d: Function expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: A colormap function expected.\n"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 126
+msgid "Time [s]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 127
+msgid "Frequency [Hz]"
+msgstr ""
+
+#
+# File: modules/sound/macros/mapsound.sci, line: 137
+msgid "Amplitude"
+msgstr ""
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: %s expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be >= %d.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: '%s' is a directory. File expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: The file '%s' does not exist.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Decimal number expected.\n"
+msgstr ""
+
+#, c-format
+msgid "%s: Argument #%d: Must be > %d.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: Failed to play the sound with command: %s.\n"
@@ -171,6 +254,10 @@ msgstr ""
 "%s : Valeur erronée de l'argument d'entrée : La plage d'index doit être "
 "spécifiée sous la forme d'un scalaire ou d'un vecteur de %d éléments.\n"
 
+#, c-format
+msgid "%s: The file '%s' does not exist.\n"
+msgstr ""
+
 msgid ".wav file does not contain the RIFF identifier."
 msgstr "Le ficher .wav ne contient pas l'identifieur RIFF."
 
@@ -201,8 +288,9 @@ msgstr ""
 msgid "Incorrect chunk size information in RIFF file."
 msgstr "Information erronée de la taille des fragments dans le fichier RIFF."
 
-msgid "Invalid wav format."
-msgstr "Format wav invalide."
+#, c-format
+msgid "%s: wav format #%d detected. Only wav formats #%s are supported.\n"
+msgstr ""
 
 msgid "Error reading wav file."
 msgstr "Erreur pendant la lecture du fichier .wav."
@@ -213,9 +301,8 @@ msgstr ""
 "%s : Une erreur est survenue : Le format de compression de données %s n'est "
 "pas supporté.\n"
 
-msgid "Cannot read .wav file  with more than 16 bits per sample."
+msgid "Cannot read .wav file  with more than 32 bits per sample."
 msgstr ""
-"Impossible de lire le fichier .wav avec plus de 16 bits par échantillons."
 
 msgid "Sample limit vector must have 2 entries."
 msgstr "Le vecteur des limites d'échantillonnages doit avoir 2 entrées."

@@ -21,6 +21,7 @@
 
 extern "C"
 {
+#include "HistoryManager.h"
 #include "BrowseVarManager.h"
 #include "FileBrowserChDir.h"
 #include "scicurdir.h"
@@ -29,14 +30,19 @@ extern "C"
 }
 
 std::atomic<Runner*> StaticRunner::m_RunMe(nullptr);
-std::atomic<bool> StaticRunner::m_bInterruptibleCommand(true);
+std::atomic<Runner*> StaticRunner::m_CurrentRunner(nullptr);
 
 static bool initialJavaHooks = false;
 
-static void sendExecDoneSignal(Runner* _pRunner)
+void StaticRunner::sendExecDoneSignal()
 {
-    switch (_pRunner->getCommandOrigin())
+    switch (m_CurrentRunner.load()->getCommandOrigin())
     {
+        case DEBUGGER :
+        {
+            ThreadManagement::SendDebuggerExecDoneSignal();
+            break;
+        }
         case CONSOLE :
         {
             ThreadManagement::SendConsoleExecDoneSignal();
@@ -44,8 +50,7 @@ static void sendExecDoneSignal(Runner* _pRunner)
         }
         case TCLSCI :
         case NONE :
-        default :
-        {}
+        default : {}
     }
 }
 
@@ -60,11 +65,15 @@ int StaticRunner::launch()
     }
 
     int iRet = 0;
+
+    // save current runner
+    Runner* pRunSave = m_CurrentRunner.load();
+
     // get the runner to execute
     std::unique_ptr<Runner> runMe(getRunner());
-    // set if the current comment is interruptible
-    setInterruptibleCommand(runMe->isInterruptible());
-    debugger::DebuggerMagager* manager = debugger::DebuggerMagager::getInstance();
+
+    debugger::DebuggerManager* manager = debugger::DebuggerManager::getInstance();
+    manager->resetAborted();
 
     ConfigVariable::resetExecutionBreak();
 
@@ -143,6 +152,8 @@ int StaticRunner::launch()
         if (ConfigVariable::getPauseLevel())
         {
             ConfigVariable::DecreasePauseLevel();
+            // set back the runner wich have been overwritten in StaticRunner::getRunner
+            m_CurrentRunner.store(pRunSave);
             throw ia;
         }
 
@@ -153,11 +164,17 @@ int StaticRunner::launch()
             pCtx->scope_end();
         }
 
-        // send the good signal about the end of execution
-        sendExecDoneSignal(runMe.get());
+        // debugger leave with abort state
+        manager->setAborted();
 
-        //clean debugger step flag if debugger is not interrupted ( end of debug )
-        manager->resetStep();
+        // send the good signal about the end of execution
+        sendExecDoneSignal();
+
+        // send information about execution done to debuggers
+        manager->sendExecutionReleased();
+
+        // set back the runner wich have been overwritten in StaticRunner::getRunner
+        m_CurrentRunner.store(pRunSave);
         throw ia;
     }
 
@@ -172,6 +189,7 @@ int StaticRunner::launch()
         int err = 0;
 
         UpdateBrowseVar();
+        saveScilabHistoryToFile();
         cwd = scigetcwd(&err);
         if (cwd)
         {
@@ -184,10 +202,17 @@ int StaticRunner::launch()
     ConfigVariable::resetError();
 
     // send the good signal about the end of execution
-    sendExecDoneSignal(runMe.get());
+    sendExecDoneSignal();
+
+    // send information about execution done to debuggers
+    manager->sendExecutionReleased();
 
     //clean debugger step flag if debugger is not interrupted ( end of debug )
     manager->resetStep();
+
+    // set back the runner wich have been overwritten in StaticRunner::getRunner
+    m_CurrentRunner.store(pRunSave);
+
     return iRet;
 }
 
@@ -198,9 +223,9 @@ void StaticRunner::setRunner(Runner* _RunMe)
 
 Runner* StaticRunner::getRunner(void)
 {
-    Runner* tmp = m_RunMe.exchange(nullptr);
+    m_CurrentRunner.store(m_RunMe.exchange(nullptr));
     ThreadManagement::SendAvailableRunnerSignal();
-    return tmp;
+    return m_CurrentRunner.load();
 }
 
 // return true if a Runner is already set in m_RunMe.
@@ -209,19 +234,25 @@ bool StaticRunner::isRunnerAvailable(void)
     return m_RunMe.load() != nullptr;
 }
 
-void StaticRunner::setInterruptibleCommand(bool _bInterruptibleCommand)
+// return true if a command is running or paused.
+bool StaticRunner::isRunning(void)
 {
-    m_bInterruptibleCommand = _bInterruptibleCommand;
+    return m_CurrentRunner.load() != nullptr;
 }
 
 bool StaticRunner::isInterruptibleCommand()
 {
-    return m_bInterruptibleCommand;
+    return m_CurrentRunner.load()->isInterruptible();
 }
 
 command_origin_t StaticRunner::getCommandOrigin()
 {
     return m_RunMe.load()->getCommandOrigin();
+}
+
+void StaticRunner::setCommandOrigin(command_origin_t _origin)
+{
+    m_CurrentRunner.load()->setCommandOrigin(_origin);
 }
 
 void StaticRunner::execAndWait(ast::Exp* _theProgram, ast::RunVisitor *_visitor,
@@ -266,6 +297,11 @@ void StaticRunner_launch(void)
     StaticRunner::launch();
 }
 
+int StaticRunner_isRunning(void)
+{
+    return StaticRunner::isRunning() ? 1 : 0;
+}
+
 int StaticRunner_isRunnerAvailable(void)
 {
     return StaticRunner::isRunnerAvailable() ? 1 : 0;
@@ -276,12 +312,12 @@ int StaticRunner_isInterruptibleCommand(void)
     return StaticRunner::isInterruptibleCommand() ? 1 : 0;
 }
 
-void StaticRunner_setInterruptibleCommand(int val)
-{
-    StaticRunner::setInterruptibleCommand(val == 1);
-}
-
 command_origin_t StaticRunner_getCommandOrigin(void)
 {
     return StaticRunner::getCommandOrigin();
+}
+
+void StaticRunner_setCommandOrigin(command_origin_t _origin)
+{
+    StaticRunner::setCommandOrigin(_origin);
 }

@@ -66,12 +66,15 @@ contrib/external_modules.iss
 #
 # VS solution files (windows)
 #
+.vs/
 Scilab.sln_old
 *.aps
 *.lib
 *.exp
 *.vcdef
 *.pdb
+*.ipdb
+*.iobj
 Scilab.suo
 Scilab.ncb
 Release
@@ -118,6 +121,12 @@ workspace/
 # vim files
 /tags
 *.swp
+/compile_commands.json
+.ccls*
+
+# VSCode files
+.vscode/
+
 
 # MacOS files
 .DS_Store
@@ -192,41 +201,6 @@ modules/pvm/
 
 # call_scilab examples
 call_scilab_*
-*-bin
-*.cmi
-*.cmx
-blocks.h
-build/
-classpath.xml
-/etc/Info.plist
-/modules/intersci/intersci
-jar/
-lexer.ml
-!/lib
-!/modules/intersci/src/lib
-!/modules/mexlib/examples/interface/lib
-!/thirdparty/docbook/epub/bin/lib
-!/thirdparty/docbook/lib
-!/usr/lib
-linenum.ml
-/locale/
-machine.h
-Makefile.orig
-!/modules/functions/scripts/buildmacros/Makefile
-!/modules/intersci/examples/Makefile
-!/modules/javasci/examples/v2/Makefile
-!/thirdparty/docbook/Makefile
-modelicac
-modelicat
-models
-modules.xml
-parser.ml
+
 repositories
 repositories.orig
-SciDocConf.xml
-scilab-log-*.txt
-stack.h
-!/usr/include/openssl/stack.h
-stamp-h1
-version.h
-XML2Modelica

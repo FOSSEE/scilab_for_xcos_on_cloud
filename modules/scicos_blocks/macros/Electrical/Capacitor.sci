@@ -35,8 +35,9 @@ function [x,y,typ]=Capacitor(job,arg1,arg2)
         exprs=graphics.exprs
         model=arg1.model;
         while %t do
-            [ok,C,v,exprs]=scicos_getvalue("Set Capacitor block parameter",..
-            ["C (F)";"Initial Voltage"],list("vec",1,"vec",1),exprs)
+            [ok,C,v,exprs]=scicos_getvalue(..
+            msprintf(_("Set %s block parameters"), "Capacitor"),..
+            ["C (F)";_("Initial Voltage")],list("vec",1,"vec",1),exprs)
             if ~ok then
                 break,
             end
@@ -51,7 +52,7 @@ function [x,y,typ]=Capacitor(job,arg1,arg2)
             elseif v>=1e-8 & v<1e-5
                 sv = msprintf("%d\\:n\n",v*1e9)
             elseif v>=1e-5 & v<1e-2
-                sv = msprintf("%d\\:\\mu\n",v*1e6)
+                sv = msprintf("%d\\:\\mu \n",v*1e6)
             elseif v>=1e-2 & v<10
                 sv = msprintf("%d\\:m\n",v*1000)
             elseif v>=10 & v<10000

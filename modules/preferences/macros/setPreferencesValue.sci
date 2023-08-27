@@ -18,6 +18,8 @@
 //                   (take care: in this case xmlWrite is not called)
 //
 function setPreferencesValue(xpath, kv, doc)
+
+    warnobsolete("xmlSetValues()", "6.1.x")
     rhs = argn(2);
 
     if (rhs ~= 2 & rhs ~= 3) then

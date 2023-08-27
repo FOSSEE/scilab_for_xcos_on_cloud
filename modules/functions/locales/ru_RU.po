@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:02+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: Stanislav V. Kroter <krotersv@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
@@ -65,8 +65,8 @@ msgid "%s: Wrong type for input argument #%d: Vector of strings expected.\n"
 msgstr "%s: Неверный тип входного аргумента №%d: ожидался вектор строк.\n"
 
 #, c-format
-msgid "%s: Wrong number of output argument(s): %d expected.\n"
-msgstr "%s: Неверное количество выходных аргументов: ожидалось %d.\n"
+msgid "%s: Wrong number of output argument(s): %d to %d expected.\n"
+msgstr "%s: Неверное количество выходных аргументов: ожидалось от %d до %d.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: A String expected.\n"
@@ -81,6 +81,10 @@ msgid "%s: Invalid library %s.\n"
 msgstr "%s: Некорректная библиотека %s.\n"
 
 #, c-format
+msgid "%s: Wrong number of input arguments: %d expected.\n"
+msgstr ""
+
+#, c-format
 msgid "%s: Wrong number of output arguments: %d expected.\n"
 msgstr "%s: Неверное количество выходных аргументов: ожидалось %d.\n"
 
@@ -93,6 +97,10 @@ msgid "%s: Wrong number of input arguments: at least %d expected.\n"
 msgstr "%s: Неверное количество входных аргументов: ожидалось не менее %d.\n"
 
 #, c-format
+msgid "%s: Wrong number of output argument(s): %d expected.\n"
+msgstr "%s: Неверное количество выходных аргументов: ожидалось %d.\n"
+
+#, c-format
 msgid "Checking: %s.\n"
 msgstr "Проверяется: %s.\n"
 
@@ -103,6 +111,10 @@ msgstr "%s: Проверьте: %s\n"
 #, c-format
 msgid "%s: File %s doesn't exist.\n"
 msgstr "%s: Файл %s не существует.\n"
+
+#, c-format
+msgid "%s: Wrong number of input arguments: %d or %d expected.\n"
+msgstr ""
 
 #, c-format
 msgid "%s: This feature has not been implemented: %s.\n"
@@ -125,24 +137,6 @@ msgid "%s: Incorrect function in file %s.\n"
 msgstr "%s: Неверная функция в файле %s.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: A character string expected.\n"
-msgstr ""
-"%s: Неверный тип входного параметра №%d: ожидалась символьная строка.\n"
-
-#, c-format
-msgid "%s: Undefined variable %s.\n"
-msgstr "%s: Переменная %s не определена.\n"
-
-#, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: Name of a Scilab function expected.\n"
-msgstr ""
-"%s: Неверное значение входного параметра №%d: ожидалось имя функции Scilab.\n"
-
-msgid "No comment available."
-msgstr "Комментарий недоступен."
-
-#, c-format
 msgid "%s: Wrong type for input argument #%d: '%s' expected.\n"
 msgstr "%s: Неверный тип входного аргумента №%d: ожидался '%s'.\n"
 
@@ -161,7 +155,3 @@ msgstr "Используйте %s."
 #, c-format
 msgid "This feature will be permanently removed in Scilab %s"
 msgstr "Эта функция будет окончательно удалена в Scilab %s"
-
-#~ msgid "%s: Wrong number of input argument(s): %d to %d expected.\n"
-#~ msgstr ""
-#~ "%s: Неверное количество входных аргументов: Ожидалось от %d до %d.\n"

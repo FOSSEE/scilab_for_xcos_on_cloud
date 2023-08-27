@@ -173,15 +173,7 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
                         } catch (IllegalArgumentException exception) {
                             /* If the type is not known/managed, don't crash */
                         }
-                    } else {
-
-                        if (colIndex == BrowseVar.SIZE_COLUMN_INDEX) {
-                            /* Use the getModel() method because the
-                             * column 5 has been removed from display
-                             * but still exist in the model */
-                            tip = Messages.gettext("Bytes:") + " " + model.getValueAt(rowIndex, BrowseVar.BYTES_COLUMN_INDEX).toString();
-                        }
-                    }
+                    } 
                 }
                 return tip;
             }
@@ -210,7 +202,7 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
         table.removeColumn(column);
 
         column = table.getColumnModel().getColumn(BrowseVar.BYTES_COLUMN_INDEX);
-        table.removeColumn(column);
+        //table.removeColumn(column);
 
         table.addMouseListener(new BrowseVarMouseListener());
         // Mouse selection mode
@@ -652,21 +644,25 @@ public final class SwingScilabVariableBrowser extends SwingScilabDockablePanel i
         try {
             asynchronousScilabExec(null,
                                    "if exists(\"" + variableName + "\") == 1 then "
-                                   + "  try "
-                                   + "    editvar(\"" + variableName + "\"); "
-                                   + "  catch "
-                                   + "    messagebox(\"Variables of type \"\"\" + typeof ("
-                                   + variableName + ") + \"\"\" can not be edited.\""
-                                   + ",\"" + UiDataMessages.VARIABLE_EDITOR + "\", \"error\", \"modal\");"
-                                   + "    clear ans;"   // clear return value of messagebox
-                                   + "  end "
-                                   + "else "
-                                   + "  messagebox(\"Variable \"\""
-                                   + variableName + "\"\" no more exists.\""
-                                   + ",\"" + UiDataMessages.VARIABLE_EDITOR + "\", \"error\", \"modal\");"
-                                   + "  clear ans;"  // clear return value of messagebox
-                                   + "  browsevar();" // Reload browsevar to remove cleared variables
-                                   + "end");
+                                 + "  if or(type(" + variableName + ")==[9 13 14 15 16 17]) "
+                                 + "    browsevar_seeSpecial(" + variableName + ",\"" + variableName + "\"); "
+                                 + "  else "
+                                 + "    try "
+                                 + "      editvar(\"" + variableName + "\"); "
+                                 + "    catch "
+                                 + "      messagebox(\"Variables of type \"\"\" + typeof ("
+                                 + variableName + ") + \"\"\" can not be edited.\""
+                                 + ",\"" + UiDataMessages.VARIABLE_EDITOR + "\", \"error\", \"modal\");"
+                                 + "      clear ans;"   // clear return value of messagebox
+                                 + "    end "
+                                 + "  end "
+                                 + "else "
+                                 + "  messagebox(\"Variable \"\""
+                                 + variableName + "\"\" no more exists.\""
+                                 + ",\"" + UiDataMessages.VARIABLE_EDITOR + "\", \"error\", \"modal\");"
+                                 + "  clear ans;"  // clear return value of messagebox
+                                 + "  browsevar();" // Reload browsevar to remove cleared variables
+                                 + "end");
         } catch (InterpreterException e1) {
             System.err.println("An error in the interpreter has been catched: " + e1.getLocalizedMessage());
         }

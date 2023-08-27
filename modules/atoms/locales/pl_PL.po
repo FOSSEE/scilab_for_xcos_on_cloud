@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:53+0000\n"
+"PO-Revision-Date: 2021-07-11 01:00+0000\n"
 "Last-Translator: konrad509 <konrad509@op.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Wrong number of input arguments: %d expected.\n"
@@ -195,18 +195,11 @@ msgstr ""
 "%s: Plik konfiguracyjny ('%s') nie jest dobrze sformatowany, w wierszu %d\n"
 
 #, c-format
-msgid ""
-"%s: Wrong size for input argument #%d: mx2 or mx3 string matrix expected.\n"
+msgid "%s: Argument #%d: Matrix with %s columns expected.\n"
 msgstr ""
-"%s: Nieprawidłowy rozmiar parametru wejściowego nr %d: oczekiwano macierzy "
-"typu łańcuchowego mx2 lub mx3.\n"
 
-#, c-format
-msgid ""
-"%s: Wrong value for input argument #%d: All modules version should be set.\n"
+msgid "1 to 3"
 msgstr ""
-"%s: Zła wartość parametru wejściowego #%d: Wersja dla wszystkich modułów "
-"powinna być ustawiona.\n"
 
 #, c-format
 msgid ""
@@ -215,6 +208,10 @@ msgid ""
 msgstr ""
 "%s: Zła wartość parametru wejściowego #%d: oczekiwano 'user' lub 'allusers' "
 "lub 'all'\n"
+
+#, c-format
+msgid "%s: Argument #%d (:,3): 'user' or 'allusers' or 'all' expected.\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -261,8 +258,6 @@ msgstr ""
 msgid "\t%s (%s) will be installed in the '%s' section"
 msgstr ""
 
-#
-# File: modules/atoms/macros/atomsInstall.sci, line: 259
 #, c-format
 msgid "\t%s (%s) is already installed in the '%s' section and up-to-date"
 msgstr ""
@@ -285,6 +280,12 @@ msgstr "%s: Błąd podczas tworzenia katalogu '%s'.\n"
 
 #, c-format
 msgid "%s: Previously existing file with the same name in '%s'.\n"
+msgstr ""
+
+#
+# File: modules/atoms/macros/atomsInstall.sci, line: 535
+# File: modules/atoms/macros/atomsRemove.sci, line: 365
+msgid "&Toolboxes"
 msgstr ""
 
 #, c-format
@@ -375,27 +376,19 @@ msgstr ""
 "%s: Nie masz wystarczających uprawnień, aby usunąć którąkolwiek wersję "
 "pakietu %s.\n"
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 217
 #, c-format
 msgid ""
 "\t%s (%s) will be removed from the '%s' section and its package fully deleted"
 msgstr ""
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 219
 #, c-format
 msgid "\t%s (%s) will be removed from the '%s' section"
 msgstr ""
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 222
 #, c-format
 msgid "\t%s (%s) cannot be removed from the '%s' section and will be broken"
 msgstr ""
 
-#
-# File: modules/atoms/macros/atomsRemove.sci, line: 247
 #, c-format
 msgid ""
 "\tthe package %s (%s) is currently loaded, It will be removed at next Scilab "
@@ -409,26 +402,23 @@ msgstr "\tUsuwanie %s (%s)(%s)... "
 #, c-format
 msgid ""
 "%s: The directory of this package (%s-%s) is located neither in SCI nor in "
-"SCIHOME. For security reason, ATOMS refuses to delete this directory.\n"
+"SCIHOME.\n"
+"\tFor security reason, ATOMS refuses to delete this directory.\n"
 msgstr ""
-"%s: Katalog tego pakietu (%s-%s) nie znajduje się w  SCI ani w SCIHOME. Ze "
-"względów bezpieczeństwa, ATOMS odmówił usunięcia tego katalogu.\n"
 
 #, c-format
 msgid ""
-"%s: The directory of this package (%s-%s) cannot been deleted, please check "
-"if you have write access on this directory : %s.\n"
+"%s: The package (%s - %s) directory %s cannot be deleted.\n"
+"\tIt may be used and locked. Please also check that you have write "
+"permission on it.\n"
 msgstr ""
-"%s: Katalog tego pakietu (%s-%s) nie może zostać usunięty, sprawdź czy masz "
-"prawa zapisu do tego katalogu : %s.\n"
 
 #, c-format
 msgid ""
-"%s: The root directory of this package (%s-%s) cannot been deleted, please "
-"check if you have write access on this directory : %s.\n"
+"%s: The package (%s - %s) has been removed from its root directory %s.\n"
+"\tHowever, this empty directory cannot be deleted. It may be used and "
+"locked, or you may have no write permission on it.\n"
 msgstr ""
-"%s: katalog główny dla tego pakietu (%s-%s) nie może zostać usunięty, "
-"sprawdź czy masz prawo dostępu do zapisu do tego katalogu : %s.\n"
 
 #, c-format
 msgid ""
@@ -827,6 +817,16 @@ msgstr "%s: Nie znaleziono Wget ani Curl: Proszę zainstalować jeden z nich.\n"
 msgid "Download in progress... Please be patient."
 msgstr ""
 
+#
+# File: modules/atoms/macros/atoms_internals/atomsDownload.sci, line: 220
+msgid "Couldn't resolve host name"
+msgstr ""
+
+#, c-format
+msgid ""
+"%s: Wrong value for input argument #%d: The given path does not exist.\n"
+msgstr ""
+
 #, c-format
 msgid "%s: Error: the response status from the URL %s is invalid.\n"
 msgstr ""
@@ -941,6 +941,13 @@ msgid "%s: Wrong size for input argument #%d: 1x2 string matrix expected.\n"
 msgstr ""
 "%s: Nieprawidłowy rozmiar parametru wejściowego #%d: oczekiwano macierzy "
 "łańcuchowej 1x2.\n"
+
+#, c-format
+msgid ""
+"%s: Wrong size for input argument #%d: mx2 or mx3 string matrix expected.\n"
+msgstr ""
+"%s: Nieprawidłowy rozmiar parametru wejściowego nr %d: oczekiwano macierzy "
+"typu łańcuchowego mx2 lub mx3.\n"
 
 #, c-format
 msgid "%s: Wrong size for input argument #%d: mx2 string matrix expected.\n"

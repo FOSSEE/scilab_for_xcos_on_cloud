@@ -62,9 +62,6 @@
     <ClCompile Include="loadversion.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="md5.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="returnanan.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,6 +135,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\setlines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\parsecommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\pause.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\hash\crc32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -381,6 +387,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\includes\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\pause.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\parsecommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

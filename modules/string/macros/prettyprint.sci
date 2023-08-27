@@ -1,7 +1,7 @@
 // Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2009-2010 - Calixte Denizet
-//
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
+// Copyright (C) 2019 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
 // pursuant to article 5.3.4 of the CeCILL v.2.1.
@@ -11,7 +11,7 @@
 // along with this program.
 
 function str = prettyprint(a, exportFormat, delimiter, processByElement, isWrapped)
-    // From any Scilab datatype and provide a representation to the TeX, LaTeX or MathML formats
+    // Provides a representation of a Scilab object to the TeX, LaTeX, MathML or HTML formats
     //
     // Syntax
     // str = prettyprint(a) // Show the variable a with the default format (LaTeX)
@@ -69,78 +69,70 @@ function str = prettyprint(a, exportFormat, delimiter, processByElement, isWrapp
     //
     // Authors
     // Calixte Denizet
+    // Samuel Gougeon
 
-    nargs = argn(2);
-
-    select nargs
-    case 0 then
+    if argn(2)<1 | argn(2)>5
         error(msprintf(gettext("%s: Wrong number of input argument(s): %d to %d expected."),"prettyprint",1,4));
-    case 1 then
-        exportFormat="latex";
-        delimiter = "(";
-        processByElement = %F;
-        isWrapped = %T;
-    case 2 then
-        if type(exportFormat) <> 10 then
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"prettyprint",2));
-        end
-        delimiter = "(";
-        processByElement = %F;
-        isWrapped = %T;
-    case 3 then
-        if type(exportFormat) <> 10 then
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"prettyprint",2));
-        end
-        if type(delimiter) <> 10 | (delimiter <> "(" &  delimiter <> "[" & delimiter <> "|" & delimiter <> "||" & delimiter <> "{" & delimiter <> "") then
-            error(msprintf(gettext("%s: Wrong value for input argument #%d: ''%s'', ''%s'', ''%s'', ''%s'', ''%s'' or ''%s'' expected.\n"),"prettyprint",3,"(","[","|","||","{",""));
-        end
-        processByElement = %F;
-        isWrapped = %T;
-    case 4 then
-        if type(exportFormat) <> 10 then
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"prettyprint",2));
-        end
-        if type(delimiter) <> 10 | (delimiter <> "(" &  delimiter <> "[" & delimiter <> "|" & delimiter <> "||" & delimiter <> "{" & delimiter <> "") then
-            error(msprintf(gettext("%s: Wrong value for input argument #%d: ''%s'', ''%s'', ''%s'', ''%s'', ''%s'' or ''%s'' expected.\n"),"prettyprint",3,"(","[","|","||","{",""));
-        end
-        if type(processByElement) <> 4 then
-            error(msprintf(gettext("%s: Wrong type for argument #%d: Boolean expected.\n"),"prettyprint",4));
-        end
-        isWrapped = %T;
-    case 5
-        if type(exportFormat) <> 10 then
-            error(msprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"prettyprint",2));
-        end
-        if type(delimiter) <> 10 | (delimiter <> "(" &  delimiter <> "[" & delimiter <> "|" & delimiter <> "||" & delimiter <> "{" & delimiter <> "") then
-            error(msprintf(gettext("%s: Wrong value for input argument #%d: ''%s'', ''%s'', ''%s'', ''%s'', ''%s'' or ''%s'' expected.\n"),"prettyprint",3,"(","[","|","||","{",""));
-        end
-        if type(processByElement) <> 4 then
-            error(msprintf(gettext("%s: Wrong type for argument #%d: Boolean expected.\n"),"prettyprint",4));
-        end
-        if type(isWrapped) <> 4 then
-            error(msprintf(gettext("%s: Wrong type for argument #%d: Boolean expected.\n"),"prettyprint",5));
-        end
-    else
-        error(msprintf(gettext("%s: Wrong number of input arguments: %d to %d expected"),"prettyprint",1,4));
     end
+
+    if ~isdef("exportFormat","l")    , exportFormat = "latex", end
+    if ~isdef("delimiter","l")       , delimiter = "("       , end
+    if ~isdef("processByElement","l"), processByElement = %F,  end
+    if ~isdef("isWrapped","l")       , isWrapped = %T,         end
+
+    if type(exportFormat) <> 10 then
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: String expected.\n"),"prettyprint",2));
+    end
+    exportFormat = convstr(exportFormat)
+    html4 = exportFormat=="html4"
+    if html4
+        exportFormat = "html"
+    end
+    tmp = ["(" "[" "|" "||" "{" "_" ""]
+    if type(delimiter) <> 10 | ..
+        (and(delimiter <> tmp) & and(part(delimiter,1)<>tmp)) then
+        error(msprintf(gettext("%s: Wrong value for input argument #%d: Must be in the set {%s}.\n"), "prettyprint", 3, "''('' ''['' ''|'' ''||'' ''{'' ''_'' ''''"));
+    end
+    if type(processByElement) <> 4 then
+        error(msprintf(gettext("%s: Wrong type for argument #%d: Boolean expected.\n"),"prettyprint",4));
+    end
+    if type(isWrapped) <> 4 then
+        error(msprintf(gettext("%s: Wrong type for argument #%d: Boolean expected.\n"),"prettyprint",5));
+    end
+
+    // -----------
     try
         execstr("[plus,minus,img,op,cp,ow,cw,d2s]=" + exportFormat + "conf()");
     catch
         error(msprintf(gettext("%s: Wrong export format: %s"),"prettyprint",exportFormat));
     end
 
+    if exportFormat=="html"
+        dest = strsubst(fileparts(TMPDIR),"\","/")
+        if ~isfile(dest+"closeBrace.png")
+            // We copy all delimiters icons in TMPDIR/..
+            f = ["openBrace"  "openBracket"  "openParen" ..
+                 "closeBrace" "closeBracket" "closeParen"]+".png"
+            src = SCI+"/modules/gui/images/icons/";
+            for s = f
+                copyfile(src+s, dest+s)
+            end
+        end
+    end
+
     typ = type(a);
 
     select typ
-        //Scalar type : real or complex
     case 1 then
+        // Real or complex number
         if or(isinf(a) | isnan(a)) | norm(imag(a)) > %eps * norm(real(a)) then
             str = comp2str(a,plus,minus,img,d2s);
         else
             str = comp2str(real(a),plus,minus,img,d2s);
         end
-        //Polynomial type
+
     case 2 then
+        // Polynomial type
         x = varn(a);
         C = coeff(a);
         [m,n] = size(a);
@@ -163,71 +155,113 @@ function str = prettyprint(a, exportFormat, delimiter, processByElement, isWrapp
                 end
             end
         end
-        //The null polynomial is represented by '' so we must replace it by '0'
-        str(str == "") = d2s(0);
-        //Boolean type
+        // The null polynomial is represented by '' so we must replace it by '0z'
+        if exportFormat=="mathml"
+            str(str == "") = d2s(0) + "<mi>" + x + "</mi>";
+        else
+            str(str == "") = d2s(0) + x;
+        end
+
     case 4 then
+        // Boolean type
         str = "F" + emptystr(a);
         str(a) = "T";
         execstr("str=" + exportFormat + "exp(str,1)");
-        //Int type
+
     case 8 then
+        // Int type
         str = d2s(a);
-        //String type
+
     case 10 then
+        // String type
+        if or(exportFormat == ["tex" "latex"])
+            a = strsubst(a, "\", "\backslash\!")
+            a = strsubst(a, "$", "\$")
+            a = strsubst(a, "%", "\%")
+            a = strsubst(a, "&", "\&")
+            a = strsubst(a, "{", "\{")
+            a = strsubst(a, "}", "\}")
+            a = strsubst(a, "~", "\sim\!")
+            a = strsubst(a, "^", "\^\;\,")
+            a = strsubst(a, "<", "\!<\!")
+            a = strsubst(a, ">", "\!>\!")
+            // a = strsubst(a, "_", "\_ ")  // not required
+            // a = strsubst(a, "#", "\#")   // not required
+            if ~processByElement | isWrapped
+                a = "\mathsf{\text{" + a + "}}" // default protection of spaces
+                // Otherwise: we let the user choose the type of text
+                // encapsulation
+            end
+        elseif exportFormat == "mathml"
+            a = strsubst(a, "<", "&lt;")
+            // " ' and & do not need protection
+            execstr("a = " + exportFormat + "exp(a,1)");
+        elseif exportFormat == "html"
+            a = strsubst(a, "&", "&amp;")
+            a = strsubst(a, "<", "&lt;")
+        end
         str = a;
-        //Tlist type
+
     case 16 then
+        // Tlist type
         t = a(1);
         select t(1)
-            //Rationnal type
+            // Rationnal type
         case "r" then
-            num = prettyprint(a("num"),exportFormat,"(",%T,%F);
-            den = prettyprint(a("den"),exportFormat,"(",%T,%F);
-            execstr("str=rational2" + exportFormat + "(num,den)");
-            //Linear state space type
+            num = prettyprint(a("num"), exportFormat, "(", %T, %F);
+            den = prettyprint(a("den"), exportFormat, "(", %T, %F);
+            execstr("str = rational2" + exportFormat + "(num, den)");
+            // Linear state space type
         case "lss" then
-            execstr("str=lss2" + exportFormat + "(a)");
+            execstr("str = lss2" + exportFormat + "(a)");
+            if exportFormat=="html"
+                return
+            end
         else
             str = unknown_type(t(1),a,exportFormat);
             return;
         end
+
     case 17  then
-        a1=getfield(1,a);
-        select a1(1)
-            //Cell type
+        tof = typeof(a);
+        select tof
         case "ce" then
+            // Cell type
             dim = double(size(a));
             L = length(dim);
             if L >= 3 then
-                str = unknown_type("ce",a,exportFormat);
+                str = unknown_type("ce", a, exportFormat);
                 return;
             end
             str = emptystr(dim(1),dim(2));
+            iswrapped = exportFormat=="html"
             for i = 1:dim(1) do
                 for j = 1:dim(2) do
-                    str(i,j) = prettyprint(a{i,j},exportFormat,delimiter,%F,%F);
+                    str(i,j) = prettyprint(a{i,j}, exportFormat, delimiter, %F, iswrapped);
                 end
             end
         else
-            str = unknown_type(a1(1),a,exportFormat);
+            str = unknown_type(tof, a, exportFormat);
             return;
         end
     else
-        str = unknown_type(typeof(a),a,exportFormat);
-        return;
+        str = unknown_type(typeof(a), a, exportFormat);
+        return
     end
 
     [m,n] = size(a);
-    if m*n <> 1 & ~processByElement then
+    if (m*n <> 1 & ~processByElement) // | (exportFormat=="html" & isWrapped) then
         execstr("str=" + exportFormat + "matrix(str,''" + delimiter + "'')");
     end
-
     if isWrapped then
         str = ow + str + cw;
     end
 endfunction
 
+// ----------------------------------------------------------------------------
+
+// MATHML
+// ======
 //This function gives different elements of configuration
 //plus is '+', minus is '-', img is sqrt(-1), op and cp are opening ang closing
 //parenthesis (useful to generate complex coeff in polynomials), ow and cw are
@@ -247,7 +281,7 @@ endfunction
 //This function generates var^n (useful for polynomials)
 function str = mathmlexp(var,n)
     if n >= 2 then
-        str = "<msup><mi>" + var + "</mi><mn>" + string(n) + "</mn></msup>";
+        str = "<msup><mi>" + var + "</mi><mn>" + string(n) + "</mn></msup> ";
     elseif n == 1 then
         str = "<mi>" + var + "</mi>";
     else
@@ -257,31 +291,43 @@ endfunction
 
 //This function creates a fraction with the given numerator and denominator
 function str = rational2mathml(num,den)
-    str = "<mfrac><mrow>" + num + "</mrow><mrow>" + den + "</mrow></mfrac>";
+    nl = ascii(10)
+    str = "<mfrac>" + nl + ..
+            "<mrow>" + nl + num + nl + "</mrow>" + nl + ..
+            "<mrow>" + nl + den + nl + "</mrow>" + nl + ..
+          "</mfrac>";
 endfunction
 
 //This function converts a double into a mathml string
 //Negative and positive are handled and the scientific notation too
 function str = mathmldbl2str(x)
     if x == %inf then
-        str = "<infinity/>";
+        str = "<mi>∞</mi>";
     elseif x == -%inf then
-        str = "<mo>-</mo><infinity/>";
+        str = "<mo>-</mo><mi>∞</mi>";
     elseif isnan(x) then
         str = "<mi>NaN</mi>";
     else
         str= strsubst(string(x),"-","<mo>-</mo><mn>");
-        if strindex(str,"D") <> [] then
-            str = strsubst(str,"+","<mo>+</mo><mn>");
-            str = strsubst(str,"D","</mn><mo>&#x00D7;</mo><msup><mn>10</mn><mrow>");
-            if x > 0 then
-                str = "<mn>" + str;
+        if type(x) <> 8
+            if strindex(str,"D") <> [] then
+                str = strsubst(str,"+","<mo>+</mo><mn>");
+                str = strsubst(str,"D","</mn><mo>&#x00D7;</mo><msup><mn>10</mn><mrow>");
+                if x > 0 then
+                    str = "<mn>" + str;
+                end
+                str = str + "</mn></mrow></msup>";
+            elseif x >= 0 then
+                str = "<mn>" + str + "</mn>";
+            else
+                str = str + "</mn>";
             end
-            str = str + "</mn></mrow></msup>";
-        elseif x >= 0 then
-            str = "<mn>" + str + "</mn>";
         else
-            str = str + "</mn>";
+            k = x>=0
+            if k~=[]
+                str(k) =  "<mn>" + str(k)
+            end
+            str = str + "</mn>"
         end
     end
 endfunction
@@ -291,6 +337,7 @@ function str = mathmlmatrix(mat,delimiter)
     if argn(2) == 1 then
         delimiter = "(";
     end
+    nl = ascii(10)
     select delimiter
     case "[" then
         com = "<mfenced open=""["" close=""]"">";
@@ -298,43 +345,239 @@ function str = mathmlmatrix(mat,delimiter)
         com = "<mfenced open=""("" close="")"">";
     case "|" then
         com = "<mfenced open=""&#x2223;"" close=""&#x2223;"">";
-    case "" then
-        com = "<mfenced>";
     case "{" then
         com = "<mfenced open=""{"" close=""}"">";
     case "||" then
         com = "<mfenced open=""&#x2225;"" close=""&#x2225;"">";
+    case "" then
+        com = "<mfenced open="""" close="""">";
     else
         com = "<mfenced open=""("" close="")"">";
     end
     [m,n] = size(mat);
-    str = com + "<mtable>";
+    str = nl + com + nl + "<mtable>";
     for i=1:m do
-        str = str + "<mtr><mtd>" + strcat(mat(i,:),"</mtd><mtd>") + "</mtd></mtr>";
+        str = str + nl + "<mtr>" + nl + ..
+              "<mtd>" + strcat(mat(i,:),"</mtd>"+nl+"<mtd>") + "</mtd>" + nl + ..
+              "</mtr>";
     end
-    str = str + "</mtable></mfenced>";
+    str = str + nl + "</mtable>" + nl + "</mfenced>" + nl;
 endfunction
 
 //This function handles the syslin
 function str = lss2mathml(sys)
+    nl = ascii(10);
     ptp = "<mo>(</mo><mi>t</mi><mo>)</mo>";
     if sys(7) == "c" then
         der = "<mrow><mover><mi>X</mi><mo>.</mo></mover>" + ptp + "</mrow>";
     else
         der = "<mrow><mover><mi>X</mi><mo>+</mo></mover>" + ptp + "</mrow>"
     end
-    str = "<mfenced close="""" open=""{""><mtable columnalign=""right center left""><mtr><mtd>" + der + "</mtd><mtd><mo>=</mo></mtd><mtd>" + prettyprint(sys(2),"mathml","(",%F,%F) + "<mrow><mi>X</mi>" + ptp + "</mrow><mo>+</mo>" + prettyprint(sys(3),"mathml","(",%F,%F) + "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr><mtr><mtd><mrow><mi>Y</mi>" + ptp + "</mrow></mtd><mtd><mo>=</mo></mtd><mtd>" + prettyprint(sys(4),"mathml","(",%F,%F) + "<mrow><mi>X</mi>" + ptp + "</mrow>";
+    str = "<mfenced close="""" open=""{"">" + nl + ..
+          "<mtable columnalign=""right center left"">" + nl + ..
+          "<mtr>" + ..
+          "<mtd>" + der + "</mtd><mtd><mo>=</mo></mtd>" + ..
+          "<mtd>" + prettyprint(sys(2),"mathml","(",%F,%F) + ..
+          "<mrow><mi>X</mi>" + ptp + "</mrow><mo>+</mo>" + ..
+          prettyprint(sys(3),"mathml","(",%F,%F) + ..
+          "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr>" + nl + ..
+          "<mtr><mtd><mrow><mi>Y</mi>" + ptp + "</mrow></mtd>" + ..
+          "<mtd><mo>=</mo></mtd>" + ..
+          "<mtd>" + prettyprint(sys(4),"mathml","(",%F,%F) + "<mrow><mi>X</mi>" + ptp + "</mrow>";
     try
         if norm(sys(5),1) == 0 then
-            str = str + "</mtd></mtr></mtable></mfenced>";
+            str = str + "</mtd></mtr>"
         else
-            str = str + "<mo>+</mo>" + prettyprint(sys(5),"mathml","(",%F,%F) + "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr></mtable></mfenced>";
+            str = str + "<mo>+</mo>" + prettyprint(sys(5),"mathml","(",%F,%F) + ..
+            "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr>"
         end
     catch
-        str = str + "<mo>+</mo>" + prettyprint(sys(5),"mathml","(",%F,%F) + "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr></mtable></mfenced>";
+        str = str + "<mo>+</mo>" + prettyprint(sys(5),"mathml","(",%F,%F) + ..
+            "<mrow><mi>U</mi>" + ptp + "</mrow></mtd></mtr>"
+    end
+    str = str + nl + "</mtable>" + nl + "</mfenced>" + nl;
+endfunction
+
+// ----------------------------------------------------------------------------
+
+// HTML
+// ====
+function [plus,minus,img,op,cp,ow,cw,d2s] = htmlconf()
+    plus = " + ";
+    minus = " - ";
+    img = "i";
+    op = "(";
+    cp = ")";
+    ow = "";
+    cw = "";
+    d2s = htmldbl2str;
+endfunction
+
+//This function generates var^n (useful for polynomials)
+function str = htmlexp(var,n)
+    if n >= 2 then
+        str = var  + "<sup>" + msprintf("%d\n",n) + "</sup> "
+    elseif n == 1 then
+        str = var
+    else
+        str = ""
     end
 endfunction
 
+//This function creates a fraction with the given numerator and denominator
+function str = rational2html(num,den)
+    str = "<table align=""center"" cellspacing=""0"" cellpadding=""1"" border=""0"">" + ..
+             "<tr><td>" + num + "</td></tr>" + ..
+             "<tr><td><hr></td></tr>" + ..
+             "<tr><td>" + den + "</td></tr>" + ..
+           "</table>";
+endfunction
+
+//This function converts a double into a mathml string
+//Negative and positive are handled and the scientific notation too
+function str = htmldbl2str(x)
+    if x == %inf then
+        str = "∞";
+    elseif x == -%inf then
+        str = "- ∞";
+    elseif isnan(x) then
+        str = "NaN";
+    else
+        str = string(x)
+        if type(x) <> 8 & strindex(str,"D") <> []
+            str = strsubst(str,"D+","D");
+            str = strsubst(str,"D","&#x00D7;10<sup>");
+            str = str + "</sup>";
+        end
+    end
+endfunction
+
+//This function generates a matrix with the given delimiter
+function str = htmlmatrix(mat, delimiter, isWrapped)
+    nl = ascii(10)
+    mat = "<td>" + mat + "</td>"
+    mat = "<tr align=""center"">" + nl + ..
+          strcat(mat,nl,"c") + nl + "</tr>" + nl;
+    str = strcat(mat) + "</table>" + nl
+    //
+    if isWrapped then
+        // We put the opening <table with all required attributes
+        // Otherwise only the closing </table> is set (above)
+        tmp = "7px"
+        if part(delimiter,1)=="(", tmp = "5px", end
+        tmp = "style=""padding: 5px 10px; " + ..
+              "background: " + ..
+                "url(file:///" + dest + "open€€.png) left top, " + ..
+                "url(file:///" + dest + "close€€.png) right top; " + ..
+              "background-size: " + tmp + " 100%; background-repeat:no-repeat; "
+        tmp2 = "style=""border-left:hidden; border-right:hidden; "
+        tmp3 = "<table valign=""middle"" cellspacing=""0"" cellpadding=""3"" "+..
+               "style=""display:inline-table;"">" + nl
+
+        if grep(delimiter,"(")<>[]
+            tmp = strsubst(tmp, "€€", "Paren")
+            tmp3 = strsubst(tmp3, "style=""", tmp)
+        elseif grep(delimiter,"[")<>[]
+            tmp = strsubst(tmp, "€€", "Bracket")
+            tmp3 = strsubst(tmp3, "style=""", tmp)
+        elseif grep(delimiter,"{")<>[]
+            tmp = strsubst(tmp, "€€", "Brace")
+            tmp3 = strsubst(tmp3, "style=""", tmp)
+        elseif grep(delimiter,"||")<>[]
+            tmp = strsubst(tmp2, "hidden", "double 3px")
+            tmp3 = strsubst(tmp3, "style=""", tmp)
+        elseif grep(delimiter,"|")<>[]
+            if grep(delimiter,"_")<>[]
+                tmp = strsubst(tmp2, "hidden", "solid 2px")
+            else
+                tmp = strsubst(tmp2, "hidden", "solid 1px")
+            end
+            tmp3 = strsubst(tmp3, "style=""", tmp)
+        end
+        str = nl + tmp3 + str
+        if grep(delimiter,"_")<>[] then
+            str = strsubst(str, "<table ", ..
+                                "<table border=""1"" ");
+            str = strsubst(str, "style=""",..
+             "style=""border-collapse:collapse; border-style:solid; border-width:0px; ");
+        end
+    end     // if isWrapped
+endfunction
+
+//This function handles the syslin
+function str = lss2html(sys)
+    ptp = "(t)";
+    nl = ascii(10);
+    if html4
+        delim = "|"
+        str = "<table style=""display:inline-table; border-left: solid 1px; border-right:hidden;"">" + nl
+    else
+        delim = "("
+        str = "<table style=""display:inline-table; padding: 5px 10px; "+..
+            "background: url(file:///" + dest + "openBrace.png) left top; "+..
+            "background-size: 7px 100%; background-repeat:no-repeat;"">" + nl
+    end
+    // In messagebox(msg) (HTML 4), "nowrap" is not taken into account
+    //  => we must put all elements in separated <td> along each row.
+
+    // Row #1
+    str = str + "<tr>" + nl + "<td nowrap style=""white-space:nowrap"">" + nl
+    if sys(7) == "c" then
+        der = "<table><tr><td>dX<br><hr>dt</td><td>" + ptp + "</td></tr></table>"
+    else
+        der = "X<sup>+</sup>" + ptp
+    end
+    str = str + der + nl + "</td>" + nl + "<td>=</td>" + nl
+    if ~html4 then
+        str = str + "<td nowrap=""nowrap"" style=""white-space:nowrap"">" + nl
+        str = str + prettyprint(sys(2), "html", delim, %F, %T) + " X" + ptp + " + " + nl
+        str = str + prettyprint(sys(3), "html", delim, %F, %T) + " U" + ptp + nl
+        str = str + "</td>" + nl + "</tr>" + nl
+    else
+        str = str + "<td align=""right"">" + nl
+        str = str + prettyprint(sys(2), "html", delim, %F, %T) + nl
+        str = str + "</td>" + nl
+        str = str + "<td>X" + ptp + "&nbsp;&nbsp;+ " + "</td>" + nl
+        str = str + "<td align=""right"">" + nl
+        str = str + prettyprint(sys(3), "html", delim, %F, %T) + nl
+        str = str + "</td>" + nl
+        str = str + "<td>U" + ptp + "</td>" + nl
+        str = str + "</tr>" + nl
+    end
+    // Row #2
+    str = str + "<tr>" + nl + "<td nowrap style=""white-space:nowrap"">" + nl
+    str = str + "Y" + ptp + "</td>" + nl + "<td>=</td>" + nl
+    str = str + "<td nowrap=""nowrap"" style=""white-space:nowrap"">" + nl
+    str = str + prettyprint(sys(4),"html",delim, %F, %T)
+    hasD = %T
+    try
+        hasD = norm(sys(5),1) <> 0
+    end
+    if ~html4 then
+        str = str + " X" + ptp + nl
+        if hasD then
+            str = str + " + " + nl
+            str = str + prettyprint(sys(5), "html", delim, %F, %T) + " U" + ptp + nl
+        end
+    else
+        str = str + nl + "</td>" + nl + "<td>X" + ptp
+        if ~hasD then
+            str = str + "</td>" + nl + "<td></td><td></td>" + nl
+        else
+            str = str + "&nbsp;&nbsp;+ " + "</td>" + nl
+            str = str + "<td align=""right"">" + nl
+            str = str + prettyprint(sys(5), "html", delim, %F, %T) + "</td>" + nl
+            str = str + "<td>U" + ptp + "</td>" + nl
+        end
+    end
+    // Closures
+    str = str + "</tr>" + nl + "</table>" + nl
+endfunction
+
+// ----------------------------------------------------------------------------
+
+// LATEX
+// =====
 function [plus,minus,img,op,cp,ow,cw,d2s] = latexconf()
     plus = "+";
     minus = "-";
@@ -354,6 +597,9 @@ function str = latexexp(var,n)
     else
         str = "";
     end
+    if typ==2 then
+        str = str + " " // Makes easier wrapping long polynomials
+    end
 endfunction
 
 function str = rational2latex(num,den)
@@ -369,8 +615,9 @@ function str = latexdbl2str(x)
         str = "{\mathrm{NaN}}";
     else
         str = string(x);
-        if strindex(str,"D") <> [] then
-            str = strsubst(str,"D","\times10^{");
+        if type(x)~=8 & strindex(str,"D") <> [] then
+            str = strsubst(str,"D+","D");
+            str = strsubst(str,"D","\!\times\!10^{");
             str = str + "}";
         end
     end
@@ -382,7 +629,10 @@ function str = lss2latex(sys)
     else
         der = "\stackrel{+}{X}(t)"
     end
-    str = "{\left\{\begin{array}{rcl}" + der + "&=&" + prettyprint(sys(2),"latex","(",%F,%F) + " X(t)+" + prettyprint(sys(3),"latex","(",%F,%F) + "U(t)\cr Y(t) &=& " + prettyprint(sys(4),"latex","(",%F,%F) + " X(t) ";
+    str = "{\left\{\begin{array}{rcl}" + der + "&=&" + ..
+            prettyprint(sys(2),"latex","(",%F,%F) + " X(t)+" + ..
+            prettyprint(sys(3),"latex","(",%F,%F) + "U(t)\cr " + ..
+            "Y(t) &=& " + prettyprint(sys(4),"latex","(",%F,%F) + " X(t) ";
     try
         if norm(sys(5),1) == 0 then
             str = str + "\end{array}\right.}";
@@ -417,6 +667,7 @@ function str = latexmatrix(mat,delimiter)
     [m,n] = size(mat);
     str = "{\begin{" + com + "}";
     if m*n == 0 then
+
         str = str + "\ ";
     else
         for i=1:m do
@@ -426,6 +677,10 @@ function str = latexmatrix(mat,delimiter)
     str = str + "\end{" + com + "}}";
 endfunction
 
+// ----------------------------------------------------------------------------
+
+// TEX
+// ===
 function [plus,minus,img,op,cp,ow,cw,d2s] = texconf()
     [plus,minus,img,op,cp,ow,cw,d2s] = latexconf()
 endfunction
@@ -448,7 +703,8 @@ function str = texdbl2str(x)
     else
         str = string(x);
         if strindex(str,"D") <> [] then
-            str = strsubst(str,"D","\times10^{");
+            str = strsubst(str,"D+","D");
+            str = strsubst(str,"D","\!\times\!10^{");
             str = str + "}";
         end
     end
@@ -460,7 +716,10 @@ function str = lss2tex(sys)
     else
         der = "{\buildrel + \over X(t)}"
     end
-    str = "{\left\{\eqalign{" + der + " &= " + prettyprint(sys(2),"tex","(",%F,%F) + " X(t)+" + prettyprint(sys(3),"tex","(",%F,%F) + "U(t)\cr Y(t) &= " + prettyprint(sys(4),"tex","(",%F,%F) + " X(t) ";
+    str = "{\left\{\eqalign{" + der + " &= " + ..
+          prettyprint(sys(2),"tex","(",%F,%F) + " X(t)+" + ..
+          prettyprint(sys(3),"tex","(",%F,%F) + "U(t)\cr " + ..
+          "Y(t) &= " + prettyprint(sys(4),"tex","(",%F,%F) + " X(t) ";
     try
         if norm(sys(5),1) == 0 then
             str = str + "}\right.}";
@@ -504,6 +763,8 @@ function str = texmatrix(mat,delimiter)
     str = str + "}}";
 endfunction
 
+// ----------------------------------------------------------------------------
+
 //This function converts a complex (or a double) into a string in using the
 //function d2s (double2string) fixed by mathmlconf or latexconf.
 function str = comp2str(z,plus,minus,img,d2s)
@@ -537,7 +798,7 @@ function str = comp2str(z,plus,minus,img,d2s)
         else
             str = d2s(re);
         end
-    elseif im > 0 then
+    elseif im > 0 | im<>im then
         if im == 1 then
             str = d2s(re) + plus + img;
         else
@@ -565,11 +826,16 @@ function str = comp2coef(z,var,plus,minus,img,op,cp,d2s)
         end
         return;
     end
+    // Scalar case
     re = real(z);
     im = imag(z);
-    if var <> "" then
+    if var <> "" & var <> " " then
         if re <> 0 & im <> 0 then
-            str = plus + op + comp2str(z,plus,minus,img,d2s) + cp + var;
+            if re < 0 then
+                str = minus + op + comp2str(-z,plus,minus,img,d2s) + cp + var;
+            else
+                str = plus + op + comp2str(z,plus,minus,img,d2s) + cp + var;
+            end
         elseif re == 0 & im == 0 then
             str = "";
         elseif re == 1 & im == 0 then
@@ -589,6 +855,8 @@ function str = comp2coef(z,var,plus,minus,img,op,cp,d2s)
         end
     end
 endfunction
+
+// ----------------------------------------------------------------------------
 
 function str = unknown_type(typ,a,exportFormat)
     try

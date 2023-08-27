@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,29 +22,30 @@
     <ProjectGuid>{0D3FA25B-8116-44EC-A45E-260789DAA3D9}</ProjectGuid>
     <RootNamespace>ast</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -98,7 +99,6 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>includes/ast;includes/parse;includes/exps;includes/symbol;includes/types;includes/system_env;includes/operations;includes/analysis;../../libs/intl;../../libs/Eigen/includes;../functions_manager/includes;../core/includes;../elementary_functions/includes;../ast/includes/operations;../localization/includes;../output_stream/includes;../string/includes;../api_scilab/includes;../threads/includes;../console/includes;../graphic_objects/includes;../dynamic_link/includes;../io/includes;../fileio/includes;../fileio/src/c;../coverage/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -136,9 +136,8 @@ lib /DEF:"$(ProjectDir)functions_manager_import.def" /SUBSYSTEM:WINDOWS /MACHINE
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>includes/ast;includes/parse;includes/exps;includes/symbol;includes/types;includes/system_env;includes/operations;includes/analysis;../../libs/intl;../../libs/Eigen/includes;../functions_manager/includes;../core/includes;../elementary_functions/includes;../ast/includes/operations;../localization/includes;../output_stream/includes;../string/includes;../api_scilab/includes;../threads/includes;../console/includes;../graphic_objects/includes;../dynamic_link/includes;../io/includes;../fileio/includes;../fileio/src/c;../coverage/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>includes/ast;includes/parse;includes/exps;includes/symbol;includes/types;includes/system_env;includes/operations;includes/analysis;../../libs/intl;../../libs/hdf5/include;../../libs/Eigen/includes;../functions_manager/includes;../core/includes;../elementary_functions/includes;../ast/includes/operations;../localization/includes;../output_stream/includes;../string/includes;../api_scilab/includes;../threads/includes;../console/includes;../graphic_objects/includes;../dynamic_link/includes;../io/includes;../fileio/includes;../fileio/src/c;../coverage/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -489,7 +488,6 @@ lib /DEF:"$(ProjectDir)functions_manager_import.def" /SUBSYSTEM:WINDOWS /MACHINE
     <ClInclude Include="includes\types\listdelete.hxx" />
     <ClInclude Include="includes\types\listinsert.hxx" />
     <ClInclude Include="includes\types\listoperation.hxx" />
-    <ClInclude Include="includes\types\listundefined.hxx" />
     <ClInclude Include="includes\types\macro.hxx" />
     <ClInclude Include="includes\types\macrofile.hxx" />
     <ClInclude Include="includes\types\matrixiterator.hxx" />
@@ -726,7 +724,6 @@ lib /DEF:"$(ProjectDir)functions_manager_import.def" /SUBSYSTEM:WINDOWS /MACHINE
     <ClCompile Include="src\cpp\types\listdelete.cpp" />
     <ClCompile Include="src\cpp\types\listinsert.cpp" />
     <ClCompile Include="src\cpp\types\listoperation.cpp" />
-    <ClCompile Include="src\cpp\types\listundefined.cpp" />
     <ClCompile Include="src\cpp\types\macro.cpp" />
     <ClCompile Include="src\cpp\types\macrofile.cpp" />
     <ClCompile Include="src\cpp\types\mlist.cpp" />
@@ -765,6 +762,9 @@ lib /DEF:"$(ProjectDir)functions_manager_import.def" /SUBSYSTEM:WINDOWS /MACHINE
     <ProjectReference Include="..\threads\threads.vcxproj">
       <Project>{50a1ffc8-adc2-4d9e-a2d0-5dcd63188ae9}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ast.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

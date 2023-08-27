@@ -212,7 +212,7 @@ public class JoGLTextureManager implements TextureManager {
     /**
      * Inner class for {@link Texture} implementation.
      */
-    public class JoGLTexture extends AbstractTexture implements Texture {
+    public static class JoGLTexture extends AbstractTexture implements Texture {
         private com.jogamp.opengl.util.texture.Texture[] textures;
         private JoGLTextureData[] textureData;
         private int wCuts;
@@ -305,7 +305,7 @@ public class JoGLTextureManager implements TextureManager {
                         hasChanged = true;
                     }
 
-                    if (newBuffer != null || buffer != null) {
+                    if (buffer != null) {
                         if (wCuts == 1 && hCuts == 1) {
                             if (hasChanged) {
                                 if (isRowMajorOrder()) {
@@ -651,7 +651,7 @@ public class JoGLTextureManager implements TextureManager {
         }
 
         /** Called when gl context is gone. */
-        public void glReload() {
+        public synchronized void glReload() {
             buffer = null;
             textures = null;
             upToDate = false;

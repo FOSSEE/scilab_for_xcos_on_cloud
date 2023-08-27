@@ -106,7 +106,7 @@ types::Function::ReturnValue sci_size(types::typed_list &in, int _iRetCount, typ
             int iDims = in[0]->getAs<types::GenericType>()->getDims();
             int* piDims = in[0]->getAs<types::GenericType>()->getDimsArray();
 
-            if (_iRetCount == 1)
+            if (_iRetCount <= 1)
             {
                 int iRowsOut = 1;
                 int iColsOut = 0;
@@ -135,12 +135,19 @@ types::Function::ReturnValue sci_size(types::typed_list &in, int _iRetCount, typ
                         }
                         break;
                     case 0 : //"*"
-                        pdbl[0] = in[0]->getAs<types::GenericType>()->getSize();
+                        if (in[0]->isSparse())
+                        {
+                            pdbl[0] = (double)piDims[0]*(double)piDims[1];
+                        }
+                        else
+                        {
+                            pdbl[0] = in[0]->getAs<types::GenericType>()->getSize();
+                        }
                         break;
                     default : //"r"
                         if (iMode > iDims)
                         {
-                            pdbl[0] = 1;
+                            pdbl[0] = (piDims[0]==0)? 0 : 1;
                             out.push_back(pD);
                             return types::Function::OK;
                         }

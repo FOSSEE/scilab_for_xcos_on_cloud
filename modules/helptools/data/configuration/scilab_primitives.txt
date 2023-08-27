@@ -312,6 +312,7 @@ bessely
 beta
 bezout
 bfinit
+bitstring
 blkfc1i
 bool2s
 browsevar
@@ -458,7 +459,6 @@ fire_closing_finished
 floor
 format
 freq
-frexp
 fromc
 fromjava
 fscanfMat
@@ -539,6 +539,7 @@ h5rm
 h5umount
 h5write
 h5writeattr
+hash
 helpbrowser
 hess
 hinf
@@ -658,6 +659,7 @@ mclearerr
 mclose
 meof
 merror
+mesh2d
 messagebox
 mfscanf
 mget
@@ -1003,6 +1005,7 @@ dos
 filter
 findfileassociation
 fprintfMat
+fromJSON
 getio
 getpid
 getsystemmetrics
@@ -1015,6 +1018,12 @@ htmlDump
 htmlRead
 htmlReadStr
 htmlWrite
+http_delete
+http_get
+http_patch
+http_post
+http_put
+http_upload
 istssession
 jcompile
 mcisendstring
@@ -1037,6 +1046,7 @@ slint
 spcompack
 sprintf
 toprint
+toJSON
 what
 who
 win64

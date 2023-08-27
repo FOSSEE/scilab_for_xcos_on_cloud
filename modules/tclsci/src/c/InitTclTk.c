@@ -38,9 +38,21 @@
 #include "getshortpathname.h"
 /*--------------------------------------------------------------------------*/
 BOOL TK_Started = FALSE;
+/* The tclLoop thread Id, declared in TCL_Command.c
+in order to wait it ends when closing Scilab */
+extern __threadId TclThread;
 
+extern __threadSignal InterpReady;
+extern __threadSignalLock InterpReadyLock;
 /*--------------------------------------------------------------------------*/
 static char *GetSciPath(void);
+static void releaseTclInterpOnError(void)
+{
+    __LockSignal(&InterpReadyLock);
+    __Signal(&InterpReady);
+    __UnLockSignal(&InterpReadyLock);
+    setTkStarted(FALSE);
+}
 /*--------------------------------------------------------------------------*/
 static void *DaemonOpenTCLsci(void* in)
 /* Checks if tcl/tk has already been initialised and if not */
@@ -68,6 +80,7 @@ static void *DaemonOpenTCLsci(void* in)
     if (SciPath == NULL)
     {
         sciprint(_("The SCI environment variable is not set.\nTCL initialisation failed !\n"));
+        releaseTclInterpOnError();
         return (0);
     }
 
@@ -115,6 +128,7 @@ static void *DaemonOpenTCLsci(void* in)
         SciPathShort = NULL;
         FREE(TkScriptpathShort);
         TkScriptpathShort = NULL;
+        releaseTclInterpOnError();
         return (0);
     }
     else
@@ -132,6 +146,7 @@ static void *DaemonOpenTCLsci(void* in)
         SciPathShort = NULL;
         FREE(TkScriptpathShort);
         TkScriptpathShort = NULL;
+        releaseTclInterpOnError();
         return (0);
     }
     else
@@ -153,11 +168,13 @@ static void *DaemonOpenTCLsci(void* in)
 
         if ( getTclInterp() == NULL )
         {
+            releaseTclInterp();
             Scierror(999, _("Tcl Error: Unable to create Tcl interpreter (Tcl_CreateInterp).\n"));
             FREE(SciPathShort);
             SciPathShort = NULL;
             FREE(TkScriptpathShort);
             TkScriptpathShort = NULL;
+            releaseTclInterpOnError();
             return (0);
         }
         releaseTclInterp();
@@ -166,10 +183,12 @@ static void *DaemonOpenTCLsci(void* in)
         {
             releaseTclInterp();
             Scierror(999, _("Tcl Error: Error during the Tcl initialization (Tcl_Init): %s\n"), Tcl_GetStringResult(getTclInterp()));
+            releaseTclInterp();
             FREE(SciPathShort);
             SciPathShort = NULL;
             FREE(TkScriptpathShort);
             TkScriptpathShort = NULL;
+            releaseTclInterpOnError();
             return (0);
         }
         releaseTclInterp();
@@ -181,7 +200,10 @@ static void *DaemonOpenTCLsci(void* in)
             if ( Tk_Init(getTclInterp()) == TCL_ERROR)
             {
                 releaseTclInterp();
+                releaseTclInterpOnError();
                 Scierror(999, _("Tcl Error: Error during the TK initialization (Tk_Init): %s\n"), Tcl_GetStringResult(getTclInterp()));
+                releaseTclInterp();
+                return (0);
             }
             else
             {
@@ -197,6 +219,7 @@ static void *DaemonOpenTCLsci(void* in)
         {
             releaseTclInterp();
             Scierror(999, _("Tcl Error: Error during the Scilab/Tcl init process. Could not set SciPath: %s\n"), Tcl_GetStringResult(getTclInterp()));
+            releaseTclInterp();
             FREE(SciPathShort);
             SciPathShort = NULL;
             FREE(TkScriptpathShort);
@@ -221,8 +244,10 @@ static void *DaemonOpenTCLsci(void* in)
         {
             releaseTclInterp();
             Scierror(999, _("Tcl Error: Error during the Scilab/TK init process. Error while loading %s: %s\n"), TkScriptpathShort, Tcl_GetStringResult(getTclInterp()));
+            releaseTclInterp();
             FREE(TkScriptpathShort);
             TkScriptpathShort = NULL;
+            releaseTclInterpOnError();
             return (0);
         }
         releaseTclInterp();
@@ -246,7 +271,6 @@ int OpenTCLsci(void)
     // Open TCL interpreter in a separated thread.
     // Allows all Tcl application not to freeze nor decrease Scilab speed.
     // Causes also Scilab let those application live their own lifes.
-
 
     __CreateThread(&TclThread, &key, &DaemonOpenTCLsci);
     // Wait to be sure initialisation is complete.

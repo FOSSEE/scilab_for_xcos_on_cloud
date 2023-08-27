@@ -48,7 +48,7 @@ int sci_uigetdir(char *fname, void* pvApiCtx)
     char* expandedpath = NULL;
 
     CheckInputArgument(pvApiCtx, 0, 2);
-    CheckOutputArgument(pvApiCtx, 1, 1);
+    CheckOutputArgument(pvApiCtx, 0, 1);
 
     if (nbInputArgument(pvApiCtx) >= 1)
     {
@@ -113,19 +113,19 @@ int sci_uigetdir(char *fname, void* pvApiCtx)
             /* Initial path is given */
             case 1:
                 CallJuigetfileForDirectoryWithInitialdirectory(expandedpath);
-                FREE(expandedpath);
                 break;
             /* Initial path and title are given */
             case 2:
                 CallJuigetfileForDirectoryWithInitialdirectoryAndTitle(expandedpath, title);
-                FREE(expandedpath);
-                freeAllocatedSingleString(title);
                 break;
             /* Default call with default path and title */
             default:
                 CallJuigetfileForDirectoryWithoutInput();
                 break;
         }
+
+        freeAllocatedSingleString(title);
+        FREE(expandedpath);
 
         /* Read the size of the selection, if 0 then no file selected */
         nbRow = getJuigetfileSelectionSize();
@@ -135,14 +135,14 @@ int sci_uigetdir(char *fname, void* pvApiCtx)
     catch (const GiwsException::JniCallMethodException & exception)
     {
         FREE(expandedpath);
-        FREE(title);
+        freeAllocatedSingleString(title);
         Scierror(999, "%s: %s\n", fname, exception.getJavaDescription().c_str());
         return 1;
     }
     catch (const GiwsException::JniException & e)
     {
         FREE(expandedpath);
-        FREE(title);
+        freeAllocatedSingleString(title);
         Scierror(999, _("%s: A Java exception arisen:\n%s"), fname, e.whatStr().c_str());
         return 1;
     }
@@ -156,6 +156,16 @@ int sci_uigetdir(char *fname, void* pvApiCtx)
         if (sciErr.iErr)
         {
             Scierror(999, _("%s: Memory allocation error.\n"), fname);
+            for (int i = 0; i < nbRow; i++)
+            {
+                if (userSelection[i])
+                {
+                    delete userSelection[i];
+                    userSelection[i] = NULL;
+                }
+            }
+            delete[]userSelection;
+            userSelection = NULL;
             return 1;
         }
 
@@ -182,6 +192,8 @@ int sci_uigetdir(char *fname, void* pvApiCtx)
         {
             printError(&sciErr, 0);
             Scierror(999, _("%s: Memory allocation error.\n"), fname);
+            delete[]userSelection;
+            userSelection = NULL;
             return 1;
         }
     }

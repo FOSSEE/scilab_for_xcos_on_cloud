@@ -91,15 +91,6 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                 return;
             }
 
-            if (pIT->isList() && pIT->getRef() > 0)
-            {
-                // Prevent modification of all scilab variable
-                // which point to this container when it is used
-                // in setfield scilab function.
-                // A clone on a container will not clone what it contain.
-                pIT = pIT->clone();
-            }
-
             if (e.getRightExp().isReturnExp())
             {
                 //ReturnExp so, put the value in the previous scope
@@ -137,7 +128,11 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
             {
                 std::wstring wstrName = pVar->getSymbol().getName();
                 std::wostringstream ostr;
-                ostr << L" " << wstrName << L"  = " << std::endl << std::endl;
+                ostr << L" " << wstrName << L"  = " << std::endl;
+                if (ConfigVariable::isPrintCompact() == false)
+                {
+                    ostr << std::endl;
+                }
                 scilabWriteW(ostr.str().c_str());
                 std::wostringstream ostrName;
                 ostrName << wstrName;
@@ -196,6 +191,17 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                 throw ast::InternalError(os.str(), 999, e.getRightExp().getLocation());
             }
 
+            if (pITR->isImplicitList())
+            {
+                if (pITR->getAs<types::ImplicitList>()->isComputable())
+                {
+                    types::InternalType *pTemp = pITR->getAs<types::ImplicitList>()->extractFullMatrix();
+                    delete pITR;
+                    setResult(NULL);
+                    pITR = pTemp;
+                }
+            }
+
             try
             {
                 pOut = evaluateFields(pCell, fields, pITR);
@@ -233,7 +239,10 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                 {
                     std::wostringstream ostr;
                     ostr << L" " << *getStructNameFromExp(pCell) << L"  = " << std::endl;
-                    ostr << std::endl;
+                    if (ConfigVariable::isPrintCompact() == false)
+                    {
+                        ostr << std::endl;
+                    }
                     scilabWriteW(ostr.str().c_str());
 
                     VariableToString(pOut, ostr.str().c_str());
@@ -403,7 +412,10 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
             {
                 std::wostringstream ostr;
                 ostr << L" " << *getStructNameFromExp(&pCall->getName()) << L"  = " << std::endl;
-                ostr << std::endl;
+                if (ConfigVariable::isPrintCompact() == false)
+                {
+                    ostr << std::endl;
+                }
                 scilabWriteW(ostr.str().c_str());
 
                 std::wostringstream ostrName;
@@ -436,7 +448,7 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                 throw ast::InternalError(os.str(), 999, e.getRightExp().getLocation());
             }
 
-            exps_t::const_reverse_iterator it;
+            exps_t::const_iterator it;
             exps_t exps = pList->getExps();
             types::InternalType** pIT = new types::InternalType*[iLhsCount];
             int i = 0;
@@ -448,7 +460,7 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                 pIT[i]->IncreaseRef();
             }
 
-            for (i = iLhsCount - 1, it = exps.rbegin(); it != exps.rend(); it++, i--)
+            for (i = 0, it = exps.begin(); it != exps.end(); it++, i++)
             {
                 Exp* pExp = e.getRightExp().clone();
                 AssignExp pAssign((*it)->getLocation(), *(*it), *pExp, pIT[i]);
@@ -545,7 +557,11 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
 
                 types::InternalType* pPrint = ctx->get(symbol::Symbol(*pstName));
                 std::wostringstream ostr;
-                ostr << L" " << *pstName << L"  = " << std::endl << std::endl;
+                ostr << L" " << *pstName << L"  = " << std::endl;
+                if (ConfigVariable::isPrintCompact() == false)
+                {
+                    ostr << std::endl;
+                }
                 scilabWriteW(ostr.str().c_str());
 
                 std::wostringstream ostrName;

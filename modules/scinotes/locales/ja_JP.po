@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 15:53+0000\n"
-"Last-Translator: Scilab.team <Unknown>\n"
+"PO-Revision-Date: 2019-12-09 13:07+0000\n"
+"Last-Translator: Rui Hirokawa <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -1115,37 +1115,33 @@ msgstr "デフォルトのヘッダ"
 msgid "Add a default header to new file"
 msgstr "デフォルトのヘッダを新規ファイルに追加"
 
-#
-# File: modules/scinotes/src/scinotes_fake_xml.c, line: 1474
-# File: modules/scinotes/src/scinotes_fake_xml.c, line: 2038
 msgid "Available variables: {{$current-date}}, {{$current-year}}"
-msgstr ""
+msgstr "利用可能な変数: {{$current-date}}, {{$current-year}}"
 
 #, c-format
 msgid "%s: Wrong number of input argument(s): At least %d expected.\n"
-msgstr ""
+msgstr "%s: 入力引数の数が間違っています: %d 個以上の引数を指定してください.\n"
 
 #, c-format
 msgid "%s: Wrong type for input argument #%d: String expected.\n"
 msgstr "%s: 引数 #%d の型が間違っています: 文字列の行列を指定してください.\n"
 
 #, c-format
-msgid "%s: Wrong type for input argument #%d: Double expected.\n"
+msgid "%s: Wrong type for input argument #%d: Number expected.\n"
 msgstr ""
 
-#
-# File: modules/scinotes/macros/edit.sci, line: 51
 #, c-format
 msgid ""
 "edit: %s is an alias of %s => editing %s()\n"
 "      Please reset %s=%s if %s() is recompiled.\n"
 msgstr ""
+"edit: %1$s は %2$s の別名 => %3$s() を編集中\n"
+"                            %6$s() が再コンパイルされている場合, %4$s=%5$s を"
+"リセットしてください .\n"
 
-#
-# File: modules/scinotes/macros/edit.sci, line: 92
 #, c-format
 msgid "%s: %s() is an uneditable hard coded function.\n"
-msgstr ""
+msgstr "%s: %s() は編集できないハードコードされた関数です.\n"
 
 msgid "The last error did not occur inside a Scilab macro."
 msgstr "直近のエラーはScilabマクロ内で発生したものではありません."

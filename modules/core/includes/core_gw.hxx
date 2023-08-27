@@ -51,6 +51,7 @@ CPP_GATEWAY_PROTOTYPE(sci_lasterror);
 CPP_GATEWAY_PROTOTYPE(sci_getversion);
 CPP_GATEWAY_PROTOTYPE(sci_warning);
 CPP_GATEWAY_PROTOTYPE(sci_getmd5);
+CPP_GATEWAY_PROTOTYPE(sci_hash);
 CPP_GATEWAY_PROTOTYPE(sci_error);
 CPP_GATEWAY_PROTOTYPE(sci_pause);
 CPP_GATEWAY_PROTOTYPE(sci_abort);
@@ -87,6 +88,7 @@ CPP_GATEWAY_PROTOTYPE(sci_mlist_gw);
 CPP_GATEWAY_PROTOTYPE(sci_isfield);
 CPP_GATEWAY_PROTOTYPE(sci_fieldnames);
 CPP_GATEWAY_PROTOTYPE(sci_oldEmptyBehaviour);
+CPP_GATEWAY_PROTOTYPE(sci_checkNamedArguments);
 
 #ifndef NDEBUG
 CPP_GATEWAY_PROTOTYPE(sci_inspectorGetItemCount);

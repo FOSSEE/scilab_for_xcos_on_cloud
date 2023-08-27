@@ -27,6 +27,7 @@
 #include "core_math.h"
 #include "list.hxx"
 #include "configvariable.hxx"
+#include "types_tools.hxx"
 
 namespace types
 {
@@ -36,25 +37,43 @@ namespace types
 Cell::Cell()
 {
     int piDims[2] = {0, 0};
-    createCell(2, piDims, nullptr);
+    createCell(2, piDims, nullptr, false);
 }
 
-Cell::Cell(int _iRows, int _iCols, InternalType** data)
+Cell::Cell(int _iRows, int _iCols, InternalType** data, bool _bInit)
 {
     int piDims[2] = {_iRows, _iCols};
-    createCell(2, piDims, data);
+    createCell(2, piDims, data, _bInit);
 }
 
-Cell::Cell(int _iDims, const int* _piDims, InternalType** data)
+Cell::Cell(int _iDims, const int* _piDims, InternalType** data, bool _bInit)
 {
-    createCell(_iDims, _piDims, data);
+    createCell(_iDims, _piDims, data, _bInit);
 }
 
-void Cell::createCell(int _iDims, const int* _piDims, InternalType** data)
+bool Cell::getMemory(long long* _piSize, long long* _piSizePlusType)
+{
+    *_piSize = 0;
+    *_piSizePlusType = 0;
+    InternalType** p = get();
+    for (int i = 0; i < getSize(); i++)
+    {
+        long long piS, piSPT;
+        if (p[i]->getMemory(&piS, &piSPT))
+        {
+            *_piSize += piS;
+            *_piSizePlusType += piSPT;
+        }
+    }
+    *_piSizePlusType += sizeof(Cell);
+    return true;
+}
+
+void Cell::createCell(int _iDims, const int* _piDims, InternalType** data, bool _bInit)
 {
     InternalType** pIT = NULL;
     create(_piDims, _iDims, &pIT, NULL);
-    if( m_iSizeMax == 0)
+    if(m_iSizeMax == 0 || _bInit == false)
     {
         return;
     }
@@ -130,14 +149,16 @@ bool Cell::transpose(InternalType *& out)
 
     if (m_iDims == 2)
     {
-        Cell * pC = new Cell();
+        // dont fill the Cell, transpose will do it.
+        Cell * pC = new Cell(getCols(), getRows(), nullptr, false);
+        Transposition::transpose(getRows(), getCols(), m_pRealData, pC->get());
+        for(int i = 0; i < getSize(); ++i)
+        {
+            // Transposition::transpose doesn't increase the ref.
+            pC->get(i)->IncreaseRef();
+        }
+
         out = pC;
-        InternalType** pIT = NULL;
-        int piDims[2] = {getCols(), getRows()};
-        pC->create(piDims, 2, &pIT, NULL);
-
-        Transposition::transpose_clone(getRows(), getCols(), m_pRealData, pC->m_pRealData);
-
         return true;
     }
 
@@ -346,8 +367,7 @@ bool Cell::subMatrixToString(std::wostringstream& ostr, int* _piDims, int /*_iDi
                     else
                     {
                         //types non derived from ArrayOf.
-                        int iSize = static_cast<int>(log10(static_cast<double>(pIT->getAs<GenericType>()->getRows())) + 1);
-                        piSizeLen[j] = std::max(piSizeLen[j], iSize);
+                        piSizeLen[j] = std::max(piSizeLen[j], 1);
                     }
                 }
                 else

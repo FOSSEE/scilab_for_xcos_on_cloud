@@ -29,4 +29,4 @@ assert_checkequal(full(A1(:)), A(:));
 
 A = [1 %i;%i 0];
 A1 = sparse(A);
-assert_checkequal(full(A1(:)), A(:));
+assert_checkequal(full(A1(:)), A(:));

@@ -82,20 +82,6 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="fplot2d">fplot2d</link>
-                </term>
-                <listitem>
-                    <para>Plot a curve defined by a function</para>
-                    <para>
-                        <emphasis role="bold">Example:</emphasis>
-                    </para>
-                    <para>
-                        <scilab:image>fplot2d();</scilab:image>
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
                     <link linkend="champ">champ</link>
                 </term>
                 <listitem>
@@ -105,20 +91,6 @@
                     </para>
                     <para>
                         <scilab:image>champ();</scilab:image>
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
-                    <link linkend="champ1">champ1</link>
-                </term>
-                <listitem>
-                    <para>2D vector field with colored arrows</para>
-                    <para>
-                        <emphasis role="bold">Example:</emphasis>
-                    </para>
-                    <para>
-                        <scilab:image>champ1();</scilab:image>
                     </para>
                 </listitem>
             </varlistentry>
@@ -361,15 +333,15 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="hist3d">hist3d</link>
+                    <link linkend="bar3d">bar3d</link>
                 </term>
                 <listitem>
-                    <para>3D representation of a histogram</para>
+                    <para>3D representation of a bar diagram</para>
                     <para>
                         <emphasis role="bold">Example:</emphasis>
                     </para>
                     <para>
-                        <scilab:image>hist3d();</scilab:image>
+                        <scilab:image>bar3d();</scilab:image>
                     </para>
                 </listitem>
             </varlistentry>
@@ -949,10 +921,10 @@
             </varlistentry>
             <varlistentry>
                 <term>
-                    <link linkend="xdel">xdel</link>
+                    <link linkend="close">close</link>
                 </term>
                 <listitem>
-                    <para>Delete a graphics window</para>
+                    <para>Close some graphic windows</para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -961,14 +933,6 @@
                 </term>
                 <listitem>
                     <para>Return the list of graphics windows</para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>
-                    <link linkend="xname">xname</link>
-                </term>
-                <listitem>
-                    <para>Change the name of the current graphics window</para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -1047,7 +1011,7 @@
                         <emphasis role="bold">Example:</emphasis>
                     </para>
                     <para>
-                        <scilab:image>s=poly(0,'s')
+                        <scilab:image localized="true">s=poly(0,'s')
                             h1=syslin('c',(s^2+2*0.9*10*s+100)/(s^2+2*0.3*10.1*s+102.01))
                             h2=syslin('c',(s^2+2*0.1*15.1*s+228.01)/(s^2+2*0.9*15*s+225))
                             clf();gainplot([h1;h2],0.01,100,['h1';'h2'])

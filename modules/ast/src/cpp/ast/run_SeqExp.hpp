@@ -14,6 +14,7 @@
 */
 
 #include <fstream>
+
 //file included in runvisitor.cpp
 namespace ast {
 
@@ -35,17 +36,43 @@ void RunVisitorT<T>::visitprivate(const SeqExp  &e)
     if (e.getExecFrom() == SeqExp::EXEC)
     {
         //open input file to print exp from it
-        int iFileID = ConfigVariable::getExecutedFileID();
-        if (iFileID)
+        std::wstring strFile = ConfigVariable::getExecutedFile();
+        if (strFile != L"")
         {
-            const wchar_t* filename = getfile_filename(iFileID);
-            if (filename)
-            {
-                char* cfilename = wide_string_to_UTF8(filename);
-                file = new std::ifstream(cfilename);
-                FREE(cfilename);
-            }
+            char* cfilename = wide_string_to_UTF8(strFile.data());
+            file = new std::ifstream(cfilename);
+            FREE(cfilename);
         }
+    }
+
+    if (exps.size() == 0)
+    {
+        if (ConfigVariable::isExecutionBreak())
+        {
+            ConfigVariable::resetExecutionBreak();
+            if (ConfigVariable::isPrintInteractive())
+            {
+                ClearTemporaryPrompt();
+            }
+
+            StorePrioritaryCommand("pause");
+            ThreadManagement::WaitForRunMeSignal();
+        }
+
+        // interrupt me to execute a prioritary command
+        while (StaticRunner_isRunnerAvailable() == 1 && StaticRunner_isInterruptibleCommand() == 1)
+        {
+            StaticRunner_launch();
+        }
+
+        if (file)
+        {
+            file->close();
+            delete file;
+        }
+
+        CoverageInstance::stopChrono((void*)&e);
+        return;
     }
 
     for (; it != itEnd; ++it)
@@ -63,10 +90,9 @@ void RunVisitorT<T>::visitprivate(const SeqExp  &e)
         }
 
         // interrupt me to execute a prioritary command
-        while (StaticRunner_isInterruptibleCommand() == 1 && StaticRunner_isRunnerAvailable() == 1)
+        while (StaticRunner_isRunnerAvailable() == 1 && StaticRunner_isInterruptibleCommand() == 1)
         {
             StaticRunner_launch();
-            StaticRunner_setInterruptibleCommand(1);
         }
 
         //printf input expression line following mode configuration
@@ -109,20 +135,22 @@ void RunVisitorT<T>::visitprivate(const SeqExp  &e)
             setExpectedSize(iExpectedSize);
             types::InternalType * pIT = getResult();
 
-            // In case of exec file, set the file name in the Macro to store where it is defined.
-            int iFileID = ConfigVariable::getExecutedFileID();
-            if (iFileID && (*it)->isFunctionDec())
+            if((*it)->isFunctionDec())
             {
-                types::InternalType* pITMacro = symbol::Context::getInstance()->get((*it)->getAs<FunctionDec>()->getSymbol());
-                if (pITMacro)
+                // In case of exec file, set the file name in the Macro to store where it is defined.
+                std::wstring strFile = ConfigVariable::getExecutedFile();
+                const std::vector<ConfigVariable::WhereEntry>& lWhereAmI = ConfigVariable::getWhere();
+
+                if (strFile != L"" &&  // check if we are executing a script or a macro
+                    lWhereAmI.empty() == false &&
+                    lWhereAmI.back().m_file_name != nullptr && // check the last function execution is a macro
+                    *(lWhereAmI.back().m_file_name) == strFile) // check the last execution is the same macro as the executed one
                 {
-                    types::Macro* pMacro = pITMacro->getAs<types::Macro>();
-                    const wchar_t* filename = getfile_filename(iFileID);
-                    // scilab.quit is not open with mopen
-                    // in this case filename is NULL because FileManager have not been filled.
-                    if (filename)
+                    types::InternalType* pITMacro = symbol::Context::getInstance()->get((*it)->getAs<FunctionDec>()->getSymbol());
+                    if (pITMacro)
                     {
-                        pMacro->setFileName(filename);
+                        types::Macro* pMacro = pITMacro->getAs<types::Macro>();
+                        pMacro->setFileName(strFile);
                     }
                 }
             }
@@ -139,9 +167,9 @@ void RunVisitorT<T>::visitprivate(const SeqExp  &e)
 
                     try
                     {
-                        //in this case of calling, we can return only one value
+                        //in this case of calling, we can return at most one value
                         int iSaveExpectedSize = getExpectedSize();
-                        setExpectedSize(1);
+                        setExpectedSize(0);
 
                         pCall->invoke(in, opt, getExpectedSize(), out, **it);
                         setExpectedSize(iSaveExpectedSize);
@@ -191,7 +219,11 @@ void RunVisitorT<T>::visitprivate(const SeqExp  &e)
                     if ((*it)->isVerbose() && ConfigVariable::isPrintOutput())
                     {
                         //TODO manage multiple returns
-                        scilabWriteW(L" ans  =\n\n");
+                        scilabWriteW(L" ans  =\n");
+                        if (ConfigVariable::isPrintCompact() == false)
+                        {
+                            scilabWriteW(L"\n");
+                        }
                         std::wostringstream ostrName;
                         ostrName << L"ans";
                         VariableToString(pITAns, ostrName.str().c_str());

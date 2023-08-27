@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: scilab\n"
 "Report-Msgid-Bugs-To: <localization@lists.scilab.org>\n"
 "POT-Creation-Date: 2013-04-16 17:44+0100\n"
-"PO-Revision-Date: 2019-02-12 22:00+0000\n"
+"PO-Revision-Date: 2019-02-15 22:15+0000\n"
 "Last-Translator: Thiago de Melo <tmelo.mat@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18857)\n"
+"X-Generator: Launchpad (build 1b66c075b8638845e61f40eb9036fabeaa01f591)\n"
 
 #, c-format
 msgid "%s: Can not read input argument #%d.\n"
@@ -211,7 +211,7 @@ msgid "%s: Wrong input argument %d.\n"
 msgstr ""
 
 #, c-format
-msgid "End of file at line %d.\n"
+msgid "%s: Input missing from console.\n"
 msgstr ""
 
 #, c-format
@@ -219,8 +219,8 @@ msgid ""
 "%s: Wrong type for input argument #%d : A real matrix or column vector "
 "expected.\n"
 msgstr ""
-"%s: Tipo incorreto para o argumento de entrada #%d: "
-"matriz ou coluna de números reais esperada.\n"
+"%s: Tipo incorreto para o argumento de entrada #%d: matriz ou coluna de "
+"números reais esperada.\n"
 
 #, c-format
 msgid "Undefined environment variable %s.\n"
@@ -253,19 +253,9 @@ msgid "%s: Legend does not fit with the current context. Skipped\n"
 msgstr ""
 
 #, c-format
-msgid "%s: Wrong number of input arguments: %d to %d expected.\n"
-msgstr ""
-
-#, c-format
 msgid "%s: Wrong type for input argument #%d: String expected.\n"
 msgstr ""
 "%s: Tipo incorreto para o argumento de entrada #%d: esperava-se um texto.\n"
-
-#, c-format
-msgid "%s: Wrong value for input argument #%d: '%s' value expected.\n"
-msgstr ""
-"%s: Valor incorreto para o argumento de entrada #%d: esperava-se o valor "
-"'%s'.\n"
 
 #, c-format
 msgid "%s: Wrong number of output argument(s).\n"
