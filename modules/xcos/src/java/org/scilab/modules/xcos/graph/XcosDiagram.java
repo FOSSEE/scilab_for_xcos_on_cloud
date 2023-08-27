@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2010 - DIGITEO - Clement DAVID
  * Copyright (C) 2011-2017 - Scilab Enterprises - Clement DAVID
  * Copyright (C) 2015 - Marcos Cardinot
- * Copyright (C) 2017-2019 - ESI Group - Clement DAVID
+ * Copyright (C) 2017-2023 - ESI Group - Clement DAVID
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  *
