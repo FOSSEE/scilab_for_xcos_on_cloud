@@ -160,7 +160,7 @@ while test $# -gt 0; do
         else
            CURLLIBDIR=""
         fi
-        if test "Xno" = "Xyes"; then
+        if test "Xyes" = "Xyes"; then
           echo ${CURLLIBDIR}-lcurl -lssl -lcrypto -lz -lrt
         else
           echo ${CURLLIBDIR}-lcurl
