@@ -19,7 +19,7 @@ extern "C" {
 #include "pause.h"
 }
 
-void pause(void)
+void scilab_pause(void)
 {
     ConfigVariable::IncreasePauseLevel();
 

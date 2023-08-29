@@ -532,7 +532,7 @@ void DebuggerManager::internal_stop()
     // wait inside pause
     try
     {
-        pause();
+        scilab_pause();
     }
     catch (const ast::InternalAbort& ia)
     {
