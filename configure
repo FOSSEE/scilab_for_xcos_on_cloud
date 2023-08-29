@@ -12025,7 +12025,7 @@ fi
 		{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: ocamlc does not support \"-unsafe-string\". Needed to build the Scicos modelica compiler (Use --without-modelica to disable the Modelica compiler)." >&5
 $as_echo "$as_me: WARNING: ocamlc does not support \"-unsafe-string\". Needed to build the Scicos modelica compiler (Use --without-modelica to disable the Modelica compiler)." >&2;}
 	fi
-        OCAMLCFLAGS="$OCAMLCFLAGS -unsafe-string"
+        # OCAMLCFLAGS="$OCAMLCFLAGS -unsafe-string"
 	# Extract the first word of "ocamlopt", so it can be a program name with args.
 set dummy ocamlopt; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -12073,7 +12073,7 @@ fi
 		{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: ocamlc does not support \"-unsafe-string\". Needed to build the Scicos modelica compiler (Use --without-modelica to disable the Modelica compiler)." >&5
 $as_echo "$as_me: WARNING: ocamlc does not support \"-unsafe-string\". Needed to build the Scicos modelica compiler (Use --without-modelica to disable the Modelica compiler)." >&2;}
 	fi
-        OCAMLOPTFLAGS="$OCAMLOPTFLAGS -unsafe-string"
+        # OCAMLOPTFLAGS="$OCAMLOPTFLAGS -unsafe-string"
 	# Extract the first word of "ocamldep", so it can be a program name with args.
 set dummy ocamldep; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
