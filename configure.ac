@@ -1468,14 +1468,14 @@ AC_STRUCT_ST_BLOCKS
 if $WITH_DEVTOOLS; then
     # ncurses includes are in a subdir
     NCURSES_CFLAGS="-I$DEVTOOLS_INCDIR -I$DEVTOOLS_INCDIR/ncurses"
-    NCURSES_LIBS="-L$DEVTOOLS_LIBDIR/ -lscincurses"
+    NCURSES_LIBS="-L$DEVTOOLS_LIBDIR/ -lncurses"
     
     saved_LIBS="$LIBS"
     LIBS="$LIBS $NCURSES_LIBS"
-    AC_CHECK_LIB([scincurses],[tgetent])
+    AC_CHECK_LIB([ncurses],[tgetent])
     LIBS="$saved_LIBS"
     
-    ac_cv_lib_ncurses_tgetent=$ac_cv_lib_scincurses_tgetent
+    ac_cv_lib_ncurses_tgetent=$ac_cv_lib_ncurses_tgetent
 else
     NCURSES_CFLAGS=""
     AC_CHECK_LIB([curses],[tgetent],[NCURSES_LIBS="-lcurses"])
