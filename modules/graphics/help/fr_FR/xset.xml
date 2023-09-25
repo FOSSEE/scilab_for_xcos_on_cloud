@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) ENPC - Jean-Philippe Chancelier
  * Copyright (C) 2017 - Samuel GOUGEON
  *
@@ -188,6 +188,12 @@ xset("alufunction",i)           gcf().pixel_drawing_mode = str(i);
                 <revnumber>6.0.0</revnumber>
                 <revremark>
                     Seule l'instruction <literal>xset("fpf", format)</literal> est désormais admise.
+                </revremark>
+            </revision>
+            <revision>
+                <revnumber>2023.0.0</revnumber>
+                <revremark>
+                    Tagué obsolète.
                 </revremark>
             </revision>
         </revhistory>

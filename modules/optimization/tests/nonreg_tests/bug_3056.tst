@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2008 - INRIA - Vincent Couvert <vincent.couvert@inria.fr>
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -9,8 +9,8 @@
 
 // <-- Non-regression test for bug 3056 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/show_bug.cgi?id=3056
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/3056
 //
 // <-- Short Description -->
 // scilab crash with the following test and the nd algorithm.
@@ -85,8 +85,7 @@ end
 
 scf();
 drawlater;
-xset("fpf"," ");
-contour(x,y,Z', 10);
+contour(x,y,Z', 10, fpf=" ");
 _axes = get("current_axes");
 _axes.data_bounds = [Min(1) Max(1) Min(2) Max(2)];
 xtitle("myf","x1","x2");

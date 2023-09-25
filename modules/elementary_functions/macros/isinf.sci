@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
 // Copyright (C) 2016, 2019 - Samuel GOUGEON
@@ -23,7 +23,7 @@ function r = isinf(x)
     else
         select typeof(x)
         case "polynomial"
-            // polynomials : http://bugzilla.scilab.org/10078
+            // polynomials : https://gitlab.com/scilab/scilab/-/issues/10078
             r = matrix(or(isinf(coeff(x(:))),"c"), size(x))
         case "rational"
             msg = _("%s: Argument #%d: %s not supported.\n")
@@ -34,7 +34,7 @@ function r = isinf(x)
             if isreal(x)
                 r = abs(x)==%inf;
             else
-                // workaround of http://bugzilla.scilab.org/14062
+                // workaround of https://gitlab.com/scilab/scilab/-/issues/14062
                 r = abs(real(x))==%inf | abs(imag(x))==%inf
             end
         end

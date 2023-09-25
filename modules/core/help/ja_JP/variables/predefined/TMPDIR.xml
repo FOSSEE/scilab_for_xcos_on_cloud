@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2010 - Digiteo - Vincent LIARD
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -48,7 +48,7 @@
             選択することができます.
         </para>
         <note>
-          <literal>dirname(TMPDIR)</literal> can be used as a general temporary directory,
+          <literal>TMPDIR</literal> can be used as a general temporary directory,
           without respect to any Scilab session.
         </note>
     </refsection>

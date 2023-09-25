@@ -1,5 +1,5 @@
 #
-# Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+# Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) INRIA - 2006-2008 - Sylvestre Ledru
 # Copyright (C) DIGITEO - 2009 - Sylvestre Ledru
 #
@@ -71,7 +71,6 @@ scilab_bin_CPPFLAGS = \
     -I$(top_srcdir)/modules/ast/includes/symbol/ \
     -I$(top_srcdir)/modules/ast/includes/system_env/ \
     -I$(top_srcdir)/modules/ast/includes/types/ \
-    -I$(top_srcdir)/modules/ast/includes/analysis/ \
     -I$(top_srcdir)/modules/console/includes/ \
     -I$(top_srcdir)/modules/output_stream/includes/ \
     -I$(top_srcdir)/modules/functions_manager/includes/ \
@@ -166,7 +165,7 @@ endif
 if NEED_JAVA
 # Don't do it for scilab_cli_bin. We want to be able to call it without
 # the java libs
-	scilab_bin_LDADD += $(JAVA_JNI_LIBS)
+scilab_bin_LDADD += $(JAVA_JNI_LIBS)
 endif
 
 if IS_SOLARIS

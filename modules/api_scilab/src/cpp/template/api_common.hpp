@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2015 - Scilab Enterprises - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -30,6 +30,11 @@ extern "C"
 scilabVar API_PROTO(getVar)(const wchar_t* name)
 {
     return (scilabVar)symbol::Context::getInstance()->get(symbol::Symbol(name));
+}
+
+void API_PROTO(setVar)(const wchar_t* name, scilabVar var)
+{
+    symbol::Context::getInstance()->put(symbol::Symbol(name), (types::InternalType*)var);
 }
 
 scilabVar API_PROTO(getClone)(scilabEnv env, scilabVar var)

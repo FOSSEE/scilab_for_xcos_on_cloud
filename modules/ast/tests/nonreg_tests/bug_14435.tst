@@ -1,5 +1,5 @@
 // ============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2020 - Stéphane Mottelet
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -10,8 +10,8 @@
 
 // <-- Non-regression test for bug 14435 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/show_bug.cgi?id=14435
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/14435
 //
 // <-- Short Description -->
 // Errors not well handled in overloaded functions
@@ -48,6 +48,6 @@ assert_checkerror("m.z",message);
 assert_checkerror("t(""z"")",message);
 assert_checkerror("m(""z"")",message);
 
-msg = msprintf(_("%s: Extraction must have at least one output.\n"), "%user_e");
+msg = msprintf(_("%ls: Extraction must have at least one output.\n"), "%user_e");
 assert_checkerror("t.no_output", msg);
 assert_checkerror("t(""no_output"")", msg);

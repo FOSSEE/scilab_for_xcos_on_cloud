@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2007-2008 - INRIA - Pierre MARECHAL
 // Copyright (C) 2009-2011 - DIGITEO - Michael Baudin
 // Copyright (C) 2010-2012 - DIGITEO - Antoine ELIAS
@@ -237,6 +237,12 @@ function test_run_result = test_run(varargin)
         params.tests_mat    = varargin(2);
         params.moduleName   = varargin(1);
 
+        if size(params.tests_mat, "*") == 1 then
+            if grep(params.tests_mat, ",") <> [] then
+                params.tests_mat = stripblanks(strsplit(params.tests_mat, ","));
+            end
+        end
+
         if ((or(size(params.moduleName) <> [1,1])) & (params.tests_mat <> [])) then
             example = test_examples();
             err   = ["" ; msprintf(gettext("%s: Wrong size for input argument."),"test_run") ; "" ; example ];
@@ -380,7 +386,17 @@ function status = test_module(_params)
             bFind = %f;
             for j = 1:size(directories, "*")
                 currentDir = directories(j);
-                testFile = currentDir + filesep() + _params.tests_mat(i) + ".tst";
+                if part(_params.tests_mat(i), 1) == "#" | ~isnan(strtod(_params.tests_mat(i))) then
+                    if part(_params.tests_mat(i), 1) == "#" then
+                        bugnum = part(_params.tests_mat(i), 2:$);
+                    else
+                        bugnum = _params.tests_mat(i)
+                    end
+
+                    testFile = currentDir + [sprintf("bug_%s", bugnum);sprintf("issue_%s", bugnum)] + ".tst";
+                else
+                    testFile = currentDir + _params.tests_mat(i) + ".tst";
+                end
                 testFile = listfiles(testFile);  // allows *pattern*
                 for File = testFile'
                     if isfile(File) then
@@ -575,6 +591,25 @@ function status = test_single(_module, _testPath, _testName)
         altreffile  = [ _testPath + _testName + ".unix.dia.ref" ];
     end
 
+    //scilab path
+    SCI_BIN = SCI
+    if (getos() <> "Windows") && ~isfile(SCI+"/bin/scilab") then
+        // match a string wich finished by /share/scilab/ or /share/scilab
+        SCI_BIN = strsubst(SCI,"|/share/scilab/?$|","","r");
+    end
+
+    //scilab build type
+    without_gui_build = getos() <> "Windows";
+    if without_gui_build then
+        for bin = ["/", "/bin/", "/.libs/"]
+            // depending on the configure options, only scilab-cli-bin may exist
+            if isfile(SCI_BIN+bin+"scilab-bin") & isfile(SCI_BIN+bin+"scilab-cli-bin") then
+                without_gui_build = %f
+                break;
+            end
+        end
+    end
+
     for i=1:size(altreffile,"*")
         if isfile(altreffile(i)) then
             path_dia_ref = altreffile(i);
@@ -647,7 +682,7 @@ function status = test_single(_module, _testPath, _testName)
     end
 
     if ~isempty(grep(sciFile, "<-- TEST WITH GRAPHIC -->")) then
-        if or(_module.wanted_mode == "NWNI") then
+        if or(_module.wanted_mode == "NWNI") | without_gui_build then
             status.id = 10;
             status.message = "skipped: Test with graphic";
             return;
@@ -658,16 +693,10 @@ function status = test_single(_module, _testPath, _testName)
         execMode = "NW";
     end
 
-    if or(_module.wanted_mode == "NWNI") & isempty(grep(sciFile, "<-- CLI SHELL MODE -->")) then
+    if (or(_module.wanted_mode == "NWNI") | without_gui_build) & isempty(grep(sciFile, "<-- CLI SHELL MODE -->")) then
         status.id = 10;
         status.message = "skipped: not CLI SHELL MODE test";
         return;
-    end
-
-    if ~isempty(grep(sciFile, "<-- JVM NOT MANDATORY -->")) then
-        status.warning = _("option ""JVM NOT MANDATORY"" is deprecated, please use ""CLI SHELL MODE"" instead");
-        jvm = %F;
-        execMode = "NWNI";
     end
 
     if ~isempty(grep(sciFile, "<-- CLI SHELL MODE -->")) then
@@ -689,7 +718,7 @@ function status = test_single(_module, _testPath, _testName)
     clear MPITestPos
 
     if ~isempty(grep(sciFile, "<-- XCOS TEST -->")) then
-        if or(_module.wanted_mode == "NWNI") then
+        if or(_module.wanted_mode == "NWNI") | without_gui_build then
             status.id = 10;
             status.message = "skipped: Test with xcos";
             return;
@@ -803,16 +832,7 @@ function status = test_single(_module, _testPath, _testName)
     //Build final test
     sciFile = [head ; sciFile ; tail];
 
-
     //Build command to execute
-
-    //scilab path
-    if (getos() <> "Windows") & ~isfile(SCI+"/bin/scilab") then
-        // match a string wich finished by /share/scilab/ or /share/scilab
-        SCI_BIN = strsubst(SCI,"|/share/scilab/?$|","","r");
-    else
-        SCI_BIN = SCI;
-    end
 
     //mode
     valgrind_opt = "";
@@ -893,52 +913,58 @@ function status = test_single(_module, _testPath, _testName)
     returnStatus = host(test_cmd);
     //Check return status
     if (returnStatus <> 0)
+        details = [ checkthefile(tmp_dia); ..
+        launchthecommand(testFile)];
         status.id = 5;
         status.message = "failed: Slave Scilab exited with error code " + string(returnStatus);
-        if params.show_error then
+        status.details = details;
+        if params.show_error == %T then
             tmp = mgetl(tmp_res)
             tmp(tmp=="") = []
-            status.details = "   " + strsubst(..
+            status.details = [ status.details; "   " + strsubst(..
             [""
             "----- " + tmp_res + ": 10 last lines: -----"
             tmp(max(1,size(tmp,1)-9):$)
-            ], TMPDIR, "TMPDIR")
+            ], TMPDIR, "TMPDIR")]
         end
         return;
     end
 
     //Check errors
     if (error_output == "check") & (_module.error_output == "check") then
-        if getos() == "Darwin" then
-            tmp_errfile_info = fileinfo(tmp_err);
-            msg = "Picked up _JAVA_OPTIONS:"; // When -Djava.awt.headless=false is forced for example
+        tmp_errfile_info = fileinfo(tmp_err);
 
-            if ~isempty(tmp_errfile_info) then
-                txt = mgetl(tmp_err);
-                toRemove = grep(txt, msg);
+        if ~isempty(tmp_errfile_info) then
+            txt = mgetl(tmp_err);
+
+            
+            if ~isempty(txt) then
+                // some Concurrent exception are reported on the console without stacktrace
+                toRemove = grep(txt, "java.util.ConcurrentModificationException");
                 txt(toRemove) = [];
-                if isempty(txt) then
-                    deletefile(tmp_err);
-                else // Remove messages due to JOGL2 RC8
+            end
+
+
+            if getos() == "Darwin" then
+                if ~isempty(txt) then
+                    // When -Djava.awt.headless=false is forced for example
+                    toRemove = grep(txt, "Picked up _JAVA_OPTIONS:");
+                    txt(toRemove) = [];
+                end
+
+                if ~isempty(txt) then
+                    // Remove messages due to JOGL2 RC8
                     toRemove = grep(txt, "__NSAutoreleaseNoPool()");
                     txt(toRemove) = [];
-                    if isempty(txt) then
-                        deletefile(tmp_err);
-                    end
                 end
             end
-        end
-
-        if getos() == "Linux" then // Ignore JOGL2 debug message
-            tmp_errfile_info = fileinfo(tmp_err);
-            msg = "Error: unable to open display "
-
-            if ~isempty(tmp_errfile_info) then
-                txt = mgetl(tmp_err);
-                txt(txt==msg) = [];
-
-                // Remove messages due to warning message from external
-                // libraries
+        
+            if getos() == "Linux" then
+                if ~isempty(txt) then
+                    // Ignore JOGL2 debug message
+                    toRemove = grep(txt, "Error: unable to open display ");
+                    txt(toRemove) = [];
+                end
 
                 if ~isempty(txt) then
                     // Gtk style on Ubuntu or other Gtk logging
@@ -953,38 +979,40 @@ function status = test_single(_module, _testPath, _testName)
                 end
 
                 if ~isempty(txt) then
+                    // missing RANDR extension display some warning on stderr
                     toRemove = grep(txt, "extension ""RANDR"" missing on display");
                     txt(toRemove) = [];
                 end
 
-                // Remove SELinux context change warnings
                 if ~isempty(txt) then
+                    // Remove SELinux context change warnings
                     toRemove = grep(txt, "/usr/bin/chcon:");
                     txt(toRemove) = [];
                 end
+            end
 
-                if isempty(txt) then
-                    deletefile(tmp_err);
+            if getos() == "Windows" then
+                if ~isempty(txt) then
+                    // Ignore TCL encoding issue on Windows UTF-8 regional settings
+                    toRemove = grep(txt, "Tcl_SetSystemEncoding:");
+                    txt(toRemove) = [];
+                end
+
+                if ~isempty(txt) then
+                    // Ignore JOGL 2.2.4 debug message
+                    toRemove = grep(txt, "Info: GLReadBufferUtil.readPixels: pre-exisiting GL error 0x500");
+                    txt(toRemove) = [];
+                end
+
+                if ~isempty(txt) then
+                    // Ignore JOGL 2.1.4 debug message
+                    toRemove = grep(txt, "Info: GLDrawableHelper.reshape: pre-exisiting GL error 0x500");
+                    txt(toRemove) = [];
                 end
             end
-        end
-
-        if getos() == "Windows" then // Ignore JOGL 2.2.4 debug message
-            tmp_errfile_info = fileinfo(tmp_err);
-            msg = "Info: GLReadBufferUtil.readPixels: pre-exisiting GL error 0x500";
-
-            if ~isempty(tmp_errfile_info) then
-                txt = mgetl(tmp_err);
-                txt(txt==msg) = [];
-                if isempty(txt) then
-                    deletefile(tmp_err);
-                else // Ignore JOGL 2.1.4 debug message
-                    msg = "Info: GLDrawableHelper.reshape: pre-exisiting GL error 0x500";
-                    txt(txt==msg) = [];
-                    if isempty(txt) then
-                        deletefile(tmp_err);
-                    end
-                end
+            
+            if isempty(txt) then
+                deletefile(tmp_err);
             end
         end
 

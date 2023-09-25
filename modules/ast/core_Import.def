@@ -15,4 +15,8 @@ parseCommand
 checkCommand
 parseFile
 checkFile
-pause
+pause_interpreter
+getScilabVersionMajor
+getScilabVersionMinor
+getScilabVersionMaintenance
+getScilabVersionAsString

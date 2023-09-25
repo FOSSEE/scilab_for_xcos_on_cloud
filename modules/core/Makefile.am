@@ -1,4 +1,4 @@
-# Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+# Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) 2006-2008 - INRIA - Sylvestre LEDRU
 #
 # Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -19,7 +19,6 @@ CORE_C_SOURCES = \
     src/c/isanan.c \
     src/c/returnanan.c \
     src/c/loadversion.c \
-    src/c/version.c \
     src/c/GetXmlFileEncoding.c \
     src/c/islittleendian.c \
     src/c/getcommandlineargs.c \
@@ -161,7 +160,6 @@ libscicore_la_CPPFLAGS = \
     -I$(top_srcdir)/modules/ast/includes/symbol/ \
     -I$(top_srcdir)/modules/ast/includes/system_env/ \
     -I$(top_srcdir)/modules/ast/includes/types/ \
-    -I$(top_srcdir)/modules/ast/includes/analysis/ \
     -I$(top_srcdir)/modules/call_scilab/includes/ \
     -I$(top_srcdir)/modules/api_scilab/includes/ \
     -I$(top_srcdir)/modules/action_binding/includes/ \

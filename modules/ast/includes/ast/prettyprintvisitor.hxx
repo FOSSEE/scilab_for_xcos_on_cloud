@@ -1,5 +1,5 @@
 /*
- *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ *  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2008-2008 - DIGITEO - Bruno JOFRET
  *  Copyright (C) 2015 - Scilab Enterprises - Calixte DENIZET
  *
@@ -46,9 +46,8 @@ namespace ast
 class EXTERN_AST PrettyPrintVisitor : public GenVisitor<const_kind>
 {
 public:
-    PrettyPrintVisitor(std::wostream & my_ostr = std::wcerr, const bool _printDecoration = false, const bool _colored = false) :
-        ostr(&my_ostr),
-        printDecoration(_printDecoration)
+    PrettyPrintVisitor(std::wostream & my_ostr = std::wcerr, const bool _colored = false) :
+        ostr(&my_ostr)
     {
         colored = _colored;
     }
@@ -176,7 +175,6 @@ public:
 protected:
 
     std::wostream * ostr;
-    const bool printDecoration;
 
 private:
 

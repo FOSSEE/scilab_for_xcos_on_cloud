@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA - Farid BELAHCENE
 // Copyright (C) DIGITEO - 2011 - Allan CORNET
 //
@@ -26,9 +26,9 @@ function y = primes(x)
     end
 
     if type(x) <> 1 then
-        error(msprintf(gettext("%s: Wrong type for input argument #%d: A real expected.\n"),"primes"));
+        error(msprintf(gettext("%s: Wrong type for input argument #%d: A real expected.\n"),"primes", 1));
     elseif prod(size(x,"*")) <> 1 then
-        error(msprintf(gettext("%s: Wrong size for input argument #%d: A real expected.\n"),"primes"));
+        error(msprintf(gettext("%s: Wrong size for input argument #%d: A real expected.\n"),"primes", 1));
     elseif x < 1
         y = [];
     else

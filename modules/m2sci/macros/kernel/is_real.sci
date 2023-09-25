@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2002-2004 - INRIA - Vincent COUVERT
 //
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -10,12 +10,12 @@
 // For more information, see the COPYING file which you should have received
 // along with this program.
 
-function r=is_real(A)
+function r = is_real(A)
     // M2SCI function
     // Checks if A real
     // Input: A = a M2SCI tlist
     // Output: r = boolean value (true if A is real)
 
-    r=A.type.property==Real
+    r = A.type.property==Real
 endfunction
 

@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
 //
@@ -22,6 +22,9 @@ function plotframe(rect,axisdata,options,legs,subwindow)
     //	      rect initial data.
     //  subwindow : see xsetech (wrect)
     //!
+
+    warnobsolete("plot2d","2024.0.0")
+
     [lhs,rhs]=argn(0)
 
     if rhs < 1 then

@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2020 - Stéphane MOTTELET
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -10,8 +10,8 @@
 //
 // <-- Non-regression test for bug 16323 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/16323
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/16323
 //
 // <-- Short Description -->
 // conj(sparse(x)) is complex even when x is real

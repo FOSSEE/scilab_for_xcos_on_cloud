@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2018 - Stéphane Mottelet
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -9,8 +9,8 @@
 
 // <-- Non-regression test for bug 15598 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/15598
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/15598
 //
 // <-- Short Description -->
 // string(handle) returns "" instead of calling %h_string()  (regression)

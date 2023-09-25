@@ -1,5 +1,5 @@
 /*
-*  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+*  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2010 - DIGITEO - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -1349,7 +1349,7 @@ GenericType* ArrayOf<T>::extract(typed_list* _pArgs)
         else
         {
             int *i_piDims = pArg[0]->getAs<GenericType>()->getDimsArray();
-            if (!isScalar() && isVector() && (i_piDims[0] == 1 || i_piDims[1] == 1))
+            if (!isScalar() && isVector() && pArg[0]->getAs<GenericType>()->isVector())
             {
                 //vector with vector subscript
                 int piRealDim[2] = { 1, 1 };

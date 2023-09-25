@@ -1,5 +1,5 @@
 #
-# Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+# Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) INRIA - 2006-2008 - Sylvestre Ledru
 # Copyright (C) DIGITEO - 2009-2010 - Sylvestre Ledru
 # Copyright (C) Scilab Enterprises - 2015 - Clement DAVID
@@ -21,7 +21,7 @@
 ##########
 
 # Initialise autoconf
-AC_INIT([scilab],[0],[http://bugzilla.scilab.org/])
+AC_INIT([scilab],[0],[https://gitlab.com/scilab/scilab/-/issues])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Initialise automake (foreign is low strictness)

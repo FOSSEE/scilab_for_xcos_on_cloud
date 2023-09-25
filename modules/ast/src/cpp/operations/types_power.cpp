@@ -1,5 +1,5 @@
 /*
-*  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+*  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2008-2008 - DIGITEO - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -16,6 +16,7 @@
 #include "types_power.hxx"
 #include "types_multiplication.hxx"
 #include "types_finite.hxx"
+#include "operations.hxx"
 
 extern "C"
 {
@@ -23,9 +24,12 @@ extern "C"
 #include "matrix_power.h"
 #include "localization.h"
 #include "charEncoding.h"
+#include "sciprint.h"
 }
 
 using namespace types;
+
+static std::wstring op = L"^";
 
 InternalType *GenericPower(InternalType *_pLeftOperand, InternalType *_pRightOperand)
 {
@@ -40,11 +44,7 @@ InternalType *GenericPower(InternalType *_pLeftOperand, InternalType *_pRightOpe
         Double *pL   = _pLeftOperand->getAs<Double>();
         Double *pR   = _pRightOperand->getAs<Double>();
 
-        int iResult = PowerDoubleByDouble(pL, pR, (Double**)&pResult);
-        if (iResult)
-        {
-            throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
-        }
+        PowerDoubleByDouble(pL, pR, (Double**)&pResult);
 
         return pResult;
     }
@@ -61,9 +61,7 @@ InternalType *GenericPower(InternalType *_pLeftOperand, InternalType *_pRightOpe
         int iResult = PowerPolyByDouble(pL, pR, &pResult);
         switch (iResult)
         {
-            case 1 :
-                throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
-            case 2 :
+            case 2:
                 throw ast::InternalError(_W("Invalid exponent: expected finite integer exponents.\n"));
             default:
                 //OK
@@ -98,7 +96,7 @@ InternalType *GenericDotPower(InternalType *_pLeftOperand, InternalType *_pRight
         int iResult = DotPowerDoubleByDouble(pL, pR, (Double**)&pResult);
         if (iResult)
         {
-            throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
+            throw ast::InternalError(_W("Invalid exponent: Identity matrix not expected.\n"));
         }
 
         return pResult;
@@ -111,13 +109,8 @@ InternalType *GenericDotPower(InternalType *_pLeftOperand, InternalType *_pRight
     {
         types::Sparse *pL = _pLeftOperand->getAs<types::Sparse>();
         Double *pR = _pRightOperand->getAs<Double>();
-        int iResult = DotPowerSpaseByDouble(pL, pR, &pResult);
-        if (iResult)
-        {
-            throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
-        }
+        DotPowerSpaseByDouble(pL, pR, &pResult);
         return pResult;
-
     }
 
     /*
@@ -132,9 +125,7 @@ InternalType *GenericDotPower(InternalType *_pLeftOperand, InternalType *_pRight
         int iResult = DotPowerPolyByDouble(pL, pR, &pResult);
         switch (iResult)
         {
-            case 1 :
-                throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
-            case 2 :
+            case 2:
                 throw ast::InternalError(_W("Invalid exponent: expected finite integer exponents.\n"));
             default:
                 //OK
@@ -254,12 +245,18 @@ int PowerDoubleByDouble(Double* _pDouble1, Double* _pDouble2, Double** _pDoubleO
 
             if (bComplex1 == false && bComplex2 == false)
             {
-                for (int i = 0 ; i < (*_pDoubleOut)->getSize() ; i++)
+                int size = (*_pDoubleOut)->getSize();
+                double* pR = (*_pDoubleOut)->get();
+                double* pI = (*_pDoubleOut)->getImg();
+                double* pR1 = _pDouble1->get();
+                double R2 = _pDouble2->get()[0];
+                iComplex = 0;
+
+                for (int i = 0; i < size; i++)
                 {
-                    iPowerRealScalarByRealScalar(
-                        _pDouble1->get(i),
-                        _pDouble2->get(0),
-                        &(*_pDoubleOut)->get()[i], &(*_pDoubleOut)->getImg()[i], &iComplex);
+                    int c = 1;
+                    iPowerRealScalarByRealScalar(pR1[i], R2, pR + i, pI + i, &c);
+                    iComplex |= c;
                 }
             }
             else if (bComplex1 == false && bComplex2 == true)
@@ -525,7 +522,6 @@ int DotPowerSpaseByDouble(Sparse* _pSp, Double* _pDouble, InternalType** _pOut)
         delete[] Row;
         delete[] iPositVal;
         throw ast::InternalError(_W("Invalid exponent.\n"));
-        return 1;
     }
 
     Sparse* pSpTemp = new Sparse(_pSp->getRows(), _pSp->getCols(), _pSp->isComplex() || _pDouble->isComplex());
@@ -562,7 +558,6 @@ int DotPowerSpaseByDouble(Sparse* _pSp, Double* _pDouble, InternalType** _pOut)
     pSpTemp->finalize();
     *_pOut = pSpTemp;
     return 0;
-
 }
 
 
@@ -663,12 +658,7 @@ int DotPowerPolyByDouble(Polynom* _pPoly, Double* _pDouble, InternalType** _pOut
 
     switch (iResult)
     {
-        case 1 :
-        {
-            delete pPolyOut;
-            throw ast::InternalError(_W("Inconsistent row/column dimensions.\n"));
-        }
-        case 2 :
+        case 2:
         {
             delete pPolyOut;
             throw ast::InternalError(_W("Invalid exponent.\n"));
@@ -829,17 +819,10 @@ int DotPowerDoubleByDouble(Double* _pDouble1, Double* _pDouble2, Double** _pDoub
         int iDims2      = _pDouble2->getDims();
         int* piDims2    = _pDouble2->getDimsArray();
 
-        if (iDims1 != iDims2)
+        std::wstring error = checkSameSize(_pDouble1, _pDouble2, op);
+        if (error.empty() == false)
         {
-            return 1;
-        }
-
-        for (int i = 0 ; i < iDims1 ; i++)
-        {
-            if (piDims1[i] != piDims2[i])
-            {
-                return 1;
-            }
+            throw ast::InternalError(error);
         }
 
         (*_pDoubleOut) = new Double(iDims2, piDims2, true);

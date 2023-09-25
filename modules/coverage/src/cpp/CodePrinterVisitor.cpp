@@ -1,5 +1,5 @@
 /*
- *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ *  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2015 - Scilab Enterprises - Calixte DENIZET
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -131,7 +131,7 @@ void CodePrinterVisitor::visit(const ast::DoubleExp & e)
 {
     printer.handleExpStart(&e);
     const double x = e.getValue();
-    if (analysis::tools::isAnInt(x))
+    if (0 /*analysis::tools::isAnInt(x)*/)
     {
         printer.handleNumber(x >= 0 ? std::to_wstring((uint64_t)x) : std::to_wstring((int64_t)x));
     }

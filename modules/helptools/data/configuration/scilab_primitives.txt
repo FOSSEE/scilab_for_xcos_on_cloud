@@ -339,14 +339,12 @@ cdft
 cell
 ceil
 champ
-champ1
 chdir
 chol
 clean
 clearfun
 clearglobal
 closeEditor
-closeEditvar
 closeXcos
 coeff
 color
@@ -386,7 +384,6 @@ datatipRemove
 datatipSetDisplay
 datatipSetInterp
 datatipSetStyle
-datatipToggle
 dawson
 dct
 debug
@@ -398,7 +395,6 @@ deletefile
 delip
 delmenu
 det
-dgettext
 dhinf
 diag
 diary
@@ -750,7 +746,6 @@ rtitr
 rubberbox
 save
 saveGui
-saveafterncommands
 saveconsecutivecommands
 savehistory
 schur
@@ -798,6 +793,7 @@ splin
 splin2d
 splin3d
 splitURL
+url_split
 spones
 spzeros
 sqrt
@@ -912,7 +908,6 @@ xcosPalGet
 xcosPalLoad
 xcosPalMove
 xcosSimulationStarted
-xdel
 xend
 xfarc
 xfarcs
@@ -952,7 +947,6 @@ xmlSetAttributes
 xmlValidate
 xmlWrite
 xmlXPath
-xname
 xpoly
 xpolys
 xrect

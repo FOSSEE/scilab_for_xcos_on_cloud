@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2005 - INRIA - Allan CORNET
 * Copyright (C) 2010 - DIGITEO - Allan CORNET
 *
@@ -139,12 +139,7 @@ int Call_ScilabOpen(char *SCIpath, BOOL advancedMode, char *ScilabStartup, int S
     pGlobalSEI->iConsoleMode = 1;
     pGlobalSEI->iStartConsoleThread = 0;
 
-    if (getScilabMode() != SCILAB_NWNI)
-    {
-        pGlobalSEI->iNoJvm = 1;
-    }
-
-    pGlobalSEI->iNoJvm = 0;
+    pGlobalSEI->iNoJvm = getScilabMode() == SCILAB_NWNI;
 
     ierr = StartScilabEngine(pGlobalSEI);
 

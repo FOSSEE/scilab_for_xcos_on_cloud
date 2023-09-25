@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2011 - DIGITEO - Cedric DELAMARRE
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -21,7 +21,6 @@
 #include "list.hxx"
 #include "callable.hxx"
 #include "differentialequationfunctions.hxx"
-#include "runvisitor.hxx"
 #include "checkodeerror.hxx"
 
 extern "C"
@@ -54,7 +53,7 @@ types::Function::ReturnValue sci_dassl(types::typed_list &in, int _iRetCount, ty
     int iPos    = 0;
     int one     = 1;
 
-    int info[15]    = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    int info[15]    = {0};
 
     double tstop    = 0;
     double maxstep  = 0;
@@ -604,6 +603,8 @@ types::Function::ReturnValue sci_dassl(types::typed_list &in, int _iRetCount, ty
 
     iwork = (int*)MALLOC(iworksize * sizeof(int));
     rwork = (double*)MALLOC(rworksize * sizeof(double));
+    memset(iwork, 0x00, iworksize * sizeof(int));
+    memset(rwork, 0x00, rworksize * sizeof(double));
 
     if (pDblHd != NULL)
     {

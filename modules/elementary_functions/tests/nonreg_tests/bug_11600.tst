@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2021 - Stéphane MOTTELET
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -10,8 +10,8 @@
 //
 // <-- Non-regression test for bug 11600 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/11600
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/11600
 //
 // <-- Short Description -->
 // rand("foo") runs silently without returning an error

@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2020 - Samuel GOUGEON - Le Mans Université
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -12,7 +12,7 @@
 // <-- Short Description -->
 // Unit tests for setdiff() with boolean sparse or numerical sparse matrices
 
-// See also : http://bugzilla.scilab.org/15867
+// See also : https://gitlab.com/scilab/scilab/-/issues/15867
 
 eb = sparse(%t); eb(1) = [];
 

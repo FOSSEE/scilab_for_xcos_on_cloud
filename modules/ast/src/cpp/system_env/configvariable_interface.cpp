@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2012 - Scilab Enterprises - Cedric DELAMARRE
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -269,6 +269,15 @@ void resetExecutionBreak()
 int setRecursionLimit(int val)
 {
     return ConfigVariable::setRecursionLimit(val);
+}
+
+void setPolynomialDisplay(int val)
+{
+    ConfigVariable::setPolynomialDisplay(val);
+}
+int getPolynomialDisplay()
+{
+    return ConfigVariable::getPolynomialDisplay();
 }
 
 int getWebMode()

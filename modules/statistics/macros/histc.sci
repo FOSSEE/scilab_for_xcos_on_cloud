@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2017 - 2020 - Samuel GOUGEON
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -78,10 +78,8 @@ function [heights, jokers, binsOut, ind] = histc(data, bins, options)
         mode55 = %t
         [data, bins] = (bins, data)
         tmp = isdef("options","l") && type(options)==4
-        normarg = %f
         norma = %f
         if isdef("normalization","l")
-            normarg = %t
             if type(normalization)==4 then
                 norma = normalization(1)
             end
@@ -90,7 +88,6 @@ function [heights, jokers, binsOut, ind] = histc(data, bins, options)
                 norma = %t
             else
                 if isdef("options","l") & type(options)==4
-                    normarg = %t
                     norma = options(1)
                 end
             end
@@ -99,10 +96,6 @@ function [heights, jokers, binsOut, ind] = histc(data, bins, options)
             options = ["densityNorm" "normWith:all"]
         else
             options = "counts"
-        end
-        if normarg
-            msg = _("%s: ""normalization"" boolean argument #3 is obsolete. ""%s"" option used.\n")
-            warning(msprintf(msg, fname, options(1)))
         end
     end
     // -----------------------

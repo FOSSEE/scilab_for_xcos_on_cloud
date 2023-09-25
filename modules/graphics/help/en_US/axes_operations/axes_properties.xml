@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) INRIA - Djalel Abdemouche
  * Copyright (C) 2009 - DIGITEO - Pierre Lando
  * Copyright (C) 2013, 2018 - Samuel GOUGEON
@@ -844,6 +844,17 @@
                                     of added data.
                                     <literal>"off"</literal>: Default or explicitly initialized values
                                     of <literal>.data_bounds</literal> are not modified.
+                                </para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry>
+                            <term>auto_stretch: </term>
+                            <listitem>
+                                <para>
+                                    Property disabling axis box filling when 3D properties.
+                                    <literal>"on"</literal>: Default, each new 3D plot maximize the box according to boundaries
+                                    of added data.
+                                    <literal>"off"</literal>: Keep 3D box size from a previous computation.
                                 </para>
                             </listitem>
                         </varlistentry>

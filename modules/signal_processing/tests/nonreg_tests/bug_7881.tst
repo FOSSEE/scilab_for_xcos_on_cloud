@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2012 - Scilab Enterprises - Adeline CARNIS
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -9,8 +9,8 @@
 
 // <-- Non-regression test for bug 7881 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/show_bug.cgi?id=7881
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/7881
 //
 // <-- Short Description -->
 //    In the lattn function, the second argument is a scalar
@@ -25,6 +25,7 @@ c1 = rand(10,3);
 assert_checkfalse(execstr("lattn(2, 1, c1)", "errcatch") == 0);
 refMsg = msprintf(_("%s: Wrong values for input arguments #%d and #%d.\n"), "lattn", 1,2); 
 assert_checkerror("lattn(2, 1, c1)", refMsg);
+
 
 
 

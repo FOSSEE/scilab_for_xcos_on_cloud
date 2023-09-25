@@ -1,5 +1,5 @@
 /*
-*  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+*  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2008-2008 - DIGITEO - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -1338,7 +1338,6 @@ void ConfigVariable::whereErrorToString(std::wostringstream& ostr)
 
 void ConfigVariable::fillWhereError(int _iErrorLine)
 {
-
     if (m_WhereError.empty())
     {
         int iTmp = 0;
@@ -1588,6 +1587,17 @@ int ConfigVariable::setRecursionLimit(int val)
     int old = recursionLimit;
     recursionLimit = std::max(10, val);
     return old;
+}
+
+int ConfigVariable::m_iPolynomialDisplay = 0;
+
+void ConfigVariable::setPolynomialDisplay(int iVal)
+{
+    m_iPolynomialDisplay = iVal;
+}
+int ConfigVariable::getPolynomialDisplay()
+{
+    return m_iPolynomialDisplay;
 }
 
 int ConfigVariable::getRecursionLevel()

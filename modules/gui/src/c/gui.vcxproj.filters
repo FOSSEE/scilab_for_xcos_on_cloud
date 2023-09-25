@@ -188,9 +188,6 @@
     <ClCompile Include="..\..\sci_gateway\c\sci_messagebox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sci_gateway\c\sci_mpopup.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\sci_gateway\cpp\sci_printfigure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -420,9 +417,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sci_gateway\cpp\sci_datatip_manager_mode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\sci_gateway\cpp\sci_datatip_toggle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sci_gateway\cpp\sci_saveGui.cpp">

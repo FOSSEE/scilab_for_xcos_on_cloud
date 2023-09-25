@@ -1,5 +1,5 @@
 /*
-*  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+*  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -88,6 +88,9 @@ EXTERN_AST void setExecutionBreak();
 EXTERN_AST void resetExecutionBreak();
 
 EXTERN_AST int setRecursionLimit(int);
+
+EXTERN_AST void setPolynomialDisplay(int);
+EXTERN_AST int getPolynomialDisplay();
 
 EXTERN_AST int getWebMode();
 #endif /* !__CONFIGVARIABLE_INTERFACE_H__ */

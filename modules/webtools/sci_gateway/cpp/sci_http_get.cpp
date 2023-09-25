@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2017 - ESI-Group - Cedric DELAMARRE
 *
 *
@@ -27,7 +27,9 @@ extern "C"
 #include "sciprint.h"
 #include "sci_malloc.h"
 #include "getFullFilename.h"
+#include "charEncoding.h"
 }
+
 /*--------------------------------------------------------------------------*/
 static const char fname[] = "http_get";
 types::Function::ReturnValue sci_http_get(types::typed_list &in, types::optional_list &opt, int _iRetCount, types::typed_list &out)
@@ -81,7 +83,7 @@ types::Function::ReturnValue sci_http_get(types::typed_list &in, types::optional
         wchar_t* pwcFileName = getFullFilenameW(in[1]->getAs<types::String>()->get(0));
         char* pcFileName = wide_string_to_UTF8(pwcFileName);
 
-        fd = fopen(pcFileName, "wb");
+        wcfopen(fd, pcFileName, "wb");
         FREE(pcFileName);
         if(fd == NULL)
         {

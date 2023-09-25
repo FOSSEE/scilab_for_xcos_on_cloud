@@ -1,5 +1,5 @@
 /*
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2007-2008 - INRIA - Allan CORNET
  * Copyright (C) 2007-2008 - INRIA - Vincent COUVERT
  * Copyright (C) 2007-2008 - INRIA - Sylvestre LEDRU
@@ -123,7 +123,7 @@ public class Scilab {
             }
 
         } catch (Exception e) {
-            System.err.println("Cannot retrieve the variable SCI. Please report on http://bugzilla.scilab.org/");
+            System.err.println("Cannot retrieve the variable SCI. Please report on https://gitlab.com/scilab/scilab/-/issues");
             System.err.println(e.getLocalizedMessage());
             System.exit(-1);
         }
@@ -171,7 +171,7 @@ public class Scilab {
 
                             awtAppClassNameField.set(xToolkit, "Scilab");
                         } catch (Exception e) {
-                            System.err.println("Unable to set WM_CLASS, please report a bug on http://bugzilla.scilab.org/.");
+                            System.err.println("Unable to set WM_CLASS, please report a bug on https://gitlab.com/scilab/scilab/-/issues.");
                             System.err.println("Error: " + e.getLocalizedMessage());
                         }
                     }

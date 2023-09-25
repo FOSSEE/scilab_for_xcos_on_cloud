@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2007-2008 - INRIA
 // Copyright (C) 2013 - Scilab Enterprises - Simon MARCHETTO
 //
@@ -66,7 +66,7 @@ r = completion("Tmp");
 check_completion(r, "TMPDIR");
 
 r = completion("%", "variables");
-rexpected = ["%e"; "%eps"; "%fftw"; "%gui"; "%i";"%inf"; "%io"; "%nan"; "%pi"; "%s"; "%tk"; "%z"];
+rexpected = ["%chars"; "%e"; "%eps"; "%fftw"; "%gui"; "%i";"%inf"; "%io"; "%nan"; "%pi"; "%s"; "%tk"; "%z"];
 assert_checkequal(r, rexpected);
 
 

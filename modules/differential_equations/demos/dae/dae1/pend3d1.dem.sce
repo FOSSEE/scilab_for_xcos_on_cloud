@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2008 - INRIA
 // Copyright (C) 2010 - DIGITEO - Allan CORNET
 //
@@ -36,7 +36,7 @@ function demo_pend3d1()
     t0      = 0;
 
     //Observation dates for simulation
-    T       = t0:0.01:15;
+    T       = t0:0.01:14;
 
     //Slver tolerances
     info = list([],0,[],[],[],0,0);

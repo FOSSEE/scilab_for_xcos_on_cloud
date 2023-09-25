@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2015 - Scilab Enterprises - Vincent COUVERT
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -10,8 +10,8 @@
 // <-- CLI SHELL MODE -->
 // <-- NO CHECK REF -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/10773
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/10773
 //
 // <-- Short Description -->
 // Wrong line reported in the error message

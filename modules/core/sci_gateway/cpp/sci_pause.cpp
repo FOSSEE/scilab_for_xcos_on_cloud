@@ -1,5 +1,5 @@
 /*
- *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ *  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2011-2011 - DIGITEO - Bruno JOFRET
  *  Copyright (C) 2015 - Scilab Enterprises - Cedric Delamarre
  *
@@ -46,8 +46,18 @@ types::Function::ReturnValue sci_pause(types::typed_list &in, int _iRetCount, ty
     // or when the "where()" function is called.
     ConfigVariable::macroFirstLine_begin(2);
 
-    // do pause
-    pause();
+    try
+    {
+        // do pause
+        pause_interpreter();
+    }
+    catch (const ast::InternalAbort& ia)
+    {
+        ConfigVariable::macroFirstLine_end();
+        throw ia;
+    }
+
+    ConfigVariable::macroFirstLine_end();
 
     return types::Function::OK;
 }

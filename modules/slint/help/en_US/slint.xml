@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2015 - Scilab Enterprises - Calixte DENIZET
  * Copyright (C) 2017 - Samuel GOUGEON
  *
@@ -8,7 +8,7 @@
  * This source file is licensed as described in the file COPYING, which
  * you should have received as part of this distribution.  The terms
  * are also available at
- * http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  *
  -->
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,10 +23,13 @@
         <title>Calling Sequence</title>
         <synopsis>
             slint(files)
-            slint(files, out)
+            slint(files, conf, %t)
+
+            slint(files, resFilename)
             slint(files, conf, resFilename)
-            out = slint(files, conf, print)
-            out = slint(files, print)
+
+            out = slint(files)
+            out = slint(files, conf)
         </synopsis>
     </refsynopsisdiv>
     <refsection>
@@ -41,7 +44,7 @@
             <varlistentry>
                 <term>conf</term>
                 <listitem>
-                    a string: the name of the configuration file (by default it's <literal>SCI/modules/slint/etc/slint.xml</literal>).
+                    a string: the name of the configuration file (by default it's <literal>SCIHOME/slint.xml</literal>).
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -79,7 +82,7 @@
     <refsection>
         <title>Examples</title>
         <programlisting role="example"><![CDATA[
-editor SCI/modules/slint/etc/slint.xml   // Main configuration file for criteria
+editor SCIHOME/slint.xml   // Main configuration file for criteria
 editor SCI/modules/slint/tests/unit_tests/files/slint_sample.sci;
 slint SCI/modules/slint/tests/unit_tests/files/slint_sample.sci;
     ]]></programlisting>

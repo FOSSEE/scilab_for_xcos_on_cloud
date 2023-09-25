@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) Bruno Pincon
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -62,7 +62,7 @@ function Sgrayplot(x,y,z, strf, rect, nax, zminmax, colminmax, mesh, colout)
         error(msprintf(msg, "Sgrayplot", 2, 3, 3, 2));
     end
 
-    // http://bugzilla.scilab.org/15638 :
+    // https://gitlab.com/scilab/scilab/-/issues/15638 :
     if ~isdef("colminmax","l")
         colminmax = [1, size(gcf().color_map,1)]
     end

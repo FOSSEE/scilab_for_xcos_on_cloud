@@ -1,5 +1,5 @@
 ;
-; Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+; Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 ; Copyright (C) INRIA - Allan CORNET
 ; Copyright (C) DIGITEO - 2010 - Allan CORNET
 ;
@@ -22,7 +22,6 @@
 #define RENDERER "renderer"
 ;
 Source: bin\jogl_desktop.dll; DestDir: {app}\bin; Components: {#COMPN_GRAPHICS}
-Source: bin\jogl_cg.dll; DestDir: {app}\bin; Components: {#COMPN_GRAPHICS}
 Source: bin\gluegen2-rt.dll; DestDir: {app}\bin; Components: {#COMPN_GRAPHICS}
 Source: bin\nativewindow_awt.dll; DestDir: {app}\bin; Components: {#COMPN_GRAPHICS}
 Source: bin\nativewindow_win32.dll; DestDir: {app}\bin; Components: {#COMPN_GRAPHICS}

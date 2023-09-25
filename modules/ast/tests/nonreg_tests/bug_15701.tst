@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2019 - Stéphane MOTTELET
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -10,8 +10,8 @@
 //
 // <-- Non-regression test for bug 15701 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/15701
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/15701
 //
 // <-- Short Description -->
 // A\B is not faster when A is square and triangular
@@ -33,9 +33,13 @@ A(1,N)=0;
 tic;
 x2=A\B;
 t2=toc();
-
 assert_checkalmostequal(x1,x2);
-assert_checktrue(t1/t2 > 10);
+// Different timing ratio under Windows because general case is very much faster than under other OS (due to MKL)
+if getos() == "Windows" then
+    assert_checktrue(t1/t2 > 2);
+else
+    assert_checktrue(t1/t2 > 10);
+end
 
 // complex case
 A=A+%i*tril(rand(N,N));
@@ -54,4 +58,9 @@ x2=A\B;
 t2=toc();
 
 assert_checkalmostequal(x1,x2);
-assert_checktrue(t1/t2 > 10);
+// Different timing ratio under Windows because general case is very much faster than under other OS (due to MKL)
+if getos() == "Windows" then
+    assert_checktrue(t1/t2 > 2);
+else
+    assert_checktrue(t1/t2 > 10);
+end

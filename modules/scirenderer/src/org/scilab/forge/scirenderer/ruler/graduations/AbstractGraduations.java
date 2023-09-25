@@ -1,5 +1,5 @@
 /*
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2009-2011 - DIGITEO - Pierre Lando
  * Copyright (C) 2013-2015 - Scilab Enterprises - Calixte DENIZET
  *
@@ -154,7 +154,7 @@ public abstract class AbstractGraduations implements Graduations {
         if (value == 0 || Math.abs(value / (upperBound - lowerBound)) <= PRECISION) {
             return isLowerBoundIncluded;
         }
-        if (Math.abs(value - (upperBound - lowerBound)) <= PRECISION || Math.abs(1 - value / (upperBound - lowerBound)) <= PRECISION) {
+        if (Math.abs(1 - value / (upperBound - lowerBound)) <= PRECISION) {
             return isUpperBoundIncluded;
         }
         return (0 < value) && (value < upperBound - lowerBound);

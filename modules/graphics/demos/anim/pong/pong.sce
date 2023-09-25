@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2020 Stéphane Mottelet
 //
 // This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -14,8 +14,8 @@ function pong()
 
     jimport java.awt.MouseInfo;
 
-    clf
-    f = gcf();
+    f = scf(100001);
+    clf(f, "reset");
     f.resize = "off";
     f.toolbar_visible=%f;
 

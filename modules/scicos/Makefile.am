@@ -1,4 +1,4 @@
-# Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+# Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 # Copyright (C) 2008 - INRIA - Sylvestre Ledru <sylvestre.ledru@inria.fr>
 #
 # Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -151,7 +151,6 @@ libsciscicos_algo_la_CPPFLAGS= -I$(srcdir)/includes/ \
 			-I$(top_srcdir)/modules/ast/includes/operations/ \
 			-I$(top_srcdir)/modules/ast/includes/system_env/ \
 			-I$(top_srcdir)/modules/ast/includes/types/ \
-			-I$(top_srcdir)/modules/ast/includes/analysis/ \
 			-I$(top_srcdir)/modules/threads/includes/ \
 			-I$(top_srcdir)/modules/console/includes/ \
 			-I$(top_srcdir)/modules/differential_equations/includes/ \

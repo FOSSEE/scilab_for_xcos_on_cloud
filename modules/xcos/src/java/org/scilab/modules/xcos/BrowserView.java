@@ -1,5 +1,5 @@
 /*
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2014 - Scilab Enterprises - Clement DAVID
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -253,7 +253,7 @@ public class BrowserView extends View {
      * @param uid the uid to look for
      * @return the found {@link DefaultMutableTreeNode} or <code>null</code> if not found
      */
-    private DefaultMutableTreeNode lookupForUID(final long uid) {
+    public DefaultMutableTreeNode lookupForUID(final long uid) {
         final DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 
         DefaultMutableTreeNode node;

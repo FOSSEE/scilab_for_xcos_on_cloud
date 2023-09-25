@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) Bruno Pincon
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
 // Copyright (C) 2018 - Samuel GOUGEON
@@ -55,7 +55,7 @@ function Sfgrayplot(x, y, f, strf, rect, nax, zminmax, colminmax, mesh, colout)
     q = length(y);
     z = feval(x,y,f);
 
-    // http://bugzilla.scilab.org/15638 :
+    // https://gitlab.com/scilab/scilab/-/issues/15638 :
     if ~isdef("colminmax","l")
         colminmax = [1, size(gcf().color_map,1)]
     end

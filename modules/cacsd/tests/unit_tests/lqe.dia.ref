@@ -1,6 +1,6 @@
 //<-- CLI SHELL MODE -->
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2016 - INRIA - Serge Steer
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -29,7 +29,7 @@ H = [0.14,0.42;
      0.5,0.86];
 //The noises covariance matrices 
 Q_e=eye(ne,ne);
-R_v=diag(1:ny); 
+R_v=diag(1:ny);
 S_ev=zeros(ne,ny);
 S_ev(1,1)=0.8;
 // |.                  |.

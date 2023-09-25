@@ -1,5 +1,5 @@
 /*
-*  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+*  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 *  Copyright (C) 2008-2008 - DIGITEO - Antoine ELIAS
 *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -40,17 +40,6 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
             {
                 setExpectedSize(1);
                 e.getRightExp().accept(*this);
-
-                if (getResultSize() != 1)
-                {
-                    // avoid double deletion when rhs is deleted from exp and cleanResult
-                    setResult(NULL);
-
-                    std::wostringstream os;
-                    os << _W("Can not assign multiple value in a single variable") << std::endl;
-                    //os << ((Location)e.getRightExp().getLocation()).getLocationString() << std::endl;
-                    throw ast::InternalError(os.str(), 999, e.getRightExp().getLocation());
-                }
 
                 pIT = getResult();
                 //reset result
@@ -323,7 +312,7 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                         // call killMe on all arguments
                         cleanOut(*currentArgs);
                         delete currentArgs;
-                        // insertion have done, call killMe on pITR
+                        // insertion is done, call killMe on pITR
                         pITR->killMe();
                         throw error;
                     }
@@ -334,8 +323,11 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                     cleanOut(*currentArgs);
                     delete currentArgs;
 
-                    // insertion have done, call killMe on pITR
-                    pITR->killMe();
+                    if (pOut != pITR)
+                    {
+                        // insertion is done, call killMe on pITR
+                        pITR->killMe();
+                    }
 
                     if (pOut == NULL)
                     {
@@ -343,7 +335,6 @@ void RunVisitorT<T>::visitprivate(const AssignExp  &e)
                         os << _W("Submatrix incorrectly defined.\n");
                         throw ast::InternalError(os.str(), 999, e.getLocation());
                     }
-
 
                     //update variable with new value
                     if (pOut != pIT)

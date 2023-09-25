@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) Scilab Enterprises - 2015 - 2012 - Juergen Koch
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  * Copyright (C) 2020 - Samuel GOUGEON
@@ -20,10 +20,6 @@
     <refnamediv>
         <refname>scatter3d</refname>
         <refpurpose>3D scatter plot</refpurpose>
-    </refnamediv>
-    <refnamediv xml:id="scatter3">
-        <refname>scatter3</refname>
-        <refpurpose>3D scatter plot <emphasis role="bold">(obsolete)</emphasis></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Syntax</title>

@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) INRIA
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
 //
@@ -218,6 +218,7 @@ function %h_p(h)
             " "
             "auto_clear = "+sci2exp(h.auto_clear)
             "auto_scale = "+sci2exp(h.auto_scale)
+            "auto_stretch = "+sci2exp(h.auto_stretch)
             " "
             "hidden_axis_color = " + string(h.hidden_axis_color);
             "hiddencolor = "+string(h.hiddencolor)

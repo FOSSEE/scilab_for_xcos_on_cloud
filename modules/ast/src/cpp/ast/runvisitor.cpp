@@ -1,5 +1,5 @@
 /*
- *  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ *  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  *  Copyright (C) 2014 - Scilab Enterprises - Antoine ELIAS
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -234,6 +234,13 @@ void RunVisitorT<T>::visitprivate(const VarDec & e)
     {
         /*getting what to assign*/
         e.getInit().accept(*this);
+        if(getResultSize() != 1)
+        {
+            clearResult();
+            setResult(NULL);
+            return;
+        }
+
         getResult()->IncreaseRef();
     }
     catch (const InternalError& error)
@@ -291,20 +298,22 @@ void RunVisitorT<T>::visitprivate(const CellExp & e)
             }
             catch (ScilabException &)
             {
+                pC->killMe();
                 CoverageInstance::stopChrono((void*)&e);
                 throw;
             }
+
             types::InternalType *pIT = getResult();
             if (pIT->isImplicitList())
             {
                 types::InternalType * _pIT = pIT->getAs<types::ImplicitList>()->extractFullMatrix();
-                pC->set(i, j, _pIT);
-                _pIT->killMe();
+                if(_pIT) 
+                {
+                    pIT = _pIT;
+                }
             }
-            else
-            {
-                pC->set(i, j, pIT);
-            }
+
+            pC->set(i, j, pIT);
             clearResult();
         }
     }
@@ -473,9 +482,7 @@ void RunVisitorT<T>::visitprivate(const FieldExp &e)
             CoverageInstance::stopChrono((void*)&e);
 
             wchar_t wcstrError[512];
-            char* strFuncName = wide_string_to_UTF8(wstrFuncName.c_str());
-            os_swprintf(wcstrError, 512, _W("%s: Extraction must have at least one output.\n").c_str(), strFuncName);
-            FREE(strFuncName);
+            os_swprintf(wcstrError, 512, _W("%ls: Extraction must have at least one output.\n").c_str(), wstrFuncName.c_str());
 
             throw InternalError(wcstrError, 999, e.getLocation());
         }
@@ -667,6 +674,15 @@ void RunVisitorT<T>::visitprivate(const ForExp  &e)
         throw;
     }
     types::InternalType* pIT = getResult();
+    if(pIT == NULL)
+    {
+        char szError[bsiz];
+        os_sprintf(szError, _("%s: Wrong number of output argument(s): %d expected.\n"), "for expression", 1);
+        wchar_t* wError = to_wide_string(szError);
+        std::wstring err(wError);
+        FREE(wError);
+        throw InternalError(err, 999, e.getLocation());
+    }
 
     if (pIT->isImplicitList())
     {
@@ -840,22 +856,33 @@ void RunVisitorT<T>::visitprivate(const ForExp  &e)
     {
         //Matrix i = [1,3,2,6] or other type
         types::GenericType* pVar = pIT->getAs<types::GenericType>();
-        if (pVar->getDims() > 2)
+        /* if (pVar->getDims() > 2)
         {
             pIT->DecreaseRef();
             pIT->killMe();
+            setResult(NULL);
             CoverageInstance::stopChrono((void*)&e);
             throw InternalError(_W("for expression can only manage 1 or 2 dimensions variables\n"), 999, e.getVardec().getLocation());
         }
+        */
 
         symbol::Variable* var = e.getVardec().getAs<VarDec>()->getStack();
-        for (int i = 0; i < pVar->getCols(); i++)
+        int dim = pVar->getDims();
+        int* dims = pVar->getDimsArray();
+        int count = 1;
+        for (int i = 1; i < dim; ++i)
+        {
+            count *= dims[i];
+        }
+
+        for (int i = 0; i < count; i++)
         {
             types::GenericType* pNew = pVar->getColumnValues(i);
             if (pNew == NULL)
             {
                 pIT->DecreaseRef();
                 pIT->killMe();
+                setResult(NULL);
                 CoverageInstance::stopChrono((void*)&e);
                 throw InternalError(_W("for expression : Wrong type for loop iterator.\n"), 999, e.getVardec().getLocation());
             }
@@ -928,7 +955,6 @@ void RunVisitorT<T>::visitprivate(const ReturnExp &e)
         {
             //return or resume
             ConfigVariable::DecreasePauseLevel();
-            ConfigVariable::macroFirstLine_end();
             CoverageInstance::stopChrono((void*)&e);
             // resume will make the execution continue
             // event if resume is a console command, it must not release the prompt
@@ -2034,7 +2060,12 @@ void RunVisitorT<T>::visitprivate(const TryCatchExp  &e)
             CoverageInstance::stopChrono((void*)&e);
             throw ast::InternalError(sz);
         }
-
+        catch (const InternalAbort& ia)
+        {
+            //restore previous prompt mode
+            ConfigVariable::setSilentError(oldVal);
+            throw ia;
+        }
     }
     catch (const InternalError& /* ie */)
     {
@@ -2044,6 +2075,8 @@ void RunVisitorT<T>::visitprivate(const TryCatchExp  &e)
         ConfigVariable::setLastErrorCall();
         // reset call stack filled when error occurred
         ConfigVariable::resetWhereError();
+        // reset error flag
+        ConfigVariable::resetError();
         try
         {
             const_cast<Exp*>(&e.getCatch())->setReturnable();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2004-2007 - INRIA - Serge STEER
  * Copyright (C) 2004-2007 - INRIA - Vincent COUVERT
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -177,7 +177,7 @@
                 <th>Comments</th></tr>
             <tr valign="top">
                 <td>boolean</td><td>x</td><td>bug</td><td>bug</td><td>bug</td><td>x</td>
-                <td><ulink url="http://bugzilla.scilab.org/15568">Bug 15568</ulink>
+                <td><ulink url="https://gitlab.com/scilab/scilab/-/issues/15568">Bug 15568</ulink>
                 </td>
             </tr>
             <tr valign="top">
@@ -201,7 +201,7 @@
                     <td>x</td><td>x</td> <td>x</td> <td>x</td> <td>x</td>
                 <td>Octave 4.4 loads correctly any real or complex sparse array saved from Scilab 6.0.<table/>
                     But loadmatfile()
-                    <ulink url="http://bugzilla.scilab.org/15731">crashes Scilab</ulink> for
+                    <ulink url="https://gitlab.com/scilab/scilab/-/issues/15731">crashes Scilab</ulink> for
                     any sparse saved with -v4, and any complex sparse saved with -v6 -v7 or -v7.3.
                 </td>
             </tr>

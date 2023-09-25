@@ -1,5 +1,5 @@
 ##
-##  Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+##  Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 ##  Copyright (C) 2007-2008 - DIGITEO - Bruno JOFRET
 ##  Copyright (C) 2007-2008 - DIGITEO - Antoine ELIAS
 ##
@@ -116,7 +116,6 @@ libscislint_la_CPPFLAGS = \
     -I$(top_srcdir)/modules/ast/includes/symbol/ \
     -I$(top_srcdir)/modules/ast/includes/system_env/ \
     -I$(top_srcdir)/modules/ast/includes/types/ \
-    -I$(top_srcdir)/modules/ast/includes/analysis/ \
     -I$(top_srcdir)/modules/core/includes/ \
     -I$(top_srcdir)/modules/api_scilab/includes/ \
     -I$(top_srcdir)/modules/localization/includes/ \

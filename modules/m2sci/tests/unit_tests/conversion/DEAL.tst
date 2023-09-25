@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2020 - Samuel GOUGEON
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -21,8 +21,8 @@ Syntaxes = [
     "[a,b,c] = deal([pi,i]);"
     "[a,b,c] = deal(i, sin(1:3), ''AB'');"
     "b = [''CD'';''EF'';''GH''];"
-    "%[a,b(3)] = deal(sin(1:3), ''AB'');"       // http://bugzilla.scilab.org/699
-    "%[a.myfield, b] = deal(sin(1:3), ''AB'');" // http://bugzilla.scilab.org/699
+    "%[a,b(3)] = deal(sin(1:3), ''AB'');"       // https://gitlab.com/scilab/scilab/-/issues/699
+    "%[a.myfield, b] = deal(sin(1:3), ''AB'');" // https://gitlab.com/scilab/scilab/-/issues/699
     ];
 Ref = [
     ""

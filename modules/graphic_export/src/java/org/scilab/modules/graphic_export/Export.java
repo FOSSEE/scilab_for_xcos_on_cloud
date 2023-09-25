@@ -1,5 +1,5 @@
 /*
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2012 - Scilab Enterprises - Calixte Denizet
  *
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -1150,6 +1150,8 @@ public class Export {
                     g2d = g2dCtor.newInstance(out, new Dimension(width, height));
                     g2dClass.getMethod("startExport").invoke(g2d);
                 }
+                // closeStream will close out
+                out = null;
             } catch (IOException e) {
             } catch (IllegalAccessException e) {
             } catch (IllegalArgumentException e) {
@@ -1177,7 +1179,7 @@ public class Export {
             }
             if (buffer != null && file != null) {
                 try ( FileOutputStream fos = new FileOutputStream(file) ) {
-
+                    
                      buffer.writeTo(fos);
                      buffer.close();
                      fos.flush();

@@ -1922,7 +1922,7 @@ goto find_rule; \
 char *yytext;
 /* -*- C++ -*- */
 /*
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2008-2012 - Scilab Enterprises - Bruno JOFRET
  * Copyright (C) 2012 - 2016 - Scilab Enterprises
  * Copyright (C) 2018 - Dirk Reusch, Kybernetik Dr. Reusch
@@ -3177,7 +3177,7 @@ YY_RULE_SETUP
     // ========
     // [a + b] == [(a + b)]
     // but [a +b] == [a, +b] and plus here is unary and is not removed, as unary plus
-    // is not necessary defined for all data types (http://bugzilla.scilab.org/show_bug.cgi?id=15850)
+    // is not necessary defined for all data types (https://gitlab.com/scilab/scilab/-/issues/15850)
     // A priori, the space *is* coding
 
     unput('+');
@@ -3406,6 +3406,7 @@ YY_RULE_SETUP
     //yylloc.last_column = 1;
     //scan_step();
     yy_pop_state();
+    // loop to manage \n and \r\n
     for (int i = yyleng - 1 ; i >= 0 ; --i)
     {
         //std::cerr << "Unputting i = {" << i << "}" << std::endl;
@@ -3413,33 +3414,38 @@ YY_RULE_SETUP
         unput(yytext[i]);
         yylloc.last_column--;
     }
+    // yylloc.first_column is the location of the {newline}
+    // remove the size of the comment to have proper location 
+    // as for <<EOF>> '//' is not part of the comment location
+    yylloc.first_column -= pstBuffer.length();
+    
     /*
     ** To forgot comments after lines break
     */
     if (last_token != DOTS)
     {
-        //std::cerr << "pstBuffer = {" << *pstBuffer << "}" << std::endl;
-        //std::cerr << "pstBuffer->c_str() = {" << pstBuffer->c_str() << "}" << std::endl;
-        wchar_t *pwstBuffer = to_wide_string(pstBuffer.c_str());
-        //std::wcerr << L"pwstBuffer = W{" << pwstBuffer << L"}" << std::endl;
-        if (pstBuffer.c_str() != NULL && pwstBuffer == NULL)
-        {
-	    pstBuffer.clear();
-	    std::string str = "Can\'t convert \'";
-	    str += pstBuffer.c_str();
-	    str += "\' to UTF-8";
-	    BEGIN(INITIAL);
-	    yyerror(str);
-	    return scan_throw(FLEX_ERROR);
-        }
-        yylval.comment = new std::wstring(pwstBuffer);
-	pstBuffer.clear();
-        FREE (pwstBuffer);
-        return scan_throw(COMMENT);
+      //std::cerr << "pstBuffer = {" << *pstBuffer << "}" << std::endl;
+      //std::cerr << "pstBuffer->c_str() = {" << pstBuffer->c_str() << "}" << std::endl;
+      wchar_t *pwstBuffer = to_wide_string(pstBuffer.c_str());
+      //std::wcerr << L"pwstBuffer = W{" << pwstBuffer << L"}" << std::endl;
+      if (pstBuffer.c_str() != NULL && pwstBuffer == NULL)
+      {
+        pstBuffer.clear();
+        std::string str = "Can\'t convert \'";
+        str += pstBuffer.c_str();
+        str += "\' to UTF-8";
+        BEGIN(INITIAL);
+        yyerror(str);
+        return scan_throw(FLEX_ERROR);
+      }
+      yylval.comment = new std::wstring(pwstBuffer);
+      pstBuffer.clear();
+      FREE (pwstBuffer);
+      return scan_throw(COMMENT);
     }
     else
     {
-	pstBuffer.clear();
+	    pstBuffer.clear();
     }
   }
 	YY_BREAK
@@ -3449,13 +3455,13 @@ case YY_STATE_EOF(LINECOMMENT):
     wchar_t *pwstBuffer = to_wide_string(pstBuffer.c_str());
     if (pstBuffer.c_str() != NULL && pwstBuffer == NULL)
     {
-	pstBuffer.clear();
-	std::string str = "Can\'t convert \'";
-	str += pstBuffer.c_str();
-	str += "\' to UTF-8";
-	BEGIN(INITIAL);
-	yyerror(str);
-	return scan_throw(FLEX_ERROR);
+      pstBuffer.clear();
+      std::string str = "Can\'t convert \'";
+      str += pstBuffer.c_str();
+      str += "\' to UTF-8";
+      BEGIN(INITIAL);
+      yyerror(str);
+      return scan_throw(FLEX_ERROR);
     }
     yylval.comment = new std::wstring(pwstBuffer);
     pstBuffer.clear();

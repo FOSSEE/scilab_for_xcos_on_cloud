@@ -1,5 +1,5 @@
 ;
-; Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+; Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 ; Copyright (C) 2008 - DIGITEO - Allan CORNET
 ;
 ; Copyright (C) 2012 - 2016 - Scilab Enterprises
@@ -25,6 +25,7 @@ Source: bin\msvcr71.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
 ;Visual C++ 2017 redist libraries
 Source: bin\msvcp140.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
 Source: bin\vcruntime140.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
+Source: bin\vcruntime140_1.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
 Source: bin\vccorlib140.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
 Source: bin\concrt140.dll; DestDir: {app}\bin; Components: {#COMPN_SCILAB}
 

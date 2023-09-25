@@ -1,4 +1,4 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2004-2006 - INRIA - Fabrice Leray
 // Copyright (C) 2012 - 2016 - Scilab Enterprises
 //
@@ -312,7 +312,7 @@ function surf(varargin)
     end
 
     if isempty(XX) | isempty(YY) | isempty(ZZ) then
-        // Nothing will be drawn so return (see http://bugzilla.scilab.org/13180 )
+        // Nothing will be drawn so return (see https://gitlab.com/scilab/scilab/-/issues/13180 )
         return
     end
 

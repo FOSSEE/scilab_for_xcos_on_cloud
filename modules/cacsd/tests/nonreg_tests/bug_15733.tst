@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2018 - Stéphane MOTTELET
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -11,8 +11,8 @@
 //
 // <-- Non-regression test for bug 15733 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/15733
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/15733
 //
 // <-- Short Description -->
 // Failing unit and NR tests after deg(0*%s) = -%inf
@@ -35,6 +35,6 @@ assert_checkerror("[0*%s/(1+0*%s)]^-2","Division by zero")
 assert_checkerror("[0*%s/(1+0*%s)].^-2","Division by zero")
 assert_checkequal(diophant(%s*[0 0],0*%s),%s*[0 0]+1)
 assert_checkequal(horner([0 0]*%s,[0 0]),zeros(1,4))
-assert_checkerror("sylm(0*%s,0*%s)","Invalid index.")
+assert_checkequal(sylm(0*%s,0*%s), [])
 assert_checkequal(trans(%z*0/(1+%z),'lp',[.1 .2]),rlist(0,1,'d'))
 assert_checkequal(mtlb_filter(0,1,1),0)

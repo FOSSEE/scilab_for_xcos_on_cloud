@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+ * Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
  * Copyright (C) 2017 - ESI-Group
  *
  * This file is hereby licensed under the terms of the GNU GPL v2.0,
@@ -26,6 +26,8 @@
         <title>Syntax</title>
         <synopsis>
             [result, status] = http_get(url)
+            [result, status] = http_get(url, &lt;opt_args>)
+
             [result, status] = http_get(url, filename)
             [result, status] = http_get(url, filename, &lt;opt_args>)
         </synopsis>
@@ -100,6 +102,15 @@
                                 </para>
                             </listitem>
                         </varlistentry>
+                        <varlistentry>
+                            <term>verbose</term>
+                            <listitem>
+                                <para>
+                                    This option displays information in the Scilab console to diagnose potential network issues. 
+                                    It is disabled by default, set <literal>verbose=%t</literal> to display the in-progress log.
+                                </para>
+                            </listitem>
+                        </varlistentry>
                     </variablelist>
                 </listitem>
             </varlistentry>
@@ -141,7 +152,7 @@ mgetl(file)
 file = http_get("www.google.com", TMPDIR+"/result.html", follow=%t);
 // then open the file in your browser
 
-result = http_get("http://jsonplaceholder.typicode.com/posts?userId=1")
+result = http_get("https://jsonplaceholder.typicode.com/posts?userId=1")
  ]]></programlisting>
     </refsection>
     <refsection role="see also">

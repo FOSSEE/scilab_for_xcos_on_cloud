@@ -1,5 +1,5 @@
 /*
-* Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+* Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 * Copyright (C) 2017 - ESI-Group - Cedric DELAMARRE
 *
 *
@@ -51,7 +51,7 @@ types::Function::ReturnValue sci_http_put_post(types::typed_list &in, types::opt
     }
 
     // get URL
-    if(in[0]->isString() == false && in[0]->getAs<types::String>()->isScalar() == false)
+    if(in[0]->isString() == false || in[0]->getAs<types::String>()->isScalar() == false)
     {
         Scierror(999, _("%s: Wrong type for input argument #%d: A scalar string expected.\n"), fname, 1);
         return types::Function::Error;
@@ -102,7 +102,7 @@ types::Function::ReturnValue sci_http_put_post(types::typed_list &in, types::opt
     {
         if(o.first == L"format")
         {
-            if(o.second->isString() == false && o.second->getAs<types::String>()->isScalar() == false)
+            if(o.second->isString() == false || o.second->getAs<types::String>()->isScalar() == false)
             {
                 Scierror(999, _("%s: Wrong type for input argument #%s: A scalar string expected.\n"), fname, o.first.data());
                 return types::Function::Error;

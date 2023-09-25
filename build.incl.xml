@@ -133,7 +133,7 @@
                     <attribute name="Specification-Version" value="${SCIVERSION}"/>
                     <attribute name="Specification-Vendor" value="${library.vendor}"/>
                     <attribute name="Implementation-Title" value="${library.name}"/>
-                    <attribute name="Implementation-Version" value="${DSTAMP}"/>
+                    <attribute name="Implementation-Version" value="${DSTAMP} ${TSTAMP}"/>
                     <attribute name="Implementation-Vendor" value="${library.vendor}"/>
                     <attribute name="Class-Path" value="${manifest.class-path}"/>
                 </section>

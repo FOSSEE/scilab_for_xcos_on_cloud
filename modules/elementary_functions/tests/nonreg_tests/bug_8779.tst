@@ -1,5 +1,5 @@
 // =============================================================================
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
+// Scilab ( https://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2018 - Stéphane Mottelet
 //
 //  This file is distributed under the same license as the Scilab package.
@@ -8,8 +8,8 @@
 // <-- NO CHECK REF -->
 // <-- Non-regression test for bug 8779 -->
 //
-// <-- Bugzilla URL -->
-// http://bugzilla.scilab.org/show_bug.cgi?id=8779
+// <-- GitLab URL -->
+// https://gitlab.com/scilab/scilab/-/issues/8779
 //
 // <-- Short Description -->
 //  gsort(x,'lr') does not preserve order of equal items in index output
