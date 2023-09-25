@@ -188,8 +188,8 @@
 /* Define to 1 if you have the `pcreposix' library (-lpcreposix). */
 #undef HAVE_LIBPCREPOSIX
 
-/* Define to 1 if you have the `scincurses' library (-lscincurses). */
-#undef HAVE_LIBSCINCURSES
+/* Define to 1 if you have the `ncurses' library (-lncurses). */
+#undef HAVE_LIBNCURSES
 
 /* Define to 1 if you have the `termcap' library (-ltermcap). */
 #undef HAVE_LIBTERMCAP

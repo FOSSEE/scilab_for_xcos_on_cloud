@@ -30539,18 +30539,18 @@ fi
 if $WITH_DEVTOOLS; then
     # ncurses includes are in a subdir
     NCURSES_CFLAGS="-I$DEVTOOLS_INCDIR -I$DEVTOOLS_INCDIR/ncurses"
-    NCURSES_LIBS="-L$DEVTOOLS_LIBDIR/ -lscincurses"
+    NCURSES_LIBS="-L$DEVTOOLS_LIBDIR/ -lncurses"
 
     saved_LIBS="$LIBS"
     LIBS="$LIBS $NCURSES_LIBS"
-    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for tgetent in -lscincurses" >&5
-printf %s "checking for tgetent in -lscincurses... " >&6; }
-if test ${ac_cv_lib_scincurses_tgetent+y}
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for tgetent in -lncurses" >&5
+printf %s "checking for tgetent in -lncurses... " >&6; }
+if test ${ac_cv_lib_ncurses_tgetent+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lscincurses  $LIBS"
+LIBS="-lncurses  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -30568,27 +30568,27 @@ return tgetent ();
 _ACEOF
 if ac_fn_c_try_link "$LINENO"
 then :
-  ac_cv_lib_scincurses_tgetent=yes
+  ac_cv_lib_ncurses_tgetent=yes
 else $as_nop
-  ac_cv_lib_scincurses_tgetent=no
+  ac_cv_lib_ncurses_tgetent=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_scincurses_tgetent" >&5
-printf "%s\n" "$ac_cv_lib_scincurses_tgetent" >&6; }
-if test "x$ac_cv_lib_scincurses_tgetent" = xyes
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ncurses_tgetent" >&5
+printf "%s\n" "$ac_cv_lib_ncurses_tgetent" >&6; }
+if test "x$ac_cv_lib_ncurses_tgetent" = xyes
 then :
-  printf "%s\n" "#define HAVE_LIBSCINCURSES 1" >>confdefs.h
+  printf "%s\n" "#define HAVE_LIBNCURSES 1" >>confdefs.h
 
-  LIBS="-lscincurses $LIBS"
+  LIBS="-lncurses $LIBS"
 
 fi
 
     LIBS="$saved_LIBS"
 
-    ac_cv_lib_ncurses_tgetent=$ac_cv_lib_scincurses_tgetent
+    ac_cv_lib_ncurses_tgetent=$ac_cv_lib_ncurses_tgetent
 else
     NCURSES_CFLAGS=""
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for tgetent in -lcurses" >&5
