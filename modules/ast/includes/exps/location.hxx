@@ -21,6 +21,7 @@
 #ifndef __LOCATION_HXX__
 #define __LOCATION_HXX__
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <sstream>
